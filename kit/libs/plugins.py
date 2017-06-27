@@ -221,32 +221,39 @@ class PluginManager(object):
 
     def get_plugin_info(self, plugin_name):
         """获取插件信息"""
-        return (i for i in self.get_all_plugins if i["plugin_name"] == plugin_name).next()
+        if plugin_name:
+            return (i for i in self.get_all_plugins if i["plugin_name"] == plugin_name).next()
 
     def enable_plugin(self, plugin_name):
         """启用插件"""
+        res = {"success": False}
         _PI = self.get_plugin_info(plugin_name)
         try:
             index = self.plugins.index(_PI)
-        except ValueError:
-            return False
+        except (ValueError,TypeError),e:
+            res.update(msg="plugin_name error")
         else:
             _PI.update(plugin_state="enabled")
             self.plugins[index] = _PI
-            return index
+            res.update(success=True)
+        return res
 
     def disable_plugin(self, plugin_name):
         """禁用插件"""
+        res = {"success": False}
         _PI = self.get_plugin_info(plugin_name)
         try:
             index = self.plugins.index(_PI)
-        except ValueError:
-            return False
+        except (ValueError,TypeError),e:
+            res.update(msg="plugin_name error")
         else:
             _PI.update(plugin_state="disabled")
             self.plugins[index] = _PI
-            return index
+            res.update(success=True)
+        return res
 
     def reload_plugins(self):
         """重新扫描加载插件目录"""
+        self.plugins = []
         self.__scanPlugins()
+        return {"success": True}
