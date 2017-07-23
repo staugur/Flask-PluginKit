@@ -17,6 +17,7 @@
 
 import jinja2
 import os.path
+from config import GLOBAL
 from flask import Flask, request, g
 from libs.plugins import PluginManager
 
