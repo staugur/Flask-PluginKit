@@ -47,6 +47,12 @@ for tep_name, tep_func in plugin.get_all_tep.iteritems():
     app.add_template_global(tep_func, tep_name)
 
 
+# 注册蓝图扩展点
+for bep in api.plugin.get_all_bep:
+    prefix = bep["prefix"]
+    app.register_blueprint(bep["blueprint"], url_prefix=prefix)
+
+
 @app.before_request
 def before_request():
     # 上下文扩展点之请求前
