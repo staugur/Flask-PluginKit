@@ -113,12 +113,12 @@ class PluginManager(object):
                 p = plugin.getPluginClass()
                 i = p()
             except Exception, e:
-                plugin_logger.exception(e, exc_info=True)
+                logging.exception(e, exc_info=True)
                 return
             if plugin.__state__ != "enabled":
                 self.plugins.append(pluginInfo)
                 return
-            plugin_logger.info("runPlugin: package is {0}.{1}, class instance is {2}".format(
+            logging.info("runPlugin: package is {0}.{1}, class instance is {2}".format(
                 "plugins", package, i))
             #: 更新插件信息
             pluginInfo.update(plugin_instance=i)
@@ -128,42 +128,42 @@ class PluginManager(object):
             #: 注册模板扩展点
             if hasattr(i, "register_tep"):
                 tep = i.register_tep()
-                plugin_logger.info(
+                logging.info(
                     "The plugin {0} wants to register the following template extension points: {1}".format(package, tep))
                 if isinstance(tep, dict):
                     pluginInfo.update(plugin_tep=tep)
-                    plugin_logger.info("Register TEP Success")
+                    logging.info("Register TEP Success")
                 else:
-                    plugin_logger.error("Register TEP Failed, not a dict")
+                    logging.error("Register TEP Failed, not a dict")
             #: 注册上下文扩展点
             if hasattr(i, "register_cep"):
                 cep = i.register_cep()
-                plugin_logger.info(
+                logging.info(
                     "The plugin {0} wants to register the following context extension points: {1}".format(package, cep))
                 if isinstance(cep, dict):
                     pluginInfo.update(plugin_cep=cep)
-                    plugin_logger.info("Register CEP Success")
+                    logging.info("Register CEP Success")
                 else:
-                    plugin_logger.error("Register CEP Failed, not a dict")
+                    logging.error("Register CEP Failed, not a dict")
             #: 注册蓝图扩展点
             if hasattr(i, "register_bep"):
                 bep = i.register_bep()
-                plugin_logger.info(
+                logging.info(
                     "The plugin {0} wants to register the following blueprint extension points: {1}".format(package, bep))
                 if isinstance(bep, dict):
                     pluginInfo.update(plugin_bep=bep)
-                    plugin_logger.info("Register BEP Success")
+                    logging.info("Register BEP Success")
                 else:
-                    plugin_logger.error("Register BEP Failed, not a dict")
+                    logging.error("Register BEP Failed, not a dict")
             #: 加入全局插件中
             if hasattr(i, "run") or hasattr(i, "register_tep") or hasattr(i, "register_cep") or hasattr(i, "register_bep"):
                 self.plugins.append(pluginInfo)
             else:
-                plugin_logger.error(
+                logging.error(
                     "The current class {0} does not have the `run` or `register_tep` or `register_cep` or `register_bep` method".format(i))
         else:
             del plugin
-            plugin_logger.warning(
+            logging.warning(
                 "This plugin `{0}` not conform to the standard plugin format".format(package))
 
     @property

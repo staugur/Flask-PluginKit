@@ -17,8 +17,7 @@
 
 import jinja2
 import os.path
-from config import GLOBAL
-from flask import Flask, request, g
+from flask import Flask, request, g, jsonify, make_response
 from libs.plugins import PluginManager
 
 
@@ -48,7 +47,7 @@ for tep_name, tep_func in plugin.get_all_tep.iteritems():
 
 
 # 注册蓝图扩展点
-for bep in api.plugin.get_all_bep:
+for bep in plugin.get_all_bep:
     prefix = bep["prefix"]
     app.register_blueprint(bep["blueprint"], url_prefix=prefix)
 
@@ -69,7 +68,24 @@ def after_request(response):
         cep_func(request=request, response=response)
     return response
 
+
+@app.route("/")
+def index():
+    action = request.args.get("action")
+    plugin_name = request.args.get("plugin_name")
+    data = "no such action"
+    if action == "enable_plugin":
+        data = plugin.enable_plugin(plugin_name)
+    if action == "disable_plugin":
+        data = plugin.disable_plugin(plugin_name)
+    if action == "reload_plugin":
+        data = plugin.reload_plugins()
+    if action == "get_all_plugins":
+        data = plugin.get_all_plugins()
+    if action == "get_enabled_plugins":
+        data = plugin.get_enabled_plugins()
+    app.logger.debug(dict(res=data))
+    return make_response(jsonify({"a": 1}))
+
 if __name__ == '__main__':
-    Host = GLOBAL.get('Host')
-    Port = GLOBAL.get('Port')
-    app.run(host=Host, port=int(Port), debug=True)
+    app.run(host="127.0.0.1", port=5001, debug=True)

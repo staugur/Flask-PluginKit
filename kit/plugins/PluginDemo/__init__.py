@@ -44,9 +44,8 @@ __license_file__= "LICENSE"
 __readme_file__ = "README"
 #: Plugin state, enabled or disabled, default: enabled
 #: 插件状态, enabled、disabled, 默认enabled
-__state__       = "disabled"
+__state__       = "enabled"
 
-"""
 #: Blueprint Examples
 from flask import Blueprint, request
 from flask_restful import Api, Resource
@@ -64,7 +63,6 @@ class ApiDemo(Resource):
 pluginApi_blueprint = Blueprint("PluginDemo", "PluginDemo")
 api = Api(pluginApi_blueprint)
 api.add_resource(ApiDemo, '/api', '/api/', endpoint='ApiDemoPoint')
-"""
 
 #: 返回插件主类
 def getPluginClass():
@@ -84,7 +82,7 @@ class PluginDemoMain(PluginBase):
         return tep
 
     def _hook(self, **kwargs):
-        self.logger.debug("I am a demo for after cep, get redis all key: {}".format(self.redis.keys()))
+        self.logger.debug("I am a demo for after cep, get redis all keys")
 
     def register_cep(self):
         """注册上下文入口, 返回扩展点名称及执行的函数"""
