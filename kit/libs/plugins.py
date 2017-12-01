@@ -32,16 +32,17 @@ class PluginManager(object):
         └── templates
             └── plugin2
     """
-
     def __init__(self):
         self.plugins = []
-        self.plugin_path = os.path.join(os.path.dirname(
-            os.path.dirname(os.path.abspath(__file__))), "plugins")
+        self.plugin_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "plugins")
         self.__scanPlugins()
         logging.debug(self.plugins)
 
     def __getPluginInfo(self, package, plugin):
-        """ 组织插件信息 """
+        """ 组织插件信息
+        @param package: 插件包名(位于plugins下的目录)，比如PluginDemo
+        @param plugin: 动态加载的插件模块
+        """
         try:
             url = plugin.__url__
         except AttributeError:
@@ -85,27 +86,25 @@ class PluginManager(object):
 
     def __scanPlugins(self):
         """ 扫描插件目录 """
-        logging.info(
-            "Initialization Plugins Start, loadPlugins path: {0}".format(self.plugin_path))
+        logging.info("Initialization Plugins Start, loadPlugins path: {0}".format(self.plugin_path))
         if os.path.exists(self.plugin_path):
             for package in os.listdir(self.plugin_path):
                 _plugin_path = os.path.join(self.plugin_path, package)
                 if os.path.isdir(_plugin_path):
                     if os.path.isfile(os.path.join(_plugin_path, "__init__.py")):
-                        logging.info(
-                            "find plugin package: {0}".format(package))
+                        logging.info("find plugin package: {0}".format(package))
                         self.__runPlugins(package)
         else:
             logging.warning("Plugins directory not in here!")
 
     def __runPlugins(self, package):
-        """ 动态加载插件模块,遵循插件格式的才能被启用并运行,否则删除加载 """
-
+        """ 动态加载插件模块,遵循插件格式的才能被启用并运行,否则删除加载
+        @param package: 插件包名，比如PluginDemo
+        """
         #: 动态加载模块(plugins.package): 可以查询自定义的信息, 并通过getPluginClass获取插件的类定义
-        plugin = __import__("{0}.{1}".format(
-            "plugins", package), fromlist=["plugins", ])
+        plugin = __import__("{0}.{1}".format("plugins", package), fromlist=["plugins", ])
         #: 检测插件信息
-        if plugin.__name__ and plugin.__version__ and plugin.__description__ and plugin.__author__:
+        if hasattr(plugin, "__name__") and hasattr(plugin, "__version__") and hasattr(plugin, "__description__") and hasattr(plugin, "__author__") and hasattr(plugin, "__state__"):
             #: 获取插件信息
             pluginInfo = self.__getPluginInfo(package, plugin)
             try:
@@ -118,8 +117,7 @@ class PluginManager(object):
             if plugin.__state__ != "enabled":
                 self.plugins.append(pluginInfo)
                 return
-            logging.info("runPlugin: package is {0}.{1}, class instance is {2}".format(
-                "plugins", package, i))
+            logging.info("runPlugin: package is {0}.{1}, class instance is {2}".format("plugins", package, i))
             #: 更新插件信息
             pluginInfo.update(plugin_instance=i)
             #: 运行插件主类的run方法
@@ -128,8 +126,7 @@ class PluginManager(object):
             #: 注册模板扩展点
             if hasattr(i, "register_tep"):
                 tep = i.register_tep()
-                logging.info(
-                    "The plugin {0} wants to register the following template extension points: {1}".format(package, tep))
+                logging.info("The plugin {0} wants to register the following template extension points: {1}".format(package, tep))
                 if isinstance(tep, dict):
                     pluginInfo.update(plugin_tep=tep)
                     logging.info("Register TEP Success")
@@ -138,8 +135,7 @@ class PluginManager(object):
             #: 注册上下文扩展点
             if hasattr(i, "register_cep"):
                 cep = i.register_cep()
-                logging.info(
-                    "The plugin {0} wants to register the following context extension points: {1}".format(package, cep))
+                logging.info("The plugin {0} wants to register the following context extension points: {1}".format(package, cep))
                 if isinstance(cep, dict):
                     pluginInfo.update(plugin_cep=cep)
                     logging.info("Register CEP Success")
@@ -148,8 +144,7 @@ class PluginManager(object):
             #: 注册蓝图扩展点
             if hasattr(i, "register_bep"):
                 bep = i.register_bep()
-                logging.info(
-                    "The plugin {0} wants to register the following blueprint extension points: {1}".format(package, bep))
+                logging.info("The plugin {0} wants to register the following blueprint extension points: {1}".format(package, bep))
                 if isinstance(bep, dict):
                     pluginInfo.update(plugin_bep=bep)
                     logging.info("Register BEP Success")
@@ -159,22 +154,10 @@ class PluginManager(object):
             if hasattr(i, "run") or hasattr(i, "register_tep") or hasattr(i, "register_cep") or hasattr(i, "register_bep"):
                 self.plugins.append(pluginInfo)
             else:
-                logging.error(
-                    "The current class {0} does not have the `run` or `register_tep` or `register_cep` or `register_bep` method".format(i))
+                logging.error("The current class {0} does not have the `run` or `register_tep` or `register_cep` or `register_bep` method".format(i))
         else:
             del plugin
-            logging.warning(
-                "This plugin `{0}` not conform to the standard plugin format".format(package))
-
-    @property
-    def get_all_plugins(self):
-        """ 获取所有插件 """
-        return self.plugins
-
-    @property
-    def get_enabled_plugins(self):
-        """ 获取所有启用的插件 """
-        return [p for p in self.get_all_plugins if p["plugin_state"] == "enabled"]
+            logging.warning("This plugin `{0}` not conform to the standard plugin format".format(package))
 
     @property
     def get_all_tep(self):
@@ -195,10 +178,8 @@ class PluginManager(object):
         {% endif %}
         """
         return dict(
-            base_front_header_include=lambda: [plugin["plugin_tep"].get(
-                "base_front_header_include") for plugin in self.get_enabled_plugins if plugin["plugin_tep"].get("base_front_header_include")],
-            base_front_header_string=lambda: [plugin["plugin_tep"].get(
-                "base_front_header_string") for plugin in self.get_enabled_plugins if plugin["plugin_tep"].get("base_front_header_string")],
+            base_front_header_include=lambda: [plugin["plugin_tep"].get("base_front_header_include") for plugin in self.get_enabled_plugins if plugin["plugin_tep"].get("base_front_header_include")],
+            base_front_header_string=lambda: [plugin["plugin_tep"].get("base_front_header_string") for plugin in self.get_enabled_plugins if plugin["plugin_tep"].get("base_front_header_string")],
         )
 
     @property
@@ -208,10 +189,8 @@ class PluginManager(object):
         CEP: after_request_hook
         """
         return dict(
-            before_request_hook=lambda: [plugin["plugin_cep"].get(
-                "before_request_hook") for plugin in self.get_enabled_plugins if plugin["plugin_cep"].get("before_request_hook")],
-            after_request_hook=lambda: [plugin["plugin_cep"].get(
-                "after_request_hook") for plugin in self.get_enabled_plugins if plugin["plugin_cep"].get("after_request_hook")],
+            before_request_hook=lambda: [plugin["plugin_cep"].get("before_request_hook") for plugin in self.get_enabled_plugins if plugin["plugin_cep"].get("before_request_hook")],
+            after_request_hook=lambda: [plugin["plugin_cep"].get("after_request_hook") for plugin in self.get_enabled_plugins if plugin["plugin_cep"].get("after_request_hook")],
         )
 
     @property
@@ -219,41 +198,17 @@ class PluginManager(object):
         """蓝图扩展点"""
         return [plugin["plugin_bep"] for plugin in self.get_enabled_plugins if plugin["plugin_bep"]]
 
+    @property
+    def get_all_plugins(self):
+        """ 获取所有插件 """
+        return self.plugins
+
+    @property
+    def get_enabled_plugins(self):
+        """ 获取所有启用的插件 """
+        return [p for p in self.get_all_plugins if p["plugin_state"] == "enabled"]
+
     def get_plugin_info(self, plugin_name):
         """获取插件信息"""
         if plugin_name:
-            return (i for i in self.get_all_plugins if i["plugin_name"] == plugin_name).next()
-
-    def enable_plugin(self, plugin_name):
-        """启用插件"""
-        res = {"success": False}
-        _PI = self.get_plugin_info(plugin_name)
-        try:
-            index = self.plugins.index(_PI)
-        except (ValueError,TypeError),e:
-            res.update(msg="plugin_name error")
-        else:
-            _PI.update(plugin_state="enabled")
-            self.plugins[index] = _PI
-            res.update(success=True)
-        return res
-
-    def disable_plugin(self, plugin_name):
-        """禁用插件"""
-        res = {"success": False}
-        _PI = self.get_plugin_info(plugin_name)
-        try:
-            index = self.plugins.index(_PI)
-        except (ValueError,TypeError),e:
-            res.update(msg="plugin_name error")
-        else:
-            _PI.update(plugin_state="disabled")
-            self.plugins[index] = _PI
-            res.update(success=True)
-        return res
-
-    def reload_plugins(self):
-        """重新扫描加载插件目录"""
-        self.plugins = []
-        self.__scanPlugins()
-        return {"success": True}
+            return next(i for i in self.get_all_plugins if i["plugin_name"] == plugin_name)
