@@ -108,12 +108,12 @@ class PluginManager(object):
 
     def __scanPlugins(self):
         """ 扫描插件目录 """
-        #logging.info("Initialization Plugins Start, loadPlugins path: %s" %self.plugin_abspath)
+        logging.info("Initialization Plugins Start, loadPlugins path: %s" %self.plugin_abspath)
         if os.path.exists(self.plugin_abspath):
             for package in os.listdir(self.plugin_abspath):
                 _plugin_path = os.path.join(self.plugin_abspath, package)
                 if os.path.isdir(_plugin_path) and os.path.isfile(os.path.join(_plugin_path, "__init__.py")):
-                    #logging.info("find plugin package: {0}".format(package))
+                    logging.info("find plugin package: %s" %package)
                     #: 动态加载模块(plugins.package): 可以查询自定义的信息, 并通过getPluginClass获取插件的类定义
                     plugin = __import__("{0}.{1}".format(self.plugins_folder, package), fromlist=[self.plugins_folder, ])
                     #: 检测插件信息
@@ -189,9 +189,7 @@ class PluginManager(object):
                         if hasattr(i, "run") or hasattr(i, "register_tep") or hasattr(i, "register_cep") or hasattr(i, "register_bep"):
                             self.__plugins.append(pluginInfo)
                         else:
-                            logging.error("The current class {0} does not have the `run` or `register_tep` or `register_cep` or `register_bep` method".format(i))
-                    else:
-                        del plugin
+                            logging.error("The current package does not have the `run` or `register_tep` or `register_cep` or `register_bep` method")
 
     def __loadPluginInfo(self, package, plugin):
         """ 组织插件信息
