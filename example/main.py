@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-    Flask-Plugin-Development-Kit.main
+    Flask-PluginKit.example.main
     ~~~~~~~~~~~~~~
 
     Entrance
@@ -15,12 +15,20 @@
     :license: MIT, see LICENSE for more details.
 """
 
-from flask import Flask, render_template_string
-from libs.plugins import PluginManager
+import logging
+logging.basicConfig(level=logging.DEBUG,
+                format='[ %(levelname)s ] %(asctime)s %(filename)s:%(threadName)s:%(process)d:%(lineno)d %(message)s',
+                datefmt='%Y-%m-%d %H:%M:%S',
+                filename='huaban.log',
+                filemode='a')
+
+from flask import render_template_string
+from flask_pluginkit import PluginManager
+from flask_multistatic import MultiStaticFlask as Flask
 
 __author__ = 'staugur'
 __email__ = 'staugur@saintic.com'
-__doc__ = 'Web program plugin development kit based on flask.'
+__doc__ = 'An example for Flask-PluginKit'
 __version__ = '0.1.0'
 
 
@@ -32,6 +40,7 @@ plugin = PluginManager(app)
 
 @app.route("/")
 def index():
+    app.logger.info(app.static_folder)
     return render_template_string("<h1>Hello World!</h1>{{ get_tep_string('tep2') }}")
 
 if __name__ == '__main__':

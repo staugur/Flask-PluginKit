@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-    Flask-Plugin-Development-Kit.plugins.example
+    Flask-PluginKit.example.plugins.example
     ~~~~~~~~~~~~~~
 
     This is a demo for plugin.
@@ -44,7 +44,7 @@ __license_file__= "LICENSE"
 __readme_file__ = "README"
 #: Plugin state, enabled or disabled
 #: 插件状态, enabled、disabled
-__state__       = "disabled"
+__state__       = "enabled"
 
 
 #: Blueprint Example
@@ -56,7 +56,6 @@ plugin_blueprint = Blueprint("example", "example")
 def plugin():
     return "plugin demo"
 
-"""
 #: Api Blueprint Example
 from flask_restful import Api, Resource
 
@@ -68,7 +67,6 @@ class ApiDemo(Resource):
 #: 暂时设定仅支持一个蓝图扩展点
 api = Api(plugin_blueprint)
 api.add_resource(ApiDemo, '/api', '/api/', endpoint='ApiDemoPoint')
-"""
 
 #: 返回插件主类
 def getPluginClass():

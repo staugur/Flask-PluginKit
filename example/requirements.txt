@@ -1,2 +1,4 @@
 Flask
+Flask-PluginKit
 flask-multistatic
+Flask-RESTful

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-    Flask-Plugin-Development-Kit.libs.base
+    Flask-PluginKit.example.libs.base
     ~~~~~~~~~~~~~~
 
     base class
