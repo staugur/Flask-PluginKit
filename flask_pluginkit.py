@@ -38,7 +38,7 @@ class ZipError(PluginError):
     pass
 
 
-class DownloadError(PluginError):
+class InstallError(PluginError):
     pass
 
 
@@ -452,7 +452,7 @@ class PluginInstaller(object):
                 f = urllib2.urlopen(url, timeout=10)
                 i = f.info()
             except (AttributeError, ValueError, urllib2.URLError):
-                raise DownloadError("Open URL Error")
+                raise InstallError("Open URL Error")
             else:
                 if not filename:
                     filename = self.__getFilename(i.getheader("Content-Disposition", ""), scene=3)
@@ -468,11 +468,11 @@ class PluginInstaller(object):
                     finally:
                         os.remove(filename)
                 else:
-                    raise DownloadError("Invalid Filename")
+                    raise InstallError("Invalid Filename")
             finally:
                 f.close()
         else:
-            raise DownloadError("Invalid URL")
+            raise InstallError("Invalid URL")
 
     def _local_upload(self, filepath, remove=False):
         """本地插件包处理"""
@@ -486,9 +486,9 @@ class PluginInstaller(object):
                     if remove is True:
                         os.remove(filepath)
             else:
-                raise DownloadError("Invalid Filename")
+                raise InstallError("Invalid Filename")
         else:
-            raise DownloadError("Invalid Filepath")
+            raise InstallError("Invalid Filepath")
 
     def addPlugin(self, method="remote", **kwargs):
         """添加一个插件"""
