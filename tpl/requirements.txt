@@ -1,0 +1,10 @@
+Flask
+Flask-PluginKit
+flask-multistatic
+requests
+setproctitle
+gevent
+gunicorn
+enum34
+pycrypto
+psutil
