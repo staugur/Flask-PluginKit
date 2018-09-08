@@ -22,7 +22,6 @@ from flask_multistatic import MultiStaticFlask as Flask
 __author__ = 'staugur'
 __email__ = 'staugur@saintic.com'
 __doc__ = 'An example for Flask-PluginKit'
-__version__ = '0.1.0'
 
 
 # 初始化定义application
