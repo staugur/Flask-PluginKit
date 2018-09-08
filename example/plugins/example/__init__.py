@@ -82,7 +82,7 @@ class PluginDemoMain(PluginBase):
 
     def register_tep(self):
         """注册模板入口, 返回扩展点名称及扩展的代码, 其中include点必须是实际的HTML文件, string点是HTML代码、字符串等."""
-        tep = {"tep1": "PluginDemo/PluginDemo.html", "tep2": "HTMLCode"}
+        tep = {"tep1": "example/demo.html", "tep2": "plugndemo html code"}
         return tep
 
     def register_cep(self):

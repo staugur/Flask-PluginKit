@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+</head>
+<body>
+
+<h1>Hello World!</h1>
+
+<h3>以下是插件输出的HTML代码</h3>
+    {{ get_tep_string('tep2') }}
+
+<h3>以下是插件引入的HTML文件</h3>
+    {% for hf in get_tep('tep1').HTMLFile %}{% include hf %}{% endfor %}
+
+</body>
+</html>

@@ -15,14 +15,7 @@
     :license: MIT, see LICENSE for more details.
 """
 
-import logging
-logging.basicConfig(level=logging.DEBUG,
-                format='[ %(levelname)s ] %(asctime)s %(filename)s:%(threadName)s:%(process)d:%(lineno)d %(message)s',
-                datefmt='%Y-%m-%d %H:%M:%S',
-                filename='huaban.log',
-                filemode='a')
-
-from flask import render_template_string
+from flask import render_template
 from flask_pluginkit import PluginManager
 from flask_multistatic import MultiStaticFlask as Flask
 
@@ -41,7 +34,7 @@ plugin = PluginManager(app)
 @app.route("/")
 def index():
     app.logger.info(app.static_folder)
-    return render_template_string("<h1>Hello World!</h1>{{ get_tep_string('tep2') }}")
+    return render_template("index.html")
 
 if __name__ == '__main__':
     app.run(debug=True)

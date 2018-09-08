@@ -259,7 +259,7 @@ class PluginManager(object):
             "plugin_readme_file": readme_file,
             "plugin_state": plugin_state,
             "plugin_tpl_path": os.path.join(self.plugins_folder, package, "templates"),
-            "plugin_ats_path": os.path.join(self.plugins_folder, package, "assets"),
+            "plugin_ats_path": os.path.join(self.plugins_folder, package, "static"),
             "plugin_tep": {},
             "plugin_cep": {},
             "plugin_bep": {}
