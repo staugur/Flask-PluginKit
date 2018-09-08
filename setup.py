@@ -1,11 +1,61 @@
 # -*- coding: utf-8 -*-
+"""
+Flask-PluginKit
+===============
+
+基于Flask的插件式开发工具(Web program plugin development kit based on
+flask).
+
+使用概述(Overview)
+~~~~~~~~~~~~~~~~~~
+
+安装(Installation)
+
+::
+
+    $ pip install flask-pluginkit
+
+普通模式(Usage)
+
+::
+
+    from flask_pluginkit import PluginManager
+    plugin = PluginManager(app)
+
+工厂模式(The factory pattern)
+
+::
+
+    from flask_pluginkit import PluginManager
+    plugin = PluginManager()
+    plugin.init_app(app)
+
+资源(Resources)
+~~~~~~~~~~~~~~~
+
+-  GitHub https://github.com/staugur/Flask-PluginKit
+-  Author https://www.saintic.com
+-  Docs http://docs.saintic.com/754273
+-  Issues https://github.com/staugur/Flask-PluginKit/issues
+
+文档(Documentation)
+~~~~~~~~~~~~~~~~~~~
+
+`点击这(Click here) <http://docs.saintic.com/754273>`__
+
+LICENSE
+~~~~~~~
+
+`MIT LICENSE <http://flask.pocoo.org/docs/license/#flask-license>`__
+
+"""
 
 import os
 import sys
 from setuptools import setup, Command
 
 
-version = '0.1.3'
+version = '0.1.4'
 
 
 class PublishCommand(Command):
@@ -20,20 +70,11 @@ class PublishCommand(Command):
         pass
 
     def run(self):
-        os.system("pip install -U setuptools twine wheel pypandoc")
+        os.system("pip install -U setuptools twine wheel")
         os.system("python setup.py sdist bdist_wheel")
         os.system("twine upload dist/*")
         print("V%s Released Success" % version)
         sys.exit()
-
-
-try:
-    import pypandoc
-    long_description = pypandoc.convert('README.md', 'rst')
-    long_description_content_type = "text/x-rst"
-except(IOError, ImportError):
-    long_description = open('README.md').read()
-    long_description_content_type = "text/markdown"
 
 
 setup(
@@ -45,8 +86,8 @@ setup(
     author_email='staugur@saintic.com',
     keywords="flask plugin",
     description='Load and run plugins for your Flask application',
-    long_description=long_description,
-    long_description_content_type=long_description_content_type,
+    long_description=__doc__,
+    long_description_content_type="text/x-rst",
     py_modules=['flask_pluginkit'],
     zip_safe=False,
     platforms='any',
