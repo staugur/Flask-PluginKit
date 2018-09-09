@@ -80,6 +80,14 @@ class PluginDemoMain(PluginBase):
         """ 插件一般运行入口 """
         pass
 
+    def limit(self, **kwargs):
+        """请求限流策略"""
+        from flask import make_response, jsonify, request
+        ip = request.headers.get('X-Real-Ip', request.remote_addr)
+        response = make_response(jsonify(msg="RateLimiter", ip=ip),429)
+        response.is_before_request_return = True
+        return response
+
     def register_tep(self):
         """注册模板入口, 返回扩展点名称及扩展的代码, 其中include点必须是实际的HTML文件, string点是HTML代码、字符串等."""
         tep = {"tep1": "example/demo.html", "tep2": "plugndemo html code"}
@@ -87,7 +95,7 @@ class PluginDemoMain(PluginBase):
 
     def register_cep(self):
         """注册上下文入口, 返回扩展点名称及执行的函数"""
-        cep = {"after_request_hook": lambda *args,**kwargs: len(args) + len(kwargs)}
+        cep = {"after_request_hook": lambda *args,**kwargs: len(args) + len(kwargs), "before_request_return": self.limit}
         return cep
 
     def register_bep(self):

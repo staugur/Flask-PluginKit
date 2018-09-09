@@ -22,6 +22,7 @@ from cgi import parse_header
 from posixpath import basename
 from urlparse import urlsplit, parse_qs
 from tempfile import NamedTemporaryFile
+from flask import Response
 
 logger = logging.getLogger(__name__)
 
@@ -86,7 +87,7 @@ class PluginManager(object):
         if app is not None:
             self.init_app(app)
         if not os.path.isdir(self.plugin_abspath):
-            raise PluginError("Not Found Plugin Directory")
+            raise PluginError("Not Found Plugin Directory for %s" %self.plugin_abspath)
 
     def init_app(self, app):
         self.__scanPlugins()
@@ -112,6 +113,11 @@ class PluginManager(object):
             # 上下文扩展点之请求前
             for cep_func in self.get_all_cep["before_request_hook"]:
                 cep_func()
+            # 上下文扩展点之拦截请求
+            for cep_func in self.get_all_cep["before_request_return"]:
+                resp = cep_func()
+                if isinstance(resp, Response) and hasattr(resp, "is_before_request_return") and resp.is_before_request_return is True:
+                    return resp
 
         @app.after_request
         def _after_request(response):
@@ -330,6 +336,7 @@ class PluginManager(object):
             before_request_hook=[plugin["plugin_cep"]["before_request_hook"] for plugin in self.get_enabled_plugins if plugin["plugin_cep"].get("before_request_hook")],
             after_request_hook=[plugin["plugin_cep"]["after_request_hook"] for plugin in self.get_enabled_plugins if plugin["plugin_cep"].get("after_request_hook")],
             teardown_request_hook=[plugin["plugin_cep"]["teardown_request_hook"] for plugin in self.get_enabled_plugins if plugin["plugin_cep"].get("teardown_request_hook")],
+            before_request_return=[plugin["plugin_cep"]["before_request_return"] for plugin in self.get_enabled_plugins if plugin["plugin_cep"].get("before_request_return")],
         )
 
     @property

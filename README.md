@@ -29,11 +29,12 @@ plugin.init_app(app)
 
 ### TODO
 
-- before_request_return扩展点
+- ~~before_request_return扩展点~~
 - 注册上下文扩展点
 - 注册静态css
 - 模板扩展点include改造
 - 信号扩展点sep
+- 插件Web管理页面
 
 
 ### 资源(Resources)
