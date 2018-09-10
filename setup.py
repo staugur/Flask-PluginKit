@@ -3,8 +3,7 @@
 Flask-PluginKit
 ===============
 
-基于Flask的插件式开发工具(Web program plugin development kit based on
-flask).
+基于Flask的插件式开发工具(Web program plugin development kit based on flask).
 
 使用概述(Overview)
 ~~~~~~~~~~~~~~~~~~
@@ -29,14 +28,6 @@ flask).
     from flask_pluginkit import PluginManager
     plugin = PluginManager()
     plugin.init_app(app)
-
-资源(Resources)
-~~~~~~~~~~~~~~~
-
--  GitHub https://github.com/staugur/Flask-PluginKit
--  Author https://www.saintic.com
--  Docs http://docs.saintic.com/754273
--  Issues https://github.com/staugur/Flask-PluginKit/issues
 
 文档(Documentation)
 ~~~~~~~~~~~~~~~~~~~
