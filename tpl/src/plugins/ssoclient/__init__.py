@@ -144,10 +144,10 @@ def authorized():
                     # 之后根据不同类型的ct处理cd
                     logger.debug("ssoConSync is ok")
                     if ct == "user_profile":
-                        pass
+                        g.userinfo.update(cd)
                     elif ct == "user_avatar":
-                        pass
-                    return jsonify(msg="Synchronization completed", success=True, app_name=SSO["app_name"])
+                        g.userinfo["avatar"] = cd
+                    return jsonify(msg="Synchronization completed", success=set_userinfo(uid, g.userinfo), app_name=SSO["app_name"])
     return "Invalid Authorized"
 
 #: 返回插件主类
