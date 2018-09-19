@@ -12,7 +12,7 @@ Flask-PluginKit
 
 ::
 
-    $ pip install flask-pluginkit
+    $ pip install Flask-PluginKit
 
 普通模式(Usage)
 
@@ -46,7 +46,7 @@ import sys
 from setuptools import setup, Command
 
 
-version = '0.1.5'
+version = '0.1.6'
 
 
 class PublishCommand(Command):
