@@ -80,10 +80,12 @@ setup(
     long_description=__doc__,
     long_description_content_type="text/x-rst",
     packages=['flask_pluginkit'],
+    include_package_data=True,
     zip_safe=False,
     platforms='any',
     install_requires=[
         'Flask>=0.6',
+        'psutil'
     ],
     cmdclass={
         'publish': PublishCommand,
