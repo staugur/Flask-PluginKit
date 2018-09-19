@@ -3,7 +3,9 @@
     Flask-PluginKit
     ~~~~~~~~~~~~~~
 
-    Plugins Manager: load and run plugins.
+    PluginManager: load and run plugins.
+
+    PluginInstaller: install or remove plugin.
 
     :copyright: (c) 2018 by staugur.
     :license: MIT, see LICENSE for more details.
@@ -62,7 +64,7 @@ class PluginManager(object):
     """Flask Plugin Manager Extension
     定义插件基类, 遵循格式如下:
     插件为目录, 目录名称为插件名称, 插件入口文件是__init__.py, 文件内包含name、description、version、author、license、url、README、state等插件信息.
-    静态资源请通过提供的接口上传至又拍云等第三方存储中.
+    静态资源建议上传到第三方存储中.
     ```
     plugins/
     ├── plugin1
@@ -131,6 +133,8 @@ class PluginManager(object):
             # 上下文扩展点之请求后(返回前无论异常)
             for cep_func in self.get_all_cep["teardown_request_hook"]:
                 cep_func(exception=exception)
+
+        app.plugin_manager = self
         self.app = app
 
     def __scanPlugins(self):
@@ -327,10 +331,11 @@ class PluginManager(object):
 
     @property
     def get_all_cep(self):
-        """上下文扩展点, Context extension point, 分别对应请求前、请求后(返回前):
+        """上下文扩展点, Context extension point, 分别对应请求前、请求后(返回前，无异常)、请求后(返回前，无论是否有异常)、请求前(直接拦截请求):
         CEP: before_request_hook
         CEP: after_request_hook
         CEP: teardown_request_hook
+        CEP: before_request_return
         """
         return dict(
             before_request_hook=[plugin["plugin_cep"]["before_request_hook"] for plugin in self.get_enabled_plugins if plugin["plugin_cep"].get("before_request_hook")],

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plugins Web Manager based Flask-PluginKit!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-tooltip@2.0.2/dist/css/bulma-tooltip.min.css">
+    <style type="text/css">
+        .notification > button.delete {
+            border: none;
+        }
+        .is-hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<section class="section">
+    <div class="container is-fluid">
+        <a class="button is-danger is-small tooltip" data-tooltip="无交互直接重载你的Web应用进程！" href="javascript:reloadApp()">重启应用</a>
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th><abbr title="插件包名称">名称</abbr></th>
+                    <th>描述</th>
+                    <th>版本</th>
+                    <th>开发者</th>
+                    <th><abbr title="插件主页URL">主页</abbr></th>
+                    <th><abbr title="LICENSE">许可证</abbr></th>
+                    <th>状态</th>
+                    <th>动作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in g.plugins %}
+                <tr>
+                    <th>{{ loop.index }}</th>
+                    <th><abbr title="{{ p.plugin_package_name }}">{{ p.plugin_name }}</abbr></th>
+                    <th>{{ p.plugin_description }}</th>
+                    <th>{{ p.plugin_version }}</th>
+                    <th>{{ p.plugin_author }}</th>
+                    <th>{% if p.plugin_url %}<a href="{{ p.plugin_url }}" target="_blank">{{ p.plugin_url }}</a>{% else %}{{ p.plugin_url or '' }}{% endif %}</th>
+                    <th>{{ p.plugin_license or '' }}</th>
+                    <th><scan class="{% if p.plugin_state == 'enabled' %}has-text-primary{% else %}has-text-warning{% endif %}">{{ p.plugin_state }}</scan></th>
+                    <th>
+                        {% if p.plugin_state == 'enabled' %}
+                            <a class="button is-warning is-small" href="javascript:disablePlugin('{{ p.plugin_name }}')">禁用</a>
+                        {% else %}
+                            <a class="button is-primary is-small"  href="javascript:enablePlugin('{{ p.plugin_name }}')">启用</a>
+                        {% endif %}
+                    </th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="notification" id="notification" style="display: none;">
+            <button class="delete"></button>
+            <div id="message"></div>
+        </div>
+    </div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function showNotification() {
+        document.getElementById("notification").style.display='block';
+    }
+    function hideNotification() {
+        document.getElementById("notification").style.display='none';
+    }
+    function setMessage(msg) {
+        document.getElementById("message").innerHTML=msg;
+        showNotification();
+    }
+    function ajax(url, success, options) {
+        /*
+            Ajax提交
+            @param url string: 请求路径
+            @param success function: success为成功后回调函数
+            @param options object:
+                async是否异步; 
+                post,put,delete等方法所需data;
+                error为发生异常时或success返回中code不为0时回调函数;
+                beforeSend为请求前回调函数;
+                complete为完成请求后回调;
+                msgprefix表示success返回code不为0时提示消息的前缀。
+        */
+        var that = this,
+            urltype = typeof url === 'string',
+            successtype = typeof success === "function",
+            optionstype = typeof options === "object";
+        if (!url || !urltype) {
+            return false;
+        }
+        if (success) {
+            if (!successtype) {
+                return false;
+            }
+        }
+        if (options) {
+            if (!optionstype) {
+                return false;
+            }
+        } else {
+            options = {};
+        }
+        return $.ajax({
+            url: url,
+            async: options.async || true,
+            method: options.method || 'post',
+            dataType: options.dataType || 'json',
+            data: options.data || {},
+            beforeSend: options.beforeSend ? options.beforeSend : function() {},
+            success: function(res) {
+                console.log(res);
+                if (res.code === 0 || res.success === true) {
+                    success && success(res);
+                } else {
+                    if (options.msgprefix != false) {
+                        setMessage("<scan class='has-text-danger'>" + (options.msgprefix || '') + (res.msg || res.code) + "</scan>");
+                    }
+                    options.fail && options.fail(res);
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                setMessage("<scan class='has-text-danger'>系统异常，请稍后再试</scan>。状态码：" + XMLHttpRequest.status + "，" + textStatus);
+            },
+            complete: options.complete ? options.complete : function() {}
+        });
+    }
+    function enablePlugin(plugin_name) {
+        ajax("{{ url_for('.api', Action='enablePlugin') }}&plugin_name=" + plugin_name, function(res) {
+            setMessage("<scan class='has-text-success'>已启用，重启应用后生效</scan>")
+        });
+    }
+    function disablePlugin(plugin_name) {
+        ajax("{{ url_for('.api', Action='disablePlugin') }}&plugin_name=" + plugin_name, function(res) {
+            setMessage("<scan class='has-text-success'>已禁用，重启应用后生效</scan>")
+        });
+    }
+    function reloadApp() {
+        ajax("{{ url_for('.api', Action='reloadApp') }}", function(res) {
+            setMessage("<scan class='has-text-primary'>已重启，即将刷新页面...</scan>")
+            setTimeout("window.location.reload()", 3000);
+        });
+    }
+    $(document).on('click', '.notification > button.delete', function() {
+        hideNotification();
+    });
+</script>
+</body>
+</html>

@@ -32,7 +32,7 @@ __author__      = "Mr.tao <staugur@saintic.com>"
 __version__     = "0.1.0"
 #: Plugin Url
 #: 插件主页
-__url__         = "https://github.com/staugur/Flask-Plugin-Development-Kit"
+__url__         = "https://github.com/staugur/Flask-PluginKit"
 #: Plugin License
 #: 插件许可证
 __license__     = "MIT"

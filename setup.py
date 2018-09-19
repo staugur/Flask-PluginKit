@@ -46,7 +46,7 @@ import sys
 from setuptools import setup, Command
 
 
-version = '0.1.4'
+version = '0.1.5'
 
 
 class PublishCommand(Command):
@@ -79,7 +79,7 @@ setup(
     description='Load and run plugins for your Flask application',
     long_description=__doc__,
     long_description_content_type="text/x-rst",
-    py_modules=['flask_pluginkit'],
+    packages=['flask_pluginkit'],
     zip_safe=False,
     platforms='any',
     install_requires=[
