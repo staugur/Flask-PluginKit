@@ -9,20 +9,26 @@
 
 安装(Installation)
 
+```bash
+$ pip install Flask-PluginKit
 ```
-$ pip install flask-pluginkit
+
+或(or)
+```bash
+$ git clone https://github.com/staugur/Flask-PluginKit && cd Flask-PluginKit
+$ python setup.py build install
 ```
 
 普通模式(Usage)
 
-```
+```python
 from flask_pluginkit import PluginManager
 plugin = PluginManager(app)
 ```
 
 工厂模式(The factory pattern)
 
-```
+```python
 from flask_pluginkit import PluginManager
 plugin = PluginManager()
 plugin.init_app(app)

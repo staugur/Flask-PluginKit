@@ -8,5 +8,4 @@ install:
   - python setup.py build
   - python setup.py install
 script:
-  - python tests/test_web.py
-  - python tests/test_installer.py
+  - python setup.py test

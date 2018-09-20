@@ -10,20 +10,20 @@ Flask-PluginKit
 
 安装(Installation)
 
-::
+.. code:: bash
 
     $ pip install Flask-PluginKit
 
 普通模式(Usage)
 
-::
+.. code:: python
 
     from flask_pluginkit import PluginManager
     plugin = PluginManager(app)
 
 工厂模式(The factory pattern)
 
-::
+.. code:: python
 
     from flask_pluginkit import PluginManager
     plugin = PluginManager()
@@ -43,10 +43,17 @@ LICENSE
 
 import os
 import sys
+import unittest
 from setuptools import setup, Command
 
 
-version = '0.1.6'
+version = '0.1.7'
+
+
+def test_suite():
+    test_loader = unittest.TestLoader()
+    test_suite = test_loader.discover('tests', pattern='test_*.py')
+    return test_suite
 
 
 class PublishCommand(Command):
@@ -79,7 +86,7 @@ setup(
     keywords="flask plugin",
     description='Load and run plugins for your Flask application',
     long_description=__doc__,
-    long_description_content_type="text/x-rst",
+    test_suite='setup.test_suite',
     packages=['flask_pluginkit'],
     include_package_data=True,
     zip_safe=False,

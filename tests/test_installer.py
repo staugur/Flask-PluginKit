@@ -1,8 +1,30 @@
 # -*- coding: utf-8 -*-
 
 import os
-import unittest
+import __init__, unittest
 from flask_pluginkit import PluginInstaller
+
+def __getattr__(self, name):
+    if name in ("assertIs", "assertIsNone"):
+        statement = "a is b"
+    elif name in ("assertIsNot", "assertIsNotNone"):
+        statement = "a is not b"
+    elif name == "assertIn":
+        statement = "a in b"
+    elif name == "assertNotIn":
+        statement = "a not in b"
+    elif name == "assertIsInstance":
+        statement = "isinstance(a, b)"
+    elif name == "assertIsNotInstance":
+        statement = "not isinstance(a, b)"
+    else:
+        statement = "True"
+ 
+    def wrapper(a=None, b=None):
+        return self.assertTrue(eval(statement))
+    return wrapper
+ 
+unittest.TestCase.__getattr__ = __getattr__
 
 
 class PITest(unittest.TestCase):
