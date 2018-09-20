@@ -62,6 +62,7 @@ class PublishCommand(Command):
 
     def run(self):
         os.system("pip install -U setuptools twine wheel")
+        os.system("rm -rf build/ dist/ Flask_PluginKit.egg-info/")
         os.system("python setup.py sdist bdist_wheel")
         os.system("twine upload dist/*")
         print("V%s Released Success" % version)

@@ -89,7 +89,7 @@ class PluginManager(object):
         if app is not None:
             self.init_app(app)
         if not os.path.isdir(self.plugin_abspath):
-            raise PluginError("Not Found Plugin Directory for %s" %self.plugin_abspath)
+            raise PluginError("Not Found Plugin Directory for %s" % self.plugin_abspath)
 
     def init_app(self, app):
         self.__scanPlugins()
@@ -393,11 +393,25 @@ class PluginInstaller(object):
                 return True
         return False
 
+    def __isValidTGZ(self, suffix):
+        """判断后缀是否是`.tar.gz`或`.tgz`格式"""
+        if suffix and isinstance(suffix, (unicode, str)):
+            if suffix.endswith(".tar.gz") or suffix.endswith(".tgz"):
+                return True
+        return False
+
+    def __isValidZIP(self, suffix):
+        """判断后缀是否是`.zip`格式"""
+        if suffix and isinstance(suffix, (unicode, str)):
+            if suffix.endswith(".zip"):
+                return True
+        return False
+
     def __isValidFilename(self, filename):
         """判断filename是否是合法的"""
         if filename and isinstance(filename, (unicode, str)):
             if re.match(r'^[\w\d\_\-\.]+$', filename, re.I):
-                if filename.endswith(".tar.gz") or filename.endswith(".tgz") or filename.endswith(".zip"):
+                if self.__isValidTGZ(filename) or self.__isValidZIP(filename):
                     return True
         return False
 
@@ -418,21 +432,23 @@ class PluginInstaller(object):
                 subtype = mt.get(data)
                 if subtype:
                     filename = "." + subtype
-            return filename if self.__isValidFilename(filename) else None
         except Exception, e:
             logger.warning(e)
+        else:
+            if self.__isValidFilename(filename):
+                return filename
 
     def __getFilenameSuffix(self, filename):
         """获取filename后缀"""
         if filename and isinstance(filename, (unicode, str)):
-            if filename.endswith(".tar.gz") or filename.endswith(".tgz"):
+            if self.__isValidTGZ(filename):
                 return ".tar.gz"
             elif filename.endswith(".zip"):
                 return ".zip"
 
     def __unpack_tgz(self, filename):
         """解压`tar.gz`,`tgz`格式的压缩文件"""
-        if isinstance(filename, (str, unicode)) and (filename.endswith('.tar.gz') or filename.endswith('.tgz')) and tarfile.is_tarfile(filename):
+        if isinstance(filename, (str, unicode)) and self.__isValidTGZ(filename) and tarfile.is_tarfile(filename):
             with tarfile.open(filename, mode='r:gz') as t:
                 for name in t.getnames():
                     t.extract(name, self.plugin_abspath)
@@ -441,7 +457,7 @@ class PluginInstaller(object):
 
     def __unpack_zip(self, filename):
         """解压`zip`格式的压缩文件"""
-        if isinstance(filename, (str, unicode)) and filename.endswith('.zip') and zipfile.is_zipfile(filename):
+        if isinstance(filename, (str, unicode)) and self.__isValidZIP(filename) and zipfile.is_zipfile(filename):
             with zipfile.ZipFile(filename) as z:
                 for name in z.namelist():
                     z.extract(name, self.plugin_abspath)
@@ -468,15 +484,15 @@ class PluginInstaller(object):
             else:
                 if not filename:
                     filename = self.__getFilename(i.getheader("Content-Disposition", ""), scene=3)
-                if not filename:
-                    filename = self.__getFilename(i.subtype, scene=4)
+                    if not filename:
+                        filename = self.__getFilename(i.subtype, scene=4)
                 if filename and self.__isValidFilename(filename):
                     suffix = self.__getFilenameSuffix(filename)
                     with NamedTemporaryFile(mode='w+b', prefix='fpk-', suffix=suffix, delete=False) as fp:
                         fp.write(f.read())
                         filename = fp.name
                     try:
-                        self.__unpack_tgz(filename) if suffix == ".tar.gz" else self.__unpack_zip(filename)
+                        self.__unpack_tgz(filename) if self.__isValidTGZ(suffix) else self.__unpack_zip(filename)
                     finally:
                         os.remove(filename)
                 else:
@@ -493,7 +509,7 @@ class PluginInstaller(object):
             if filename and self.__isValidFilename(filename):
                 suffix = self.__getFilenameSuffix(filename)
                 try:
-                    self.__unpack_tgz(os.path.abspath(filepath)) if suffix == ".tar.gz" else self.__unpack_zip(os.path.abspath(filepath))
+                    self.__unpack_tgz(os.path.abspath(filepath)) if self.__isValidTGZ(suffix) else self.__unpack_zip(os.path.abspath(filepath))
                 finally:
                     if remove is True:
                         os.remove(filepath)
