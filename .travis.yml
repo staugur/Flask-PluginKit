@@ -1,10 +1,9 @@
 language: python
 python:
-  - "2.6"
   - "2.7"
 sudo: enabled
 install:
-  - pip install setuptools twine wheel flask==0.10.1 unittest2
+  - pip install setuptools twine wheel flask==0.10.1
   - python setup.py build
   - python setup.py install
 script:

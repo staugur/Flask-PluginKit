@@ -2,7 +2,7 @@
 
 import os
 import json
-import __init__, unittest
+import unittest
 from flask import Flask, g
 from flask_pluginkit import PluginManager, blueprint
 
@@ -18,28 +18,6 @@ app1.register_blueprint(blueprint)
 # app2 without flask-pluginkit
 app2 = Flask("app2")
 app2.register_blueprint(blueprint)
-
-def __getattr__(self, name):
-    if name in ("assertIs", "assertIsNone"):
-        statement = "a is b"
-    elif name in ("assertIsNot", "assertIsNotNone"):
-        statement = "a is not b"
-    elif name == "assertIn":
-        statement = "a in b"
-    elif name == "assertNotIn":
-        statement = "a not in b"
-    elif name == "assertIsInstance":
-        statement = "isinstance(a, b)"
-    elif name == "assertIsNotInstance":
-        statement = "not isinstance(a, b)"
-    else:
-        statement = "True"
- 
-    def wrapper(a=None, b=None):
-        return self.assertTrue(eval(statement))
-    return wrapper
- 
-unittest.TestCase.__getattr__ = __getattr__
 
 
 class PMTest(unittest.TestCase):
@@ -64,6 +42,7 @@ class PMTest(unittest.TestCase):
         with app2.test_request_context('/'):
             app2.preprocess_request()
             self.assertFalse(hasattr(g, "plugin_manager"))
+
 
 if __name__ == '__main__':
     unittest.main()

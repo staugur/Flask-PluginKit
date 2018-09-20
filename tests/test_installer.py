@@ -1,30 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import os
-import __init__, unittest
+import unittest
 from flask_pluginkit import PluginInstaller
-
-def __getattr__(self, name):
-    if name in ("assertIs", "assertIsNone"):
-        statement = "a is b"
-    elif name in ("assertIsNot", "assertIsNotNone"):
-        statement = "a is not b"
-    elif name == "assertIn":
-        statement = "a in b"
-    elif name == "assertNotIn":
-        statement = "a not in b"
-    elif name == "assertIsInstance":
-        statement = "isinstance(a, b)"
-    elif name == "assertIsNotInstance":
-        statement = "not isinstance(a, b)"
-    else:
-        statement = "True"
- 
-    def wrapper(a=None, b=None):
-        return self.assertTrue(eval(statement))
-    return wrapper
- 
-unittest.TestCase.__getattr__ = __getattr__
 
 
 class PITest(unittest.TestCase):
@@ -47,7 +25,7 @@ class PITest(unittest.TestCase):
             'https://codeload.github.com/staugur/passport/tar.gz/v1.0.3',
         ]
         pkg = os.path.join(self.pi.plugin_abspath, "jwt-master")
-        #local
+        # local
         res = self.pi.addPlugin(method='local', filepath='/tmp/1.tar', remove=True)
         self.assertEqual(res["code"], 1)
         res = self.pi.addPlugin(method='local', filepath='/tmp/1.tbz', remove=True)
@@ -56,7 +34,7 @@ class PITest(unittest.TestCase):
         self.assertEqual(res["code"], 1)
         res = self.pi.addPlugin(method='local', filepath='/tmp/1.zip', remove=True)
         self.assertEqual(res["code"], 1)
-        #remote
+        # remote
         res = self.pi.addPlugin(url=urls[2])
         self.assertIsInstance(res, dict)
         self.assertEqual(res["code"], 0)
@@ -71,6 +49,7 @@ class PITest(unittest.TestCase):
         res = self.pi.removePlugin(pkg)
         self.assertIsInstance(res, dict)
         self.assertEqual(res["code"], 0)
+
 
 if __name__ == '__main__':
     unittest.main()

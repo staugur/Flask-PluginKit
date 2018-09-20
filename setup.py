@@ -43,7 +43,7 @@ LICENSE
 
 import os
 import sys
-import unittest2
+import unittest
 from setuptools import setup, Command
 
 
@@ -51,7 +51,7 @@ version = '0.1.7'
 
 
 def test_suite():
-    test_loader = unittest2.TestLoader()
+    test_loader = unittest.TestLoader()
     test_suite = test_loader.discover('tests', pattern='test_*.py')
     return test_suite
 
@@ -105,7 +105,6 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules'
