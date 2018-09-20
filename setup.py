@@ -43,7 +43,7 @@ LICENSE
 
 import os
 import sys
-import unittest
+import unittest2
 from setuptools import setup, Command
 
 
@@ -51,7 +51,7 @@ version = '0.1.7'
 
 
 def test_suite():
-    test_loader = unittest.TestLoader()
+    test_loader = unittest2.TestLoader()
     test_suite = test_loader.discover('tests', pattern='test_*.py')
     return test_suite
 
