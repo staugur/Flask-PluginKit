@@ -11,12 +11,17 @@
 
 ```bash
 $ pip install Flask-PluginKit
-```
-
 或(or)
-```bash
 $ git clone https://github.com/staugur/Flask-PluginKit && cd Flask-PluginKit
 $ python setup.py build install
+```
+
+测试用例(TestCase)
+
+```bash
+$ python tests/test_*.py
+或(or)
+$ python setup.py test
 ```
 
 普通模式(Usage)

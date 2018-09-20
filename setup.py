@@ -72,6 +72,7 @@ class PublishCommand(Command):
         os.system("rm -rf build/ dist/ Flask_PluginKit.egg-info/")
         os.system("python setup.py sdist bdist_wheel")
         os.system("twine upload dist/*")
+        os.system("rm -rf build/ dist/ Flask_PluginKit.egg-info/")
         print("V%s Released Success" % version)
         sys.exit()
 
