@@ -42,7 +42,6 @@ LICENSE
 """
 
 import os
-import sys
 import unittest
 from setuptools import setup, Command
 
@@ -59,22 +58,40 @@ def test_suite():
 class PublishCommand(Command):
 
     description = "Publish a new version to pypi"
-    user_options = []
+
+    user_options = [
+        # The format is (long option, short option, description).
+        ("test", None, "Publish to test.pypi.org"),
+        ("release", None, "Publish to pypi.org"),
+    ]
 
     def initialize_options(self):
-        pass
+        """Set default values for options."""
+        self.test = False
+        self.release = False
 
     def finalize_options(self):
-        pass
+        """Post-process options."""
+        if self.test:
+            print("V%s will publish to the test.pypi.org" % version)
+        elif self.release:
+            print("V%s will publish to the pypi.org" % version)
 
     def run(self):
+        """Run command."""
         os.system("pip install -U setuptools twine wheel")
         os.system("rm -rf build/ dist/ Flask_PluginKit.egg-info/")
         os.system("python setup.py sdist bdist_wheel")
-        os.system("twine upload dist/*")
+        if self.test:
+            os.system("twine upload --repository-url https://test.pypi.org/legacy/ dist/*")
+        elif self.release:
+            os.system("twine upload dist/*")
         os.system("rm -rf build/ dist/ Flask_PluginKit.egg-info/")
-        print("V%s Released Success" % version)
-        sys.exit()
+        if self.test:
+            print("V%s publish to the test.pypi.org successfully" % version)
+        elif self.release:
+            print("V%s publish to the pypi.org successfully" % version)
+        exit()
 
 
 setup(
