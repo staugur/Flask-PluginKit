@@ -1,5 +1,5 @@
 Flask
-Flask-PluginKit
+Flask-PluginKit>=0.1.8
 flask-multistatic
 requests
 setproctitle
