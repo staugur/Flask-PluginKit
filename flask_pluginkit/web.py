@@ -51,7 +51,7 @@ def api():
             environment:
                 Currently only support overloading using gunicorn applications
             requirement:
-                App Config, DEBUG=False GUNICORN_ENABLED=True GUNICORN_PROCESSNAME=Real runtime process name
+                App Config, ENV=False GUNICORN_ENABLED=True GUNICORN_PROCESSNAME=Real runtime process name
             """
             try:
                 import os, signal, psutil
@@ -59,13 +59,13 @@ def api():
                 res.update(msg="No dependent modules installed", code=20000)
             else:
                 # gunicorn app config
-                DEBUG = current_app.config.get("DEBUG")
+                ENV = current_app.config.get("ENV")
                 GUNICORN_ENABLED = current_app.config.get("GUNICORN_ENABLED")
                 GUNICORN_PROCESSNAME = current_app.config.get("GUNICORN_PROCESSNAME")
                 # gunicorn masterpid
                 pid = os.getppid()
                 p = psutil.Process(pid)
-                if DEBUG == False and GUNICORN_ENABLED == True and GUNICORN_PROCESSNAME == p.name():
+                if ENV == "production" and GUNICORN_ENABLED == True and GUNICORN_PROCESSNAME == p.name():
                     # reload gunicorn
                     os.kill(pid, signal.SIGHUP)
                     res.update(code=0)

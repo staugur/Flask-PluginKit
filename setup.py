@@ -46,7 +46,7 @@ import unittest
 from setuptools import setup, Command
 
 
-version = '0.1.8'
+version = '0.1.9'
 
 
 def test_suite():

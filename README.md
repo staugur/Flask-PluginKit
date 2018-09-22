@@ -12,8 +12,7 @@
 ```bash
 $ pip install Flask-PluginKit
 或(or)
-$ git clone https://github.com/staugur/Flask-PluginKit && cd Flask-PluginKit
-$ python setup.py build install
+$ pip install -U https://github.com/staugur/Flask-PluginKit/archive/master.tar.gz
 ```
 
 测试用例(TestCase)
@@ -52,6 +51,7 @@ plugin.init_app(app)
 - ~~插件Web管理页面~~
 - Web管理页面插件安装和删除
 - 模板上下文排序
+- 插件配置和插件信息存储
 
 
 ### 资源(Resources)

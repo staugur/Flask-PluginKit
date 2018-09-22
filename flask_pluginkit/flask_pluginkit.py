@@ -87,14 +87,34 @@ class PluginManager(object):
     ```
     """
 
-    def __init__(self, app=None, plugins_base=None, plugins_folder="plugins"):
+    def __init__(self, app=None, plugins_base=None, plugins_folder="plugins", **kwargs):
+        """Initializes the PluginManager. It is also possible to initialize the PluginManager via a factory. For example::
+            plugin_manager = PluginManager()
+            plugin_manager.init_app(app)
+        :param app: The flask application.
+        :param plugins_base: The plugin folder where the plugins resides.
+        :param plugins_folder: The base folder for the application. It is used to build the plugins package name.
+        """
         self.plugins_folder = plugins_folder
         self.plugin_abspath = os.path.join(plugins_base or os.getcwd(), self.plugins_folder)
-        self.__plugins = []
-        if app is not None:
-            self.init_app(app)
         if not os.path.isdir(self.plugin_abspath):
             raise PluginError("Not Found Plugin Directory for %s" % self.plugin_abspath)
+
+        #: all locally stored plugins
+        #:
+        #: .. versionadded:: 0.1.4
+        self.__plugins = []
+
+        #: logging Logger instance
+        #:
+        #: .. versionadded:: 0.1.9
+        self.logger = kwargs.get("logger", logger)
+
+        #: initialize app via a factory
+        #:
+        #: .. versionadded:: 0.1.4
+        if app is not None:
+            self.init_app(app)
 
     def init_app(self, app):
         self.static_url_path = app.static_url_path
@@ -140,17 +160,20 @@ class PluginManager(object):
             for cep_func in self.get_all_cep["teardown_request_hook"]:
                 cep_func(exception=exception)
 
+        if not hasattr(app, 'extensions'):
+            app.extensions = {}
+        app.extensions['pluginkit'] = self
         app.plugin_manager = self
         self.app = app
 
     def __scanPlugins(self):
         """ 扫描插件目录 """
-        logger.info("Initialization Plugins Start, loadPlugins path: %s" % self.plugin_abspath)
+        self.logger.info("Initialization Plugins Start, loadPlugins path: %s" % self.plugin_abspath)
         if os.path.isdir(self.plugin_abspath):
             for package in os.listdir(self.plugin_abspath):
                 _plugin_path = os.path.join(self.plugin_abspath, package)
                 if os.path.isdir(_plugin_path) and os.path.isfile(os.path.join(_plugin_path, "__init__.py")):
-                    logger.info("find plugin package: %s" % package)
+                    self.logger.info("find plugin package: %s" % package)
                     #: 动态加载模块(plugins.package): 可以查询自定义的信息, 并通过getPluginClass获取插件的类定义
                     plugin = __import__("{0}.{1}".format(self.plugins_folder, package), fromlist=[self.plugins_folder, ])
                     #: 检测插件信息
@@ -188,7 +211,7 @@ class PluginManager(object):
                                 plugin_tep = {tep:dict(HTMLFile=str, HTMLString=str), tep...}
                             """
                             tep = i.register_tep()
-                            #logger.info("The plugin {0} wants to register the following template extension points: {1}".format(package, tep))
+                            self.logger.info("The plugin {0} wants to register the following template extension points: {1}".format(package, tep))
                             if isinstance(tep, dict):
                                 newTep = dict()
                                 for event, tpl in tep.iteritems():
@@ -203,27 +226,27 @@ class PluginManager(object):
                                     else:
                                         raise PluginError("Invalid TEP Format")
                                 pluginInfo.update(plugin_tep=newTep)
-                                logger.info("Register TEP Success")
+                                self.logger.info("Register TEP Success")
                             else:
-                                logger.error("Register TEP Failed, not a dict")
+                                self.logger.error("Register TEP Failed, not a dict")
                         #: 注册上下文扩展点
                         if hasattr(i, "register_cep"):
                             cep = i.register_cep()
-                            #logger.info("The plugin {0} wants to register the following context extension points: {1}".format(package, cep))
+                            self.logger.info("The plugin {0} wants to register the following context extension points: {1}".format(package, cep))
                             if isinstance(cep, dict):
                                 pluginInfo.update(plugin_cep=cep)
-                                logger.info("Register CEP Success")
+                                self.logger.info("Register CEP Success")
                             else:
-                                logger.error("Register CEP Failed, not a dict")
+                                self.logger.error("Register CEP Failed, not a dict")
                         #: 注册蓝图扩展点
                         if hasattr(i, "register_bep"):
                             bep = i.register_bep()
-                            #logger.info("The plugin {0} wants to register the following blueprint extension points: {1}".format(package, bep))
+                            self.logger.info("The plugin {0} wants to register the following blueprint extension points: {1}".format(package, bep))
                             if isinstance(bep, dict):
                                 pluginInfo.update(plugin_bep=bep)
-                                logger.info("Register BEP Success")
+                                self.logger.info("Register BEP Success")
                             else:
-                                logger.error("Register BEP Failed, not a dict")
+                                self.logger.error("Register BEP Failed, not a dict")
                         #: 注册样式扩展点
                         if hasattr(i, "register_yep"):
                             # 注册所有插件的层叠样式表(css)文件
@@ -244,13 +267,13 @@ class PluginManager(object):
                             else:
                                 raise PluginError("Register YEP Failed, not str or list or tuple")
                             pluginInfo.update(plugin_yep=newCSS)
-                            logger.info("Register YEP Success")
+                            self.logger.info("Register YEP Success")
                         #: 注册信号扩展点`sep`
                         #: 加入全局插件中
                         if hasattr(i, "run") or hasattr(i, "register_tep") or hasattr(i, "register_cep") or hasattr(i, "register_bep") or hasattr(i, "register_yep"):
                             self.__plugins.append(pluginInfo)
                         else:
-                            logger.error("The current package does not have the `run` or `register_tep` or `register_cep` or `register_bep` or `register_yep` method")
+                            self.logger.error("The current package does not have the `run` or `register_tep` or `register_cep` or `register_bep` or `register_yep` method")
 
     def __loadPluginInfo(self, package, plugin):
         """ 组织插件信息
