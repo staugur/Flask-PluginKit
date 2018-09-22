@@ -29,7 +29,7 @@ __description__ = "A Plugin Demo"
 __author__      = "Mr.tao <staugur@saintic.com>"
 #: Plugin Version
 #: 插件版本
-__version__     = "0.1.0"
+__version__     = "0.1.1"
 #: Plugin Url
 #: 插件主页
 __url__         = "https://github.com/staugur/Flask-PluginKit"
@@ -85,7 +85,8 @@ class PluginDemoMain(PluginBase):
         from flask import make_response, jsonify, request
         ip = request.headers.get('X-Real-Ip', request.remote_addr)
         response = make_response(jsonify(msg="RateLimiter", ip=ip),429)
-        response.is_before_request_return = True
+        #去掉注释，将会拦截请求
+        #response.is_before_request_return = True
         return response
 
     def register_tep(self):
@@ -102,3 +103,7 @@ class PluginDemoMain(PluginBase):
         """注册蓝图入口, 返回蓝图路由前缀及蓝图名称"""
         bep = {"prefix": "/example", "blueprint": plugin_blueprint}
         return bep
+
+    def register_yep(self):
+        """注册样式扩展点"""
+        return "example/demo.css"

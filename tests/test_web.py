@@ -12,7 +12,7 @@ if not os.path.isdir(pd):
 
 # app1 with flask-pluginkit
 app1 = Flask("app1")
-PluginManager(app1, plugin_base="/tmp")
+PluginManager(app1, plugins_base="/tmp")
 app1.register_blueprint(blueprint)
 
 # app2 without flask-pluginkit

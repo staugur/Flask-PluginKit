@@ -20,11 +20,12 @@ import tarfile
 import zipfile
 import urllib2
 import logging
+from itertools import chain
 from cgi import parse_header
 from posixpath import basename
 from urlparse import urlsplit, parse_qs
 from tempfile import NamedTemporaryFile
-from flask import Response
+from flask import Response, render_template
 
 logger = logging.getLogger(__name__)
 
@@ -42,6 +43,10 @@ class ZipError(PluginError):
 
 
 class InstallError(PluginError):
+    pass
+
+
+class CSSNotFoundError(PluginError):
     pass
 
 
@@ -82,9 +87,9 @@ class PluginManager(object):
     ```
     """
 
-    def __init__(self, app=None, plugin_base=None, plugins_folder="plugins"):
+    def __init__(self, app=None, plugins_base=None, plugins_folder="plugins"):
         self.plugins_folder = plugins_folder
-        self.plugin_abspath = os.path.join(plugin_base or os.getcwd(), self.plugins_folder)
+        self.plugin_abspath = os.path.join(plugins_base or os.getcwd(), self.plugins_folder)
         self.__plugins = []
         if app is not None:
             self.init_app(app)
@@ -92,6 +97,7 @@ class PluginManager(object):
             raise PluginError("Not Found Plugin Directory for %s" % self.plugin_abspath)
 
     def init_app(self, app):
+        self.static_url_path = app.static_url_path
         self.__scanPlugins()
         # 自定义添加多模板文件夹
         app.jinja_loader = jinja2.ChoiceLoader([
@@ -102,8 +108,8 @@ class PluginManager(object):
         if isinstance(app.static_folder, list):
             app.static_folder += [p["plugin_ats_path"] for p in self.get_enabled_plugins if os.path.isdir(os.path.join(app.root_path, p["plugin_ats_path"]))]
         # 注册模板变量
-        app.jinja_env.globals["get_tep"] = self.get_tep
-        app.jinja_env.globals["get_tep_string"] = self.get_tep_string
+        app.jinja_env.globals["emit_tep"] = self.emit_tep
+        app.jinja_env.globals["emit_yep"] = self.emit_yep
 
         # 注册蓝图扩展点
         for bep in self.get_all_bep:
@@ -148,7 +154,11 @@ class PluginManager(object):
                     #: 动态加载模块(plugins.package): 可以查询自定义的信息, 并通过getPluginClass获取插件的类定义
                     plugin = __import__("{0}.{1}".format(self.plugins_folder, package), fromlist=[self.plugins_folder, ])
                     #: 检测插件信息
-                    if hasattr(plugin, "__name__") and hasattr(plugin, "__version__") and hasattr(plugin, "__description__") and hasattr(plugin, "__author__") and hasattr(plugin, "getPluginClass"):
+                    if hasattr(plugin, "__name__") and \
+                            hasattr(plugin, "__version__") and \
+                            hasattr(plugin, "__description__") and \
+                            hasattr(plugin, "__author__") and \
+                            hasattr(plugin, "getPluginClass"):
                         #: 获取插件信息
                         pluginInfo = self.__loadPluginInfo(package, plugin)
                         try:
@@ -163,7 +173,6 @@ class PluginManager(object):
                             return
                         #: 更新插件信息
                         pluginInfo.update(plugin_instance=i)
-                        #
                         #: 运行插件主类的run方法
                         if hasattr(i, "run"):
                             i.run()
@@ -215,12 +224,33 @@ class PluginManager(object):
                                 logger.info("Register BEP Success")
                             else:
                                 logger.error("Register BEP Failed, not a dict")
+                        #: 注册样式扩展点
+                        if hasattr(i, "register_yep"):
+                            # 注册所有插件的层叠样式表(css)文件
+                            yep = i.register_yep()
+                            newCSS = []
+                            if isinstance(yep, (unicode, str)):
+                                if os.path.isfile(os.path.join(self.plugin_abspath, package, "static", yep)) and \
+                                        yep.endswith(".css"):
+                                    newCSS.append(self.static_url_path + "/" + yep)
+                            elif isinstance(yep, (list, tuple)):
+                                for css in yep:
+                                    if isinstance(css, (unicode, str)) and \
+                                            os.path.isfile(os.path.join(self.plugin_abspath, package, "static", css)) and \
+                                            css.endswith(".css"):
+                                        newCSS.append(self.static_url_path + "/" + css)
+                                    else:
+                                        raise CSSNotFoundError("YEP CSS File Not Found: %s" % css)
+                            else:
+                                raise PluginError("Register YEP Failed, not str or list or tuple")
+                            pluginInfo.update(plugin_yep=newCSS)
+                            logger.info("Register YEP Success")
                         #: 注册信号扩展点`sep`
                         #: 加入全局插件中
-                        if hasattr(i, "run") or hasattr(i, "register_tep") or hasattr(i, "register_cep") or hasattr(i, "register_bep"):
+                        if hasattr(i, "run") or hasattr(i, "register_tep") or hasattr(i, "register_cep") or hasattr(i, "register_bep") or hasattr(i, "register_yep"):
                             self.__plugins.append(pluginInfo)
                         else:
-                            logger.error("The current package does not have the `run` or `register_tep` or `register_cep` or `register_bep` method")
+                            logger.error("The current package does not have the `run` or `register_tep` or `register_cep` or `register_bep` or `register_yep` method")
 
     def __loadPluginInfo(self, package, plugin):
         """ 组织插件信息
@@ -272,7 +302,8 @@ class PluginManager(object):
             "plugin_ats_path": os.path.join(self.plugins_folder, package, "static"),
             "plugin_tep": {},
             "plugin_cep": {},
-            "plugin_bep": {}
+            "plugin_bep": {},
+            "plugin_yep": {}
         }
 
     def __touch_file(self, filename):
@@ -349,23 +380,54 @@ class PluginManager(object):
         """蓝图扩展点"""
         return [plugin["plugin_bep"] for plugin in self.get_enabled_plugins if plugin["plugin_bep"]]
 
-    def get_tep(self, tep):
+    @property
+    def get_all_yep(self):
+        """层叠样式表(css)扩展点"""
+        return list(chain.from_iterable([plugin["plugin_yep"] for plugin in self.get_enabled_plugins if plugin["plugin_yep"]]))
+
+    def emit_tep(self, tep, typ="all"):
         """获取模板扩展点数据，请在模板中使用此函数，扩展点需要自己定义，方法如下：
         假设有一个扩展点名叫`tep`，只需要模板中启用自定义的扩展点:
+            ```
+            # 渲染某个扩展点的HTML代码和文件
+            {{ emit_tep('tep') }}
+            ```
+        参数：
+            @param tep str: 模板扩展点名称，这是唯一的，一个tep解析结果是list，内可以是html代码和文件
+            @param typ str: 渲染类型，all-渲染所有-默认，fil-渲染HTML文件，cod=渲染HTML代码
+        """
+        e = self.get_all_tep.get(tep) or dict(HTMLFile=[], HTMLString=[])
+        typ = "all" if not typ in ("fil", "cod") else typ
+        mtf = jinja2.Markup("".join(map(render_template, e["HTMLFile"])))
+        mtc = jinja2.Markup("".join(e["HTMLString"]))
+        if typ == "fil":
+            return mtf
+        elif typ == "cod":
+            return mtc
+        else:
+            return mtf + mtc
+
+    def emit_yep(self):
+        """获取样式扩展点数据，请在模板中<head></head>之间使用此函数，且应用需要支持多静态文件夹功能，即是用flask-multistatic初始化的app
+        假设以下模板，需要用emit_yep启用引入css文件：
         ```
-        # 仅引入HTML文件
-            {% for hf in get_tep('tep').HTMLFile %}{% include hf %}{% endfor %}
-        # 仅渲染HTML元素
-            {{ get_tep_string('tep') }}
-        # 上面语句等价于下面
-            {% for hs in get_tep('tep').HTMLString %}{{ hs }}{% endfor %}
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title></title>
+                {{ emit_yep() }}
+            </head>
+            <body>
+                Your HTML Code
+                {{ emit_tep('tep') }}
+            </body>
+            </html>
         ```
         """
-        return self.get_all_tep.get(tep) or dict(HTMLFile=[], HTMLString=[])
-
-    def get_tep_string(self, tep):
-        """获取模板扩展点HTMLString合并数据"""
-        return jinja2.Markup("".join(self.get_tep(tep)["HTMLString"]))
+        tpl = ''
+        for css in self.get_all_yep:
+            tpl += '<link rel="stylesheet" type="text/css" href="%s" />' % css
+        return jinja2.Markup(tpl)
 
 
 class PluginInstaller(object):

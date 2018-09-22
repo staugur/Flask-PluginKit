@@ -2,16 +2,17 @@
 <html>
 <head>
     <title>Example</title>
+    {{ emit_yep() }}
 </head>
 <body>
 
 <h1>Hello World!</h1>
 
 <h3>以下是插件输出的HTML代码</h3>
-    {{ get_tep_string('tep2') }}
+    {{ emit_tep('tep2') }}
 
 <h3>以下是插件引入的HTML文件</h3>
-    {% for hf in get_tep('tep1').HTMLFile %}{% include hf %}{% endfor %}
+    {{ emit_tep('tep1') }}
 
 </body>
 </html>

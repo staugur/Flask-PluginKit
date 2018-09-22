@@ -44,12 +44,14 @@ plugin.init_app(app)
 
 - ~~before_request_return扩展点~~
 - 注册上下文扩展点
-- 注册静态css(register_css)
+- ~~注册静态css(register_css)~~
+- 注册静态css时分类
 - 注册程序任意位置扩展点
-- 模板扩展点include改造
+- ~~模板扩展点include改造~~
 - 信号扩展点sep
 - ~~插件Web管理页面~~
 - Web管理页面插件安装和删除
+- 模板上下文排序
 
 
 ### 资源(Resources)
