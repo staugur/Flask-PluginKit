@@ -10,7 +10,7 @@
 安装(Installation)
 
 ```bash
-$ pip install Flask-PluginKit
+$ pip install -U Flask-PluginKit
 或(or)
 $ pip install -U https://github.com/staugur/Flask-PluginKit/archive/master.tar.gz
 ```
@@ -52,6 +52,7 @@ plugin.init_app(app)
 - Web管理页面插件安装和删除
 - 模板上下文排序
 - 插件配置和插件信息存储
+- web blueprint auth
 
 
 ### 资源(Resources)

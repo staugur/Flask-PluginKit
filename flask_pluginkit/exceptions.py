@@ -1,0 +1,30 @@
+# -*- coding: utf-8 -*-
+"""
+    Flask-PluginKit
+    ~~~~~~~~~~~~~~
+
+    Exception Classes
+
+    :copyright: (c) 2018 by staugur.
+    :license: MIT, see LICENSE for more details.
+"""
+
+
+class PluginError(Exception):
+    pass
+
+
+class TarError(PluginError):
+    pass
+
+
+class ZipError(PluginError):
+    pass
+
+
+class InstallError(PluginError):
+    pass
+
+
+class CSSNotFoundError(PluginError):
+    pass

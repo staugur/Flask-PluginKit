@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .flask_pluginkit import PluginError, TarError, ZipError, InstallError, PluginManager, PluginInstaller
+from .exceptions import PluginError, TarError, ZipError, InstallError, CSSNotFoundError
+from .flask_pluginkit import PluginManager
+from .installer import PluginInstaller
 from .web import blueprint
