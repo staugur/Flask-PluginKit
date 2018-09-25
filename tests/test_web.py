@@ -6,13 +6,9 @@ import unittest
 from flask import Flask, g
 from flask_pluginkit import PluginManager, blueprint
 
-pd = "/tmp/plugins"
-if not os.path.isdir(pd):
-    os.mkdir("/tmp/plugins")
-
 # app1 with flask-pluginkit
 app1 = Flask("app1")
-PluginManager(app1, plugins_base="/tmp")
+PluginManager(app1)
 app1.register_blueprint(blueprint)
 
 # app2 without flask-pluginkit

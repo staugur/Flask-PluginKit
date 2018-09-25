@@ -26,5 +26,5 @@ class InstallError(PluginError):
     pass
 
 
-class CSSNotFoundError(PluginError):
+class CSSLoadError(PluginError):
     pass

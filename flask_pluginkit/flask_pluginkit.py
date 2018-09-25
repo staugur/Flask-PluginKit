@@ -14,9 +14,8 @@ import re
 import sys
 import jinja2
 import logging
-from itertools import chain
 from flask import Response, render_template
-from .exceptions import PluginError, CSSNotFoundError
+from .exceptions import PluginError, CSSLoadError
 
 logger = logging.getLogger(__name__)
 
@@ -68,8 +67,6 @@ class PluginManager(object):
         """
         self.plugins_folder = plugins_folder
         self.plugin_abspath = os.path.join(plugins_base or os.getcwd(), self.plugins_folder)
-        if not os.path.isdir(self.plugin_abspath):
-            raise PluginError("Not Found Plugin Directory for %s" % self.plugin_abspath)
 
         #: all locally stored plugins
         #:
@@ -140,7 +137,7 @@ class PluginManager(object):
     def __scanPlugins(self):
         """ 扫描插件目录 """
         self.logger.info("Initialization Plugins Start, loadPlugins path: %s" % self.plugin_abspath)
-        if os.path.isdir(self.plugin_abspath):
+        if os.path.isdir(self.plugin_abspath) and os.path.isfile(os.path.join(self.plugin_abspath, "__init__.py")):
             for package in os.listdir(self.plugin_abspath):
                 _plugin_path = os.path.join(self.plugin_abspath, package)
                 if os.path.isdir(_plugin_path) and os.path.isfile(os.path.join(_plugin_path, "__init__.py")):
@@ -173,16 +170,15 @@ class PluginManager(object):
                         #: 注册模板扩展点
                         if hasattr(i, "register_tep"):
                             """ 模板扩展点要求：
-                            返回格式：
-                                return {tep_1: HTMLFile, tep_2: HTMLString}
-                            解释说明：
-                                1. 必须返回dict，key即tep是扩展点标识名，每个扩展点只能包含一种模板类型，要么html，要么string，都是要求str类型，其他类型触发异常
-                                2. html模板类型后缀为`html、htm`认定为模板文件，将采用include方式引入
                             收录格式：
                                 plugin_tep = {tep:dict(HTMLFile=str, HTMLString=str), tep...}
+                            返回格式：
+                                return {tep_1: HTMLFile(str), tep_2: HTMLString(str)}
+                            解释说明：
+                                1. 必须是dict，key即tep是扩展点标识名，每个扩展点只能包含一种模板类型，要么html，要么string，都是要求str类型，其他类型触发异常
+                                2. html模板类型后缀为`html、htm`认定为模板文件（其他认定为纯html代码），要真实存在，将采用`render_template`方式渲染，使用时可以指定渲染的模板类型和传入额外数据
                             """
                             tep = i.register_tep()
-                            self.logger.debug("The plugin {0} wants to register the following template extension points: {1}".format(package, tep))
                             if isinstance(tep, dict):
                                 newTep = dict()
                                 for event, tpl in tep.iteritems():
@@ -199,46 +195,57 @@ class PluginManager(object):
                                 pluginInfo.update(plugin_tep=newTep)
                                 self.logger.info("Register TEP Success")
                             else:
-                                self.logger.error("Register TEP Failed, not a dict")
+                                raise PluginError("Register TEP Failed, not a dict")
                         #: 注册上下文扩展点
                         if hasattr(i, "register_cep"):
                             cep = i.register_cep()
-                            self.logger.debug("The plugin {0} wants to register the following context extension points: {1}".format(package, cep))
                             if isinstance(cep, dict):
                                 pluginInfo.update(plugin_cep=cep)
                                 self.logger.info("Register CEP Success")
                             else:
-                                self.logger.error("Register CEP Failed, not a dict")
+                                raise PluginError("Register CEP Failed, not a dict")
                         #: 注册蓝图扩展点
                         if hasattr(i, "register_bep"):
                             bep = i.register_bep()
-                            self.logger.debug("The plugin {0} wants to register the following blueprint extension points: {1}".format(package, bep))
                             if isinstance(bep, dict):
                                 pluginInfo.update(plugin_bep=bep)
                                 self.logger.info("Register BEP Success")
                             else:
-                                self.logger.error("Register BEP Failed, not a dict")
+                                raise PluginError("Register BEP Failed, not a dict")
                         #: 注册样式扩展点
                         if hasattr(i, "register_yep"):
-                            # 注册所有插件的层叠样式表(css)文件
+                            """ 注册插件的层叠样式表(css)文件，要求：
+                            收录格式：
+                                plugin_yep = {yep: css, yep: [css, ...]}
+                            返回格式：
+                                return {yep: [css, ...], yep: [css, ...], ...}
+                            解释说明：
+                                1. 必须是dict，key即yep是css建议引入的页面名称，每个yep可以是单个css或一组css
+                                2. css后缀必须是`.css`，且真实存在
+                            """
                             yep = i.register_yep()
-                            newCSS = []
-                            if isinstance(yep, (unicode, str)):
-                                if os.path.isfile(os.path.join(self.plugin_abspath, package, "static", yep)) and \
-                                        yep.endswith(".css"):
-                                    newCSS.append(self.static_url_path + "/" + yep)
-                            elif isinstance(yep, (list, tuple)):
-                                for css in yep:
-                                    if isinstance(css, (unicode, str)) and \
-                                            os.path.isfile(os.path.join(self.plugin_abspath, package, "static", css)) and \
-                                            css.endswith(".css"):
-                                        newCSS.append(self.static_url_path + "/" + css)
+                            if isinstance(yep, dict):
+                                newYep = dict()
+                                for event, css in yep.iteritems():
+                                    if isinstance(css, (unicode, str)):
+                                        if os.path.isfile(os.path.join(self.plugin_abspath, package, "static", css)) and css.endswith(".css"):
+                                            newYep[event] = [self.static_url_path + "/" + css]
+                                        else:
+                                            raise CSSLoadError("YEP CSS File Is Invalid: %s" % css)
+                                    elif isinstance(css, (list, tuple)):
+                                        newCss = []
+                                        for ac in css:
+                                            if isinstance(ac, (unicode, str)) and os.path.isfile(os.path.join(self.plugin_abspath, package, "static", ac)) and ac.endswith(".css"):
+                                                newCss.append(self.static_url_path + "/" + ac)
+                                            else:
+                                                raise CSSLoadError("YEP CSS File Is Invalid: %s" % ac)
+                                        newYep[event] = newCss
                                     else:
-                                        raise CSSNotFoundError("YEP CSS File Not Found: %s" % css)
+                                        raise PluginError("Invalid YEP Format")
+                                pluginInfo.update(plugin_yep=newYep)
+                                self.logger.info("Register YEP Success")
                             else:
-                                raise PluginError("Register YEP Failed, not str or list or tuple")
-                            pluginInfo.update(plugin_yep=newCSS)
-                            self.logger.info("Register YEP Success")
+                                raise PluginError("Register YEP Failed, not a dict")
                         #: 注册信号扩展点`sep`
                         #: 加入全局插件中
                         if hasattr(i, "run") or hasattr(i, "register_tep") or hasattr(i, "register_cep") or hasattr(i, "register_bep") or hasattr(i, "register_yep"):
@@ -371,15 +378,24 @@ class PluginManager(object):
 
     @property
     def get_all_bep(self):
-        """蓝图扩展点"""
+        """蓝图扩展点, Blueprint extension point"""
         return [plugin["plugin_bep"] for plugin in self.get_enabled_plugins if plugin["plugin_bep"]]
 
     @property
     def get_all_yep(self):
-        """层叠样式表(css)扩展点"""
-        return list(chain.from_iterable([plugin["plugin_yep"] for plugin in self.get_enabled_plugins if plugin["plugin_yep"]]))
+        """层叠样式表(css)扩展点, YangShi extension point
+        # 返回dict，格式如下
+            {yep: [css...], ...}
+        """
+        yeps = {}
+        for p in self.get_enabled_plugins:
+            # p是插件信息、e是扩展点名称
+            for e, v in p["plugin_yep"].iteritems():
+                yep = yeps.get(e, []) + v
+                yeps[e] = yep
+        return yeps
 
-    def emit_tep(self, tep, typ="all"):
+    def emit_tep(self, tep, typ="all", **context):
         """获取模板扩展点数据，请在模板中使用此函数，扩展点需要自己定义，方法如下：
         假设有一个扩展点名叫`tep`，只需要模板中启用自定义的扩展点:
             ```
@@ -389,10 +405,11 @@ class PluginManager(object):
         参数：
             @param tep str: 模板扩展点名称，这是唯一的，一个tep解析结果是list，内可以是html代码和文件
             @param typ str: 渲染类型，all-渲染所有-默认，fil-渲染HTML文件，cod=渲染HTML代码
+            @param context dict: 传递给模板的额外数据
         """
         e = self.get_all_tep.get(tep) or dict(HTMLFile=[], HTMLString=[])
         typ = "all" if not typ in ("fil", "cod") else typ
-        mtf = jinja2.Markup("".join(map(render_template, e["HTMLFile"])))
+        mtf = jinja2.Markup("".join([render_template(i, **context) for i in e["HTMLFile"]]))
         mtc = jinja2.Markup("".join(e["HTMLString"]))
         if typ == "fil":
             return mtf
@@ -401,7 +418,7 @@ class PluginManager(object):
         else:
             return mtf + mtc
 
-    def emit_yep(self):
+    def emit_yep(self, yep):
         """获取样式扩展点数据，请在模板中<head></head>之间使用此函数，且应用需要支持多静态文件夹功能，即是用flask-multistatic初始化的app
         假设以下模板，需要用emit_yep启用引入css文件：
         ```
@@ -417,8 +434,11 @@ class PluginManager(object):
             </body>
             </html>
         ```
+        参数：
+            @param yep str: 样式扩展点名称，唯一的，一个yep解析结果为list，是可以直接使用的`link css`代码
         """
+        e = self.get_all_yep.get(yep) or []
         tpl = ''
-        for css in self.get_all_yep:
+        for css in e:
             tpl += '<link rel="stylesheet" type="text/css" href="%s" />' % css
         return jinja2.Markup(tpl)
