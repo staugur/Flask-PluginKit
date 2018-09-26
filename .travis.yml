@@ -3,8 +3,6 @@ python:
   - "2.7"
 sudo: enabled
 install:
-  - pip install setuptools twine wheel flask
-  - python setup.py build
-  - python setup.py install
-script:
-  - python setup.py test
+  - pip install -U setuptools twine wheel flask
+  - make dev
+script: make test
