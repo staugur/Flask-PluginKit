@@ -29,3 +29,9 @@ publish-test:
 
 publish-release:
 	python setup.py publish --release
+
+rst:
+	sphinx-apidoc -F -d 2 -H Flask-PluginKit -A staugur -o docs flask_pluginkit
+
+html:
+	sphinx-build -b html docs docs/html

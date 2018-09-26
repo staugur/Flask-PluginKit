@@ -40,7 +40,7 @@ class PluginManager(object):
     定义插件基类, 遵循格式如下:
     插件为目录, 目录名称为插件名称, 插件入口文件是__init__.py, 文件内包含name、description、version、author、license、url、README、state等插件信息.
     静态资源建议上传到第三方存储中.
-    ```
+    ..
     plugins/
     ├── plugin1
     │   ├── __init__.py
@@ -55,6 +55,8 @@ class PluginManager(object):
         └── templates
             └── plugin2
     ```
+
+
     """
 
     def __init__(self, app=None, plugins_base=None, plugins_folder="plugins", **kwargs):
@@ -313,12 +315,20 @@ class PluginManager(object):
             fd.write("")
 
     def get_plugin_info(self, plugin_name):
-        """获取插件信息"""
+        """获取插件信息
+
+        :param plugin_name: 
+
+        """
         if plugin_name:
             return next(i for i in self.get_all_plugins if i["plugin_name"] == plugin_name)
 
     def disable_plugin(self, plugin_name):
-        """禁用插件"""
+        """禁用插件
+
+        :param plugin_name: 
+
+        """
         plugin = self.get_plugin_info(plugin_name)
         ENABLED = os.path.join(self.plugin_abspath, plugin["plugin_package_name"], "ENABLED")
         if os.path.isfile(ENABLED):
@@ -326,7 +336,11 @@ class PluginManager(object):
         self.__touch_file(os.path.join(self.plugin_abspath, plugin["plugin_package_name"], "DISABLED"))
 
     def enable_plugin(self, plugin_name):
-        """启用插件"""
+        """启用插件
+
+        :param plugin_name: 
+
+        """
         plugin = self.get_plugin_info(plugin_name)
         DISABLED = os.path.join(self.plugin_abspath, plugin["plugin_package_name"], "DISABLED")
         if os.path.isfile(DISABLED):
@@ -335,12 +349,12 @@ class PluginManager(object):
 
     @property
     def get_all_plugins(self):
-        """ 获取所有插件 """
+        """获取所有插件"""
         return self.__plugins
 
     @property
     def get_enabled_plugins(self):
-        """ 获取所有启用的插件 """
+        """获取所有启用的插件"""
         return [p for p in self.get_all_plugins if p["plugin_state"] == "enabled"]
 
     @property
@@ -348,6 +362,8 @@ class PluginManager(object):
         """模板扩展点, Template extension point
         # 返回dict，格式如下：
             {tep: dict(HTMLFile=[], HTMLString=[]), tep...}
+
+
         """
         teps = {}
         for p in self.get_enabled_plugins:
@@ -368,6 +384,8 @@ class PluginManager(object):
         CEP: after_request_hook
         CEP: teardown_request_hook
         CEP: before_request_return
+
+
         """
         return dict(
             before_request_hook=[plugin["plugin_cep"]["before_request_hook"] for plugin in self.get_enabled_plugins if plugin["plugin_cep"].get("before_request_hook")],
@@ -386,6 +404,8 @@ class PluginManager(object):
         """层叠样式表(css)扩展点, YangShi extension point
         # 返回dict，格式如下
             {yep: [css...], ...}
+
+
         """
         yeps = {}
         for p in self.get_enabled_plugins:
@@ -403,9 +423,12 @@ class PluginManager(object):
             {{ emit_tep('tep') }}
             ```
         参数：
-            @param tep str: 模板扩展点名称，这是唯一的，一个tep解析结果是list，内可以是html代码和文件
-            @param typ str: 渲染类型，all-渲染所有-默认，fil-渲染HTML文件，cod=渲染HTML代码
-            @param context dict: 传递给模板的额外数据
+
+        :param tep: str: 模板扩展点名称，这是唯一的，一个tep解析结果是list，内可以是html代码和文件
+        :param typ: str: 渲染类型，all-渲染所有-默认，fil-渲染HTML文件，cod=渲染HTML代码 (Default value = "all")
+        :param context: dict: 传递给模板的额外数据
+        :param **context: 
+
         """
         e = self.get_all_tep.get(tep) or dict(HTMLFile=[], HTMLString=[])
         typ = "all" if not typ in ("fil", "cod") else typ
@@ -435,7 +458,9 @@ class PluginManager(object):
             </html>
         ```
         参数：
-            @param yep str: 样式扩展点名称，唯一的，一个yep解析结果为list，是可以直接使用的`link css`代码
+
+        :param yep: str: 样式扩展点名称，唯一的，一个yep解析结果为list，是可以直接使用的`link css`代码
+
         """
         e = self.get_all_yep.get(yep) or []
         tpl = ''
