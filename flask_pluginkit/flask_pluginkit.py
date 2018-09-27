@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
     Flask-PluginKit
-    ~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~
 
     PluginManager: load and run plugins.
 
@@ -36,35 +36,40 @@ class TemplateEventResult(list):
 
 
 class PluginManager(object):
-    """Flask Plugin Manager Extension
-    定义插件基类, 遵循格式如下:
-    插件为目录, 目录名称为插件名称, 插件入口文件是__init__.py, 文件内包含name、description、version、author、license、url、README、state等插件信息.
-    静态资源建议上传到第三方存储中.
-    ..
-    plugins/
-    ├── plugin1
-    │   ├── __init__.py
-    │   ├── LICENSE
-    │   ├── README
-    │   └── templates
-    │       └── plugin1
-    └── plugin2
-        ├── __init__.py
-        ├── LICENSE
-        ├── README
-        └── templates
-            └── plugin2
-    ```
+    """Flask Plugin Manager Extension, collects all plugins and maps the metadata to the plugin.
 
+    The plugin is a directory, the directory name is the plugin name, and the plugin entry file is **__init__.py**,
+    including __name__, __description__, __version__, __author__, __state__ and other plugin metadata.
+
+    A meaningful plugin structure should look like this::
+
+        plugins/
+        ├── plugin1
+        │   ├── __init__.py
+        │   ├── LICENSE
+        │   ├── README
+        │   └── templates
+        │       └── plugin1
+        └── plugin2
+            ├── __init__.py
+            ├── LICENSE
+            ├── README
+            └── templates
+                └── plugin2
 
     """
 
     def __init__(self, app=None, plugins_base=None, plugins_folder="plugins", **kwargs):
-        """Initializes the PluginManager. It is also possible to initialize the PluginManager via a factory. For example::
+        """Initializes the PluginManager. It is also possible to initialize the PluginManager via a factory.
+        For example::
+
             plugin_manager = PluginManager()
             plugin_manager.init_app(app)
+
         :param app: The flask application.
+
         :param plugins_base: The plugin folder where the plugins resides.
+
         :param plugins_folder: The base folder for the application. It is used to build the plugins package name.
         """
         self.plugins_folder = plugins_folder
@@ -89,29 +94,32 @@ class PluginManager(object):
     def init_app(self, app):
         self.static_url_path = app.static_url_path
         self.__scanPlugins()
-        # 自定义添加多模板文件夹
+
+        #: Custom add multiple template folders
         app.jinja_loader = jinja2.ChoiceLoader([
             app.jinja_loader,
             jinja2.FileSystemLoader([p["plugin_tpl_path"] for p in self.get_enabled_plugins if os.path.isdir(os.path.join(app.root_path, p["plugin_tpl_path"]))]),
         ])
-        # 自定义添加多静态文件夹，需要`flask-multistatic`扩展支持
+
+        #: Custom add more static folder, need ` flask - multistatic ` extension support
         if isinstance(app.static_folder, list):
             app.static_folder += [p["plugin_ats_path"] for p in self.get_enabled_plugins if os.path.isdir(os.path.join(app.root_path, p["plugin_ats_path"]))]
-        # 注册模板变量
+
+        #: Register template variable
         app.jinja_env.globals["emit_tep"] = self.emit_tep
         app.jinja_env.globals["emit_yep"] = self.emit_yep
 
-        # 注册蓝图扩展点
+        #: Register the blueprint extension point
         for bep in self.get_all_bep:
             app.register_blueprint(bep["blueprint"], url_prefix=bep["prefix"])
 
-        # 注册请求上下文扩展点
+        #: Register request context extension points
         @app.before_request
         def _before_request():
-            # 上下文扩展点之请求前
+            #: Before the request of the context extension point
             for cep_func in self.get_all_cep["before_request_hook"]:
                 cep_func()
-            # 上下文扩展点之拦截请求
+            #: Interception request for context extension point
             for cep_func in self.get_all_cep["before_request_return"]:
                 resp = cep_func()
                 if isinstance(resp, Response) and hasattr(resp, "is_before_request_return") and resp.is_before_request_return is True:
@@ -119,14 +127,14 @@ class PluginManager(object):
 
         @app.after_request
         def _after_request(response):
-            # 上下文扩展点之请求后(返回前且无异常)
+            #: After the request of the context extension point (before return and no exception)
             for cep_func in self.get_all_cep["after_request_hook"]:
                 cep_func(response=response)
             return response
 
         @app.teardown_request
         def _teardown_request(exception=None):
-            # 上下文扩展点之请求后(返回前无论异常)
+            #: After the request of the context extension point (no exception before return)
             for cep_func in self.get_all_cep["teardown_request_hook"]:
                 cep_func(exception=exception)
 
@@ -137,48 +145,59 @@ class PluginManager(object):
         self.app = app
 
     def __scanPlugins(self):
-        """ 扫描插件目录 """
+        """Scan plugin directory.
+
+        :returns: No return, but self.__plugins will be updated
+
+        :raises PluginError: raises an exception
+        """
         self.logger.info("Initialization Plugins Start, loadPlugins path: %s" % self.plugin_abspath)
         if os.path.isdir(self.plugin_abspath) and os.path.isfile(os.path.join(self.plugin_abspath, "__init__.py")):
             for package in os.listdir(self.plugin_abspath):
                 _plugin_path = os.path.join(self.plugin_abspath, package)
                 if os.path.isdir(_plugin_path) and os.path.isfile(os.path.join(_plugin_path, "__init__.py")):
                     self.logger.info("find plugin package: %s" % package)
-                    #: 动态加载模块(plugins.package): 可以查询自定义的信息, 并通过getPluginClass获取插件的类定义
+                    #: Dynamic load module (plugins.package): you can query custom information and get the plugin's class definition through getPluginClass
                     plugin = __import__("{0}.{1}".format(self.plugins_folder, package), fromlist=[self.plugins_folder, ])
-                    #: 检测插件信息
+                    #: Detection plugin information
                     if hasattr(plugin, "__name__") and \
                             hasattr(plugin, "__version__") and \
                             hasattr(plugin, "__description__") and \
                             hasattr(plugin, "__author__") and \
                             hasattr(plugin, "getPluginClass"):
-                        #: 获取插件信息
+                        #: Get plugin information
                         pluginInfo = self.__loadPluginInfo(package, plugin)
                         try:
-                            #: 获取插件主类并实例化
+                            #: Get the plugin main class and instantiate it
                             p = plugin.getPluginClass()
                             i = p()
                         except Exception, e:
                             raise PluginError("Load Plugin Error")
-                        #: 未启用时不执行后续方法
+                        #: Subsequent methods are not executed when not enabled
                         if pluginInfo["plugin_state"] != "enabled":
                             self.__plugins.append(pluginInfo)
                             continue
-                        #: 更新插件信息
+                        #: Update plugin information
                         pluginInfo.update(plugin_instance=i)
-                        #: 运行插件主类的run方法
+                        #: Run the *run* method of the plugin main class
                         if hasattr(i, "run"):
                             i.run()
-                        #: 注册模板扩展点
+                        #: Register the template extension point
                         if hasattr(i, "register_tep"):
-                            """ 模板扩展点要求：
-                            收录格式：
+                            """ Template extension point requirements:
+                            format:
                                 plugin_tep = {tep:dict(HTMLFile=str, HTMLString=str), tep...}
-                            返回格式：
+
+                            returns:
                                 return {tep_1: HTMLFile(str), tep_2: HTMLString(str)}
-                            解释说明：
-                                1. 必须是dict，key即tep是扩展点标识名，每个扩展点只能包含一种模板类型，要么html，要么string，都是要求str类型，其他类型触发异常
-                                2. html模板类型后缀为`html、htm`认定为模板文件（其他认定为纯html代码），要真实存在，将采用`render_template`方式渲染，使用时可以指定渲染的模板类型和传入额外数据
+
+                            explanation:
+                                1. This must be dict, where key means that tep is the extension point identifier,
+                                    and each extension point can contain only one template type,
+                                    either HTML or string, which requires STR type, and other types trigger exceptions
+                                2. HTML template type suffix for `html` or `htm` as template file (the other as pure HTML code),
+                                    to be real, will adopt a `render_template` way rendering,
+                                    using template type can be specified when rendering and introduced to additional data
                             """
                             tep = i.register_tep()
                             if isinstance(tep, dict):
@@ -198,7 +217,7 @@ class PluginManager(object):
                                 self.logger.info("Register TEP Success")
                             else:
                                 raise PluginError("Register TEP Failed, not a dict")
-                        #: 注册上下文扩展点
+                        #: Register context extension points
                         if hasattr(i, "register_cep"):
                             cep = i.register_cep()
                             if isinstance(cep, dict):
@@ -206,7 +225,7 @@ class PluginManager(object):
                                 self.logger.info("Register CEP Success")
                             else:
                                 raise PluginError("Register CEP Failed, not a dict")
-                        #: 注册蓝图扩展点
+                        #: Register the blueprint extension point
                         if hasattr(i, "register_bep"):
                             bep = i.register_bep()
                             if isinstance(bep, dict):
@@ -214,16 +233,19 @@ class PluginManager(object):
                                 self.logger.info("Register BEP Success")
                             else:
                                 raise PluginError("Register BEP Failed, not a dict")
-                        #: 注册样式扩展点
+                        #: Register the css extension point
                         if hasattr(i, "register_yep"):
-                            """ 注册插件的层叠样式表(css)文件，要求：
-                            收录格式：
+                            """Register the plugin's cascading style sheet (CSS) file, requirements:
+                            format:
                                 plugin_yep = {yep: css, yep: [css, ...]}
-                            返回格式：
+
+                            returns:
                                 return {yep: [css, ...], yep: [css, ...], ...}
-                            解释说明：
-                                1. 必须是dict，key即yep是css建议引入的页面名称，每个yep可以是单个css或一组css
-                                2. css后缀必须是`.css`，且真实存在
+
+                            explanation:
+                                1. This must be dict, and a key or an extension is the name of the page that CSS suggests to be introduced,
+                                    and each extension can be a single CSS or a set of CSS
+                                2. CSS suffix must be `.css`, and real
                             """
                             yep = i.register_yep()
                             if isinstance(yep, dict):
@@ -248,17 +270,21 @@ class PluginManager(object):
                                 self.logger.info("Register YEP Success")
                             else:
                                 raise PluginError("Register YEP Failed, not a dict")
-                        #: 注册信号扩展点`sep`
-                        #: 加入全局插件中
+                        #: Register signal extension points`sep`
+                        #: Add to the global plugin
                         if hasattr(i, "run") or hasattr(i, "register_tep") or hasattr(i, "register_cep") or hasattr(i, "register_bep") or hasattr(i, "register_yep"):
                             self.__plugins.append(pluginInfo)
                         else:
                             self.logger.error("The current package does not have the `run` or `register_tep` or `register_cep` or `register_bep` or `register_yep` method")
 
     def __loadPluginInfo(self, package, plugin):
-        """ 组织插件信息
-        @param package: 插件包名(位于plugins下的目录)，比如PluginDemo
-        @param plugin: 动态加载的插件模块
+        """ Organize plugin information.
+
+        :param package: Plugin package names (directories under plugins), such as PluginDemo
+
+        :param plugin: Dynamically loaded plugin modules
+
+        :returns: dict: plugin info
         """
         try:
             url = plugin.__url__
@@ -310,25 +336,17 @@ class PluginManager(object):
         }
 
     def __touch_file(self, filename):
-        """创建空文件"""
+        """Create an empty file"""
         with open(filename, "w") as fd:
             fd.write("")
 
     def get_plugin_info(self, plugin_name):
-        """获取插件信息
-
-        :param plugin_name: 
-
-        """
+        """Get plugin information"""
         if plugin_name:
             return next(i for i in self.get_all_plugins if i["plugin_name"] == plugin_name)
 
     def disable_plugin(self, plugin_name):
-        """禁用插件
-
-        :param plugin_name: 
-
-        """
+        """Disable a plugin (that is, create a DISABLED empty file) and restart the application to take effect"""
         plugin = self.get_plugin_info(plugin_name)
         ENABLED = os.path.join(self.plugin_abspath, plugin["plugin_package_name"], "ENABLED")
         if os.path.isfile(ENABLED):
@@ -336,11 +354,7 @@ class PluginManager(object):
         self.__touch_file(os.path.join(self.plugin_abspath, plugin["plugin_package_name"], "DISABLED"))
 
     def enable_plugin(self, plugin_name):
-        """启用插件
-
-        :param plugin_name: 
-
-        """
+        """Enable a plugin (that is, create a ENABLED empty file) and restart the application to take effect"""
         plugin = self.get_plugin_info(plugin_name)
         DISABLED = os.path.join(self.plugin_abspath, plugin["plugin_package_name"], "DISABLED")
         if os.path.isfile(DISABLED):
@@ -349,25 +363,22 @@ class PluginManager(object):
 
     @property
     def get_all_plugins(self):
-        """获取所有插件"""
+        """Get all plugins"""
         return self.__plugins
 
     @property
     def get_enabled_plugins(self):
-        """获取所有启用的插件"""
+        """Get all enabled plugins"""
         return [p for p in self.get_all_plugins if p["plugin_state"] == "enabled"]
 
     @property
     def get_all_tep(self):
-        """模板扩展点, Template extension point
-        # 返回dict，格式如下：
-            {tep: dict(HTMLFile=[], HTMLString=[]), tep...}
+        """Template extension point
 
-
+        :returns: dict: {tep: dict(HTMLFile=[], HTMLString=[]), tep...}
         """
         teps = {}
         for p in self.get_enabled_plugins:
-            # p是插件信息、e是扩展点名称、v是扩展点模板、f是模板类型、s是模板内容
             for e, v in p["plugin_tep"].iteritems():
                 tep = teps.get(e, dict())
                 tepHF = tep.get("HTMLFile", [])
@@ -379,13 +390,15 @@ class PluginManager(object):
 
     @property
     def get_all_cep(self):
-        """上下文扩展点, Context extension point, 分别对应请求前、请求后(返回前，无异常)、请求后(返回前，无论是否有异常)、请求前(直接拦截请求):
-        CEP: before_request_hook
-        CEP: after_request_hook
-        CEP: teardown_request_hook
-        CEP: before_request_return
+        """Context extension point.
 
+        * before_request_hook, Before request 
 
+        * after_request_hook, After request (no exception before return)
+
+        * teardown_request_hook, After request (before return, with or without exception)
+
+        * before_request_return, Before request (intercept request directly)
         """
         return dict(
             before_request_hook=[plugin["plugin_cep"]["before_request_hook"] for plugin in self.get_enabled_plugins if plugin["plugin_cep"].get("before_request_hook")],
@@ -396,39 +409,44 @@ class PluginManager(object):
 
     @property
     def get_all_bep(self):
-        """蓝图扩展点, Blueprint extension point"""
+        """Blueprint extension point"""
         return [plugin["plugin_bep"] for plugin in self.get_enabled_plugins if plugin["plugin_bep"]]
 
     @property
     def get_all_yep(self):
-        """层叠样式表(css)扩展点, YangShi extension point
-        # 返回dict，格式如下
-            {yep: [css...], ...}
+        """Cascading style sheet (CSS) extension points.
 
-
+        :returns: dict: {yep: [css...], ...}
         """
         yeps = {}
         for p in self.get_enabled_plugins:
-            # p是插件信息、e是扩展点名称
             for e, v in p["plugin_yep"].iteritems():
                 yep = yeps.get(e, []) + v
                 yeps[e] = yep
         return yeps
 
     def emit_tep(self, tep, typ="all", **context):
-        """获取模板扩展点数据，请在模板中使用此函数，扩展点需要自己定义，方法如下：
-        假设有一个扩展点名叫`tep`，只需要模板中启用自定义的扩展点:
-            ```
-            # 渲染某个扩展点的HTML代码和文件
-            {{ emit_tep('tep') }}
-            ```
-        参数：
+        """Emit a event(with tep) and gets the template extension point data(html code).
 
-        :param tep: str: 模板扩展点名称，这是唯一的，一个tep解析结果是list，内可以是html代码和文件
-        :param typ: str: 渲染类型，all-渲染所有-默认，fil-渲染HTML文件，cod=渲染HTML代码 (Default value = "all")
-        :param context: dict: 传递给模板的额外数据
-        :param **context: 
+        Please use this function in the template. The extension point needs to be defined by itself.
 
+        Suppose you have an extension point named `tep`, only need to enable custom extension points in the template, for examples::
+
+            #: It can render HTML code and files for an template extension point,
+            #: or even pass in extra data at render time
+            {{ emit_tep('tep', data=data) }}
+
+
+        :param tep: str: Template extension point name, which is unique, a tep parsing result is list, within which can be HTML code and files
+
+        :param typ: str: Render type, default value = "all"
+                        all - render all, is default;
+                        fil - render HTML file;
+                        cod - render HTML code
+
+        :param context: dict: Keyword parameter, additional data passed to the template
+
+        :returns: html code with :class:`~jinja2.Markup`.
         """
         e = self.get_all_tep.get(tep) or dict(HTMLFile=[], HTMLString=[])
         typ = "all" if not typ in ("fil", "cod") else typ
@@ -442,25 +460,28 @@ class PluginManager(object):
             return mtf + mtc
 
     def emit_yep(self, yep):
-        """获取样式扩展点数据，请在模板中<head></head>之间使用此函数，且应用需要支持多静态文件夹功能，即是用flask-multistatic初始化的app
-        假设以下模板，需要用emit_yep启用引入css文件：
-        ```
+        """Gets the css extension point data(html code).
+
+        Please use this function between in the template, and the application needs to support multiple static folder functions,
+        that is, the app initialized with flask-multistatic.
+
+        Assuming that the following templates need to be enabled for introducing CSS files using emit_metal, for examples::
+
             <!DOCTYPE html>
             <html>
             <head>
                 <title></title>
-                {{ emit_yep() }}
+                {{ emit_yep('yep') }}
             </head>
             <body>
                 Your HTML Code
                 {{ emit_tep('tep') }}
             </body>
             </html>
-        ```
-        参数：
 
-        :param yep: str: 样式扩展点名称，唯一的，一个yep解析结果为list，是可以直接使用的`link css`代码
+        :param yep: str: Name of css extension point, the only, a analytical results for the list or yep, can be used directly `link CSS` code
 
+        :returns: html code with :class:`~jinja2.Markup`.
         """
         e = self.get_all_yep.get(yep) or []
         tpl = ''

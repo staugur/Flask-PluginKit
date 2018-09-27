@@ -63,6 +63,7 @@ instance/
 
 # Sphinx documentation
 docs/_build/
+docs/html/
 
 # PyBuilder
 target/
@@ -99,3 +100,12 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+ENABLED
+DISABLED

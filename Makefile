@@ -6,6 +6,9 @@ help:
 	@echo "  test            run the tests"
 	@echo "  publish-test    package and upload a release to test.pypi.org"
 	@echo "  publish-release package and upload a release to pypi.org"
+	@echo "  init-docs       use the sphinx-quickstart initialization document catalogue quickly"
+	@echo "  rst             use the sphinx-apidoc extract documentation from code comments"
+	@echo "  html            use the sphinx-build based on reST build HTML file"
 
 clean:
 	find . -name '*.pyc' -exec rm -f {} +
@@ -30,8 +33,12 @@ publish-test:
 publish-release:
 	python setup.py publish --release
 
+init-docs:
+	sphinx-quickstart -q -p Flask-PluginKit -a staugur --ext-autodoc --ext-viewcode --no-makefile --no-batchfile docs
+
 rst:
-	sphinx-apidoc -F -d 2 -H Flask-PluginKit -A staugur -o docs flask_pluginkit
+	$(MAKE) dev
+	sphinx-apidoc -d 2 -f --ext-autodoc --ext-viewcode --private -o docs flask_pluginkit
 
 html:
-	sphinx-build -b html docs docs/html
+	sphinx-build -b html docs docs/_build/html

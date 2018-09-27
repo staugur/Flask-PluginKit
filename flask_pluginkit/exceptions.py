@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
     Flask-PluginKit
-    ~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~
 
     Exception Classes
 

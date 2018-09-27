@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
     Flask-PluginKit
-    ~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~
 
     PluginInstaller: install or remove plugin.
 
@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 
 
 class PluginInstaller(object):
-    """插件安装器，用于安装一个压缩格式的本地/远程插件"""
+    """plugin installer for installing a compressed local/remote plugin"""
 
     def __init__(self, plugin_abspath):
         self.plugin_abspath = plugin_abspath
@@ -34,16 +34,17 @@ class PluginInstaller(object):
             raise PluginError("Not Found Plugin Directory")
 
     def __isValidUrl(self, addr):
-        """检测UrlAddr是否为有效格式，例如
-        http://ip:port
-        https://abc.com
+        """Check if the UrlAddr is in a valid format, for example::
+
+            http://ip:port
+            https://abc.com
         """
         regex = re.compile(
-            r'^(?:http)s?://'  # http:// or https://
-            r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
-            r'localhost|'  # localhost...
-            r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ...or ip
-            r'(?::\d+)?'  # optional port
+            r'^(?:http)s?://'  #: http:// or https://
+            r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  #: domain...
+            r'localhost|'  #: localhost...
+            r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  #: ...or ip
+            r'(?::\d+)?'  #: optional port
             r'(?:/?|[/?]\S+)$', re.IGNORECASE)
         if addr and isinstance(addr, (str, unicode)):
             if regex.match(addr):
@@ -51,21 +52,21 @@ class PluginInstaller(object):
         return False
 
     def __isValidTGZ(self, suffix):
-        """判断后缀是否是`.tar.gz`或`.tgz`格式"""
+        """To determine whether the suffix `.tar.gz` or `.tgz` format"""
         if suffix and isinstance(suffix, (unicode, str)):
             if suffix.endswith(".tar.gz") or suffix.endswith(".tgz"):
                 return True
         return False
 
     def __isValidZIP(self, suffix):
-        """判断后缀是否是`.zip`格式"""
+        """Determine if the suffix is `.zip` format"""
         if suffix and isinstance(suffix, (unicode, str)):
             if suffix.endswith(".zip"):
                 return True
         return False
 
     def __isValidFilename(self, filename):
-        """判断filename是否是合法的"""
+        """Determine whether filename is valid"""
         if filename and isinstance(filename, (unicode, str)):
             if re.match(r'^[\w\d\_\-\.]+$', filename, re.I):
                 if self.__isValidTGZ(filename) or self.__isValidZIP(filename):
@@ -73,7 +74,7 @@ class PluginInstaller(object):
         return False
 
     def __getFilename(self, data, scene=1):
-        """从不同场景中获取data中filename，场景值参看`remote_download`中1、2、3、4"""
+        """To get the data from different scenarios in the filename, scene value see `remote_download` in 1, 2, 3, 4"""
         try:
             filename = None
             if scene == 1:
@@ -96,7 +97,7 @@ class PluginInstaller(object):
                 return filename
 
     def __getFilenameSuffix(self, filename):
-        """获取filename后缀"""
+        """Gets the filename suffix"""
         if filename and isinstance(filename, (unicode, str)):
             if self.__isValidTGZ(filename):
                 return ".tar.gz"
@@ -104,7 +105,7 @@ class PluginInstaller(object):
                 return ".zip"
 
     def __unpack_tgz(self, filename):
-        """解压`tar.gz`,`tgz`格式的压缩文件"""
+        """Unpack the `tar.gz`, `tgz` compressed file format"""
         if isinstance(filename, (str, unicode)) and self.__isValidTGZ(filename) and tarfile.is_tarfile(filename):
             with tarfile.open(filename, mode='r:gz') as t:
                 for name in t.getnames():
@@ -113,7 +114,7 @@ class PluginInstaller(object):
             raise TarError("Invalid Plugin Compressed File")
 
     def __unpack_zip(self, filename):
-        """解压`zip`格式的压缩文件"""
+        """Unpack the `zip` compressed file format"""
         if isinstance(filename, (str, unicode)) and self.__isValidZIP(filename) and zipfile.is_zipfile(filename):
             with zipfile.ZipFile(filename) as z:
                 for name in z.namelist():
@@ -122,13 +123,17 @@ class PluginInstaller(object):
             raise ZipError("Invalid Plugin Compressed File")
 
     def _remote_download(self, url):
-        """下载远程插件包，filename设置依照优先级有四种方法，每一种获取到合格的文件名时停止设置，最终无法获取合格有效的文件名时触发异常
-        1. url中添加`plugin_filename`参数
-        2. url中解析出文件名
-        3. 解析返回头中Content-Disposition
-        4. 解析返回头中Content-Type
+        """To download the remote plugin package,
+        there are four methods of setting filename according to priority,
+        each of which stops setting when a qualified filename is obtained,
+        and an exception is triggered when a qualified valid filename is ultimately unavailable.
+
+        1. Add url `plugin_filename` query parameters
+        2. The file name is resolved in the url, eg: http://xx.xx.com/plugin-v0.0.1.tar.gz
+        3. Parse the Content-Disposition in the return header
+        4. Parse the Content-Type in the return header
         """
-        # 预先根据前两步尝试设置filename
+        #: Try to set filename in advance based on the previous two steps
         if self.__isValidUrl(url):
             filename = self.__getFilename(url, scene=1)
             if not filename:
@@ -160,7 +165,7 @@ class PluginInstaller(object):
             raise InstallError("Invalid URL")
 
     def _local_upload(self, filepath, remove=False):
-        """本地插件包处理"""
+        """Local plugin package processing"""
         if os.path.isfile(filepath):
             filename = os.path.basename(os.path.abspath(filepath))
             if filename and self.__isValidFilename(filename):
@@ -176,7 +181,7 @@ class PluginInstaller(object):
             raise InstallError("Invalid Filepath")
 
     def addPlugin(self, method="remote", **kwargs):
-        """添加一个插件"""
+        """Add a plugin"""
         res = dict(code=1, msg=None)
         try:
             if method == "remote":
@@ -192,7 +197,7 @@ class PluginInstaller(object):
         return res
 
     def removePlugin(self, package):
-        """删除一个插件"""
+        """Remove a plugin"""
         res = dict(code=1, msg=None)
         if package and isinstance(package, (str, unicode)):
             path = os.path.join(self.plugin_abspath, package)
