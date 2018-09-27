@@ -15,7 +15,7 @@
 # import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
-
+from flask_pluginkit import version
 
 # -- Project information -----------------------------------------------------
 
@@ -26,7 +26,7 @@ author = u'staugur'
 # The short X.Y version
 version = u''
 # The full version, including alpha/beta/rc tags
-release = u''
+release = version
 
 
 # -- General configuration ---------------------------------------------------

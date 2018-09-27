@@ -32,7 +32,9 @@ Flask-PluginKit
 文档(Documentation)
 ~~~~~~~~~~~~~~~~~~~
 
-`点击这(Click here) <http://docs.saintic.com/754273>`__
+`使用文档(Usage Document) <http://docs.saintic.com/754273>`__
+
+`API文档(API Document) <https://flask-pluginkit.readthedocs.io>`__
 
 LICENSE
 ~~~~~~~
