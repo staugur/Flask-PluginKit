@@ -54,6 +54,7 @@ plugin.init_app(app)
 - 信号扩展点sep
 - Web管理页面插件安装和删除
 - 插件配置和插件信息存储
+- 允许使用requirements.txt安装额外的包
 
 
 ### 资源(Resources)
