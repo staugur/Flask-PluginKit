@@ -42,17 +42,18 @@ plugin.init_app(app)
 ### TODO
 
 - ~~before_request_return扩展点~~
-- 注册上下文扩展点
 - ~~注册静态css(register_css)~~
-- 注册静态css时分类
-- 注册程序任意位置扩展点
+- ~~注册静态css时分类~~
 - ~~模板扩展点include改造~~
-- 信号扩展点sep
 - ~~插件Web管理页面~~
-- Web管理页面插件安装和删除
+- ~~web blueprint auth(only BOOL, after extension)~~
+- ~~sphix rst docs~~
 - 模板上下文排序
+- 注册上下文扩展点
+- 注册程序任意位置扩展点
+- 信号扩展点sep
+- Web管理页面插件安装和删除
 - 插件配置和插件信息存储
-- web blueprint auth
 
 
 ### 资源(Resources)
@@ -65,7 +66,9 @@ plugin.init_app(app)
 
 ### 文档(Documentation)
 
-[点击这(Click here)](http://docs.saintic.com/754273)
+[使用教程(Click here)](http://docs.saintic.com/754273)
+
+[Api文档(Click here)](https://flask-pluginkit.readthedocs.io)
 
 
 ### LICENSE

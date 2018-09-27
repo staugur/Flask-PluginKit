@@ -44,9 +44,7 @@ LICENSE
 import os
 import unittest
 from setuptools import setup, Command
-
-
-version = '0.1.10'
+from flask_pluginkit import version, author, email
 
 
 def test_suite():
@@ -99,8 +97,8 @@ setup(
     version=version,
     url='https://github.com/staugur/Flask-PluginKit',
     license='MIT',
-    author='staugur',
-    author_email='staugur@saintic.com',
+    author=author,
+    author_email=email,
     keywords="flask plugin",
     description='Load and run plugins for your Flask application',
     long_description=__doc__,
