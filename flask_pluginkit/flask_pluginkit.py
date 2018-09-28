@@ -101,7 +101,7 @@ class PluginManager(object):
             jinja2.FileSystemLoader([p["plugin_tpl_path"] for p in self.get_enabled_plugins if os.path.isdir(os.path.join(app.root_path, p["plugin_tpl_path"]))]),
         ])
 
-        #: Custom add more static folder, need ` flask - multistatic ` extension support
+        #: Custom add more static folder, need `flask-multistatic` extension support
         if isinstance(app.static_folder, list):
             app.static_folder += [p["plugin_ats_path"] for p in self.get_enabled_plugins if os.path.isdir(os.path.join(app.root_path, p["plugin_ats_path"]))]
 

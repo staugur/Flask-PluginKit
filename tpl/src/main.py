@@ -21,7 +21,7 @@
 import os
 from config import GLOBAL
 from version import __version__
-from utils.tool import err_logger, access_logger
+from utils.tool import err_logger, access_logger, plugin_logger
 from utils.web import verify_sessionId, analysis_sessionId, get_redirect_url, get_userinfo
 from views import FrontBlueprint
 from flask import request, g, jsonify
@@ -44,7 +44,7 @@ app.config.update(
 )
 
 # 初始化插件管理器(自动扫描并加载运行)
-plugin = PluginManager(app)
+plugin = PluginManager(app, logger=plugin_logger)
 
 # 注册视图包中蓝图
 app.register_blueprint(FrontBlueprint)
