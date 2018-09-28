@@ -52,19 +52,6 @@ def url_check(addr):
             return True
     return False
 
-def ParseMySQL(mysql, callback="dict"):
-    protocol, dburl = mysql.split("://")
-    if "?" in mysql:
-        dbinfo, dbargs  = dburl.split("?")
-    else:
-        dbinfo, dbargs  = dburl, "charset=utf8&timezone=+8:00"
-    host,port,user,password,database = dbinfo.split(":")
-    charset, timezone = dbargs.split("&")[0].split("charset=")[-1] or "utf8", dbargs.split("&")[-1].split("timezone=")[-1] or "+8:00"
-    if callback in ("list", "tuple"):
-        return protocol,host,port,user,password,database,charset, timezone
-    else:
-        return {"Protocol": protocol, "Host": host, "Port": port, "Database": database, "User": user, "Password": password, "Charset": charset, "Timezone": timezone}
-
 def get_current_timestamp():
     """ 获取本地当前时间戳(10位): Unix timestamp：是从1970年1月1日（UTC/GMT的午夜）开始所经过的秒数，不考虑闰秒 """
     return int(time.time())
@@ -108,3 +95,32 @@ class DO(dict):
             return self[name]
         except KeyError:
             raise AttributeError(name)
+
+def ParseMySQL(mysql, callback="dict"):
+    """解析MYSQL配置段"""
+    if not mysql:
+        return None
+    protocol, dburl = mysql.split("://")
+    if "?" in mysql:
+        dbinfo, dbargs = dburl.split("?")
+    else:
+        dbinfo, dbargs = dburl, "charset=utf8&timezone=+8:00"
+    host, port, user, password, database = dbinfo.split(":")
+    charset, timezone = dbargs.split("&")[0].split("charset=")[-1] or "utf8", dbargs.split("&")[-1].split("timezone=")[-1] or "+8:00"
+    if callback in ("list", "tuple"):
+        return protocol, host, port, user, password, database, charset, timezone
+    else:
+        return {"Protocol": protocol, "Host": host, "Port": port, "Database": database, "User": user, "Password": password, "Charset": charset, "Timezone": timezone}
+
+def create_redis_engine():
+    """ 创建redis连接 """
+    from redis import from_url
+    from config import REDIS as REDIS_URL
+    return from_url(REDIS_URL)
+
+def create_mysql_engine(mysql_url=None):
+    """ 创建mysql连接 """
+    from torndb import Connection
+    from config import MYSQL as MYSQL_URL
+    protocol, host, port, user, password, database, charset, timezone = ParseMySQL(mysql_url or MYSQL_URL, callback="tuple")
+    return Connection(host="{}:{}".format(host, port), database=database, user=user, password=password, time_zone=timezone, charset=charset)

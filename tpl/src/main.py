@@ -26,7 +26,7 @@ from utils.web import verify_sessionId, analysis_sessionId, get_redirect_url, ge
 from views import FrontBlueprint
 from flask import request, g, jsonify
 from flask_multistatic import MultiStaticFlask as Flask
-from flask_pluginkit import PluginManager
+from flask_pluginkit import PluginManager, blueprint
 
 __author__ = 'staugur'
 __email__ = 'staugur@saintic.com'
@@ -37,7 +37,10 @@ __date__ = 'xxx'
 # 初始化定义application
 app = Flask(__name__)
 app.config.update(
-    SECRET_KEY=os.urandom(24)
+    SECRET_KEY=os.urandom(24),
+    PLUGINKIT_AUTHMETHOD="BOOL",
+    PLUGINKIT_GUNICORN_ENABLED=True,
+    PLUGINKIT_GUNICORN_PROCESSNAME="gunicorn: master [{}]".format(GLOBAL["ProcessName"])
 )
 
 # 初始化插件管理器(自动扫描并加载运行)
@@ -45,6 +48,7 @@ plugin = PluginManager(app)
 
 # 注册视图包中蓝图
 app.register_blueprint(FrontBlueprint)
+app.register_blueprint(blueprint, url_prefix="/PluginManager")
 
 # 添加模板上下文变量
 @app.context_processor
@@ -106,25 +110,6 @@ def Permission_denied(error=None):
         "code": 403
     }
     return jsonify(message), 403
-
-
-@app.route('/restart')
-def restart_server():
-    res = dict(msg=None, code=1)
-    try:
-        import signal, psutil
-    except ImportError:
-        res.update(msg="No module")
-    else:
-        # gunicorn masterpid
-        pid = os.getppid()
-        p = psutil.Process(pid)
-        err_logger.debug("pid: %s, name: %s" %(pid, p.name()))
-        if "gunicorn: master [{}]".format(GLOBAL["ProcessName"]) == p.name():
-            # 重载gunicorn
-            os.kill(pid, signal.SIGHUP)
-            res.update(code=0)
-    return jsonify(res)
 
 
 if __name__ == '__main__':

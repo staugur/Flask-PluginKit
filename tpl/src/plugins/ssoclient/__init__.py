@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    ProcessName_XXX.plugins.ssoclient
-    ~~~~~~~~~~~~~~
+    plugins.ssoclient
+    ~~~~~~~~~~~~~~~~~
 
     SSO Client
 

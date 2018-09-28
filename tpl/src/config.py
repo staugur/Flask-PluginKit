@@ -43,12 +43,12 @@ SSO = {
 }
 
 
-MYSQL = getenv("xxx_mysql_url")
+#MYSQL = getenv("xxx_mysql_url")
 #MYSQL数据库连接信息
 #mysql://host:port:user:password:database?charset=&timezone=
 
 
-REDIS = getenv("xxx_redis_url")
+#REDIS = getenv("xxx_redis_url")
 #Redis数据库连接信息，格式：
 #redis://[:password]@host:port/db
 #host,port必填项,如有密码,记得密码前加冒号,比如redis://localhost:6379/0
@@ -66,11 +66,11 @@ SYSTEM = {
     "JWT_SECRET_KEY": getenv("xxx_jwt_secret_key", "WBlE7_#qDf2vRb@vM!Zw#lqrg@rdd3A6"),
     # utils.jwt.JWTUtil类中所用加密key
 
-    "Sign": {
-        "version": getenv("xxx_sign_version", "v1"),
-        "accesskey_id": getenv("xxx_sign_accesskeyid", "accesskey_id"),
-        "accesskey_secret": getenv("xxx_sign_accesskeysecret", "accesskey_secret"),
-    }
+    # "Sign": {
+    #     "version": getenv("xxx_sign_version", "v1"),
+    #     "accesskey_id": getenv("xxx_sign_accesskeyid", "accesskey_id"),
+    #     "accesskey_secret": getenv("xxx_sign_accesskeysecret", "accesskey_secret"),
+    # }
     # utils.Signature.Signature类中所有签名配置
 }
 

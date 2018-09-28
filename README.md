@@ -2,7 +2,7 @@
 
 基于Flask的插件式开发工具(Web program plugin development kit based on flask).
 
-[![Build Status](https://travis-ci.com/staugur/Flask-PluginKit.svg?branch=master)](https://travis-ci.com/staugur/Flask-PluginKit) [![Join the chat at https://gitter.im/staugur/Lobby](https://badges.gitter.im/staugur/Lobby.svg)](https://gitter.im/staugur/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg?style=popout)](https://pypi.org/project/Flask-PluginKit/) [![PyPI](https://img.shields.io/pypi/v/Flask-PluginKit.svg?style=popout)](https://pypi.org/project/Flask-PluginKit/)
+[![Build Status](https://travis-ci.com/staugur/Flask-PluginKit.svg?branch=master)](https://travis-ci.com/staugur/Flask-PluginKit) [![Join the chat at https://gitter.im/staugur/Lobby](https://badges.gitter.im/staugur/Lobby.svg)](https://gitter.im/staugur/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg?style=popout)](https://pypi.org/project/Flask-PluginKit/) [![PyPI](https://img.shields.io/pypi/v/Flask-PluginKit.svg?style=popout)](https://pypi.org/project/Flask-PluginKit/) [![Documentation Status](https://readthedocs.org/projects/flask-pluginkit/badge/?version=latest)](https://flask-pluginkit.readthedocs.io/en/latest/?badge=latest)
 
 
 ### 使用概述(Overview)
@@ -55,13 +55,14 @@ plugin.init_app(app)
 - Web管理页面插件安装和删除
 - 插件配置和插件信息存储
 - 允许使用requirements.txt安装额外的包
+- 允许重载uwsgi
+- 添加http basic auth等其他认证
 
 
 ### 资源(Resources)
 
 * GitHub [https://github.com/staugur/Flask-PluginKit](https://github.com/staugur/Flask-PluginKit "https://github.com/staugur/Flask-PluginKit")
 * Author [https://www.saintic.com](https://www.saintic.com "https://www.saintic.com")
-* Docs [http://docs.saintic.com/754273](http://docs.saintic.com/754273 "http://docs.saintic.com/754273")
 * Issues [https://github.com/staugur/Flask-PluginKit/issues](https://github.com/staugur/Flask-PluginKit/issues "https://github.com/staugur/Flask-PluginKit/issues")
 
 
