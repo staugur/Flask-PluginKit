@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+V1.0.0
+-------
+
+Released in 2018-09-27
+
+-  make docs with sphinx
+
 V0.1.10
 -------
 
