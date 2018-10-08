@@ -20,7 +20,7 @@ clean:
 	rm -rf build dist *.egg-info +
 
 dev:
-	python setup.py build install
+	pip install .
 	$(MAKE) clean
 
 test:
