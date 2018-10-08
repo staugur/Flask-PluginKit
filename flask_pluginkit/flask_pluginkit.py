@@ -63,6 +63,10 @@ class PluginManager(object):
         """Initializes the PluginManager. It is also possible to initialize the PluginManager via a factory.
         For example::
 
+            from flask_pluginkit import Flask, PluginManager
+
+            app = Flask(__name__)
+
             plugin_manager = PluginManager()
             plugin_manager.init_app(app)
 
@@ -101,7 +105,7 @@ class PluginManager(object):
             jinja2.FileSystemLoader([p["plugin_tpl_path"] for p in self.get_enabled_plugins if os.path.isdir(os.path.join(app.root_path, p["plugin_tpl_path"]))]),
         ])
 
-        #: Custom add more static folder, need `flask-multistatic` extension support
+        #: Custom add more static folder, the requirement is the app initialized by :class:`~flask_pluginkit.Flask`.
         if isinstance(app.static_folder, list):
             app.static_folder += [p["plugin_ats_path"] for p in self.get_enabled_plugins if os.path.isdir(os.path.join(app.root_path, p["plugin_ats_path"]))]
 
@@ -118,10 +122,10 @@ class PluginManager(object):
         def _before_request():
             #: Before the request of the context extension point
             for cep_func in self.get_all_cep["before_request_hook"]:
-                cep_func()
-            #: Interception request for context extension point
-            for cep_func in self.get_all_cep["before_request_return"]:
                 resp = cep_func()
+                #: If the request is terminated, define the :class:`~flask.Response` using the likes of Response, and set is_before_request_return=True
+                #:
+                #: ..versionadded:: 1.0.1
                 if isinstance(resp, Response) and hasattr(resp, "is_before_request_return") and resp.is_before_request_return is True:
                     return resp
 
@@ -463,7 +467,7 @@ class PluginManager(object):
         """Gets the css extension point data(html code).
 
         Please use this function between in the template, and the application needs to support multiple static folder functions,
-        that is, the app initialized with flask-multistatic.
+        that is, the app initialized with :class:`~flask_pluginkit.Flask`.
 
         Assuming that the following templates need to be enabled for introducing CSS files using emit_metal, for examples::
 

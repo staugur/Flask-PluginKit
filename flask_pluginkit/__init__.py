@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-version = "1.0.0"
+version = "1.0.1"
 
 author = "staugur"
 
@@ -10,3 +10,4 @@ from .exceptions import PluginError, TarError, ZipError, InstallError, CSSLoadEr
 from .flask_pluginkit import PluginManager
 from .installer import PluginInstaller
 from .web import blueprint
+from .fixflask import Flask

@@ -48,6 +48,14 @@ flask\_pluginkit.web module
     :undoc-members:
     :show-inheritance:
 
+flask\_pluginkit.fixflask module
+--------------------------------
+
+.. automodule:: flask_pluginkit.fixflask
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 ---------
 CHANGELOG
 ---------

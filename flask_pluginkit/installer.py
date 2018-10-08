@@ -3,7 +3,7 @@
     Flask-PluginKit
     ~~~~~~~~~~~~~~~
 
-    PluginInstaller: install or remove plugin.
+    installer: install or remove plugin.
 
     :copyright: (c) 2018 by staugur.
     :license: MIT, see LICENSE for more details.
@@ -28,10 +28,18 @@ logger = logging.getLogger(__name__)
 class PluginInstaller(object):
     """plugin installer for installing a compressed local/remote plugin"""
 
-    def __init__(self, plugin_abspath):
+    def __init__(self, plugin_abspath, **kwargs):
+        """
+        :param plugin_abspath: The absolute path to the plugin directory.
+        """
         self.plugin_abspath = plugin_abspath
         if not os.path.isdir(self.plugin_abspath):
             raise PluginError("Not Found Plugin Directory")
+
+        #: logging Logger instance
+        #:
+        #: .. versionadded:: 1.0.1
+        self.logger = kwargs.get("logger", logger)
 
     def __isValidUrl(self, addr):
         """Check if the UrlAddr is in a valid format, for example::
@@ -91,7 +99,7 @@ class PluginInstaller(object):
                 if subtype:
                     filename = "." + subtype
         except Exception, e:
-            logger.warning(e)
+            self.logger.warning(e)
         else:
             if self.__isValidFilename(filename):
                 return filename
@@ -181,7 +189,20 @@ class PluginInstaller(object):
             raise InstallError("Invalid Filepath")
 
     def addPlugin(self, method="remote", **kwargs):
-        """Add a plugin"""
+        """Add a plugin, support only for `.tar.gz` or `.zip` compression packages.
+
+        :param method:
+            `remote`, download and unpack a remote plugin package;
+            `local`, unzip a local plugin package.
+
+        :param url: str: for method is remote, plugin can be downloaded from the address.
+
+        :param filepath: str: for method is local, plugin local absolute path
+
+        :param remove: Boolean: for method is local, remove the plugin source code package, default is False.
+
+        :returns: dict: add the result of the plugin, like dict(msg=str, code=int), code=0 is successful.
+        """
         res = dict(code=1, msg=None)
         try:
             if method == "remote":
@@ -197,7 +218,10 @@ class PluginInstaller(object):
         return res
 
     def removePlugin(self, package):
-        """Remove a plugin"""
+        """Remove a plugin
+
+        :param package: The plugin package name.
+        """
         res = dict(code=1, msg=None)
         if package and isinstance(package, (str, unicode)):
             path = os.path.join(self.plugin_abspath, package)

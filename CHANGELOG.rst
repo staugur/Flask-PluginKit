@@ -1,8 +1,16 @@
 CHANGELOG
 =========
 
+V1.0.1
+------
+
+Released in 2018-10-08
+
+-  Fix the problem that the plug-in relies on before_request
+-  Integration supports static multiple folders
+
 V1.0.0
--------
+------
 
 Released in 2018-09-27
 

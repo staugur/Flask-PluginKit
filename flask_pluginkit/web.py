@@ -3,7 +3,7 @@
     Flask-PluginKit
     ~~~~~~~~~~~~~~~
 
-    blueprint: Web server-side plugin management.
+    web: The server-side plug-in management blueprint.
 
     :copyright: (c) 2018 by staugur.
     :license: MIT, see LICENSE for more details.
