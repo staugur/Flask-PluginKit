@@ -4,5 +4,5 @@ python:
 sudo: enabled
 install:
   - pip install -U setuptools twine wheel flask
-  - make dev
+  - pip install .
 script: make test
