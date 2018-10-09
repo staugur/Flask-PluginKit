@@ -9,6 +9,8 @@
     :license: MIT, see LICENSE for more details.
 """
 
+import time
+import thread
 from flask import Blueprint, current_app, g, request, jsonify, render_template, make_response
 
 blueprint = Blueprint('flask_pluginkit', __name__, template_folder='templates')
@@ -81,12 +83,31 @@ def api():
                 ENV = current_app.config.get("ENV")
                 GUNICORN_ENABLED = current_app.config.get("PLUGINKIT_GUNICORN_ENABLED")
                 GUNICORN_PROCESSNAME = current_app.config.get("PLUGINKIT_GUNICORN_PROCESSNAME")
-                #: gunicorn masterpid
+
+                #: support uwsgi reloading process, don't need to set up process name,
+                #: the default name is uwsgi cannot be modified
+                #:
+                #: .. versionadded:: 1.0.2
+                UWSGI_ENABLED = current_app.config.get("PLUGINKIT_UWSGI_ENABLED")
+
+                #: gunicorn or uwsgi masterpid
                 pid = os.getppid()
                 p = psutil.Process(pid)
-                if ENV == "production" and GUNICORN_ENABLED == True and GUNICORN_PROCESSNAME == p.name():
-                    #: reload gunicorn
+
+                def reload(pid):
+                    """reload gunicorn or uwsgi
+                    .. versionadded:: 1.0.2
+                    """
+                    time.sleep(3)
                     os.kill(pid, signal.SIGHUP)
+
+                if ENV == "production" and GUNICORN_ENABLED is True and GUNICORN_PROCESSNAME == p.name():
+                    #: reload gunicorn
+                    thread.start_new_thread(reload, (pid, ))
+                    res.update(code=0)
+                elif ENV == "production" and UWSGI_ENABLED is True and "uwsgi" == p.name():
+                    #: reload uwsgi
+                    thread.start_new_thread(reload, (pid, ))
                     res.update(code=0)
                 else:
                     res.update(msg="According to the rules are not allowed to restart", code=20001)

@@ -20,6 +20,7 @@ clean:
 	rm -rf build dist *.egg-info +
 
 dev:
+	pip uninstall Flask-PluginKit -y
 	pip install .
 	$(MAKE) clean
 

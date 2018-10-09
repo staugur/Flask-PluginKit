@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+V1.0.2
+------
+
+Released in 2018-10-09
+
+-  reload uwsgi
+
 V1.0.1
 ------
 

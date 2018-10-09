@@ -130,7 +130,7 @@
     function reloadApp() {
         ajax("{{ url_for('.api', Action='reloadApp') }}", function(res) {
             setMessage("<scan class='has-text-primary'>Rebooted, the page will be refreshed...</scan>")
-            setTimeout("window.location.reload()", 3000);
+            setTimeout("window.location.reload()", 1000);
         });
     }
     $(document).on('click', '.notification > button.delete', function() {
