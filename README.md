@@ -10,17 +10,16 @@
 安装(Installation)
 
 ```bash
+# 正式版
 $ pip install -U Flask-PluginKit
-或(or)
+# 开发版
 $ pip install -U https://github.com/staugur/Flask-PluginKit/archive/master.tar.gz
 ```
 
 测试用例(TestCase)
 
 ```bash
-$ python tests/test_*.py
-或(or)
-$ python setup.py test
+$ make test
 ```
 
 普通模式(Usage)
