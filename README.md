@@ -47,6 +47,8 @@ plugin.init_app(app)
 - ~~插件Web管理页面~~
 - ~~web blueprint auth(only BOOL, after extension)~~
 - ~~sphix rst docs~~
+- ~~允许重载uwsgi~~
+- ~~添加http basic auth等其他认证~~
 - 模板上下文排序
 - 注册上下文扩展点
 - 注册程序任意位置扩展点
@@ -54,8 +56,6 @@ plugin.init_app(app)
 - Web管理页面插件安装和删除
 - 插件配置和插件信息存储
 - 允许使用requirements.txt安装额外的包
-- 允许重载uwsgi
-- 添加http basic auth等其他认证
 
 
 ### 资源(Resources)
