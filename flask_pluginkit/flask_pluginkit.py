@@ -89,6 +89,12 @@ class PluginManager(object):
         #: .. versionadded:: 0.1.9
         self.logger = kwargs.get("logger", logger)
 
+        #: Template sorting
+        #:
+        #: .. versionadded:: 1.2.0
+        self.stpl = kwargs.get("stpl", False)
+        self.stpl_reverse = kwargs.get("stpl_reverse", False)
+
         #: initialize app via a factory
         #:
         #: .. versionadded:: 0.1.4
@@ -209,7 +215,7 @@ class PluginManager(object):
                                 for event, tpl in tep.iteritems():
                                     if isinstance(tpl, (unicode, str)):
                                         if os.path.splitext(tpl)[-1] in (".html", ".htm"):
-                                            if os.path.isfile(os.path.join(self.plugin_abspath, package, "templates", tpl)):
+                                            if os.path.isfile(os.path.join(self.plugin_abspath, package, "templates", tpl.split("@")[-1] if "@" in tpl and self.stpl is True else tpl)):
                                                 newTep[event] = dict(HTMLFile=tpl)
                                             else:
                                                 raise jinja2.TemplateNotFound("TEP Template File Not Found: %s" % tpl)
@@ -396,19 +402,18 @@ class PluginManager(object):
     def get_all_cep(self):
         """Context extension point.
 
-        * before_request_hook, Before request 
+        * before_request_hook, Before request (intercept requests are allowed)
 
         * after_request_hook, After request (no exception before return)
 
         * teardown_request_hook, After request (before return, with or without exception)
 
-        * before_request_return, Before request (intercept request directly)
+        * before_request_return, Abandoned, please use `before_request_hook`
         """
         return dict(
             before_request_hook=[plugin["plugin_cep"]["before_request_hook"] for plugin in self.get_enabled_plugins if plugin["plugin_cep"].get("before_request_hook")],
             after_request_hook=[plugin["plugin_cep"]["after_request_hook"] for plugin in self.get_enabled_plugins if plugin["plugin_cep"].get("after_request_hook")],
             teardown_request_hook=[plugin["plugin_cep"]["teardown_request_hook"] for plugin in self.get_enabled_plugins if plugin["plugin_cep"].get("teardown_request_hook")],
-            before_request_return=[plugin["plugin_cep"]["before_request_return"] for plugin in self.get_enabled_plugins if plugin["plugin_cep"].get("before_request_return")],
         )
 
     @property
@@ -453,6 +458,10 @@ class PluginManager(object):
         :returns: html code with :class:`~jinja2.Markup`.
         """
         e = self.get_all_tep.get(tep) or dict(HTMLFile=[], HTMLString=[])
+        #: Disposable template sequence
+        if self.stpl is True:
+            e["HTMLFile"] = map(lambda tpl: tpl.split('@')[-1], sorted(e['HTMLFile'], key=lambda x: x.split('@')[0], reverse=self.stpl_reverse))
+            e["HTMLString"] = map(lambda tpl: tpl.split('@')[-1], sorted(e['HTMLString'], key=lambda x: x.split('@')[0], reverse=self.stpl_reverse))
         typ = "all" if not typ in ("fil", "cod") else typ
         mtf = jinja2.Markup("".join([render_template(i, **context) for i in e["HTMLFile"]]))
         mtc = jinja2.Markup("".join(e["HTMLString"]))

@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+V1.2.0
+------
+
+Released in 2018-10-11
+
+-  The template sequence
+-  Support HTTP Basic Auth
+
 V1.0.2
 ------
 

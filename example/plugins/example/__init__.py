@@ -96,7 +96,7 @@ class PluginDemoMain(PluginBase):
 
     def register_cep(self):
         """注册上下文入口, 返回扩展点名称及执行的函数"""
-        cep = {"after_request_hook": lambda *args,**kwargs: len(args) + len(kwargs), "before_request_return": self.limit}
+        cep = {"after_request_hook": lambda *args,**kwargs: len(args) + len(kwargs), "before_request_hook": self.limit}
         return cep
 
     def register_bep(self):
