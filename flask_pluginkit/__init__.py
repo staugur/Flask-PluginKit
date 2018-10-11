@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-version = "1.0.2"
+version = "1.2.0"
 
 author = "staugur"
 
@@ -11,3 +11,5 @@ from .flask_pluginkit import PluginManager
 from .installer import PluginInstaller
 from .web import blueprint
 from .fixflask import Flask
+
+__all__ = ["Flask", "PluginManager", "PluginInstaller", "blueprint", "PluginError", "TarError", "ZipError", "InstallError", "CSSLoadError"]

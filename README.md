@@ -49,13 +49,14 @@ plugin.init_app(app)
 - ~~sphix rst docs~~
 - ~~允许重载uwsgi~~
 - ~~添加http basic auth等其他认证~~
-- 模板上下文排序
+- ~~模板上下文排序~~
 - 注册上下文扩展点
 - 注册程序任意位置扩展点
 - 信号扩展点sep
 - Web管理页面插件安装和删除
 - 插件配置和插件信息存储
 - 允许使用requirements.txt安装额外的包
+- 自定义web认证
 
 
 ### 资源(Resources)

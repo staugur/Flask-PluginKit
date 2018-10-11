@@ -11,26 +11,67 @@
 
 import time
 import thread
-from flask import Blueprint, current_app, g, request, jsonify, render_template, make_response
+from functools import wraps
+from flask import Blueprint, current_app, g, request, jsonify, render_template, make_response, Response
 
 blueprint = Blueprint('flask_pluginkit', __name__, template_folder='templates')
 
 
 @blueprint.before_request
 def pluginkit_beforerequest():
-    #: blueprint access auth
+    """blueprint access auth"""
     authMethod = current_app.config.get("PLUGINKIT_AUTHMETHOD")
     authResult = dict(msg=None, code=1, method=authMethod)
+
+    def authTipmsg(authResult, code=403):
+        """make response message"""
+        return "%s Authentication failed [%s]: %s [%s]" % (code, authResult["method"], authResult["msg"], authResult["code"])
+
     if authMethod == "BOOL":
+        """Boolean Auth"""
         if hasattr(g, "signin") and g.signin is True:
             authResult.update(code=0)
         else:
             authResult.update(code=10000, msg="Invalid authentication field")
+    elif authMethod == "BASIC":
+        """HTTP Basic Auth"""
+
+        #: the realm parameter is reserved for defining protection spaces and
+        #: it's used by the authentication schemes to indicate a scope of protection.
+        #:
+        #: .. versionadded:: 1.2.0
+        authRealm = current_app.config.get("PLUGINKIT_AUTHREALM") or "Flask-PluginKit Login Required"
+
+        #: User and password configuration, format {user:pass, user:pass},
+        #: if format error, all authentication failure by default.
+        #:
+        #: .. versionadded:: 1.2.0
+        authUsers = current_app.config.get("PLUGINKIT_AUTHUSERS")
+
+        def verify_auth(username, password):
+            """Check the user and password"""
+            if isinstance(authUsers, dict) and username in authUsers:
+                return password == authUsers[username]
+            return False
+
+        def not_authenticated():
+            """Sends a 401 response that enables basic auth"""
+            return Response(authTipmsg(authResult, 401), 401,
+                            {'WWW-Authenticate': 'Basic realm="%s"' % authRealm})
+
+        #: Intercepts authentication and denies access if it fails
+        auth = request.authorization
+        if not auth or not verify_auth(auth.username, auth.password):
+            authResult.update(code=10001, msg="Invalid username or password")
+            return not_authenticated()
+        else:
+            authResult.update(code=0)
     else:
         authResult.update(code=0, msg="No authentication required", method=None)
+
     #: return response if code != 0
     if authResult["code"] != 0:
-        return make_response("403 Authentication failed [%s]: %s [%s]" % (authResult["method"], authResult["msg"], authResult["code"])), 403
+        return make_response(authTipmsg(authResult)), 403
 
     #: get all plugins based flask-pluginkit
     if hasattr(current_app, "plugin_manager"):
