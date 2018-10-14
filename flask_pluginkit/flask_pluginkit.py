@@ -509,11 +509,19 @@ class PluginManager(object):
             tpl += '<link rel="stylesheet" type="text/css" href="%s" />' % css
         return jinja2.Markup(tpl)
 
-    def storage(self):
-        """Common storage interface with :class:`~flask_pluginkit.LocalStorage` or :class:`~flask_pluginkit.RedisStorage`"""
+    def storage(self, sf=None, args=None):
+        """Common storage interface with :class:`~flask_pluginkit.LocalStorage` or :class:`~flask_pluginkit.RedisStorage`
+
+        :params sf: class based :class:`~flask_pluginkit.BaseStorage`
+
+        :params args: class init args
+
+        :returns class instance
+        """
+        from .utils import BaseStorage, LocalStorage, RedisStorage
+        if sf and isinstance(sf, BaseStorage):
+            return sf(args) if args else sf()
         if self.s3 == "local":
-            from .utils import LocalStorage
             return LocalStorage()
         elif self.s3 == "redis":
-            from .utils import RedisStorage
             return RedisStorage(self.s3_redis)
