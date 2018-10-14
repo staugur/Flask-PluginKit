@@ -111,7 +111,6 @@ setup(
     platforms='any',
     install_requires=[
         'Flask>=0.6',
-        'psutil'
     ],
     cmdclass={
         'publish': PublishCommand,

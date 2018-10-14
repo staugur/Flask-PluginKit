@@ -3,7 +3,7 @@
     Flask-PluginKit
     ~~~~~~~~~~~~~~~
 
-    PluginManager: load and run plugins.
+    pluginkit: load and run plugins.
 
     :copyright: (c) 2018 by staugur.
     :license: MIT, see LICENSE for more details.
@@ -94,6 +94,12 @@ class PluginManager(object):
         #: .. versionadded:: 1.2.0
         self.stpl = kwargs.get("stpl", False)
         self.stpl_reverse = kwargs.get("stpl_reverse", False)
+
+        #: Simple storage service(s3), currently optional: local or redis
+        #: May increase in the future: memcache
+        #:
+        #: .. versionadded:: 1.3.0
+        self.s3 = kwargs.get("s3")
 
         #: initialize app via a factory
         #:
@@ -501,3 +507,12 @@ class PluginManager(object):
         for css in e:
             tpl += '<link rel="stylesheet" type="text/css" href="%s" />' % css
         return jinja2.Markup(tpl)
+
+    def storage(self):
+        """Common storage interface with :class:`~flask_pluginkit.LocalStorage` or :class:`~flask_pluginkit.RedisStorage`"""
+        if self.s3 == "local":
+            from .utils import LocalStorage
+            return LocalStorage()
+        elif self.s3 == "redis":
+            from .utils import RedisStorage
+            return RedisStorage()
