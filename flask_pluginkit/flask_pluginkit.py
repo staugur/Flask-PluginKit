@@ -100,6 +100,7 @@ class PluginManager(object):
         #:
         #: .. versionadded:: 1.3.0
         self.s3 = kwargs.get("s3")
+        self.s3_redis = kwargs.get("s3_redis")
 
         #: initialize app via a factory
         #:
@@ -515,4 +516,4 @@ class PluginManager(object):
             return LocalStorage()
         elif self.s3 == "redis":
             from .utils import RedisStorage
-            return RedisStorage()
+            return RedisStorage(self.s3_redis)
