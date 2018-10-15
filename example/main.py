@@ -31,7 +31,7 @@ app.config["PLUGINKIT_AUTHREALM"] = "Flask-PluginKit Welcome"
 app.config["PLUGINKIT_AUTHUSERS"] = dict(admin="admin")
 
 # 初始化插件管理器(自动扫描并加载运行)
-plugin = PluginManager(app)
+plugin = PluginManager(app, s3="local")
 
 # 注册flask-pluginkit的蓝图
 app.register_blueprint(blueprint, url_prefix="/PluginManager")

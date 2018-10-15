@@ -16,7 +16,8 @@ from __future__ import absolute_import
 from libs.base import PluginBase
 #: Import the other modules here, and if it's your own module, use the relative Import. eg: from .lib import Lib
 #: 在这里导入其他模块, 如果有自定义包, 使用相对导入, 如: from .lib import Lib
-
+from flask import current_app
+from flask_pluginkit import LocalStorage
 
 #：Your plug-in name must be consistent with the plug-in directory name.
 #：你的插件名称，必须和插件目录名称等保持一致.
@@ -78,7 +79,8 @@ class PluginDemoMain(PluginBase):
 
     def run(self):
         """ 插件一般运行入口 """
-        pass
+        self.localstorage = LocalStorage()
+        self.localstorage.set(__name__, "is demo")
 
     def limit(self, **kwargs):
         """请求限流策略"""
@@ -87,6 +89,8 @@ class PluginDemoMain(PluginBase):
         response = make_response(jsonify(msg="RateLimiter", ip=ip),429)
         #去掉注释，将会拦截请求
         #response.is_before_request_return = True
+        applocalstorage = current_app.extensions['pluginkit'].storage()
+        print "storage,",applocalstorage.list==self.localstorage.list
         return response
 
     def register_tep(self):
