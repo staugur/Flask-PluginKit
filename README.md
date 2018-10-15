@@ -10,9 +10,9 @@
 安装(Installation)
 
 ```bash
-# 正式版
+# 正式版(Release)
 $ pip install -U Flask-PluginKit
-# 开发版
+# 开发版(Dev)
 $ pip install -U https://github.com/staugur/Flask-PluginKit/archive/master.tar.gz
 ```
 

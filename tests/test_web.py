@@ -4,11 +4,11 @@ import os
 import json
 import unittest
 from flask import Flask, g
-from flask_pluginkit import PluginManager, blueprint
+from flask_pluginkit import PluginManager, blueprint, LocalStorage
 
 # app1 with flask-pluginkit
 app1 = Flask("app1")
-PluginManager(app1)
+PluginManager(app1, s3="local")
 app1.register_blueprint(blueprint)
 
 # app2 without flask-pluginkit
@@ -38,6 +38,15 @@ class PMTest(unittest.TestCase):
         with app2.test_request_context('/'):
             app2.preprocess_request()
             self.assertFalse(hasattr(g, "plugin_manager"))
+
+    def test_storage(self):
+        with app1.test_request_context('/'):
+            app1.preprocess_request()
+            apps = app1.extensions['pluginkit'].storage()
+            ls = LocalStorage()
+            ls.set("test", True)
+            self.assertEqual(apps.list, ls.list)
+            self.assertTrue(apps.get("test"))
 
 
 if __name__ == '__main__':
