@@ -95,8 +95,9 @@ class PluginManager(object):
         self.stpl = kwargs.get("stpl", False)
         self.stpl_reverse = kwargs.get("stpl_reverse", False)
 
-        #: Simple storage service(s3), currently optional: local or redis
-        #: May increase in the future: memcache
+        #: Simple storage service(s3), currently optional: local or redis.
+        #: May increase in the future: memcache.
+        #: You can also inherit :class:`~flask_pluginkit.BaseStorage`, custom storage interface.
         #:
         #: .. versionadded:: 1.3.0
         self.s3 = kwargs.get("s3")
@@ -510,7 +511,8 @@ class PluginManager(object):
         return jinja2.Markup(tpl)
 
     def storage(self, sf=None, args=None):
-        """Common storage interface with :class:`~flask_pluginkit.LocalStorage` or :class:`~flask_pluginkit.RedisStorage`
+        """Common storage interface with :class:`~flask_pluginkit.LocalStorage` or :class:`~flask_pluginkit.RedisStorage`,
+        sf is a custom storage interface classes, args is its parameters, highest priority.
 
         :params sf: class based :class:`~flask_pluginkit.BaseStorage`
 

@@ -56,6 +56,30 @@ flask\_pluginkit.fixflask module
     :undoc-members:
     :show-inheritance:
 
+flask\_pluginkit.BaseStorage module
+--------------------------------
+
+.. automodule:: flask_pluginkit.BaseStorage
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+flask\_pluginkit.LocalStorage module
+--------------------------------
+
+.. automodule:: flask_pluginkit.LocalStorage
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+flask\_pluginkit.RedisStorage module
+--------------------------------
+
+.. automodule:: flask_pluginkit.RedisStorage
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 ---------
 CHANGELOG
 ---------

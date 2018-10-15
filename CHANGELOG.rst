@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+V1.3.0
+------
+
+Released in 2018-10-15
+
+-  Simple Storage Service(s3) for local and redis
+-  The custom storage for s3
+
 V1.2.0
 ------
 
