@@ -98,6 +98,7 @@ setup(
     name='Flask-PluginKit',
     version=version,
     url='https://github.com/staugur/Flask-PluginKit',
+    download_url="https://github.com/staugur/Flask-PluginKit/releases/tag/v%s" %version,
     license='MIT',
     author=author,
     author_email=email,
