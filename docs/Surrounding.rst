@@ -1,7 +1,7 @@
 fixflask
 --------
 
-这个文件是继承Flask的类，增加了一些功能，即支持多文件夹(来自于 ``flask-multistatic`` )、支持 ``before_request_top`` (此装饰器与before_request作用一致，区别是它将装饰的函数置于钩子首位)。
+这个文件是继承Flask的类，增加了一些功能，即支持多静态文件夹(来自于 ``flask-multistatic`` )、支持 ``before_request_top`` (此装饰器与before_request作用一致，区别是它将装饰的函数置于钩子首位)。
 
 
 使用方法::
