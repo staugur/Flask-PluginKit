@@ -1,43 +1,41 @@
-CHANGELOG
-=========
-
 V1.3.0
 ------
 
 Released in 2018-10-15
 
--  Simple Storage Service(s3) for local and redis
--  The custom storage for s3
+-  简单存储服务，用来给插件提供数据存储和读取
+-  本地存储和redis存储
+-  自定义存储
 
 V1.2.0
 ------
 
 Released in 2018-10-11
 
--  The template sequence
--  Support HTTP Basic Auth
+-  模板排序
+-  支持HTTP Basic Auth认证方式
 
 V1.0.2
 ------
 
 Released in 2018-10-09
 
--  reload uwsgi
+-  重载uwsgi
 
 V1.0.1
 ------
 
 Released in 2018-10-08
 
--  Fix the problem that the plug-in relies on before_request
--  Integration supports static multiple folders
+-  修复插件依赖于before_request的问题
+-  集成支持多静态文件夹
 
 V1.0.0
 ------
 
 Released in 2018-09-27
 
--  make docs with sphinx
+-  使用sphinx制作接口文档
 
 V0.1.10
 -------
@@ -62,7 +60,7 @@ V0.1.8
 Released in 2018-09-22
 
 -  层叠样式表扩展点，可在模板中引用
--  模板扩展点使用更改，去除get_tep、get_tep_strin，使用emit_tep代替，支持包含模板和HTML代码
+-  模板扩展点使用更改，去除get_tep、get_tep_string，使用emit_tep代替，支持包含模板和HTML代码
 
 V0.1.7
 ------

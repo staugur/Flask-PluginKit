@@ -19,8 +19,8 @@ from libs.base import PluginBase
 from flask import current_app
 from flask_pluginkit import LocalStorage
 
-#：Your plug-in name must be consistent with the plug-in directory name.
-#：你的插件名称，必须和插件目录名称等保持一致.
+#: Your plug-in name must be consistent with the plug-in directory name.
+#: 你的插件名称，必须和插件目录名称等保持一致.
 __name__        = "Demo"
 #: Plugin describes information. What does it do?
 #: 插件描述信息,什么用处.
@@ -109,5 +109,5 @@ class PluginDemoMain(PluginBase):
         return bep
 
     def register_yep(self):
-        """注册样式扩展点"""
+        """注册样式扩展点，返回扩展点及对应css文件"""
         return {"base": "example/demo.css"}

@@ -4,68 +4,38 @@ Flask-PluginKit
 
 .. currentmodule:: flask_pluginkit
 
-A plugin development tool based on Flask.
-Support for multiple extension types
-that you can use to create plug-ins without having to change the core code,
-
------------------
-Api Documentation
------------------
+一个基于Flask的插件开发工具，支持多种扩展类型，您可以用来创建插件而无需更改核心代码。
 
 .. contents::
    :local:
    :backlinks: none
 
-flask\_pluginkit.exceptions module
-----------------------------------
+--------
+快速开始
+--------
 
-.. automodule:: flask_pluginkit.exceptions
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. include:: ./Quickstart.rst
 
-flask\_pluginkit.flask\_pluginkit module
-----------------------------------------
+--------
+插件详解
+--------
 
-.. automodule:: flask_pluginkit.flask_pluginkit
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. include:: ./Detail.rst
 
-flask\_pluginkit.installer module
----------------------------------
+--------
+插件周边
+--------
 
-.. automodule:: flask_pluginkit.installer
-    :members:
-    :special-members:
-    :exclude-members: __weakref__
+.. include:: ./Surrounding.rst
 
-flask\_pluginkit.web module
----------------------------
+-----------------
+Api Documentation
+-----------------
 
-.. automodule:: flask_pluginkit.web
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. include:: ./Api.rst
 
-flask\_pluginkit.fixflask module
---------------------------------
-
-.. automodule:: flask_pluginkit.fixflask
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-flask\_pluginkit.utils module
---------------------------------
-
-.. automodule:: flask_pluginkit.utils
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
----------
-CHANGELOG
----------
+--------
+更新日志
+--------
 
 .. include:: ../CHANGELOG.rst
