@@ -68,9 +68,7 @@ plugin.init_app(app)
 
 ### 文档(Documentation)
 
-[使用教程(Click here)](http://docs.saintic.com/754273)
-
-[Api文档(Click here)](https://flask-pluginkit.readthedocs.io)
+[详细文档(Click here)](https://flask-pluginkit.readthedocs.io)
 
 
 ### LICENSE
