@@ -124,8 +124,8 @@ class PluginManager(object):
             app.static_folder += [p["plugin_ats_path"] for p in self.get_enabled_plugins if os.path.isdir(os.path.join(app.root_path, p["plugin_ats_path"]))]
 
         #: Register template variable
-        app.jinja_env.globals["emit_tep"] = self._emit_tep
-        app.jinja_env.globals["emit_yep"] = self._emit_yep
+        app.jinja_env.globals["emit_tep"] = self.emit_tep
+        app.jinja_env.globals["emit_yep"] = self.emit_yep
 
         #: Register the blueprint extension point
         for bep in self.get_all_bep:
@@ -442,7 +442,7 @@ class PluginManager(object):
                 yeps[e] = yep
         return yeps
 
-    def _emit_tep(self, tep, typ="all", **context):
+    def emit_tep(self, tep, typ="all", **context):
         """Emit a event(with tep) and gets the template extension point data(html code).
 
         Please use this function in the template. The extension point needs to be defined by itself.
@@ -480,7 +480,7 @@ class PluginManager(object):
         else:
             return mtf + mtc
 
-    def _emit_yep(self, yep):
+    def emit_yep(self, yep):
         """Gets the css extension point data(html code).
 
         Please use this function between in the template, and the application needs to support multiple static folder functions,
