@@ -1,5 +1,5 @@
-fixflask
---------
+fixflask.py
+-----------
 
 这个文件是继承Flask的类，增加了一些功能，即支持多静态文件夹(来自于 ``flask-multistatic`` )、支持 ``before_request_top`` (此装饰器与before_request作用一致，区别是它将装饰的函数置于钩子首位)。
 
@@ -9,10 +9,10 @@ fixflask
     from flask_pluginkit import Flask
     app = Flask(__name__)
 
-web
----
+web.py
+------
 
-这是一个蓝图，:class:`~flask_pluginkit.web.blueprint`, 在您的app中注册此蓝图，它提供一个页面展示插件列表，支持禁用、启用插件、重启app、访问认证。
+这是一个蓝图，:class:`~flask_pluginkit.blueprint`, 在您的app中注册此蓝图，它提供一个页面展示插件列表，支持禁用、启用插件、重启app、访问认证。
 
 当然，这个蓝图仅支持flask-pluginkit的 :class:`~flask_pluginkit.PluginManager` 初始化的app，没有此扩展，蓝图不可用。
 
@@ -52,7 +52,7 @@ web
 
     app.register_blueprint(blueprint, url_prefix="/PluginManager")
 
-installer
----------
+installer.py
+------------
 
-安装插件类, :class:`~flask_pluginkit.installer.PluginInstaller`, 支持添加http远程插件和本地插件。
+安装插件类, :class:`~flask_pluginkit.PluginInstaller`, 支持添加http远程插件和本地插件。

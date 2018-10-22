@@ -115,7 +115,42 @@
 
     用法: 
         * 要求返回字典，格式是: dict(扩展点=HTML字符串或模板文件)
-        * 以.html .htm结尾即模板文件，模板文件应该在插件包/templates下
+        * 以.html .htm结尾即模板文件，模板文件应该在"插件包/templates"下
+        * 建议您在插件templates下新建目录存放html文件，因为flask-pluginkit仅加载插件下templates目录，且不保证模板冲突，新建目录可以避免与其他插件模板文件冲突，导致无法正常引用。
+
+    示例-注册::
+
+        def register_tep(self):
+            return dict(base_header="example/header.html", base_footer="Copyright 2018.")
+
+        # 如上，您需要在插件目录下新建"templates/example"目录，并将header.html放入目录中，若不存在会引发 ``flask_pluginkit.exceptions.PluginError`` 异常。
+
+    示例-使用::
+
+        # 使用模板扩展点需要在HTML中渲染或在蓝图中通过 ``render_template`` 返回响应。
+
+        # 模板中。假设以下文件名为base.html是基础模板(插件目录/templates/example/base.html)，通过 ``emit_tep`` 引用，可以传入额外数据
+
+        <html>
+        <head>
+            {{ emit_tep("base_header") }}
+        </head>
+        <body>
+            {{ emit_tep("base_footer", extra=dict(a=1, b=True, c=[])) }}
+        </body>
+        </html>
+
+        ## PS: 亦可在其他模板中继承此base.html模板, {% extends "example/base.html" %}, 切记对于模板来说根目录是"插件下/templates"目录，所以强烈建议在此目录下新建子目录。
+
+        # 蓝图中。
+        from flask import Blueprint, render_template
+
+        plugin_blueprint = Blueprint("example", "example")
+        # 同 plugin_blueprint = Blueprint("example", "example", template_folder="templates")
+
+        @plugin_blueprint.route("/")
+        def plugin():
+            return render_template("example/base.html")
 
 方法: register_cep -> 注册请求上下文
 *************************************
@@ -126,6 +161,19 @@
         * 要求返回字典，格式是: dict(扩展点=function)，目前支持三种扩展点: before_request_hook、after_request_hook、teardown_request_hook
         * 三种扩展点分别是请求前、请求后(返回前)、请求后(返回前，无论是否发生异常)
         * before_reqest_hook还可以拦截请求，设置属性is_before_request_return=True，使用make_response、jsonify等响应函数或Response构造响应类
+        * 建议您在插件类中单独写一个方法，并传递给扩展点，其中after_request_hook会传入 ``response`` 参数，teardown_request_hook会传入 ``exception`` 参数，您扩展点的函数必须支持传入，并可以自行使用。
+
+    示例::
+
+        from flask import request, g
+
+        def set_login(self):
+            g.login_in = request.args.get("username") == "admin"
+
+        def register_cep(self):
+            return {"after_request_hook": lambda resp: resp, "before_request_hook": self.set_login}
+
+        # 如上，您的程序在运行后，每次请求前都会执行before_request_hook的self.set_login函数，请求后返回前会执行after_request_hook的匿名函数。
 
 方法: register_bep -> 注册蓝图上下文
 *************************************
@@ -134,34 +182,78 @@
 
     用法: 注册蓝图，要求返回字典，dict(blueprint=蓝图类, prefix=蓝图挂载点(比如/example))
 
+    示例::
+
+        from flask import Blueprint
+
+        plugin_blueprint = Blueprint("example", "example")
+
+        def register_bep(self):
+            return dict(blueprint=plugin_blueprint, prefix="/example")
+
+        # 如上，您的程序将会多一个蓝图，URL路径是/example。
+
 方法: register_yep -> 注册静态css文件
 *************************************
 
     环境: web请求上下文、模板中使用
 
-    用法: 要求返回字典，类似于register_tep，格式是: dict(扩展点=CSS文件)，CSS文件应该在插件包/static下
+    用法: 要求返回字典，类似于register_tep，格式是: dict(扩展点=CSS文件)，CSS文件应该在"插件包/static"目录下。
+
+    示例-注册::
+
+        def register_yep(self):
+            return {"base": "example/demo.css"}
+
+        # 如上，您的插件目录下应该创建"static/example"目录，并将demo.css放入其中，若不存在同样会引发 ``flask_pluginkit.exceptions.PluginError`` 异常。
+
+    示例-使用::
+
+        # 同注册模板上下文的使用方法，使用 ``emit_yep`` 渲染。
+
+        <html>
+        <head>
+            {{ emit_yep("base") }}
+        </head>
+        <body>
+            代码
+        </body
+        </html>
 
 简单存储
 *************************************
 
 v1.3.0支持简单存储服务，其配置姑且命名s3，初始化 ``PluginManager`` 时传递s3，值为local(本地文件)、redis(需要传递s3_redis参数，即redis_url)，目前仅支持这两种。
-不过您也可以自定义存储类，要求是继承自 :class:`~flask_pluginkit.utils.BaseStorage`, 执行 ``storage`` 函数时传入 ``sf(继承的类)`` 和 ``args(继承类参数，如果有的话)``。
+不过您也可以自定义存储类，要求是继承自 :class:`~flask_pluginkit.BaseStorage`, 执行 ``storage`` 函数时传入 ``sf(继承的类)`` 和 ``args(继承类参数，如果有的话)``。
+
+使用简单存储有两种情况，一是在app应用上下文及请求上下文中，二是在程序中独立使用::
+
+    # 第一种情况, web环境中, PluginManager加载插件类中集成了 `storage` 方法，附加到app.extensions['pluginkit']中，调用它使用以下:
+
+    from flask import current_app
+    current_app.extensions['pluginkit'].storage()
+
+    # 第二种情况
+
+    from flask_pluginkit import LocalStorage
+    def run(self):
+        self.s3 = LocalStorage()
+
+    # 两者使用同个文件或同个redis库时数据一致
 
 加载逻辑
 --------
 
-插件加载在 ``flask run`` 时完成, 加载类是 :class:`~flask_pluginkit.PluginManager`, 它的析构函数支持你传递plugins_base(默认程序目录)、plugins_folder(插件所在目录)设置插件绝对路径目录，还支持工厂模式，更多参数参见API文档。
+插件加载在程序启动时完成, 加载类是 :class:`~flask_pluginkit.PluginManager`, 它的析构函数支持你传递plugins_base(默认程序目录)、plugins_folder(插件所在目录)设置插件绝对路径目录，还支持工厂模式，更多参数参见API文档。
 
 流程如下:
 **********
 
     1. 通过 ``init_app`` 完成实例构造，初始化参数。
     2. 扫描插件目录，符合插件规则的包将被动态加载。
-    3. 加载插件信息，写入到所有插件列表。
+    3. 加载插件信息，依次运行 ``run`` -> ``register_tep`` -> ``register_cep`` -> ``register_bep`` -> ``register_yep`` 等方法, 写入到所有插件列表。
     4. Flask-PluginKit设置支持多模板文件夹、多静态文件夹（插件目录下）。
     5. Flask-PluginKit注册全局模板函数 ``emit_tep`` 和 ``emit_yep``, 分别是渲染模板上下文和CSS上下文。
     6. 注册所有启用插件的蓝图扩展点BEP。
     7. 使用before_request装饰器注册所有启用插件的上下文扩展点CEP。
-    8. 将 ``PluginManager`` 附加到app中，完成加载，等待使用。
-
-
+    8. 将 ``PluginManager`` 附加到app中，完成加载，可以使用 ``app.extensions['pluginkit']`` 调用 ``PluginManager`` 类中方法。
