@@ -255,5 +255,5 @@ v1.3.0支持简单存储服务，其配置姑且命名s3，初始化 ``PluginMan
     4. Flask-PluginKit设置支持多模板文件夹、多静态文件夹（插件目录下）。
     5. Flask-PluginKit注册全局模板函数 ``emit_tep`` 和 ``emit_yep``, 分别是渲染模板上下文和CSS上下文。
     6. 注册所有启用插件的蓝图扩展点BEP。
-    7. 使用before_request装饰器注册所有启用插件的上下文扩展点CEP。
+    7. 使用before_request等装饰器注册所有启用插件的上下文扩展点CEP。
     8. 将 ``PluginManager`` 附加到app中，完成加载，可以使用 ``app.extensions['pluginkit']`` 调用 ``PluginManager`` 类中方法。
