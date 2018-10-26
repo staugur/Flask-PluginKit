@@ -10,13 +10,22 @@
 """
 
 import os
+import sys
 import shelve
 from tempfile import gettempdir
 
+#: check python version 2 or 3
+#:
+#: .. versionadded:: 1.3.1
+PY2 = sys.version_info[0] == 2
+if PY2:
+    string_types = (str, unicode)
+else:
+    string_types = (str,)
 
 class BaseStorage(object):
 
-    index = "flask_pluginkit.db"
+    index = "flask_pluginkit_dat"
 
     def set(self):
         pass
@@ -29,7 +38,10 @@ class LocalStorage(BaseStorage):
 
     def open(self, flag="c"):
         """Open handle"""
-        return shelve.open(os.path.join(gettempdir(), self.index), flag=flag)
+        #: set protocol=2 to fix python3
+        #:
+        #: .. versionadded:: 1.3.1
+        return shelve.open(os.path.join(gettempdir(), self.index), flag=flag, protocol=2)
 
     def set(self, key, value):
         """Set persistent data with shelve.
@@ -59,7 +71,7 @@ class LocalStorage(BaseStorage):
         except:
             pass
         else:
-            return data
+            return dict(data)
 
     def get(self, key):
         """Get persistent data from shelve.

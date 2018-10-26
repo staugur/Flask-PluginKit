@@ -55,4 +55,4 @@ web.py
 installer.py
 ------------
 
-安装插件类, :class:`~flask_pluginkit.PluginInstaller`, 支持添加http远程插件和本地插件。
+安装插件类, :class:`~flask_pluginkit.PluginInstaller`, 支持添加http远程插件和本地插件，提供 ``addPlugin`` 和 ``removePlugin`` 两个api接口(返回dict，参数见Api Document)

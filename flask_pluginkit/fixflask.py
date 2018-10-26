@@ -14,13 +14,7 @@ import sys
 from flask.app import Flask as BaseFlask, setupmethod
 from flask.helpers import send_from_directory
 from werkzeug.exceptions import NotFound
-
-
-PY2 = sys.version_info[0] == 2
-if PY2:
-    string_types = (str, unicode)
-else:
-    string_types = (str,)
+from .utils import string_types
 
 
 class Flask(BaseFlask):

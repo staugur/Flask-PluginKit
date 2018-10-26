@@ -4,7 +4,7 @@ import os
 import json
 import unittest
 from flask import Flask, g
-from flask_pluginkit import PluginManager, blueprint, LocalStorage
+from flask_pluginkit import PluginManager, blueprint, LocalStorage, PY2
 
 # app1 with flask-pluginkit
 app1 = Flask("app1")
@@ -22,11 +22,17 @@ class PMTest(unittest.TestCase):
         self.app1 = app1.test_client()
         self.app2 = app2.test_client()
 
+    def api2dict(self, res):
+        if PY2:
+            return json.loads(res)
+        else:
+            return json.loads(res.decode('utf-8'))
+
     def test_api(self):
-        res = json.loads(self.app1.post('/api').data)
+        res = self.api2dict(self.app1.post('/api').data)
         self.assertIsInstance(res, dict)
         self.assertEqual(res["code"], 1)
-        res = json.loads(self.app2.post('/api').data)
+        res = self.api2dict(self.app2.post('/api').data)
         self.assertIsInstance(res, dict)
         self.assertEqual(res["code"], 10000)
 

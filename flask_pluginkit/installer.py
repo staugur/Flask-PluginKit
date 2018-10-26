@@ -14,13 +14,18 @@ import re
 import shutil
 import tarfile
 import zipfile
-import urllib2
 import logging
 from cgi import parse_header
 from posixpath import basename
-from urlparse import urlsplit, parse_qs
 from tempfile import NamedTemporaryFile
 from .exceptions import PluginError, TarError, ZipError, InstallError
+from .utils import PY2, string_types
+if PY2:
+    import urllib2
+    from urlparse import urlsplit, parse_qs
+else:
+    import urllib.request as urllib2
+    from urllib.parse import urlsplit, parse_qs
 
 logger = logging.getLogger(__name__)
 
@@ -54,28 +59,28 @@ class PluginInstaller(object):
             r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  #: ...or ip
             r'(?::\d+)?'  #: optional port
             r'(?:/?|[/?]\S+)$', re.IGNORECASE)
-        if addr and isinstance(addr, (str, unicode)):
+        if addr and isinstance(addr, string_types):
             if regex.match(addr):
                 return True
         return False
 
     def __isValidTGZ(self, suffix):
         """To determine whether the suffix `.tar.gz` or `.tgz` format"""
-        if suffix and isinstance(suffix, (unicode, str)):
+        if suffix and isinstance(suffix, string_types):
             if suffix.endswith(".tar.gz") or suffix.endswith(".tgz"):
                 return True
         return False
 
     def __isValidZIP(self, suffix):
         """Determine if the suffix is `.zip` format"""
-        if suffix and isinstance(suffix, (unicode, str)):
+        if suffix and isinstance(suffix, string_types):
             if suffix.endswith(".zip"):
                 return True
         return False
 
     def __isValidFilename(self, filename):
         """Determine whether filename is valid"""
-        if filename and isinstance(filename, (unicode, str)):
+        if filename and isinstance(filename, string_types):
             if re.match(r'^[\w\d\_\-\.]+$', filename, re.I):
                 if self.__isValidTGZ(filename) or self.__isValidZIP(filename):
                     return True
@@ -92,13 +97,21 @@ class PluginInstaller(object):
             elif scene == 2:
                 filename = basename(urlsplit(data).path)
             elif scene == 3:
-                filename = parse_header(data)[-1].get("filename")
+                if PY2:
+                    cd = data.headers.getheader("Content-Disposition", "")
+                else:
+                    cd = data.getheader("Content-Disposition", "")
+                filename = parse_header(cd)[-1].get("filename")
             elif scene == 4:
+                if PY2:
+                    cd = data.info().subtype
+                else:
+                    cd = data.info().get_content_subtype()
                 mt = {'zip': 'zip', 'x-compressed-tar': 'tar.gz', 'x-gzip': 'tar.gz'}
-                subtype = mt.get(data)
+                subtype = mt.get(cd)
                 if subtype:
                     filename = "." + subtype
-        except Exception, e:
+        except Exception as e:
             self.logger.warning(e)
         else:
             if self.__isValidFilename(filename):
@@ -106,7 +119,7 @@ class PluginInstaller(object):
 
     def __getFilenameSuffix(self, filename):
         """Gets the filename suffix"""
-        if filename and isinstance(filename, (unicode, str)):
+        if filename and isinstance(filename, string_types):
             if self.__isValidTGZ(filename):
                 return ".tar.gz"
             elif filename.endswith(".zip"):
@@ -114,7 +127,7 @@ class PluginInstaller(object):
 
     def __unpack_tgz(self, filename):
         """Unpack the `tar.gz`, `tgz` compressed file format"""
-        if isinstance(filename, (str, unicode)) and self.__isValidTGZ(filename) and tarfile.is_tarfile(filename):
+        if isinstance(filename, string_types) and self.__isValidTGZ(filename) and tarfile.is_tarfile(filename):
             with tarfile.open(filename, mode='r:gz') as t:
                 for name in t.getnames():
                     t.extract(name, self.plugin_abspath)
@@ -123,7 +136,7 @@ class PluginInstaller(object):
 
     def __unpack_zip(self, filename):
         """Unpack the `zip` compressed file format"""
-        if isinstance(filename, (str, unicode)) and self.__isValidZIP(filename) and zipfile.is_zipfile(filename):
+        if isinstance(filename, string_types) and self.__isValidZIP(filename) and zipfile.is_zipfile(filename):
             with zipfile.ZipFile(filename) as z:
                 for name in z.namelist():
                     z.extract(name, self.plugin_abspath)
@@ -148,14 +161,13 @@ class PluginInstaller(object):
                 filename = self.__getFilename(url, scene=2)
             try:
                 f = urllib2.urlopen(url, timeout=10)
-                i = f.info()
             except (AttributeError, ValueError, urllib2.URLError):
                 raise InstallError("Open URL Error")
             else:
                 if not filename:
-                    filename = self.__getFilename(i.getheader("Content-Disposition", ""), scene=3)
+                    filename = self.__getFilename(f, scene=3)
                     if not filename:
-                        filename = self.__getFilename(i.subtype, scene=4)
+                        filename = self.__getFilename(f, scene=4)
                 if filename and self.__isValidFilename(filename):
                     suffix = self.__getFilenameSuffix(filename)
                     with NamedTemporaryFile(mode='w+b', prefix='fpk-', suffix=suffix, delete=False) as fp:
@@ -211,7 +223,7 @@ class PluginInstaller(object):
                 self._local_upload(kwargs["filepath"], kwargs.get("remove", False))
             else:
                 res.update(msg="Invalid method")
-        except Exception, e:
+        except Exception as e:
             res.update(msg=str(e))
         else:
             res.update(code=0)
@@ -223,12 +235,12 @@ class PluginInstaller(object):
         :param package: The plugin package name.
         """
         res = dict(code=1, msg=None)
-        if package and isinstance(package, (str, unicode)):
+        if package and isinstance(package, string_types):
             path = os.path.join(self.plugin_abspath, package)
             if os.path.isdir(path):
                 try:
                     shutil.rmtree(path)
-                except Exception, e:
+                except Exception as e:
                     res.update(msg=str(e))
                 else:
                     res.update(code=0)

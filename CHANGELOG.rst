@@ -1,3 +1,13 @@
+V2.0.0
+------
+
+Released in 2018-10-26
+
+-  支持Python3
+-  尽可能完整的文档
+-  存储索引由 ``flask_pluginkit.db`` 改为 ``flask_pluginkit_dat``
+-  插件元数据中插件名称由 ``__name__`` 改为 ``__plugin_name__``, 以避免与python冲突, 请谨慎升级到此版本
+
 V1.3.0
 ------
 

@@ -21,7 +21,7 @@ from flask_pluginkit import LocalStorage
 
 #: Your plug-in name must be consistent with the plug-in directory name.
 #: 你的插件名称，必须和插件目录名称等保持一致.
-__name__        = "Demo"
+__plugin_name__ = "Demo"
 #: Plugin describes information. What does it do?
 #: 插件描述信息,什么用处.
 __description__ = "A Plugin Demo"
@@ -90,7 +90,7 @@ class PluginDemoMain(PluginBase):
         #去掉注释，将会拦截请求
         #response.is_before_request_return = True
         applocalstorage = current_app.extensions['pluginkit'].storage()
-        print "storage,",applocalstorage.list==self.localstorage.list
+        print("storage,",applocalstorage.list==self.localstorage.list)
         return response
 
     def register_tep(self):

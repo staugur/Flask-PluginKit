@@ -22,7 +22,7 @@ class PITest(unittest.TestCase):
             'https://static.saintic.com/download/thirdApp/JQueryAvatarPreviewCut.zip',
             'https://static.saintic.com/download/thirdApp/syncthing-linux-amd64-v0.14.45.tar.gz',
             'https://codeload.github.com/staugur/jwt/zip/master',
-            'https://codeload.github.com/staugur/passport/tar.gz/v1.0.3',
+            'https://codeload.github.com/staugur/Flask-PluginKit/tar.gz/v1.3.0',
         ]
         pkg = os.path.join(self.pi.plugin_abspath, "jwt-master")
         # local
@@ -49,6 +49,14 @@ class PITest(unittest.TestCase):
         res = self.pi.removePlugin(pkg)
         self.assertIsInstance(res, dict)
         self.assertEqual(res["code"], 0)
+        self.assertFalse(os.path.isdir(pkg))
+        # remote
+        pkg = os.path.join(self.pi.plugin_abspath, "Flask-PluginKit-1.3.0")
+        res = self.pi.addPlugin(url=urls[3])
+        self.assertEqual(res["code"], 0)
+        res = self.pi.removePlugin(pkg)
+        self.assertEqual(res["code"], 0)
+        self.assertFalse(os.path.isdir(pkg))
 
 
 if __name__ == '__main__':

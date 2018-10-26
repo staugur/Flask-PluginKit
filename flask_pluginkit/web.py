@@ -10,9 +10,14 @@
 """
 
 import time
-import thread
 from functools import wraps
 from flask import Blueprint, current_app, g, request, jsonify, render_template, make_response, Response
+from .utils import PY2
+
+if PY2:
+    import thread
+else:
+    import _thread as thread
 
 blueprint = Blueprint('flask_pluginkit', __name__, template_folder='templates')
 
@@ -95,14 +100,14 @@ def api():
         if Action == "enablePlugin":
             try:
                 g.plugin_manager.enable_plugin(plugin_name)
-            except Exception, e:
+            except Exception as e:
                 res.update(msg="enable plugin failed:" + str(e), code=30000)
             else:
                 res.update(code=0)
         elif Action == "disablePlugin":
             try:
                 g.plugin_manager.disable_plugin(plugin_name)
-            except Exception, e:
+            except Exception as e:
                 res.update(msg="disable plugin failed:" + str(e), code=40000)
             else:
                 res.update(code=0)

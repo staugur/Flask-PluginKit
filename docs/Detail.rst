@@ -20,7 +20,7 @@
     # -*- coding: utf-8 -*-
 
     #：你的插件名称，必须和插件目录名称等保持一致.
-    __name__        = "Demo"
+    __plugin_name__ = "Demo"
     #: 插件描述信息,什么用处.
     __description__ = "A Plugin Demo"
     #: 插件作者
@@ -49,7 +49,7 @@
 元数据(__meta__)完整列表::
 
     #: 你的插件名称，必须和插件目录名称等保持一致.
-    __name__        = "Demo"
+    __plugin_name__ = "Demo"
     #: 插件描述信息,什么用处.
     __description__ = "A Plugin Demo"
     #: 插件作者
@@ -120,6 +120,7 @@
 
     示例-注册::
 
+        # 插件类中
         def register_tep(self):
             return dict(base_header="example/header.html", base_footer="Copyright 2018.")
 
@@ -167,6 +168,7 @@
 
         from flask import request, g
 
+        # 插件类中
         def set_login(self):
             g.login_in = request.args.get("username") == "admin"
 
@@ -188,6 +190,7 @@
 
         plugin_blueprint = Blueprint("example", "example")
 
+        # 插件类中
         def register_bep(self):
             return dict(blueprint=plugin_blueprint, prefix="/example")
 
@@ -202,6 +205,7 @@
 
     示例-注册::
 
+        # 插件类中
         def register_yep(self):
             return {"base": "example/demo.css"}
 
@@ -236,6 +240,8 @@ v1.3.0支持简单存储服务，其配置姑且命名s3，初始化 ``PluginMan
     # 第二种情况
 
     from flask_pluginkit import LocalStorage
+
+    # 插件类中
     def run(self):
         self.s3 = LocalStorage()
 

@@ -16,6 +16,7 @@ import jinja2
 import logging
 from flask import Response, render_template
 from .exceptions import PluginError, CSSLoadError
+from .utils import string_types
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +40,7 @@ class PluginManager(object):
     """Flask Plugin Manager Extension, collects all plugins and maps the metadata to the plugin.
 
     The plugin is a directory, the directory name is the plugin name, and the plugin entry file is **__init__.py**,
-    including __name__, __description__, __version__, __author__, __state__ and other plugin metadata.
+    including __plugin_name__, __description__, __version__, __author__, __state__ and other plugin metadata.
 
     A meaningful plugin structure should look like this::
 
@@ -178,7 +179,7 @@ class PluginManager(object):
                     #: Dynamic load module (plugins.package): you can query custom information and get the plugin's class definition through getPluginClass
                     plugin = __import__("{0}.{1}".format(self.plugins_folder, package), fromlist=[self.plugins_folder, ])
                     #: Detection plugin information
-                    if hasattr(plugin, "__name__") and \
+                    if hasattr(plugin, "__plugin_name__") and \
                             hasattr(plugin, "__version__") and \
                             hasattr(plugin, "__description__") and \
                             hasattr(plugin, "__author__") and \
@@ -189,7 +190,7 @@ class PluginManager(object):
                             #: Get the plugin main class and instantiate it
                             p = plugin.getPluginClass()
                             i = p()
-                        except Exception, e:
+                        except Exception as e:
                             raise PluginError("Load Plugin Error")
                         #: Subsequent methods are not executed when not enabled
                         if pluginInfo["plugin_state"] != "enabled":
@@ -220,8 +221,8 @@ class PluginManager(object):
                             tep = i.register_tep()
                             if isinstance(tep, dict):
                                 newTep = dict()
-                                for event, tpl in tep.iteritems():
-                                    if isinstance(tpl, (unicode, str)):
+                                for event, tpl in tep.items():
+                                    if isinstance(tpl, string_types):
                                         if os.path.splitext(tpl)[-1] in (".html", ".htm"):
                                             if os.path.isfile(os.path.join(self.plugin_abspath, package, "templates", tpl.split("@")[-1] if "@" in tpl and self.stpl is True else tpl)):
                                                 newTep[event] = dict(HTMLFile=tpl)
@@ -268,8 +269,8 @@ class PluginManager(object):
                             yep = i.register_yep()
                             if isinstance(yep, dict):
                                 newYep = dict()
-                                for event, css in yep.iteritems():
-                                    if isinstance(css, (unicode, str)):
+                                for event, css in yep.items():
+                                    if isinstance(css, string_types):
                                         if os.path.isfile(os.path.join(self.plugin_abspath, package, "static", css)) and css.endswith(".css"):
                                             newYep[event] = [self.static_url_path + "/" + css]
                                         else:
@@ -277,7 +278,7 @@ class PluginManager(object):
                                     elif isinstance(css, (list, tuple)):
                                         newCss = []
                                         for ac in css:
-                                            if isinstance(ac, (unicode, str)) and os.path.isfile(os.path.join(self.plugin_abspath, package, "static", ac)) and ac.endswith(".css"):
+                                            if isinstance(ac, string_types) and os.path.isfile(os.path.join(self.plugin_abspath, package, "static", ac)) and ac.endswith(".css"):
                                                 newCss.append(self.static_url_path + "/" + ac)
                                             else:
                                                 raise CSSLoadError("YEP CSS File Is Invalid: %s" % ac)
@@ -335,7 +336,7 @@ class PluginManager(object):
             plugin_state = "disabled"
 
         return {
-            "plugin_name": plugin.__name__,
+            "plugin_name": plugin.__plugin_name__,
             "plugin_package_name": package,
             "plugin_description": plugin.__description__,
             "plugin_version": plugin.__version__,
@@ -397,12 +398,12 @@ class PluginManager(object):
         """
         teps = {}
         for p in self.get_enabled_plugins:
-            for e, v in p["plugin_tep"].iteritems():
+            for e, v in p["plugin_tep"].items():
                 tep = teps.get(e, dict())
                 tepHF = tep.get("HTMLFile", [])
                 tepHS = tep.get("HTMLString", [])
-                tepHF += [s for f, s in v.iteritems() if f == "HTMLFile"]
-                tepHS += [s for f, s in v.iteritems() if f == "HTMLString"]
+                tepHF += [s for f, s in v.items() if f == "HTMLFile"]
+                tepHS += [s for f, s in v.items() if f == "HTMLString"]
                 teps[e] = dict(HTMLFile=tepHF, HTMLString=tepHS)
         return teps
 
@@ -437,7 +438,7 @@ class PluginManager(object):
         """
         yeps = {}
         for p in self.get_enabled_plugins:
-            for e, v in p["plugin_yep"].iteritems():
+            for e, v in p["plugin_yep"].items():
                 yep = yeps.get(e, []) + v
                 yeps[e] = yep
         return yeps
