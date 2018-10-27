@@ -1,7 +1,7 @@
 V2.0.0
 ------
 
-Released in 2018-10-26
+Released in 2018-10-27
 
 -  支持Python3
 -  尽可能完整的文档
