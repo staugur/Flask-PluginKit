@@ -62,6 +62,7 @@ plugin.init_app(app)
 ### 资源(Resources)
 
 * GitHub [https://github.com/staugur/Flask-PluginKit](https://github.com/staugur/Flask-PluginKit "https://github.com/staugur/Flask-PluginKit")
+* 码云 [https://gitee.com/staugur/Flask-PluginKit](https://gitee.com/staugur/Flask-PluginKit "https://gitee.com/staugur/Flask-PluginKit")
 * Author [https://www.saintic.com](https://www.saintic.com "https://www.saintic.com")
 * Issues [https://github.com/staugur/Flask-PluginKit/issues](https://github.com/staugur/Flask-PluginKit/issues "https://github.com/staugur/Flask-PluginKit/issues")
 
