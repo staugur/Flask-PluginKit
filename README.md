@@ -2,8 +2,8 @@
 
 基于Flask的插件式开发工具(Web program plugin development kit based on flask).
 
-[![Build Status](https://travis-ci.com/staugur/Flask-PluginKit.svg?branch=master)](https://travis-ci.com/staugur/Flask-PluginKit) [![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg?style=popout)](https://pypi.org/project/Flask-PluginKit/) [![PyPI](https://img.shields.io/pypi/v/Flask-PluginKit.svg?style=popout)](https://pypi.org/project/Flask-PluginKit/) [![Documentation Status](https://readthedocs.org/projects/flask-pluginkit/badge/?version=latest)](https://flask-pluginkit.readthedocs.io/)
-
+[![Build Status](https://travis-ci.com/staugur/Flask-PluginKit.svg?branch=master)](https://travis-ci.com/staugur/Flask-PluginKit) [![Documentation Status](https://readthedocs.org/projects/flask-pluginkit/badge/?version=latest)](https://flask-pluginkit.readthedocs.io/) [![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg?style=popout)](https://pypi.org/project/Flask-PluginKit/) [![PyPI](https://img.shields.io/pypi/v/Flask-PluginKit.svg?style=popout)](https://pypi.org/project/Flask-PluginKit/) [![Pyversions](https://img.shields.io/pypi/pyversions/flask-pluginkit.svg
+)](https://pypi.org/project/Flask-PluginKit)
 
 ### 使用概述(Overview)
 
@@ -13,7 +13,7 @@
 # 正式版(Release)
 $ pip install -U Flask-PluginKit
 # 开发版(Dev)
-$ pip install -U git+https://github.com/staugur/Flask-PluginKit.git@master
+$ pip install -U git+https://github.com/staugur/Flask-PluginKit.git
 ```
 
 测试用例(TestCase)
