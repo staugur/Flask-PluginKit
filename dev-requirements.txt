@@ -1,3 +1,4 @@
 flask
 sphinx
 sphinx_rtd_theme
+Flask-Sphinx-Themes

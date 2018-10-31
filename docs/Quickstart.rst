@@ -57,7 +57,9 @@ Hello World!
 这个示例中的演示插件(位于plugins/example)，它基本上已经包含了Flask-PluginKit目前所提供的所有功能点，它本来就是一个帮助插件，可以复制修改一份建立属于您的插件。
 
 -  安装依赖包，\ ``pip install -r requirements.txt``
--  运行它，\ ``python main.py``\ ，首页大概是这样： |image0|
+-  运行它，\ ``python main.py``\ ，首页大概是这样：
+
+    |image0|
 
     温馨提示：红色部分，就是plugins/example/static/example/demo.css设定的，支持插件添加静态文件，在v0.1.8及之后版本支持通过register\_yep注册静态文件，当然也可以直接在模板中link
     css，但不建议。
@@ -74,4 +76,4 @@ Hello World!
 
     请注意：启用、禁用的操作需要重启Web应用程序才能生效，需要您自行解决，使用gunicorn作为启动的，可以参考flask\_pluginkit.web.blueprint中的路由函数，原理是通过向主进程发送HUP信号重载app。
 
-.. |image0| image:: ./images/flask_pluginkit_demo.png
+.. |image0| image:: ./_static/images/flask_pluginkit_demo.png

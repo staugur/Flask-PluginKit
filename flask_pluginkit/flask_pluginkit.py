@@ -11,12 +11,11 @@
 
 import os
 import re
-import sys
 import jinja2
 import logging
 from flask import Response, render_template
 from .exceptions import PluginError, CSSLoadError
-from .utils import string_types
+from .utils import PY2, string_types
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +29,7 @@ class TemplateEventResult(list):
         return u''.join(map(str, self))
 
     def __str__(self):
-        if sys.version_info[0] == 2:
+        if PY2:
             return self.__unicode__().encode('utf-8')
         else:
             return self.__unicode__()
