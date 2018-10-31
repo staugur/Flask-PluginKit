@@ -8,4 +8,6 @@ sudo: enabled
 install:
   - pip install -U setuptools twine wheel flask
   - make dev
-script: make test
+script:
+  - make test
+  - coverage run tests.py
