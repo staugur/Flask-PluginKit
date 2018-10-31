@@ -10,4 +10,6 @@ install:
   - make dev
 script:
   - make test
-  - coverage run tests.py
+  - nosetests --with-coverage
+after_success:
+  - codecov
