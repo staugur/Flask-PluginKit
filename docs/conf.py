@@ -68,7 +68,7 @@ language = "zh_CN"
 exclude_patterns = [u'_build', 'Thumbs.db', '.DS_Store']
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = "flasky"
+pygments_style = None
 
 
 # -- Options for HTML output -------------------------------------------------

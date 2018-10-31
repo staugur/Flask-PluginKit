@@ -2,7 +2,7 @@
 
 基于Flask的插件式开发工具(Web program plugin development kit based on flask).
 
-[![Build Status](https://travis-ci.com/staugur/Flask-PluginKit.svg?branch=master)](https://travis-ci.com/staugur/Flask-PluginKit) [![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg?style=popout)](https://pypi.org/project/Flask-PluginKit/) [![PyPI](https://img.shields.io/pypi/v/Flask-PluginKit.svg?style=popout)](https://pypi.org/project/Flask-PluginKit/) [![Documentation Status](https://readthedocs.org/projects/flask-pluginkit/badge/?version=latest)](https://flask-pluginkit.readthedocs.io/en/latest/?badge=latest)
+[![Build Status](https://travis-ci.com/staugur/Flask-PluginKit.svg?branch=master)](https://travis-ci.com/staugur/Flask-PluginKit) [![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg?style=popout)](https://pypi.org/project/Flask-PluginKit/) [![PyPI](https://img.shields.io/pypi/v/Flask-PluginKit.svg?style=popout)](https://pypi.org/project/Flask-PluginKit/) [![Documentation Status](https://readthedocs.org/projects/flask-pluginkit/badge/?version=latest)](https://flask-pluginkit.readthedocs.io/)
 
 
 ### 使用概述(Overview)
