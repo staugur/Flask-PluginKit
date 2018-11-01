@@ -5,7 +5,10 @@
 
 dir=$(cd $(dirname $0); pwd)
 cd $dir
-
+# Prepared environment if available
+if [ -r online_preboot.sh ]; then
+    . online_preboot.sh
+fi
 host=$(python -c "from config import GLOBAL;print GLOBAL['Host']")
 port=$(python -c "from config import GLOBAL;print GLOBAL['Port']")
 procname=$(python -c "from config import GLOBAL;print GLOBAL['ProcessName']")

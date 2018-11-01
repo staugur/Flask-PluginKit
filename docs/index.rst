@@ -9,6 +9,9 @@ Flask-PluginKit
 .. image:: https://img.shields.io/github/license/mashape/apistatus.svg?style=popout
     :target: https://github.com/staugur/Flask-PluginKit/
 
+.. image:: https://codecov.io/gh/staugur/Flask-PluginKit/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/staugur/Flask-PluginKit
+
 .. image:: https://img.shields.io/pypi/v/Flask-PluginKit.svg?style=popout
     :target: https://pypi.org/project/Flask-PluginKit/
 

@@ -2,7 +2,7 @@
 
 基于Flask的插件式开发工具(Web program plugin development kit based on flask).
 
-[![Build Status](https://travis-ci.com/staugur/Flask-PluginKit.svg?branch=master)](https://travis-ci.com/staugur/Flask-PluginKit) [![Documentation Status](https://readthedocs.org/projects/flask-pluginkit/badge/?version=latest)](https://flask-pluginkit.readthedocs.io/) [![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg?style=popout)](https://pypi.org/project/Flask-PluginKit/) [![PyPI](https://img.shields.io/pypi/v/Flask-PluginKit.svg?style=popout)](https://pypi.org/project/Flask-PluginKit/) [![Pyversions](https://img.shields.io/pypi/pyversions/flask-pluginkit.svg
+[![Build Status](https://travis-ci.com/staugur/Flask-PluginKit.svg?branch=master)](https://travis-ci.com/staugur/Flask-PluginKit) [![Documentation Status](https://readthedocs.org/projects/flask-pluginkit/badge/?version=latest)](https://flask-pluginkit.readthedocs.io/) [![codecov](https://codecov.io/gh/staugur/Flask-PluginKit/branch/master/graph/badge.svg)](https://codecov.io/gh/staugur/Flask-PluginKit) [![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg?style=popout)](https://pypi.org/project/Flask-PluginKit/) [![PyPI](https://img.shields.io/pypi/v/Flask-PluginKit.svg?style=popout)](https://pypi.org/project/Flask-PluginKit/) [![Pyversions](https://img.shields.io/pypi/pyversions/flask-pluginkit.svg
 )](https://pypi.org/project/Flask-PluginKit)
 
 ### 使用概述(Overview)
@@ -51,7 +51,7 @@ plugin.init_app(app)
 - ~~添加http basic auth等其他认证~~
 - ~~模板上下文排序~~
 - ~~插件配置和插件信息存储~~
-- 注册上下文扩展点
+- 请求上下文动态执行函数
 - 注册程序任意位置扩展点
 - 信号扩展点sep
 - Web管理页面插件安装和删除
