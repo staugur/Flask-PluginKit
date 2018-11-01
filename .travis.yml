@@ -1,15 +1,18 @@
 language: python
+env:
+  - CODECOV_TOKEN="a6a7750b-16dd-4694-a827-6940755771ab"
 python:
   - "2.7"
   - "3.4"
   - "3.5"
   - "3.6"
+  - "pypy"
+  - "pypy3"
 sudo: enabled
 install:
-  - pip install -U setuptools twine wheel flask
+  - pip install -U setuptools twine wheel flask codecov
   - make dev
 script:
-  - make test
-  - nosetests --with-coverage
+  - coverage run setup.py test
 after_success:
   - codecov
