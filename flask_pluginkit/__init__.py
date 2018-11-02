@@ -14,5 +14,5 @@ from .fixflask import Flask
 from .utils import BaseStorage, LocalStorage, RedisStorage, PY2, string_types
 
 __all__ = ["Flask", "PluginManager", "PluginInstaller", "blueprint", "push_dcp",
-           "PluginError", "TarError", "ZipError", "InstallError", "CSSLoadError", "DCPError"
+           "PluginError", "TarError", "ZipError", "InstallError", "CSSLoadError", "DCPError",
            "BaseStorage", "LocalStorage", "RedisStorage", "PY2", "string_types"]
