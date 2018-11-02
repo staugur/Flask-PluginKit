@@ -15,8 +15,8 @@
     :license: MIT, see LICENSE for more details.
 """
 
-from flask import g, render_template
-from flask_pluginkit import Flask, PluginManager, blueprint
+from flask import g, render_template, render_template_string
+from flask_pluginkit import Flask, PluginManager, blueprint, push_dcp
 
 __author__ = 'staugur'
 __email__ = 'staugur@saintic.com'
@@ -44,6 +44,9 @@ def br():
 
 @app.route("/")
 def index():
+    def set_dcp():
+        return render_template_string("<p><a href=\"{{ url_for('index') }}\">dcp return</a></p>")
+    push_dcp('example', set_dcp)
     app.logger.info(app.static_folder)
     return render_template("index.html")
 

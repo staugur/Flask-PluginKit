@@ -79,8 +79,8 @@ def pluginkit_beforerequest():
         return make_response(authTipmsg(authResult)), 403
 
     #: get all plugins based flask-pluginkit
-    if hasattr(current_app, "plugin_manager"):
-        g.plugin_manager = current_app.plugin_manager
+    if hasattr(current_app, "extensions") and "pluginkit" in current_app.extensions:
+        g.plugin_manager = current_app.extensions["pluginkit"]
         g.plugins = g.plugin_manager.get_all_plugins
 
 

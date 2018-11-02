@@ -1,5 +1,5 @@
 Flask
-Flask-PluginKit>=2.0.0
+Flask-PluginKit>=2.1.0
 requests
 setproctitle
 gevent

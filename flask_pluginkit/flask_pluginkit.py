@@ -13,9 +13,15 @@ import os
 import re
 import jinja2
 import logging
+from collections import deque
+from inspect import isfunction
 from flask import Response, render_template
-from .exceptions import PluginError, CSSLoadError
+from .exceptions import PluginError, CSSLoadError, DCPError
 from .utils import PY2, string_types
+try:
+    from flask import _app_ctx_stack as stack
+except ImportError:
+    from flask import _request_ctx_stack as stack
 
 logger = logging.getLogger(__name__)
 
@@ -45,17 +51,25 @@ class PluginManager(object):
 
         plugins/
         ├── plugin1
-        │   ├── __init__.py
-        │   ├── LICENSE
-        │   ├── README
-        │   └── templates
-        │       └── plugin1
+        │   ├── __init__.py
+        │   ├── LICENCE
+        │   ├── README
+        │   ├── static
+        │   │   └── plugin1
+        │   │       └── plugin1.css
+        │   └── templates
+        │       └── plugin1
+        │           └── plugin1.html
         └── plugin2
             ├── __init__.py
-            ├── LICENSE
+            ├── LICENCE
             ├── README
+            ├── static
+            │   └── plugin2
+            │       └── plugin2.css
             └── templates
                 └── plugin2
+                    └── plugin2.html
 
     """
 
@@ -103,6 +117,12 @@ class PluginManager(object):
         self.s3 = kwargs.get("s3")
         self.s3_redis = kwargs.get("s3_redis")
 
+        #: Dynamic join point initialization, format::
+        #: dict(event=deque())
+        #:
+        #: .. versionadded:: 2.1.0
+        self.dcp_funcs = {}
+
         #: initialize app via a factory
         #:
         #: .. versionadded:: 0.1.4
@@ -126,6 +146,7 @@ class PluginManager(object):
         #: Register template variable
         app.jinja_env.globals["emit_tep"] = self.emit_tep
         app.jinja_env.globals["emit_yep"] = self.emit_yep
+        app.jinja_env.globals["emit_dcp"] = self.emit_dcp
 
         #: Register the blueprint extension point
         for bep in self.get_all_bep:
@@ -135,7 +156,7 @@ class PluginManager(object):
         @app.before_request
         def _before_request():
             #: Before the request of the context extension point
-            for cep_func in self.get_all_cep["before_request_hook"]:
+            for cep_func in self.get_all_hep["before_request_hook"]:
                 resp = cep_func()
                 #: If the request is terminated, define the :class:`~flask.Response` using the likes of Response, and set is_before_request_return=True
                 #:
@@ -146,14 +167,14 @@ class PluginManager(object):
         @app.after_request
         def _after_request(response):
             #: After the request of the context extension point (before return and no exception)
-            for cep_func in self.get_all_cep["after_request_hook"]:
+            for cep_func in self.get_all_hep["after_request_hook"]:
                 cep_func(response=response)
             return response
 
         @app.teardown_request
         def _teardown_request(exception=None):
             #: After the request of the context extension point (no exception before return)
-            for cep_func in self.get_all_cep["teardown_request_hook"]:
+            for cep_func in self.get_all_hep["teardown_request_hook"]:
                 cep_func(exception=exception)
 
         if not hasattr(app, 'extensions'):
@@ -228,7 +249,7 @@ class PluginManager(object):
                                             else:
                                                 raise jinja2.TemplateNotFound("TEP Template File Not Found: %s" % tpl)
                                         else:
-                                            newTep[event] = dict(HTMLString=jinja2.Markup(TemplateEventResult(tpl)))
+                                            newTep[event] = dict(HTMLString=jinja2.Markup(tpl))
                                     else:
                                         raise PluginError("Invalid TEP Format")
                                 pluginInfo.update(plugin_tep=newTep)
@@ -236,13 +257,13 @@ class PluginManager(object):
                             else:
                                 raise PluginError("Register TEP Failed, not a dict")
                         #: Register context extension points
-                        if hasattr(i, "register_cep"):
-                            cep = i.register_cep()
+                        if hasattr(i, "register_hep"):
+                            cep = i.register_hep()
                             if isinstance(cep, dict):
-                                pluginInfo.update(plugin_cep=cep)
-                                self.logger.info("Register CEP Success")
+                                pluginInfo.update(plugin_hep=cep)
+                                self.logger.info("Register HEP Success")
                             else:
-                                raise PluginError("Register CEP Failed, not a dict")
+                                raise PluginError("Register HEP Failed, not a dict")
                         #: Register the blueprint extension point
                         if hasattr(i, "register_bep"):
                             bep = i.register_bep()
@@ -290,10 +311,10 @@ class PluginManager(object):
                                 raise PluginError("Register YEP Failed, not a dict")
                         #: Register signal extension points`sep`
                         #: Add to the global plugin
-                        if hasattr(i, "run") or hasattr(i, "register_tep") or hasattr(i, "register_cep") or hasattr(i, "register_bep") or hasattr(i, "register_yep"):
+                        if hasattr(i, "run") or hasattr(i, "register_tep") or hasattr(i, "register_hep") or hasattr(i, "register_bep") or hasattr(i, "register_yep"):
                             self.__plugins.append(pluginInfo)
                         else:
-                            self.logger.error("The current package does not have the `run` or `register_tep` or `register_cep` or `register_bep` or `register_yep` method")
+                            self.logger.error("The current package does not have the `run` or `register_tep` or `register_hep` or `register_bep` or `register_yep` method")
 
     def __loadPluginInfo(self, package, plugin):
         """ Organize plugin information.
@@ -348,7 +369,7 @@ class PluginManager(object):
             "plugin_tpl_path": os.path.join(self.plugins_folder, package, "templates"),
             "plugin_ats_path": os.path.join(self.plugins_folder, package, "static"),
             "plugin_tep": {},
-            "plugin_cep": {},
+            "plugin_hep": {},
             "plugin_bep": {},
             "plugin_yep": {}
         }
@@ -361,7 +382,9 @@ class PluginManager(object):
     def get_plugin_info(self, plugin_name):
         """Get plugin information"""
         if plugin_name:
-            return next(i for i in self.get_all_plugins if i["plugin_name"] == plugin_name)
+            for i in self.get_all_plugins:
+                if i["plugin_name"] == plugin_name:
+                    return i
 
     def disable_plugin(self, plugin_name):
         """Disable a plugin (that is, create a DISABLED empty file) and restart the application to take effect"""
@@ -407,7 +430,7 @@ class PluginManager(object):
         return teps
 
     @property
-    def get_all_cep(self):
+    def get_all_hep(self):
         """Context extension point.
 
         * before_request_hook, Before request (intercept requests are allowed)
@@ -415,13 +438,11 @@ class PluginManager(object):
         * after_request_hook, After request (no exception before return)
 
         * teardown_request_hook, After request (before return, with or without exception)
-
-        * before_request_return, Abandoned, please use `before_request_hook`
         """
         return dict(
-            before_request_hook=[plugin["plugin_cep"]["before_request_hook"] for plugin in self.get_enabled_plugins if plugin["plugin_cep"].get("before_request_hook")],
-            after_request_hook=[plugin["plugin_cep"]["after_request_hook"] for plugin in self.get_enabled_plugins if plugin["plugin_cep"].get("after_request_hook")],
-            teardown_request_hook=[plugin["plugin_cep"]["teardown_request_hook"] for plugin in self.get_enabled_plugins if plugin["plugin_cep"].get("teardown_request_hook")],
+            before_request_hook=[plugin["plugin_hep"]["before_request_hook"] for plugin in self.get_enabled_plugins if plugin["plugin_hep"].get("before_request_hook")],
+            after_request_hook=[plugin["plugin_hep"]["after_request_hook"] for plugin in self.get_enabled_plugins if plugin["plugin_hep"].get("after_request_hook")],
+            teardown_request_hook=[plugin["plugin_hep"]["teardown_request_hook"] for plugin in self.get_enabled_plugins if plugin["plugin_hep"].get("teardown_request_hook")],
         )
 
     @property
@@ -527,3 +548,62 @@ class PluginManager(object):
             return LocalStorage()
         elif self.s3 == "redis":
             return RedisStorage(self.s3_redis)
+
+    def push_dcp(self, event, callback, position="right"):
+        """Connect a dcp, push a function.
+
+        :params event: str,unicode: A unique identifier name for dcp.
+
+        :params callback: function: Corresponding to the event to perform a function.
+
+        :params position: The position of the insertion function, right(default) and left.
+
+        :raises DCPError: raises an exception
+
+        .. versionadded:: 2.1.0
+        """
+        if event and isinstance(event, string_types) and isfunction(callback) and position in ("left", "right"):
+            if event in self.dcp_funcs:
+                if position == "right":
+                    self.dcp_funcs[event].append(callback)
+                else:
+                    self.dcp_funcs[event].appendleft(callback)
+            else:
+                self.dcp_funcs[event] = deque([callback])
+        else:
+            raise DCPError("Invalid parameter")
+
+    def emit_dcp(self, event, **context):
+        """Emit a event(with dcp) and gets the dynamic join point data(html code).
+
+        :params event: str,unicode: A unique identifier name for dcp.
+
+        :param context: dict: Keyword parameter, additional data passed to the template
+
+        :returns: html code with :class:`~jinja2.Markup`.
+
+        .. versionadded:: 2.1.0
+        """
+        if event and isinstance(event, string_types) and event in self.dcp_funcs:
+            results = []
+            for f in self.dcp_funcs[event]:
+                rv = f(**context)
+                if rv is not None:
+                    results.append(rv)
+            del self.dcp_funcs[event]
+            return jinja2.Markup(TemplateEventResult(results))
+        else:
+            return jinja2.Markup()
+
+
+def push_dcp(event, callback, position='right'):
+    """Push a function for :class:`~flask_pluginkit.PluginManager`, :meth:`push_dcp`.
+
+    Example usage::
+
+        push_dcp('demo', lambda:'Hello dcp')
+
+    .. versionadded:: 2.1.0
+    """
+    ctx = stack.top
+    ctx.app.extensions.get('pluginkit').push_dcp(event, callback, position)

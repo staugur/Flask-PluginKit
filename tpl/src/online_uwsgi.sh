@@ -5,15 +5,22 @@
 
 dir=$(cd $(dirname $0); pwd)
 cd $dir
-# Prepared environment if available
+
+#定义变量(自定义更改)
+UID=0
+GID=0
+
+#准备环境
 if [ -r online_preboot.sh ]; then
     . online_preboot.sh
 fi
+
+#定义常量(请勿更改)
 host=$(python -c "from config import GLOBAL;print GLOBAL['Host']")
 port=$(python -c "from config import GLOBAL;print GLOBAL['Port']")
 procname=$(python -c "from config import GLOBAL;print GLOBAL['ProcessName']")
 cpu_count=$[$(cat /proc/cpuinfo | grep "processor" | wc -l)*2]
-[ ! -d ${dir}/logs ] && mkdir ${dir}/logs
+[ -d ${dir}/logs ] || mkdir -p ${dir}/logs
 logfile=${dir}/logs/uwsgi.log
 pidfile=${dir}/logs/${procname}.pid
 
@@ -40,7 +47,7 @@ start)
     if [ -f $pidfile ]; then
         echo "Has pid($(cat $pidfile)) in $pidfile, please check, exit." ; exit 1
     else
-        uwsgi --http ${host}:${port} --module main --callable app --master --procname-master ${procname}.master --procname ${procname}.worker --workers $cpu_count --threads 16 --listen 1024 --chdir $dir --daemonize $logfile --pidfile $pidfile --max-requests 250 --disable-logging --log-maxsize 50000000
+        uwsgi --http ${host}:${port} --module main --callable app --master --procname-master ${procname}.master --procname ${procname}.worker --workers $cpu_count --threads 16 --listen 1024 --chdir $dir --daemonize $logfile --pidfile $pidfile --max-requests 250 --disable-logging --log-maxsize 50000000 --uid $UID --gid $GID
         sleep 1
         pid=$(cat $pidfile)
         [ "$?" != "0" ] && exit 1

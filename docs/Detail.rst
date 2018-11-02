@@ -7,10 +7,10 @@
 ------
 
 * tep - 模板扩展点
+* hep - 钩子扩展点
 * bep - 蓝图扩展点
-* cep - 上下文扩展点
-* yep - CSS样式扩展点
-* sep - 信号扩展点
+* yep - 样式扩展点
+* dcp - 动态连接点
 
 核心代码
 --------
@@ -81,8 +81,8 @@
             """注册模板入口, 返回扩展点名称及扩展的代码, 其中include点必须是实际的HTML文件, string点是HTML代码、字符串等."""
             return dict()
 
-        def register_cep(self):
-            """注册上下文入口, 返回扩展点名称及执行的函数"""
+        def register_hep(self):
+            """注册钩子上下文入口, 返回扩展点名称及执行的函数"""
             return dict()
 
         def register_bep(self):
@@ -108,8 +108,8 @@
 
     用法: 普通方法
 
-方法: register_tep -> 注册模板上下文
-*************************************
+方法: register_tep -> 注册模板扩展点，提供模板文件或HTML代码
+**********************************************************
 
     环境: web请求上下文、模板中使用
 
@@ -154,14 +154,14 @@
         def plugin():
             return render_template("example/base.html")
 
-方法: register_cep -> 注册请求上下文
-*************************************
+方法: register_hep -> 注册钩子扩展点，在flask钩子中注册函数
+*********************************************************
 
     环境: web请求上下文、注册到flask钩子
 
     用法: 
         * 要求返回字典，格式是: dict(扩展点=function)，目前支持三种扩展点: before_request_hook、after_request_hook、teardown_request_hook
-        * 三种扩展点分别是请求前、请求后(返回前)、请求后(返回前，无论是否发生异常)
+        * 三种扩展点对应的钩子分别是请求前、请求后(返回前)、请求后(返回前，无论是否发生异常)
         * before_reqest_hook还可以拦截请求，设置属性is_before_request_return=True，使用make_response、jsonify等响应函数或Response构造响应类
         * 建议您在插件类中单独写一个方法，并传递给扩展点，其中after_request_hook会传入 ``response`` 参数，teardown_request_hook会传入 ``exception`` 参数，您扩展点的函数必须支持传入，并可以自行使用。
 
@@ -173,13 +173,13 @@
         def set_login(self):
             g.login_in = request.args.get("username") == "admin"
 
-        def register_cep(self):
+        def register_hep(self):
             return {"after_request_hook": lambda resp: resp, "before_request_hook": self.set_login}
 
         # 如上，您的程序在运行后，每次请求前都会执行before_request_hook的self.set_login函数，请求后返回前会执行after_request_hook的匿名函数。
 
-方法: register_bep -> 注册蓝图上下文
-*************************************
+方法: register_bep -> 注册蓝图扩展点，用来注册一个蓝图
+****************************************************
 
     环境: web请求上下文
 
@@ -197,8 +197,8 @@
 
         # 如上，您的程序将会多一个蓝图，URL路径是/example。
 
-方法: register_yep -> 注册静态css文件
-*************************************
+方法: register_yep -> 注册静态扩展点，提供模板所需引入的css样式
+*************************************************************
 
     环境: web请求上下文、模板中使用
 
@@ -226,7 +226,7 @@
         </html>
 
 简单存储
-*************************************
+********
 
 v1.3.0支持简单存储服务，其配置姑且命名s3，初始化 ``PluginManager`` 时传递s3，值为local(本地文件)、redis(需要传递s3_redis参数，即redis_url)，目前仅支持这两种。
 不过您也可以自定义存储类，要求是继承自 :class:`~flask_pluginkit.BaseStorage`, 执行 ``storage`` 函数时传入 ``sf(继承的类)`` 和 ``args(继承类参数，如果有的话)``。
@@ -247,6 +247,43 @@ v1.3.0支持简单存储服务，其配置姑且命名s3，初始化 ``PluginMan
         self.s3 = LocalStorage()
 
     # 两者使用同个文件或同个redis库时数据一致
+
+动态连接点(dcp)
+***************
+
+动态连接点，动态注册并执行函数将结果返回给模板使用。您可以通过 :func:`flask_pluginkit.push_dcp` 推送标识点一个函数，在模板中通过 ``emit_dcp`` 执行并获取执行结果(即HTML代码)。
+
+用法::
+
+    ``emit_dcp`` 可以像 ``emit_tep`` 传入额外数据(context)，并且在函数中调用。
+
+    ``push_dcp`` 传入标识点、函数和定位，需要在请求上下文中执行::
+        event: 标识点，有效字符串
+        callback: 普通函数、匿名函数，目前版本不可是类方法
+        position: 定位，默认right插入event末尾，left插入event首位，在 ``emit_dcp`` 中可以体验输出效果
+
+    请注意： 每次使用 ``emit_dcp`` 后都会清空此标识点的函数！
+
+使用案例::
+
+    from flask import render_template
+
+    from flask_pluginkit import Flask, PluginManager, push_dcp
+
+    app = Flask(__name__)
+
+    PluginManager(app)
+
+    def test(extra):
+        return extra + 'test'
+
+    @app.route("/")
+    def index():
+        push_dcp("event", test, "left")
+        return render_template("index.html")
+
+    # index.html
+    {{ emit_dcp('event', extra='template >>') }}
 
 加载逻辑
 --------

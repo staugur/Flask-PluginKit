@@ -5,10 +5,17 @@
 
 dir=$(cd $(dirname $0); pwd)
 cd $dir
-# Prepared environment if available
+
+#定义变量(自定义更改)
+USER="root"
+GROUP="root"
+
+#准备环境
 if [ -r online_preboot.sh ]; then
     . online_preboot.sh
 fi
+
+#定义常量(请勿更改)
 host=$(python -c "from config import GLOBAL;print GLOBAL['Host']")
 port=$(python -c "from config import GLOBAL;print GLOBAL['Port']")
 procname=$(python -c "from config import GLOBAL;print GLOBAL['ProcessName']")
@@ -40,7 +47,7 @@ start)
     if [ -f $pidfile ]; then
         echo "Has pid($(cat $pidfile)) in $pidfile, please check, exit." ; exit 1
     else
-        gunicorn -w $cpu_count --threads 16 -b ${host}:${port} main:app -k gevent --daemon --pid $pidfile --log-file $logfile --max-requests 250 --name $procname
+        gunicorn -w $cpu_count --threads 16 -b ${host}:${port} main:app -k gevent --daemon --pid $pidfile --log-file $logfile --max-requests 250 --name $procname --user $USER --group $GROUP
         sleep 1
         pid=$(cat $pidfile)
         [ "$?" != "0" ] && exit 1

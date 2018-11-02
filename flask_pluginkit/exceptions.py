@@ -28,3 +28,7 @@ class InstallError(PluginError):
 
 class CSSLoadError(PluginError):
     pass
+
+
+class DCPError(PluginError):
+    pass
