@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    Flask-PluginKit
-    ~~~~~~~~~~~~~~~
+    Flask-PluginKit.flask_pluginkit
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     pluginkit: load and run plugins.
 
@@ -188,7 +188,7 @@ class PluginManager(object):
 
         :returns: No return, but self.__plugins will be updated
 
-        :raises PluginError: raises an exception
+        :raises: PluginError: raises an exception
         """
         self.logger.info("Initialization Plugins Start, loadPlugins path: %s" % self.plugin_abspath)
         if os.path.isdir(self.plugin_abspath) and os.path.isfile(os.path.join(self.plugin_abspath, "__init__.py")):
@@ -431,7 +431,7 @@ class PluginManager(object):
 
     @property
     def get_all_hep(self):
-        """Context extension point.
+        """Hook extension point.
 
         * before_request_hook, Before request (intercept requests are allowed)
 
@@ -539,7 +539,7 @@ class PluginManager(object):
 
         :params args: class init args
 
-        :returns class instance
+        :returns: class instance
         """
         from .utils import BaseStorage, LocalStorage, RedisStorage
         if sf and isinstance(sf, BaseStorage):
@@ -558,7 +558,7 @@ class PluginManager(object):
 
         :params position: The position of the insertion function, right(default) and left.
 
-        :raises DCPError: raises an exception
+        :raises: DCPError: raises an exception
 
         .. versionadded:: 2.1.0
         """
@@ -597,7 +597,7 @@ class PluginManager(object):
 
 
 def push_dcp(event, callback, position='right'):
-    """Push a function for :class:`~flask_pluginkit.PluginManager`, :meth:`push_dcp`.
+    """Push a function for :class:`~flask_pluginkit.PluginManager`, :func:`push_dcp`.
 
     Example usage::
 

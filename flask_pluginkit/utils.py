@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    Flask-PluginKit
-    ~~~~~~~~~~~~~~~
+    Flask-PluginKit.utils
+    ~~~~~~~~~~~~~~~~~~~~~
 
     utils: Some tool classes and functions.
 
@@ -64,7 +64,7 @@ class LocalStorage(BaseStorage):
     def list(self):
         """list all data
 
-        :returns dict
+        :returns: dict
         """
         try:
             data = self.open(flag="r")
@@ -76,7 +76,7 @@ class LocalStorage(BaseStorage):
     def get(self, key):
         """Get persistent data from shelve.
 
-        :returns data
+        :returns: data
         """
         try:
             value = self.list[key]

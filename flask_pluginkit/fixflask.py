@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    Flask-PluginKit
-    ~~~~~~~~~~~~~~~
+    Flask-PluginKit.fixflask
+    ~~~~~~~~~~~~~~~~~~~~~~~~
 
     fixflask: A class inheritance of flask, and added some additional functionality.
 

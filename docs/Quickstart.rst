@@ -74,6 +74,6 @@ Hello World!
 -  第一种方法是将\ ``__init__.py``\ 中\ ``__state__``\ 值设为\ ``enabled``\ 或\ ``disabled``
 -  第二种方法是添加\ ``ENABLED``\ 或\ ``DISABLED``\ 文件（此方法优先级高于第一种，DISABLED文件优先级高于ENABLED文件）
 
-    请注意：启用、禁用的操作需要重启Web应用程序才能生效，需要您自行解决，使用gunicorn作为启动的，可以参考flask\_pluginkit.web.blueprint中的路由函数，原理是通过向主进程发送HUP信号重载app。
+    请注意：启用、禁用的操作需要重启Web应用程序才能生效，需要您自行解决，使用gunicorn作为启动的，可以参考 :class:`~flask_pluginkit.blueprint` 中的路由函数，原理是通过向主进程发送HUP信号重载app。
 
 .. |image0| image:: ./_static/images/flask_pluginkit_demo.png

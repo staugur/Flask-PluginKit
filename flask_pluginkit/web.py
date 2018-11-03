@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-    Flask-PluginKit
-    ~~~~~~~~~~~~~~~
+    Flask-PluginKit.web
+    ~~~~~~~~~~~~~~~~~~~
 
-    web: The server-side plug-in management blueprint.
+    web: The server-side plugin management blueprint.
 
     :copyright: (c) 2018 by staugur.
     :license: MIT, see LICENSE for more details.
@@ -19,6 +19,9 @@ if PY2:
 else:
     import _thread as thread
 
+#: Blueprint instance for managing plugins
+#:
+#: .. versionadded:: 0.1.6
 blueprint = Blueprint('flask_pluginkit', __name__, template_folder='templates')
 
 
