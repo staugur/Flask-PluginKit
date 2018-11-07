@@ -297,7 +297,7 @@ v1.3.0支持简单存储服务，其配置姑且命名s3，初始化 ``PluginMan
     2. 扫描插件目录，符合插件规则的包将被动态加载。
     3. 加载插件信息，依次运行 ``run`` -> ``register_tep`` -> ``register_hep`` -> ``register_bep`` -> ``register_yep`` 等方法, 写入到所有插件列表。
     4. Flask-PluginKit设置支持多模板文件夹、多静态文件夹（插件目录下）。
-    5. Flask-PluginKit注册全局模板函数 ``emit_tep`` ``emit_yep`` ``emit_dcp``, 分别是渲染模板上下文、CSS上下文、渲染动态连接点。
+    5. Flask-PluginKit注册全局模板函数 ``emit_tep``、``emit_yep``、``emit_dcp``, 分别是渲染模板上下文、CSS上下文、渲染动态连接点。
     6. 注册所有启用插件的蓝图扩展点BEP。
     7. 使用before_request等装饰器注册所有启用插件的钩子扩展点。
     8. 将 ``PluginManager`` 附加到app中，完成加载，可以使用 ``app.extensions['pluginkit']`` 调用 ``PluginManager`` 类中方法。
