@@ -25,8 +25,7 @@ from utils.tool import err_logger, access_logger, plugin_logger
 from utils.web import verify_sessionId, analysis_sessionId, get_redirect_url, get_userinfo
 from views import FrontBlueprint
 from flask import request, g, jsonify
-from flask_multistatic import MultiStaticFlask as Flask
-from flask_pluginkit import PluginManager, blueprint
+from flask_pluginkit import PluginManager, blueprint, Flask
 
 __author__ = 'staugur'
 __email__ = 'staugur@saintic.com'
@@ -57,7 +56,7 @@ def GlobalTemplateVariables():
     return data
 
 
-@app.before_request
+@app.before_request_top
 def before_request():
     g.signin = verify_sessionId(request.cookies.get("sessionId"))
     g.sid, g.uid = analysis_sessionId(request.cookies.get("sessionId"), "tuple") if g.signin else (None, None)

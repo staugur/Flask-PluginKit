@@ -7,8 +7,6 @@ dir=$(cd $(dirname $0); pwd)
 cd $dir
 
 #定义变量(自定义更改)
-UID=0
-GID=0
 
 #准备环境
 if [ -r online_preboot.sh ]; then
@@ -47,7 +45,7 @@ start)
     if [ -f $pidfile ]; then
         echo "Has pid($(cat $pidfile)) in $pidfile, please check, exit." ; exit 1
     else
-        uwsgi --http ${host}:${port} --module main --callable app --master --procname-master ${procname}.master --procname ${procname}.worker --workers $cpu_count --threads 16 --listen 1024 --chdir $dir --daemonize $logfile --pidfile $pidfile --max-requests 250 --disable-logging --log-maxsize 50000000 --uid $UID --gid $GID
+        uwsgi --http ${host}:${port} --module main --callable app --master --procname-master ${procname}.master --procname ${procname}.worker --workers $cpu_count --threads 16 --listen 1024 --chdir $dir --daemonize $logfile --pidfile $pidfile --max-requests 250 --disable-logging --log-maxsize 50000000
         sleep 1
         pid=$(cat $pidfile)
         [ "$?" != "0" ] && exit 1

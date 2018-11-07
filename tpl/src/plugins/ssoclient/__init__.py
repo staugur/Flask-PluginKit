@@ -15,11 +15,11 @@ from __future__ import absolute_import
 from libs.base import PluginBase
 #: Import the other modules here, and if it's your own module, use the relative Import. eg: from .lib import Lib
 #: 在这里导入其他模块, 如果有自定义包目录, 使用相对导入, 如: from .lib import Lib
-import requests, json
-from config import SSO
-from utils.web import login_required, anonymous_required, set_ssoparam, set_sessionId, get_redirect_url, get_referrer_url, set_userinfo
-from utils.tool import url_check, logger, hmac_sha256
+import requests, json, hmac, hashlib, re
 from flask import Blueprint, request, jsonify, g, redirect, url_for, make_response
+from flask_pluginkit import string_types
+from config import SSO, SYSTEM
+from utils.web import login_required, anonymous_required, set_ssoparam, set_sessionId, get_redirect_url, get_referrer_url, set_userinfo, logger
 
 #：Your plugin name
 #：你的插件名称
@@ -32,7 +32,7 @@ __description__ = "SSO Client"
 __author__      = "Mr.tao <staugur@saintic.com>"
 #: Plugin Version
 #: 插件版本
-__version__     = "0.1" 
+__version__     = "0.1.0" 
 #: Plugin Url
 #: 插件主页
 __url__         = "https://www.saintic.com"
@@ -49,14 +49,11 @@ __readme_file__ = "README"
 #: 插件状态, enabled、disabled, 默认enabled
 __state__       = "enabled"
 
-# 定义sso server地址并删除SSO多余参数
-sso_server = SSO.get("sso_server").strip("/")
-if not url_check(sso_server):
-    raise
+# 定义解析以逗号分隔的字符串为列表
+comma_pat = re.compile(r"\s*,\s*")
 
-# 定义请求函数
 def sso_request(url, params=None, data=None, timeout=5, num_retries=1):
-    """
+    """定义请求函数
     @params dict: 请求查询参数
     @data dict: 提交表单数据
     @timeout int: 超时时间，单位秒
@@ -70,6 +67,61 @@ def sso_request(url, params=None, data=None, timeout=5, num_retries=1):
             return sso_request(url, params=params, data=data, timeout=timeout, num_retries=num_retries-1)
     else:
         return resp
+
+def url_check(addr):
+    """检测UrlAddr是否为有效格式，例如
+    http://ip:port
+    https://abc.com
+    """
+    regex = re.compile(
+        r'^(?:http)s?://' # http:// or https://
+        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
+        r'localhost|' #localhost...
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
+        r'(?::\d+)?' # optional port
+        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+    if addr and isinstance(addr, (str, unicode)):
+        if regex.match(addr):
+            return True
+    return False
+
+def allow_uids():
+    """解析允许登录的uid列表"""
+    if SSO["sso_allow"] and isinstance(SSO["sso_allow"], string_types):
+        uids = [ uid for uid in comma_pat.split(SSO["sso_allow"]) if uid ]
+        return uids
+
+def deny_uids():
+    """解析拒绝登录的uid列表"""
+    if SSO["sso_deny"] and isinstance(SSO["sso_deny"], string_types):
+        uids = [ uid for uid in comma_pat.split(SSO["sso_deny"]) if uid and isinstance(uid, string_types) ]
+        return uids
+    return []
+
+def is_allowUid(uid):
+    """判断uid是否允许登录，规则(按数字顺序判断，每一步返回True即刻中止并return False拒绝后续登录):
+    1. uid在拒绝列表中
+    2. 允许列表为True时，uid不在允许列表；允许列表为False时。
+    :returns:bool:True允许登录，False拒绝登录
+    """
+    if uid and isinstance(uid, string_types):
+        allowUids = allow_uids()
+        denyUids = deny_uids()
+        if uid in denyUids:
+            return False
+        if allowUids:
+            return uid in allowUids
+        else:
+            return True
+
+def hmac_sha256(message):
+    """HMAC SHA256 Signature"""
+    return hmac.new(key=SYSTEM["HMAC_SHA256_KEY"], msg=message, digestmod=hashlib.sha256).hexdigest()
+
+# 定义sso server地址并删除SSO多余参数
+sso_server = SSO.get("sso_server").strip("/")
+if not url_check(sso_server):
+    raise
 
 # 定义蓝图
 sso_blueprint = Blueprint("sso", "sso")
@@ -107,15 +159,17 @@ def authorized():
                     uid = resp["uid"]
                     sid = resp["sid"]
                     expire = int(resp["expire"])
-                    # 获取用户信息，若不需要，可将get_userinfo=True改为False，并注释下两行
-                    g.userinfo = resp["userinfo"].get("data") or dict()
-                    set_userinfo(uid, g.userinfo, expire)
-                    logger.debug(g.userinfo)
-                    # 授权令牌验证通过，设置局部会话，允许登录
-                    sessionId = set_sessionId(uid=uid, seconds=expire, sid=sid)
-                    response = make_response(redirect(get_redirect_url("front.index")))
-                    response.set_cookie(key="sessionId", value=sessionId, max_age=expire, httponly=True, secure=False if request.url_root.split("://")[0] == "http" else True)
-                    return response
+                    # 判断是否允许登录
+                    if is_allowUid(uid) is True:
+                        # 获取用户信息，若不需要，可将get_userinfo=True改为False，并注释下两行
+                        g.userinfo = resp["userinfo"].get("data") or dict()
+                        set_userinfo(uid, g.userinfo, expire)
+                        logger.debug(g.userinfo)
+                        # 授权令牌验证通过，设置局部会话，允许登录
+                        sessionId = set_sessionId(uid=uid, seconds=expire, sid=sid)
+                        response = make_response(redirect(get_redirect_url("front.index")))
+                        response.set_cookie(key="sessionId", value=sessionId, max_age=expire, httponly=True, secure=False if request.url_root.split("://")[0] == "http" else True)
+                        return response
     elif Action == "ssoLogout":
         # 单点注销
         ReturnUrl = request.args.get("ReturnUrl") or get_referrer_url() or url_for("front.index", _external=True)

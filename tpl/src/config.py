@@ -40,6 +40,12 @@ SSO = {
 
     "sso_server": getenv("xxx_sso_server", "YourPassportFQDN"),
     # Passport部署允许的完全合格域名根地址，例如作者的`https://passport.saintic.com`
+
+    "sso_allow": getenv("xxx_sso_allow"),
+    # 允许登录的uid列表，格式是: uid1,uid2,...,uidn
+
+    "sso_deny": getenv("xxx_sso_deny")
+    # 拒绝登录的uid列表, 格式同上
 }
 
 

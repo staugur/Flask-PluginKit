@@ -109,7 +109,7 @@ setup(
     zip_safe=False,
     platforms='any',
     install_requires=[
-        'Flask>=0.6',
+        'Flask>=0.9',
     ],
     cmdclass={
         'publish': PublishCommand,

@@ -65,6 +65,7 @@ plugin.init_app(app)
 * 码云 [https://gitee.com/staugur/Flask-PluginKit](https://gitee.com/staugur/Flask-PluginKit "https://gitee.com/staugur/Flask-PluginKit")
 * Author [https://www.saintic.com](https://www.saintic.com "https://www.saintic.com")
 * Issues [https://github.com/staugur/Flask-PluginKit/issues](https://github.com/staugur/Flask-PluginKit/issues "https://github.com/staugur/Flask-PluginKit/issues")
+* 使用 *Flask-PluginKit* 的项目 [https://github.com/topics/flask-pluginkit](https://github.com/topics/flask-pluginkit "https://github.com/topics/flask-pluginkit")
 
 
 ### 文档(Documentation)
@@ -72,6 +73,13 @@ plugin.init_app(app)
 [详细文档(Click here)](https://flask-pluginkit.readthedocs.io)
 
 
-### LICENSE
+### 许可证(LICENSE)
 
 [MIT LICENSE](http://flask.pocoo.org/docs/license/#flask-license)
+
+
+### 说在后面(END)
+
+欢迎提交PR、共同开发！
+
+

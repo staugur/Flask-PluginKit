@@ -159,6 +159,8 @@ class PluginInstaller(object):
             filename = self.__getFilename(url, scene=1)
             if not filename:
                 filename = self.__getFilename(url, scene=2)
+            #: fix UnboundLocalError
+            f = None
             try:
                 f = urllib2.urlopen(url, timeout=10)
             except (AttributeError, ValueError, urllib2.URLError):
@@ -180,7 +182,8 @@ class PluginInstaller(object):
                 else:
                     raise InstallError("Invalid Filename")
             finally:
-                f.close()
+                if f is not None:
+                    f.close()
         else:
             raise InstallError("Invalid URL")
 

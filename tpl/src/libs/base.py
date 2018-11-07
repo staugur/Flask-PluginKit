@@ -39,7 +39,7 @@ class CacheBase(ServiceBase):
     def __simple_cache(self):
         from werkzeug.contrib.cache import SimpleCache
         return SimpleCache()
-    
+
     @property
     def __redis_cache(self):
         return self.redis

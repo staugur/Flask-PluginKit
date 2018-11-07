@@ -7,8 +7,6 @@ dir=$(cd $(dirname $0); pwd)
 cd $dir
 
 #定义变量(自定义更改)
-USER="root"
-GROUP="root"
 
 #准备环境
 if [ -r online_preboot.sh ]; then
@@ -47,7 +45,7 @@ start)
     if [ -f $pidfile ]; then
         echo "Has pid($(cat $pidfile)) in $pidfile, please check, exit." ; exit 1
     else
-        gunicorn -w $cpu_count --threads 16 -b ${host}:${port} main:app -k gevent --daemon --pid $pidfile --log-file $logfile --max-requests 250 --name $procname --user $USER --group $GROUP
+        gunicorn -w $cpu_count --threads 16 -b ${host}:${port} main:app -k gevent --daemon --pid $pidfile --log-file $logfile --max-requests 250 --name $procname
         sleep 1
         pid=$(cat $pidfile)
         [ "$?" != "0" ] && exit 1
