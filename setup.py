@@ -32,7 +32,9 @@ Flask-PluginKit
 文档(Documentation)
 ~~~~~~~~~~~~~~~~~~~
 
-`文档(Document) <https://flask-pluginkit.readthedocs.io>`__
+`中文 <https://flask-pluginkit.readthedocs.io/zh_CN/latest/>`__
+
+`English <https://flask-pluginkit.readthedocs.io/en/latest/>`__
 
 LICENSE
 ~~~~~~~

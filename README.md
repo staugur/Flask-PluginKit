@@ -70,20 +70,9 @@ plugin.init_app(app)
 
 ### 文档(Documentation)
 
-* [中文(zh_CN)](https://flask-pluginkit.readthedocs.io/zh_CN/latest/)
+* [中文](https://flask-pluginkit.readthedocs.io/zh_CN/latest/)
 
-* English
-
-*The English document is being translated, you can build it manually, and it is not currently hosted on readthedocs.org.*
-
-```bash
-git clone https://github.com/staugur/Flask-PluginKit
-cd Flask-PluginKit
-pip install -r dev-requirements.txt
-make trans
-```
-
-*The generated HTML files are stored in docs/_build/html_en/, and you can configure nginx to access them.*
+* [English](https://flask-pluginkit.readthedocs.io/en/latest/)
 
 
 ### 许可证(LICENSE)
