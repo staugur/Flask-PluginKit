@@ -9,6 +9,10 @@ help:
 	@echo "  init-docs       use the sphinx-quickstart initialization document catalogue quickly"
 	@echo "  rst             use the sphinx-apidoc extract documentation from code comments"
 	@echo "  html            use the sphinx-build based on reST build HTML file"
+	@echo "  gettext         make gettext"
+	@echo "  en              sphinx-intl update pot for en"
+	@echo "  trans           start to translate"
+	@echo "  pipe            make gettext -> en -> trans"
 
 clean:
 	find . -name '*.pyc' -exec rm -f {} +
@@ -41,4 +45,18 @@ rst:
 	sphinx-apidoc -d 2 -f --ext-autodoc --ext-viewcode --private -o docs flask_pluginkit
 
 html:
-	sphinx-build -b html docs docs/_build/html
+	cd docs && sphinx-build -b html . _build/html
+
+gettext:
+	cd docs && sphinx-build -b gettext . _build/locale
+
+en:
+	cd docs && sphinx-intl update -p _build/locale/ -l en
+
+trans:
+	cd docs && sphinx-build -D language=en -b html . _build/html_en
+
+pipe:
+	$(MAKE) gettext
+	$(MAKE) en
+	$(MAKE) trans

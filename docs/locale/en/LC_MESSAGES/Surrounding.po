@@ -1,0 +1,72 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, staugur
+# This file is distributed under the same license as the Flask-PluginKit
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Flask-PluginKit \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-08 16:43+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: ../../Surrounding.rst:2
+msgid "fixflask.py"
+msgstr ""
+
+#: ../../Surrounding.rst:4
+msgid ""
+"这个文件是继承Flask的类，增加了一些功能，即支持多静态文件夹(来自于 ``flask-multistatic`` )、支持 "
+"``before_request_top`` (此装饰器与before_request作用一致，区别是它将装饰的函数置于钩子首位)。"
+msgstr ""
+
+#: ../../Surrounding.rst:7
+msgid "使用方法::"
+msgstr ""
+
+#: ../../Surrounding.rst:13
+msgid "web.py"
+msgstr ""
+
+#: ../../Surrounding.rst:15
+msgid ""
+"这是一个蓝图，:class:`~flask_pluginkit.blueprint`, "
+"在您的app中注册此蓝图，它提供一个页面展示插件列表，支持禁用、启用插件、重启app、访问认证。"
+msgstr ""
+
+#: ../../Surrounding.rst:17
+msgid ""
+"当然，这个蓝图仅支持flask-pluginkit的 :class:`~flask_pluginkit.PluginManager` "
+"初始化的app，没有此扩展，蓝图不可用。"
+msgstr ""
+
+#: ../../Surrounding.rst:19
+msgid "重启app功能::"
+msgstr ""
+
+#: ../../Surrounding.rst:32
+msgid "访问认证::"
+msgstr ""
+
+#: ../../Surrounding.rst:43
+msgid "示例::"
+msgstr ""
+
+#: ../../Surrounding.rst:56
+msgid "installer.py"
+msgstr ""
+
+#: ../../Surrounding.rst:58
+msgid ""
+"安装插件类, :class:`~flask_pluginkit.PluginInstaller`, 支持添加http远程插件和本地插件，提供 "
+"``addPlugin`` 和 ``removePlugin`` 两个api接口(返回dict，参数见Api Document)"
+msgstr ""
+

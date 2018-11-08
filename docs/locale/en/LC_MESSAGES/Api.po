@@ -1,0 +1,541 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, staugur
+# This file is distributed under the same license as the Flask-PluginKit
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Flask-PluginKit \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-08 16:43+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: ../../Api.rst:2
+msgid "Restful api returns the json format"
+msgstr ""
+
+#: ../../Api.rst:4
+msgid "Return json data, public return: {\"msg\": null, \"code\": int}"
+msgstr ""
+
+#: ../../Api.rst:5
+msgid ""
+"When code is 0, the request is successful; non-zero is the request "
+"failure, at this time, msg has a failure message."
+msgstr ""
+
+#: ../../Api.rst:8
+msgid "flask_pluginkit"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit:2 of
+msgid "Flask-PluginKit.flask_pluginkit"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit:4 of
+msgid "pluginkit: load and run plugins."
+msgstr ""
+
+#: flask_pluginkit.fixflask flask_pluginkit.flask_pluginkit
+#: flask_pluginkit.installer flask_pluginkit.utils flask_pluginkit.web of
+msgid "copyright"
+msgstr ""
+
+#: flask_pluginkit.fixflask:6 flask_pluginkit.flask_pluginkit:6
+#: flask_pluginkit.installer:6 flask_pluginkit.utils:6 flask_pluginkit.web:6 of
+msgid "2018 by staugur."
+msgstr ""
+
+#: flask_pluginkit.fixflask flask_pluginkit.flask_pluginkit
+#: flask_pluginkit.installer flask_pluginkit.utils flask_pluginkit.web of
+msgid "license"
+msgstr ""
+
+#: flask_pluginkit.fixflask:7 flask_pluginkit.flask_pluginkit:7
+#: flask_pluginkit.installer:7 flask_pluginkit.utils:7 flask_pluginkit.web:7 of
+msgid "MIT, see LICENSE for more details."
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager:1
+#: flask_pluginkit.installer.PluginInstaller:1
+#: flask_pluginkit.utils.BaseStorage:1 of
+msgid "基类：:class:`object`"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager:1 of
+msgid ""
+"Flask Plugin Manager Extension, collects all plugins and maps the "
+"metadata to the plugin."
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager:3 of
+msgid ""
+"The plugin is a directory, the directory name is the plugin name, and the"
+" plugin entry file is **__init__.py**, including __plugin_name__, "
+"__description__, __version__, __author__, __state__ and other plugin "
+"metadata."
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager:6 of
+msgid "A meaningful plugin structure should look like this::"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.dcp_funcs:1 of
+msgid "Dynamic join point initialization, format:: dict(event=deque())"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.disable_plugin:1 of
+msgid ""
+"Disable a plugin (that is, create a DISABLED empty file) and restart the "
+"application to take effect"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_dcp:1 of
+msgid "Emit a event(with dcp) and gets the dynamic join point data(html code)."
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_dcp
+#: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp of
+msgid "params event"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_dcp:3
+#: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp:3 of
+msgid "str,unicode: A unique identifier name for dcp."
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_dcp
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_tep
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_yep
+#: flask_pluginkit.installer.PluginInstaller.addPlugin
+#: flask_pluginkit.installer.PluginInstaller.removePlugin
+#: flask_pluginkit.utils.LocalStorage.set of
+msgid "参数"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_dcp:5
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_tep:19 of
+msgid "dict: Keyword parameter, additional data passed to the template"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_dcp
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_tep
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_yep
+#: flask_pluginkit.flask_pluginkit.PluginManager.get_all_tep
+#: flask_pluginkit.flask_pluginkit.PluginManager.get_all_yep
+#: flask_pluginkit.flask_pluginkit.PluginManager.storage
+#: flask_pluginkit.installer.PluginInstaller.addPlugin
+#: flask_pluginkit.utils.LocalStorage.get
+#: flask_pluginkit.utils.LocalStorage.list
+#: flask_pluginkit.utils.LocalStorage.set of
+msgid "返回"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_dcp:7
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_tep:21
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_yep:22 of
+msgid "html code with :class:`~jinja2.Markup`."
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_tep:1 of
+msgid ""
+"Emit a event(with tep) and gets the template extension point data(html "
+"code)."
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_tep:3 of
+msgid ""
+"Please use this function in the template. The extension point needs to be"
+" defined by itself."
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_tep:5 of
+msgid ""
+"Suppose you have an extension point named `tep`, only need to enable "
+"custom extension points in the template, for examples::"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_tep:12 of
+msgid ""
+"str: Template extension point name, which is unique, a tep parsing result"
+" is list, within which can be HTML code and files"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_tep:14 of
+msgid ""
+"str: Render type, default value = \"all\" all - render all, is default; "
+"fil - render HTML file; cod - render HTML code"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_yep:1 of
+msgid "Gets the css extension point data(html code)."
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_yep:3 of
+msgid ""
+"Please use this function between in the template, and the application "
+"needs to support multiple static folder functions, that is, the app "
+"initialized with :class:`~flask_pluginkit.Flask`."
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_yep:6 of
+msgid ""
+"Assuming that the following templates need to be enabled for introducing "
+"CSS files using emit_metal, for examples::"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_yep:20 of
+msgid ""
+"str: Name of css extension point, the only, a analytical results for the "
+"list or yep, can be used directly `link CSS` code"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.enable_plugin:1 of
+msgid ""
+"Enable a plugin (that is, create a ENABLED empty file) and restart the "
+"application to take effect"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.get_all_bep:1 of
+msgid "Blueprint extension point"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.get_all_hep:1 of
+msgid "Hook extension point."
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.get_all_hep:3 of
+msgid "before_request_hook, Before request (intercept requests are allowed)"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.get_all_hep:5 of
+msgid "after_request_hook, After request (no exception before return)"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.get_all_hep:7 of
+msgid ""
+"teardown_request_hook, After request (before return, with or without "
+"exception)"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.get_all_plugins:1 of
+msgid "Get all plugins"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.get_all_tep:1 of
+msgid "Template extension point"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.get_all_tep:3 of
+msgid "dict: {tep: dict(HTMLFile=[], HTMLString=[]), tep...}"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.get_all_yep:1 of
+msgid "Cascading style sheet (CSS) extension points."
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.get_all_yep:3 of
+msgid "dict: {yep: [css...], ...}"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.get_enabled_plugins:1 of
+msgid "Get all enabled plugins"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.get_plugin_info:1 of
+msgid "Get plugin information"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.logger:1
+#: flask_pluginkit.installer.PluginInstaller.logger:1 of
+msgid "logging Logger instance"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp:1 of
+msgid "Connect a dcp, push a function."
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp of
+msgid "params callback"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp:5 of
+msgid "function: Corresponding to the event to perform a function."
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp of
+msgid "params position"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp:7 of
+msgid "The position of the insertion function, right(default) and left."
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp
+#: flask_pluginkit.utils.LocalStorage.set of
+msgid "raises"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp:9 of
+msgid "DCPError: raises an exception"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.s3:1 of
+msgid ""
+"Simple storage service(s3), currently optional: local or redis. May "
+"increase in the future: memcache. You can also inherit "
+":class:`~flask_pluginkit.BaseStorage`, custom storage interface."
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.storage:1 of
+msgid ""
+"Common storage interface with :class:`~flask_pluginkit.LocalStorage` or "
+":class:`~flask_pluginkit.RedisStorage`, sf is a custom storage interface "
+"classes, args is its parameters, highest priority."
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.storage of
+msgid "params sf"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.storage:4 of
+msgid "class based :class:`~flask_pluginkit.BaseStorage`"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.storage of
+msgid "params args"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.storage:6 of
+msgid "class init args"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.storage:8 of
+msgid "class instance"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.PluginManager.stpl:1 of
+msgid "Template sorting"
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.push_dcp:1 of
+msgid ""
+"Push a function for :class:`~flask_pluginkit.PluginManager`, "
+":func:`push_dcp`."
+msgstr ""
+
+#: flask_pluginkit.flask_pluginkit.push_dcp:3 of
+msgid "Example usage::"
+msgstr ""
+
+#: ../../Api.rst:17
+msgid "installer"
+msgstr ""
+
+#: flask_pluginkit.installer:2 of
+msgid "Flask-PluginKit.installer"
+msgstr ""
+
+#: flask_pluginkit.installer:4 of
+msgid "installer: install or remove plugin."
+msgstr ""
+
+#: flask_pluginkit.installer.PluginInstaller:1 of
+msgid "plugin installer for installing a compressed local/remote plugin"
+msgstr ""
+
+#: flask_pluginkit.installer.PluginInstaller.addPlugin:1 of
+msgid "Add a plugin, support only for `.tar.gz` or `.zip` compression packages."
+msgstr ""
+
+#: flask_pluginkit.installer.PluginInstaller.addPlugin:3 of
+msgid ""
+"`remote`, download and unpack a remote plugin package; `local`, unzip a "
+"local plugin package."
+msgstr ""
+
+#: flask_pluginkit.installer.PluginInstaller.addPlugin:7 of
+msgid "str: for method is remote, plugin can be downloaded from the address."
+msgstr ""
+
+#: flask_pluginkit.installer.PluginInstaller.addPlugin:9 of
+msgid "str: for method is local, plugin local absolute path"
+msgstr ""
+
+#: flask_pluginkit.installer.PluginInstaller.addPlugin:11 of
+msgid ""
+"Boolean: for method is local, remove the plugin source code package, "
+"default is False."
+msgstr ""
+
+#: flask_pluginkit.installer.PluginInstaller.addPlugin:13 of
+msgid ""
+"dict: add the result of the plugin, like dict(msg=str, code=int), code=0 "
+"is successful."
+msgstr ""
+
+#: flask_pluginkit.installer.PluginInstaller.removePlugin:1 of
+msgid "Remove a plugin"
+msgstr ""
+
+#: flask_pluginkit.installer.PluginInstaller.removePlugin:3 of
+msgid "The plugin package name."
+msgstr ""
+
+#: ../../Api.rst:26
+msgid "web"
+msgstr ""
+
+#: flask_pluginkit.web:2 of
+msgid "Flask-PluginKit.web"
+msgstr ""
+
+#: flask_pluginkit.web:4 of
+msgid "web: The server-side plugin management blueprint."
+msgstr ""
+
+#: flask_pluginkit.web.blueprint:1 of
+msgid "Blueprint instance for managing plugins"
+msgstr ""
+
+#: ../../Api.rst:35
+msgid "fixflask"
+msgstr ""
+
+#: flask_pluginkit.fixflask:2 of
+msgid "Flask-PluginKit.fixflask"
+msgstr ""
+
+#: flask_pluginkit.fixflask:4 of
+msgid ""
+"fixflask: A class inheritance of flask, and added some additional "
+"functionality."
+msgstr ""
+
+#: flask_pluginkit.fixflask.Flask:1 of
+msgid "基类：:class:`flask.app.Flask`"
+msgstr ""
+
+#: flask_pluginkit.fixflask.Flask:1 of
+msgid ""
+"The current class code from flask-multistatic, support for multiple "
+"static folder, in addition, also increases the before_req decorator to "
+"set the xx the highest priority"
+msgstr ""
+
+#: flask_pluginkit.fixflask.Flask.before_request_top:1 of
+msgid "Registers a function to run before each request."
+msgstr ""
+
+#: flask_pluginkit.fixflask.Flask.before_request_top:3 of
+msgid ""
+"The usage is equivalent to the :func:`before_request` decorator, and  "
+"before_request registers the function at the end of the "
+"before_request_funcs, while  this decorator registers the function at the"
+" top of the before_request_funcs (index 0)."
+msgstr ""
+
+#: flask_pluginkit.fixflask.Flask.before_request_top:7 of
+msgid ""
+"Because flask-pluginkit has registered all cep into the app at load time,"
+"  if your web application uses before_request and plugins depend on one "
+"of them (like g), the plugin will not run properly,  so your web "
+"application should use this decorator at this time."
+msgstr ""
+
+#: flask_pluginkit.fixflask.Flask.send_static_file:1 of
+msgid ""
+"Function used internally to send static files from the static folder to "
+"the browser."
+msgstr ""
+
+#: ../../Api.rst:44
+msgid "utils"
+msgstr ""
+
+#: flask_pluginkit.utils:2 of
+msgid "Flask-PluginKit.utils"
+msgstr ""
+
+#: flask_pluginkit.utils:4 of
+msgid "utils: Some tool classes and functions."
+msgstr ""
+
+#: flask_pluginkit.utils.LocalStorage:1 flask_pluginkit.utils.RedisStorage:1 of
+msgid "基类：:class:`flask_pluginkit.utils.BaseStorage`"
+msgstr ""
+
+#: flask_pluginkit.utils.LocalStorage.get:1 of
+msgid "Get persistent data from shelve."
+msgstr ""
+
+#: flask_pluginkit.utils.LocalStorage.get:3 of
+msgid "data"
+msgstr ""
+
+#: flask_pluginkit.utils.LocalStorage.list:1 of
+msgid "list all data"
+msgstr ""
+
+#: flask_pluginkit.utils.LocalStorage.list:3 of
+msgid "dict"
+msgstr ""
+
+#: flask_pluginkit.utils.LocalStorage.open:1 of
+msgid "Open handle"
+msgstr ""
+
+#: flask_pluginkit.utils.LocalStorage.set:1 of
+msgid "Set persistent data with shelve."
+msgstr ""
+
+#: flask_pluginkit.utils.LocalStorage.set:3 of
+msgid "string: Index key"
+msgstr ""
+
+#: flask_pluginkit.utils.LocalStorage.set:5 of
+msgid "All supported data types in python"
+msgstr ""
+
+#: flask_pluginkit.utils.RedisStorage.get:1 of
+msgid "get key data from redis"
+msgstr ""
+
+#: flask_pluginkit.utils.RedisStorage.list:1 of
+msgid "list redis key hash data"
+msgstr ""
+
+#: flask_pluginkit.utils.RedisStorage.open:1 of
+msgid "open handler, you need install redis module"
+msgstr ""
+
+#: flask_pluginkit.utils.RedisStorage.set:1 of
+msgid "set key data"
+msgstr ""
+
+#: flask_pluginkit.utils.PY2:1 of
+msgid "check python version 2 or 3"
+msgstr ""
+
+#: ../../Api.rst:53
+msgid "exceptions"
+msgstr ""
+
+#: flask_pluginkit.PluginError:1 of
+msgid "基类：:class:`Exception`"
+msgstr ""
+
+#: flask_pluginkit.CSSLoadError:1 flask_pluginkit.DCPError:1
+#: flask_pluginkit.InstallError:1 flask_pluginkit.TarError:1
+#: flask_pluginkit.ZipError:1 of
+msgid "基类：:class:`flask_pluginkit.exceptions.PluginError`"
+msgstr ""
+
