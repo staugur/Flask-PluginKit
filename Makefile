@@ -60,3 +60,4 @@ pipe:
 	$(MAKE) gettext
 	$(MAKE) en
 	$(MAKE) trans
+	$(MAKE) clean

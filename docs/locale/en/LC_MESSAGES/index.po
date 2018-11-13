@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-08 16:43+0800\n"
+"POT-Creation-Date: 2018-11-13 15:45+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,62 +18,65 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: ../../index.rst:3
+#: ../../index.rst:3 flask_pluginkit.fixflask:2
+#: flask_pluginkit.flask_pluginkit:2 flask_pluginkit.installer:2
+#: flask_pluginkit.utils:2 flask_pluginkit.web:2 of
 msgid "Flask-PluginKit"
 msgstr ""
 
 #: ../../index.rst:7
 msgid "一个基于Flask的插件开发工具，支持多种扩展类型，您可以用来创建插件而无需更改核心代码。"
-msgstr ""
+msgstr "A Flask based plug-in development tool that supports multiple extension types that you can use to create plug-ins without changing core code."
 
 #: ../../index.rst:27
 msgid "快速开始"
-msgstr ""
+msgstr "Quickstart"
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:2 <included from
 msgid "安装使用"
-msgstr ""
+msgstr "Installation"
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:4 <included from
 msgid "先安装(Installation)，再初始化(Initialization)"
-msgstr ""
+msgstr "Install first, then initialize."
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:10 <included
 #: from
 msgid "第一种方法：普通模式(Usage)"
-msgstr ""
+msgstr "The first method: common mode"
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:17 <included
 #: from
 msgid "第二种方法：工厂模式(The factory pattern)"
-msgstr ""
+msgstr "The second method: The factory pattern"
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:26 <included
 #: from
 msgid "插件结构"
-msgstr ""
+msgstr "The plugin structure"
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:28 <included
 #: from
 msgid ""
 "安装完成后，您可以开发第一个插件。最小的插件需要至少拥有自己的目录，目录必须包含\\ ``__init__.py``\\ "
 "文件，否则不认为这是一个插件包！"
-msgstr ""
+msgstr "After the installation is complete, you can develop the first plug-in. The smallest plug-in needs at least have their own directory, and the directory must contain \\ ``__init__.py`` \\ "
+"file, otherwise don't think this is a plugin package!"
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:30 <included
 #: from
 msgid "您的插件核心代码应该写在\\ ``__init__.py``\\ 文件中，包含注册插件所需的元数据。"
-msgstr ""
+msgstr "Your plug-in core code should be written in the book of \\ ``__init__.py`` \\ file, containing registered plug-in metadata as needed."
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:32 <included
 #: from
 msgid "一个最简单的插件可能是这样的："
-msgstr ""
+msgstr "One of the simplest plug-ins might look like this:"
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:39 <included
 #: from
 msgid "一个复杂的插件也可能是这样的："
-msgstr ""
+msgstr "A complex plug-in might also look something like this:"
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:53 <included
 #: from
@@ -85,7 +88,8 @@ msgstr ""
 msgid ""
 "这是一个示例应用，代码\\ `在这里 <https://github.com/staugur/flask-"
 "pluginkit/tree/master/example>`__\\ 。"
-msgstr ""
+msgstr "This is an example application, code \\ `here <https://github.com/staugur/flask-"
+"pluginkit/tree/master/example>`__\\ ."
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:57 <included
 #: from
@@ -93,16 +97,18 @@ msgid ""
 "这个示例中的演示插件(位于plugins/example)，它基本上已经包含了Flask-"
 "PluginKit目前所提供的所有功能点，它本来就是一个帮助插件，可以复制修改一份建立属于您的插件。"
 msgstr ""
+"The demo plug-in in this example (located in plugins/example), which basically contains "
+"all of the functionality currently provided by Flask-PluginKit, which is essentially a helper plug-in, can be copied and modified to create a plug-in that belongs to you."
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:59 <included
 #: from
 msgid "安装依赖包，\\ ``pip install -r requirements.txt``"
-msgstr ""
+msgstr "Install dependencies, \\ ``pip install -r requirements.txt``"
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:60 <included
 #: from
 msgid "运行它，\\ ``python main.py``\\ ，首页大概是这样："
-msgstr ""
+msgstr "Run it, \\ ``python main.py``\\, and the first page looks like this:"
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:62 <included
 #: from
@@ -115,21 +121,23 @@ msgid ""
 "温馨提示：红色部分，就是plugins/example/static/example/demo.css设定的，支持插件添加静态文件，在v0.1.8及之后版本支持通过register\\_yep注册静态文件，当然也可以直接在模板中link"
 " css，但不建议。"
 msgstr ""
+"Warm prompt: the red part, it is the plugins/example/static/example/demo CSS set, support plug-ins add static files, after v0.1.8 and versioning support through the register\\_yep registered a static file, of course, can also directly link"
+"CSS in the template, but not recommended."
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:67 <included
 #: from
 msgid "更多插件相关，请参阅\\ ``插件详解``\\ 一节。"
-msgstr ""
+msgstr "More plug-ins, please refer to the \\ ``Detail`` \\ section."
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:70 <included
 #: from
 msgid "启用、禁用插件"
-msgstr ""
+msgstr "Enable and disable plugin"
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:72 <included
 #: from
 msgid "插件不是pypi上发布的包，它应该在应用程序中的本地目录，启用(enabled)、禁用(disabled)一个插件有两种方法。"
-msgstr ""
+msgstr "A plug-in is not a package published on pypi, it should be in the local directory in the application, enabling and disabled a plug-in in two ways."
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:74 <included
 #: from
@@ -137,6 +145,8 @@ msgid ""
 "第一种方法是将\\ ``__init__.py``\\ 中\\ ``__state__``\\ 值设为\\ ``enabled``\\ 或\\ "
 "``disabled``"
 msgstr ""
+"The first method, modify \\ ``__init__.py``\\ file, set the \\ ``__state__`` \\ value, such as \\ ``enabled`` \\ or \\"
+"``disabled``"
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:75 <included
 #: from
@@ -144,6 +154,8 @@ msgid ""
 "第二种方法是添加\\ ``ENABLED``\\ 或\\ ``DISABLED``\\ "
 "文件（此方法优先级高于第一种，DISABLED文件优先级高于ENABLED文件）"
 msgstr ""
+"The second method is to add \\ ``ENABLED``\\ or \\ ``DISABLED``\\  file"
+"(This method takes precedence over the first one, and the DISABLED file takes precedence over the ENABLED file)"
 
 #: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:77 <included
 #: from
@@ -151,6 +163,8 @@ msgid ""
 "请注意：启用、禁用的操作需要重启Web应用程序才能生效，需要您自行解决，使用gunicorn作为启动的，可以参考 "
 ":class:`~flask_pluginkit.blueprint` 中的路由函数，原理是通过向主进程发送HUP信号重载app。"
 msgstr ""
+"Please note: the enabled and disabled operation needs to be restarted for the Web application to take effect, and you need to solve it by yourself. Gunicorn is used as the initiator, which can be referenced "
+"routing function of :class:`~flask_pluginkit.blueprint`, the principle is sent through to the main process overloading app HUP signal."
 
 #: ../../index.rst:33
 msgid "插件详解"
@@ -509,10 +523,6 @@ msgstr ""
 msgid "flask_pluginkit"
 msgstr ""
 
-#: flask_pluginkit.flask_pluginkit:2 of
-msgid "Flask-PluginKit.flask_pluginkit"
-msgstr ""
-
 #: flask_pluginkit.flask_pluginkit:4 of
 msgid "pluginkit: load and run plugins."
 msgstr ""
@@ -604,10 +614,7 @@ msgstr ""
 #: flask_pluginkit.flask_pluginkit.PluginManager.emit_yep
 #: flask_pluginkit.flask_pluginkit.PluginManager.get_all_tep
 #: flask_pluginkit.flask_pluginkit.PluginManager.get_all_yep
-#: flask_pluginkit.flask_pluginkit.PluginManager.storage
 #: flask_pluginkit.installer.PluginInstaller.addPlugin
-#: flask_pluginkit.utils.LocalStorage.get
-#: flask_pluginkit.utils.LocalStorage.list
 #: flask_pluginkit.utils.LocalStorage.set of
 msgid "返回"
 msgstr ""
@@ -682,7 +689,7 @@ msgid "Blueprint extension point"
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.get_all_hep:1 of
-msgid "Hook extension point."
+msgid "Context extension point."
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.get_all_hep:3 of
@@ -752,13 +759,8 @@ msgstr ""
 msgid "The position of the insertion function, right(default) and left."
 msgstr ""
 
-#: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp
-#: flask_pluginkit.utils.LocalStorage.set of
-msgid "raises"
-msgstr ""
-
 #: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp:9 of
-msgid "DCPError: raises an exception"
+msgid ":raises DCPError: raises an exception"
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.s3:1 of
@@ -792,7 +794,7 @@ msgid "class init args"
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.storage:8 of
-msgid "class instance"
+msgid ":returns class instance"
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.stpl:1 of
@@ -802,7 +804,7 @@ msgstr ""
 #: flask_pluginkit.flask_pluginkit.push_dcp:1 of
 msgid ""
 "Push a function for :class:`~flask_pluginkit.PluginManager`, "
-":func:`push_dcp`."
+":meth:`push_dcp`."
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.push_dcp:3 of
@@ -811,10 +813,6 @@ msgstr ""
 
 #: ../../Api.rst /mnt/e/Flask-PluginKit/docs/index.rst>:17 <included from
 msgid "installer"
-msgstr ""
-
-#: flask_pluginkit.installer:2 of
-msgid "Flask-PluginKit.installer"
 msgstr ""
 
 #: flask_pluginkit.installer:4 of
@@ -867,24 +865,12 @@ msgstr ""
 msgid "web"
 msgstr ""
 
-#: flask_pluginkit.web:2 of
-msgid "Flask-PluginKit.web"
-msgstr ""
-
 #: flask_pluginkit.web:4 of
-msgid "web: The server-side plugin management blueprint."
-msgstr ""
-
-#: flask_pluginkit.web.blueprint:1 of
-msgid "Blueprint instance for managing plugins"
+msgid "web: The server-side plug-in management blueprint."
 msgstr ""
 
 #: ../../Api.rst /mnt/e/Flask-PluginKit/docs/index.rst>:35 <included from
 msgid "fixflask"
-msgstr ""
-
-#: flask_pluginkit.fixflask:2 of
-msgid "Flask-PluginKit.fixflask"
 msgstr ""
 
 #: flask_pluginkit.fixflask:4 of
@@ -934,10 +920,6 @@ msgstr ""
 msgid "utils"
 msgstr ""
 
-#: flask_pluginkit.utils:2 of
-msgid "Flask-PluginKit.utils"
-msgstr ""
-
 #: flask_pluginkit.utils:4 of
 msgid "utils: Some tool classes and functions."
 msgstr ""
@@ -951,7 +933,7 @@ msgid "Get persistent data from shelve."
 msgstr ""
 
 #: flask_pluginkit.utils.LocalStorage.get:3 of
-msgid "data"
+msgid ":returns data"
 msgstr ""
 
 #: flask_pluginkit.utils.LocalStorage.list:1 of
@@ -959,7 +941,7 @@ msgid "list all data"
 msgstr ""
 
 #: flask_pluginkit.utils.LocalStorage.list:3 of
-msgid "dict"
+msgid ":returns dict"
 msgstr ""
 
 #: flask_pluginkit.utils.LocalStorage.open:1 of
@@ -976,6 +958,10 @@ msgstr ""
 
 #: flask_pluginkit.utils.LocalStorage.set:5 of
 msgid "All supported data types in python"
+msgstr ""
+
+#: flask_pluginkit.utils.LocalStorage.set of
+msgid "raises"
 msgstr ""
 
 #: flask_pluginkit.utils.RedisStorage.get:1 of
@@ -1310,4 +1296,45 @@ msgstr ""
 #: from
 msgid "插件安装管理(从url或local安装插件zip、gz包)"
 msgstr ""
+
+#~ msgid "Flask-PluginKit.flask_pluginkit"
+#~ msgstr ""
+
+#~ msgid "Hook extension point."
+#~ msgstr ""
+
+#~ msgid "DCPError: raises an exception"
+#~ msgstr ""
+
+#~ msgid "class instance"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Push a function for "
+#~ ":class:`~flask_pluginkit.PluginManager`, :func:`push_dcp`."
+#~ msgstr ""
+
+#~ msgid "Flask-PluginKit.installer"
+#~ msgstr ""
+
+#~ msgid "Flask-PluginKit.web"
+#~ msgstr ""
+
+#~ msgid "web: The server-side plugin management blueprint."
+#~ msgstr ""
+
+#~ msgid "Blueprint instance for managing plugins"
+#~ msgstr ""
+
+#~ msgid "Flask-PluginKit.fixflask"
+#~ msgstr ""
+
+#~ msgid "Flask-PluginKit.utils"
+#~ msgstr ""
+
+#~ msgid "data"
+#~ msgstr ""
+
+#~ msgid "dict"
+#~ msgstr ""
 

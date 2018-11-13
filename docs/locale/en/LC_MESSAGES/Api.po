@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-08 16:43+0800\n"
+"POT-Creation-Date: 2018-11-13 15:45+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,8 +36,9 @@ msgstr ""
 msgid "flask_pluginkit"
 msgstr ""
 
-#: flask_pluginkit.flask_pluginkit:2 of
-msgid "Flask-PluginKit.flask_pluginkit"
+#: flask_pluginkit.fixflask:2 flask_pluginkit.flask_pluginkit:2
+#: flask_pluginkit.installer:2 flask_pluginkit.utils:2 flask_pluginkit.web:2 of
+msgid "Flask-PluginKit"
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit:4 of
@@ -131,10 +132,7 @@ msgstr ""
 #: flask_pluginkit.flask_pluginkit.PluginManager.emit_yep
 #: flask_pluginkit.flask_pluginkit.PluginManager.get_all_tep
 #: flask_pluginkit.flask_pluginkit.PluginManager.get_all_yep
-#: flask_pluginkit.flask_pluginkit.PluginManager.storage
 #: flask_pluginkit.installer.PluginInstaller.addPlugin
-#: flask_pluginkit.utils.LocalStorage.get
-#: flask_pluginkit.utils.LocalStorage.list
 #: flask_pluginkit.utils.LocalStorage.set of
 msgid "返回"
 msgstr ""
@@ -209,7 +207,7 @@ msgid "Blueprint extension point"
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.get_all_hep:1 of
-msgid "Hook extension point."
+msgid "Context extension point."
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.get_all_hep:3 of
@@ -279,13 +277,8 @@ msgstr ""
 msgid "The position of the insertion function, right(default) and left."
 msgstr ""
 
-#: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp
-#: flask_pluginkit.utils.LocalStorage.set of
-msgid "raises"
-msgstr ""
-
 #: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp:9 of
-msgid "DCPError: raises an exception"
+msgid ":raises DCPError: raises an exception"
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.s3:1 of
@@ -319,7 +312,7 @@ msgid "class init args"
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.storage:8 of
-msgid "class instance"
+msgid ":returns class instance"
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.stpl:1 of
@@ -329,7 +322,7 @@ msgstr ""
 #: flask_pluginkit.flask_pluginkit.push_dcp:1 of
 msgid ""
 "Push a function for :class:`~flask_pluginkit.PluginManager`, "
-":func:`push_dcp`."
+":meth:`push_dcp`."
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.push_dcp:3 of
@@ -338,10 +331,6 @@ msgstr ""
 
 #: ../../Api.rst:17
 msgid "installer"
-msgstr ""
-
-#: flask_pluginkit.installer:2 of
-msgid "Flask-PluginKit.installer"
 msgstr ""
 
 #: flask_pluginkit.installer:4 of
@@ -394,24 +383,12 @@ msgstr ""
 msgid "web"
 msgstr ""
 
-#: flask_pluginkit.web:2 of
-msgid "Flask-PluginKit.web"
-msgstr ""
-
 #: flask_pluginkit.web:4 of
-msgid "web: The server-side plugin management blueprint."
-msgstr ""
-
-#: flask_pluginkit.web.blueprint:1 of
-msgid "Blueprint instance for managing plugins"
+msgid "web: The server-side plug-in management blueprint."
 msgstr ""
 
 #: ../../Api.rst:35
 msgid "fixflask"
-msgstr ""
-
-#: flask_pluginkit.fixflask:2 of
-msgid "Flask-PluginKit.fixflask"
 msgstr ""
 
 #: flask_pluginkit.fixflask:4 of
@@ -461,10 +438,6 @@ msgstr ""
 msgid "utils"
 msgstr ""
 
-#: flask_pluginkit.utils:2 of
-msgid "Flask-PluginKit.utils"
-msgstr ""
-
 #: flask_pluginkit.utils:4 of
 msgid "utils: Some tool classes and functions."
 msgstr ""
@@ -478,7 +451,7 @@ msgid "Get persistent data from shelve."
 msgstr ""
 
 #: flask_pluginkit.utils.LocalStorage.get:3 of
-msgid "data"
+msgid ":returns data"
 msgstr ""
 
 #: flask_pluginkit.utils.LocalStorage.list:1 of
@@ -486,7 +459,7 @@ msgid "list all data"
 msgstr ""
 
 #: flask_pluginkit.utils.LocalStorage.list:3 of
-msgid "dict"
+msgid ":returns dict"
 msgstr ""
 
 #: flask_pluginkit.utils.LocalStorage.open:1 of
@@ -503,6 +476,10 @@ msgstr ""
 
 #: flask_pluginkit.utils.LocalStorage.set:5 of
 msgid "All supported data types in python"
+msgstr ""
+
+#: flask_pluginkit.utils.LocalStorage.set of
+msgid "raises"
 msgstr ""
 
 #: flask_pluginkit.utils.RedisStorage.get:1 of
@@ -538,4 +515,45 @@ msgstr ""
 #: flask_pluginkit.ZipError:1 of
 msgid "基类：:class:`flask_pluginkit.exceptions.PluginError`"
 msgstr ""
+
+#~ msgid "Flask-PluginKit.flask_pluginkit"
+#~ msgstr ""
+
+#~ msgid "Hook extension point."
+#~ msgstr ""
+
+#~ msgid "DCPError: raises an exception"
+#~ msgstr ""
+
+#~ msgid "class instance"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Push a function for "
+#~ ":class:`~flask_pluginkit.PluginManager`, :func:`push_dcp`."
+#~ msgstr ""
+
+#~ msgid "Flask-PluginKit.installer"
+#~ msgstr ""
+
+#~ msgid "Flask-PluginKit.web"
+#~ msgstr ""
+
+#~ msgid "web: The server-side plugin management blueprint."
+#~ msgstr ""
+
+#~ msgid "Blueprint instance for managing plugins"
+#~ msgstr ""
+
+#~ msgid "Flask-PluginKit.fixflask"
+#~ msgstr ""
+
+#~ msgid "Flask-PluginKit.utils"
+#~ msgstr ""
+
+#~ msgid "data"
+#~ msgstr ""
+
+#~ msgid "dict"
+#~ msgstr ""
 
