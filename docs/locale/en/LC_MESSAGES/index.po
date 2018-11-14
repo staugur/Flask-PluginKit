@@ -319,8 +319,8 @@ msgid ""
 "要求返回字典，格式是: dict(扩展点=function)，目前支持三种扩展点: "
 "before_request_hook、after_request_hook、teardown_request_hook"
 msgstr ""
-"To return a dictionary, the format is: dict(extension point = function), which currently supports three extension points:"
-"Before_request_hook, after_request_hook, teardown_request_hook"
+"To return a dictionary, the format is: dict(extension point = function), which currently supports three extension points: "
+"before_request_hook, after_request_hook, teardown_request_hook"
 
 #: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:164 <included from
 msgid "三种扩展点对应的钩子分别是请求前、请求后(返回前)、请求后(返回前，无论是否发生异常)"
@@ -377,7 +377,7 @@ msgid ""
 " 函数时传入 ``sf(继承的类)`` 和 ``args(继承类参数，如果有的话)``。"
 msgstr ""
 "V1.3.0 support simple storage service, its configuration named s3, the initialization ``PluginManager``"
-", and the values are local(local file) and redis(need to pass the s3_redis parameter, namely redis_url), which are only supported at present. "
+", and the values are local(local file) and redis(need to set the s3_redis parameter, namely redis_url), which are only supported at present. "
 "But you can also custom storage class, that is inherited from :class:`~flask_pluginkit.BaseStorage`, perform ``storage`` "
 "function is introduced to ``sf(inherited)`` and ``args(derived class parameters, if any)``."
 
@@ -434,7 +434,7 @@ msgid ""
 "加载插件信息，依次运行 ``run`` -> ``register_tep`` -> ``register_hep`` -> "
 "``register_bep`` -> ``register_yep`` 等方法, 写入到所有插件列表。"
 msgstr ""
-"Loading plugin information, run ``run`` -> ``register_tep`` -> ``register_hep`` -> "
+"Loading plugin information, ``run`` -> ``register_tep`` -> ``register_hep`` -> "
 "``register_bep`` -> ``register_yep`` methods such as written to the list of all plugin."
 
 #: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:299 <included from

@@ -20,20 +20,23 @@
     # -*- coding: utf-8 -*-
 
     #: 你的插件名称，不严格要求和插件目录名称保持一致.
-    #: (Your plugin name is not strictly required to be consistent with the plugin directory name.)
+    #: Your plugin name is not strictly required to be consistent with the plugin directory name.
     __plugin_name__ = "Demo"
+
     #: 插件描述信息,什么用处.
-    #: (What is the use of plug-in description information.)
+    #: What is the use of plug-in description information.
     __description__ = "A Plugin Demo"
+
     #: 插件作者
-    #: (Plugin Author)
+    #: Plugin Author
     __author__ = "Mr.tao <staugur@saintic.com>"
+
     #: 插件版本
-    #: (Plugin Version)
+    #: Plugin Version
     __version__ = "0.1.1"
 
     #: 返回插件主类
-    #: (Returns the plugin main class.)
+    #: (eturns the plugin main class.
     def getPluginClass():
         return PluginDemoMain
 
@@ -55,23 +58,40 @@
 元数据(__meta__)完整列表::
 
     #: 你的插件名称，不严格要求和插件目录名称保持一致.
+    #: Your plugin name is not strictly required to be consistent with the plugin directory name.
     __plugin_name__ = "Demo"
+
     #: 插件描述信息,什么用处.
+    #: What is the use of plug-in description information.
     __description__ = "A Plugin Demo"
+
     #: 插件作者
-    __author__      = "Mr.tao <staugur@saintic.com>"
+    #: Plugin Author
+    __author__ = "Mr.tao <staugur@saintic.com>"
+
     #: 插件版本
-    __version__     = "0.1.1"
+    #: Plugin Version
+    __version__ = "0.1.1"
+
     #: 插件主页
-    __url__         = "https://github.com/staugur/Flask-PluginKit"
+    #: Plugin Homepage
+    __url__ = "https://github.com/staugur/Flask-PluginKit"
+
     #: 插件许可证
-    __license__     = "MIT"
+    #: Plugin LICENSE
+    __license__ = "MIT"
+
     #: 插件许可证文件，你的插件目录下应该有个名叫LICENSE的许可证文件
+    #: The plugin LICENSE file. Your plugin directory should have a LICENSE file called LICENSE.
     __license_file__= "LICENSE"
+
     #: 插件自述文件，你的插件目录下应该有个README的描述说明文件
+    #: The plugin profile should have a README description file in your plugin directory.
     __readme_file__ = "README"
+    
     #: 插件状态, enabled、disabled
-    __state__       = "enabled"
+    #: The plugin Status, enabled or disabled.
+    __state__ = "enabled"
 
 插件类::
 
@@ -105,6 +125,7 @@
 插件类可以是继承自程序的某个基类，run、register_*至少存在一个方能加载为插件，以便于插件类使用程序基类接口，不过你可能需要在 ``__init__.py`` 顶处导入::
 
     #: 若想引用程序基类需先导入这个模块
+    #: If you want to refer to the program base class, you need to pilot the module.
     from __future__ import absolute_import
 
 方法: run -> 仅插件加载时运行此方法
