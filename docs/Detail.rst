@@ -20,19 +20,25 @@
     # -*- coding: utf-8 -*-
 
     #: 你的插件名称，不严格要求和插件目录名称保持一致.
+    #: (Your plugin name is not strictly required to be consistent with the plugin directory name.)
     __plugin_name__ = "Demo"
     #: 插件描述信息,什么用处.
+    #: (What is the use of plug-in description information.)
     __description__ = "A Plugin Demo"
     #: 插件作者
-    __author__      = "Mr.tao <staugur@saintic.com>"
+    #: (Plugin Author)
+    __author__ = "Mr.tao <staugur@saintic.com>"
     #: 插件版本
-    __version__     = "0.1.1"
+    #: (Plugin Version)
+    __version__ = "0.1.1"
 
     #: 返回插件主类
+    #: (Returns the plugin main class.)
     def getPluginClass():
         return PluginDemoMain
 
     #: 插件主类, 请保证getPluginClass准确返回此类
+    #: (The plugin main class, please ensure that getPluginClass returns this class exactly.)
     class PluginDemoMain(object):
 
         def run(self):

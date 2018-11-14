@@ -57,6 +57,7 @@ trans:
 	cd docs && sphinx-build -D language=en -b html . _build/html_en
 
 pipe:
+	$(MAKE) html
 	$(MAKE) gettext
 	$(MAKE) en
 	$(MAKE) trans

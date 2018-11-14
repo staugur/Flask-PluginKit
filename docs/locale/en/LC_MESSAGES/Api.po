@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-13 15:45+0800\n"
+"POT-Creation-Date: 2018-11-13 17:57+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -515,45 +515,4 @@ msgstr ""
 #: flask_pluginkit.ZipError:1 of
 msgid "基类：:class:`flask_pluginkit.exceptions.PluginError`"
 msgstr ""
-
-#~ msgid "Flask-PluginKit.flask_pluginkit"
-#~ msgstr ""
-
-#~ msgid "Hook extension point."
-#~ msgstr ""
-
-#~ msgid "DCPError: raises an exception"
-#~ msgstr ""
-
-#~ msgid "class instance"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Push a function for "
-#~ ":class:`~flask_pluginkit.PluginManager`, :func:`push_dcp`."
-#~ msgstr ""
-
-#~ msgid "Flask-PluginKit.installer"
-#~ msgstr ""
-
-#~ msgid "Flask-PluginKit.web"
-#~ msgstr ""
-
-#~ msgid "web: The server-side plugin management blueprint."
-#~ msgstr ""
-
-#~ msgid "Blueprint instance for managing plugins"
-#~ msgstr ""
-
-#~ msgid "Flask-PluginKit.fixflask"
-#~ msgstr ""
-
-#~ msgid "Flask-PluginKit.utils"
-#~ msgstr ""
-
-#~ msgid "data"
-#~ msgstr ""
-
-#~ msgid "dict"
-#~ msgstr ""
 
