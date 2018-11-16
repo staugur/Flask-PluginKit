@@ -12,7 +12,7 @@ help:
 	@echo "  gettext         make gettext"
 	@echo "  en              sphinx-intl update pot for en"
 	@echo "  trans           start to translate"
-	@echo "  pipe            make gettext -> en -> trans"
+	@echo "  pipe            make html and gettext -> en -> trans, then clean"
 
 clean:
 	find . -name '*.pyc' -exec rm -f {} +
