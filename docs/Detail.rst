@@ -145,6 +145,7 @@
         * 以.html .htm结尾即模板文件，模板文件应该在"插件包/templates"下
         * 非模板文件支持解析HTML代码，不支持jinja2过滤器、函数等
         * 建议您在插件templates下新建目录存放html文件，因为flask-pluginkit仅加载插件下templates目录，且不保证模板冲突，新建目录可以避免与其他插件模板文件冲突，导致无法正常引用。
+        * 支持模板排序，您需要初始化 ``PluginManager`` 时传入 ``stpl=True`` 即可支持。register_tep时，格式是:排序数字@模板代码或文件
 
     示例-注册::
 
