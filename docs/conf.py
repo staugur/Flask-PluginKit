@@ -15,7 +15,7 @@
 # import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
-from flask_pluginkit import version
+from flask_pluginkit import __version__ as version
 
 # -- Project information -----------------------------------------------------
 
