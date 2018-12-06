@@ -32,3 +32,7 @@ class CSSLoadError(PluginError):
 
 class DCPError(PluginError):
     pass
+
+
+class VersionError(PluginError):
+    pass

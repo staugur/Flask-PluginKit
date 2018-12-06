@@ -112,6 +112,7 @@ setup(
     platforms='any',
     install_requires=[
         'Flask>=0.9',
+        'semver>=2.8.1'
     ],
     cmdclass={
         'publish': PublishCommand,

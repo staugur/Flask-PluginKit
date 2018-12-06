@@ -16,8 +16,8 @@ import logging
 from collections import deque
 from inspect import isfunction
 from flask import Response, render_template
-from .exceptions import PluginError, CSSLoadError, DCPError
-from .utils import PY2, string_types
+from .exceptions import PluginError, CSSLoadError, DCPError, VersionError
+from .utils import PY2, string_types, isValidSemver
 try:
     from flask import _app_ctx_stack as stack
 except ImportError:
@@ -204,14 +204,14 @@ class PluginManager(object):
                             hasattr(plugin, "__description__") and \
                             hasattr(plugin, "__author__") and \
                             hasattr(plugin, "getPluginClass"):
-                        #: Get plugin information
-                        pluginInfo = self.__loadPluginInfo(package, plugin)
                         try:
+                            #: Get plugin information
+                            pluginInfo = self.__loadPluginInfo(package, plugin)
                             #: Get the plugin main class and instantiate it
                             p = plugin.getPluginClass()
                             i = p()
                         except Exception as e:
-                            raise PluginError("Load Plugin Error")
+                            raise e
                         #: Subsequent methods are not executed when not enabled
                         if pluginInfo["plugin_state"] != "enabled":
                             self.__plugins.append(pluginInfo)
@@ -325,6 +325,9 @@ class PluginManager(object):
 
         :returns: dict: plugin info
         """
+        if not isValidSemver(plugin.__version__):
+            raise VersionError("The plugin version does not meet the standard")
+
         try:
             url = plugin.__url__
         except AttributeError:

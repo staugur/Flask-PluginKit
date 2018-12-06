@@ -44,7 +44,7 @@ utils
 -----
 
 .. automodule:: flask_pluginkit.utils
-    :members: BaseStorage, LocalStorage, RedisStorage, PY2, string_types
+    :members: BaseStorage, LocalStorage, RedisStorage, PY2, string_types, isValidSemver, sortedSemver
     :undoc-members:
     :show-inheritance:
     :noindex:
@@ -83,6 +83,12 @@ exceptions
     :noindex:
 
 .. autoexception:: flask_pluginkit.DCPError
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    :noindex:
+
+.. autoexception:: flask_pluginkit.VersionError
     :members:
     :undoc-members:
     :show-inheritance:

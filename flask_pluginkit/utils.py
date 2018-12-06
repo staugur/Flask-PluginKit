@@ -12,6 +12,7 @@
 import os
 import sys
 import shelve
+import semver
 from tempfile import gettempdir
 
 #: check python version 2 or 3
@@ -114,3 +115,27 @@ class RedisStorage(BaseStorage):
     def get(self, key):
         """get key data from redis"""
         return self._db.hget(self.index, key)
+
+
+def isValidSemver(version):
+    """Semantic version number - determines whether the version is qualified. The format is MAJOR.Minor.PATCH, more with https://semver.org/"""
+    if version and isinstance(version, string_types):
+        try:
+            semver.parse(version)
+        except (TypeError,ValueError):
+            return False
+        else:
+            return True
+    return False
+
+
+def sortedSemver(versions, sort="asc"):
+    """Semantically sort the list of version Numbers"""
+    if versions and isinstance(versions, (list, tuple)):
+        if PY2:
+            return sorted(versions, cmp=semver.compare, reverse=True if sort.upper() == "DESC" else False)
+        else:
+            from functools import cmp_to_key
+            return sorted(versions, key=cmp_to_key(semver.compare), reverse=True if sort.upper() == "DESC" else False)
+    else:
+        raise TypeError("Invaild Versions, a list or tuple is right.")
