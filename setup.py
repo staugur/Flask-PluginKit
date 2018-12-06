@@ -44,15 +44,35 @@ LICENSE
 """
 
 import os
+import re
+import ast
 import unittest
 from setuptools import setup, Command
-from flask_pluginkit import version, author, email
 
 
 def test_suite():
     test_loader = unittest.TestLoader()
     test_suite = test_loader.discover('tests', pattern='test_*.py')
     return test_suite
+
+
+def _get_version():
+    version_re = re.compile(r'__version__\s+=\s+(.*)')
+
+    with open('flask_pluginkit/__init__.py', 'rb') as fh:
+        version = ast.literal_eval(version_re.search(fh.read().decode('utf-8')).group(1))
+
+    return str(version)
+
+
+def _get_author():
+    author_re = re.compile(r'__author__\s+=\s+(.*)')
+    mail_re = re.compile(r'(.*)\s<(.*)>')
+
+    with open('flask_pluginkit/__init__.py', 'rb') as fh:
+        author = ast.literal_eval(author_re.search(fh.read().decode('utf-8')).group(1))
+
+    return (mail_re.search(author).group(1), mail_re.search(author).group(2))
 
 
 class PublishCommand(Command):
@@ -94,11 +114,13 @@ class PublishCommand(Command):
         exit()
 
 
+version = _get_version()
+(author, email) = _get_author()
 setup(
     name='Flask-PluginKit',
     version=version,
     url='https://github.com/staugur/Flask-PluginKit',
-    download_url="https://github.com/staugur/Flask-PluginKit/releases/tag/v%s" %version,
+    download_url="https://github.com/staugur/Flask-PluginKit/releases/tag/v%s" % version,
     license='MIT',
     author=author,
     author_email=email,
