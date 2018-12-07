@@ -10,7 +10,7 @@ python:
   - "pypy3"
 sudo: enabled
 install:
-  - pip install -U setuptools twine wheel flask codecov semver
+  - pip install -U setuptools twine wheel flask codecov
   - make dev
 script:
   - coverage run setup.py test

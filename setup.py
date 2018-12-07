@@ -134,7 +134,8 @@ setup(
     platforms='any',
     install_requires=[
         'Flask>=0.9',
-        'semver>=2.8.1'
+        'semver>=2.8.1',
+        'flask-multistatic>=1.0'
     ],
     cmdclass={
         'publish': PublishCommand,

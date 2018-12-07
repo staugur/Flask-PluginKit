@@ -6,7 +6,6 @@ help:
 	@echo "  test            run the tests"
 	@echo "  publish-test    package and upload a release to test.pypi.org"
 	@echo "  publish-release package and upload a release to pypi.org"
-	@echo "  init-docs       use the sphinx-quickstart initialization document catalogue quickly"
 	@echo "  rst             use the sphinx-apidoc extract documentation from code comments"
 	@echo "  html            use the sphinx-build based on reST build HTML file"
 	@echo "  gettext         make gettext"
@@ -36,9 +35,6 @@ publish-test:
 
 publish-release:
 	python setup.py publish --release
-
-init-docs:
-	sphinx-quickstart -q -p Flask-PluginKit -a staugur --ext-autodoc --ext-viewcode --no-makefile --no-batchfile docs
 
 rst:
 	$(MAKE) dev

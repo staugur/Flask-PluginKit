@@ -4,3 +4,4 @@ sphinx-intl
 Flask-Sphinx-Themes
 codecov
 semver
+flask-multistatic
