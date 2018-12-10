@@ -326,7 +326,7 @@ class PluginManager(object):
         :returns: dict: plugin info
         """
         if not isValidSemver(plugin.__version__):
-            raise VersionError("The plugin version does not meet the standard")
+            raise VersionError("The plugin version does not conform to the standard named %s" % package)
 
         try:
             url = plugin.__url__
