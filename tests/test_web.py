@@ -72,6 +72,7 @@ class PMTest(unittest.TestCase):
             pass
         self.assertTrue(app3.before_request_funcs[None][0] == test)
         self.assertIsInstance(app3.static_folder, list)
+        self.assertTrue(hasattr(app3,'before_request_top'))
 
     def test_dcp(self):
         self.assertRaises(AttributeError, push_dcp, 'raise', callback)
