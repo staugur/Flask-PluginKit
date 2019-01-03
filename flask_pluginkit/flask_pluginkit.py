@@ -538,9 +538,9 @@ class PluginManager(object):
         """Common storage interface with :class:`~flask_pluginkit.LocalStorage` or :class:`~flask_pluginkit.RedisStorage`,
         sf is a custom storage interface classes, args is its parameters, highest priority.
 
-        :params sf: class based :class:`~flask_pluginkit.BaseStorage`
+        :param sf: class based :class:`~flask_pluginkit.BaseStorage`
 
-        :params args: class init args
+        :param args: class init args
 
         :returns: class instance
         """
@@ -555,11 +555,11 @@ class PluginManager(object):
     def push_dcp(self, event, callback, position="right"):
         """Connect a dcp, push a function.
 
-        :params event: str,unicode: A unique identifier name for dcp.
+        :param event: str,unicode: A unique identifier name for dcp.
 
-        :params callback: function: Corresponding to the event to perform a function.
+        :param callback: function: Corresponding to the event to perform a function.
 
-        :params position: The position of the insertion function, right(default) and left.
+        :param position: The position of the insertion function, right(default) and left.
 
         :raises: DCPError: raises an exception
 
@@ -579,7 +579,7 @@ class PluginManager(object):
     def emit_dcp(self, event, **context):
         """Emit a event(with dcp) and gets the dynamic join point data(html code).
 
-        :params event: str,unicode: A unique identifier name for dcp.
+        :param event: str,unicode: A unique identifier name for dcp.
 
         :param context: dict: Keyword parameter, additional data passed to the template
 
