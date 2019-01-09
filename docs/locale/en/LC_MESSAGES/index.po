@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-20 15:16+0800\n"
+"POT-Creation-Date: 2019-01-09 11:27+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,31 +32,27 @@ msgstr ""
 msgid "快速开始"
 msgstr "Quickstart"
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:2 <included from
+#: ../../Quickstart.rst:2
 msgid "安装使用"
 msgstr "Installation"
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:4 <included from
+#: ../../Quickstart.rst:4
 msgid "先安装(Installation)，再初始化(Initialization)"
 msgstr "Install first, then initialize."
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:10 <included
-#: from
+#: ../../Quickstart.rst:10
 msgid "第一种方法：普通模式(Usage)"
 msgstr "The first method: common mode"
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:17 <included
-#: from
+#: ../../Quickstart.rst:17
 msgid "第二种方法：工厂模式(The factory pattern)"
 msgstr "The second method: The factory pattern"
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:26 <included
-#: from
+#: ../../Quickstart.rst:26
 msgid "插件结构"
 msgstr "The plugin structure"
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:28 <included
-#: from
+#: ../../Quickstart.rst:28
 msgid ""
 "安装完成后，您可以开发第一个插件。最小的插件需要至少拥有自己的目录，目录必须包含\\ ``__init__.py``\\ "
 "文件，否则不认为这是一个插件包！"
@@ -66,30 +62,25 @@ msgstr ""
 "directory must contain \\ ``__init__.py`` \\ file, otherwise don't think "
 "this is a plugin package!"
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:30 <included
-#: from
+#: ../../Quickstart.rst:30
 msgid "您的插件核心代码应该写在\\ ``__init__.py``\\ 文件中，包含注册插件所需的元数据。"
 msgstr ""
 "Your plugin core code should be written in the book of \\ ``__init__.py``"
 " \\ file, containing registered plugin metadata as needed."
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:32 <included
-#: from
+#: ../../Quickstart.rst:32
 msgid "一个最简单的插件可能是这样的："
 msgstr "One of the simplest plugins might look like this:"
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:39 <included
-#: from
+#: ../../Quickstart.rst:39
 msgid "一个复杂的插件也可能是这样的："
 msgstr "A complex plugin might also look something like this:"
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:53 <included
-#: from
+#: ../../Quickstart.rst:53
 msgid "Hello World!"
 msgstr ""
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:55 <included
-#: from
+#: ../../Quickstart.rst:55
 msgid ""
 "这是一个示例应用，代码\\ `在这里 <https://github.com/staugur/flask-"
 "pluginkit/tree/master/example>`__\\ 。"
@@ -97,8 +88,7 @@ msgstr ""
 "This is an example application, code \\ `here <https://github.com/staugur"
 "/flask-pluginkit/tree/master/example>`__\\ ."
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:57 <included
-#: from
+#: ../../Quickstart.rst:57
 msgid ""
 "这个示例中的演示插件(位于plugins/example)，它基本上已经包含了Flask-"
 "PluginKit目前所提供的所有功能点，它本来就是一个帮助插件，可以复制修改一份建立属于您的插件。"
@@ -108,23 +98,19 @@ msgstr ""
 "PluginKit, which is essentially a helper plugin, can be copied and "
 "modified to create a plugin that belongs to you."
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:59 <included
-#: from
+#: ../../Quickstart.rst:59
 msgid "安装依赖包，\\ ``pip install -r requirements.txt``"
 msgstr "Install dependencies, \\ ``pip install -r requirements.txt``"
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:60 <included
-#: from
+#: ../../Quickstart.rst:60
 msgid "运行它，\\ ``python main.py``\\ ，首页大概是这样："
 msgstr "Run it, \\ ``python main.py``\\, and the first page looks like this:"
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:62 <included
-#: from
+#: ../../Quickstart.rst:62
 msgid "|image0|"
 msgstr ""
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:64 <included
-#: from
+#: ../../Quickstart.rst:64
 msgid ""
 "温馨提示：红色部分，就是plugins/example/static/example/demo.css设定的，支持插件添加静态文件，在v0.1.8及之后版本支持通过register\\_yep注册静态文件，当然也可以直接在模板中link"
 " css，但不建议。"
@@ -134,25 +120,21 @@ msgstr ""
 "support through the register\\_yep registered a static file, of course, "
 "can also directly link CSS in the template, but not recommended."
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:67 <included
-#: from
+#: ../../Quickstart.rst:67
 msgid "更多插件相关，请参阅\\ ``插件详解``\\ 一节。"
 msgstr "More plugins, please refer to the \\ ``Detail`` \\ section."
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:70 <included
-#: from
+#: ../../Quickstart.rst:70
 msgid "启用、禁用插件"
 msgstr "Enable and disable plugin"
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:72 <included
-#: from
+#: ../../Quickstart.rst:72
 msgid "插件不是pypi上发布的包，它应该在应用程序中的本地目录，启用(enabled)、禁用(disabled)一个插件有两种方法。"
 msgstr ""
 "A plugin is not a package published on pypi, it should be in the local "
 "directory in the application, enabling and disabled a plugin in two ways."
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:74 <included
-#: from
+#: ../../Quickstart.rst:74
 msgid ""
 "第一种方法是将\\ ``__init__.py``\\ 中\\ ``__state__``\\ 值设为\\ ``enabled``\\ 或\\ "
 "``disabled``"
@@ -160,8 +142,7 @@ msgstr ""
 "The first method, modify \\ ``__init__.py`` \\ file, set the \\ "
 "``__state__`` \\ value, such as \\ ``enabled`` \\ or \\ ``disabled`` \\"
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:75 <included
-#: from
+#: ../../Quickstart.rst:75
 msgid ""
 "第二种方法是添加\\ ``ENABLED``\\ 或\\ ``DISABLED``\\ "
 "文件（此方法优先级高于第一种，DISABLED文件优先级高于ENABLED文件）"
@@ -170,8 +151,7 @@ msgstr ""
 "empty file. (This method takes precedence over the first one, and the "
 "DISABLED file takes precedence over the ENABLED file)"
 
-#: ../../Quickstart.rst /mnt/e/Flask-PluginKit/docs/index.rst>:77 <included
-#: from
+#: ../../Quickstart.rst:77
 msgid ""
 "请注意：启用、禁用的操作需要重启Web应用程序才能生效，需要您自行解决，使用gunicorn作为启动的，可以参考 "
 ":class:`~flask_pluginkit.blueprint` 中的路由函数，原理是通过向主进程发送HUP信号重载app。"
@@ -186,11 +166,11 @@ msgstr ""
 msgid "插件详解"
 msgstr "Detail"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:2 <included from
+#: ../../Detail.rst:2
 msgid "插件概述"
 msgstr "Overview"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:4 <included from
+#: ../../Detail.rst:4
 msgid ""
 "插件是一个本地目录，它应该位于程序plugins目录下，且是一个合法的python包，即：plugins下包含 ``__init__.py`` "
 "文件，插件也包含 ``__init__.py`` , 这个文件标识了目录是一个包，同时也标识了这个插件，是核心代码，插件入口。"
@@ -201,39 +181,39 @@ msgstr ""
 "``__init__.py``, identifies a directory in the file is a package, and "
 "also identifies the plugin, is the core code, plugin entrance."
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:7 <included from
+#: ../../Detail.rst:7
 msgid "术语表"
 msgstr "Glossary"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:9 <included from
+#: ../../Detail.rst:9
 msgid "tep - 模板扩展点"
 msgstr "tep - Template extension point"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:10 <included from
+#: ../../Detail.rst:10
 msgid "hep - 钩子扩展点"
 msgstr "hep - Hook extension point"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:11 <included from
+#: ../../Detail.rst:11
 msgid "bep - 蓝图扩展点"
 msgstr "bep - Blueprint extension point"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:12 <included from
+#: ../../Detail.rst:12
 msgid "yep - 样式扩展点"
 msgstr "yep - CSS extension point"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:13 <included from
+#: ../../Detail.rst:13
 msgid "dcp - 动态连接点"
 msgstr "dcp - Dynamic connection point"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:16 <included from
+#: ../../Detail.rst:16
 msgid "核心代码"
 msgstr "The core code"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:18 <included from
+#: ../../Detail.rst:18
 msgid "这里是一个最迷你的代码::"
 msgstr "Here is the smallest code::"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:51 <included from
+#: ../../Detail.rst:51
 msgid ""
 "这里还有一个完整的例子，包含了Flask-PluginKit的完整功能，`点击查看 <https://github.com/staugur"
 "/Flask-PluginKit/tree/master/example/plugins/example>`_"
@@ -242,30 +222,30 @@ msgstr ""
 "pluginkit, `Click to view <https://github.com/staugur/Flask-"
 "PluginKit/tree/master/example/plugins/example>`_"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:54 <included from
+#: ../../Detail.rst:54
 msgid "代码解析"
 msgstr "Code parsing"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:56 <included from
+#: ../../Detail.rst:56
 msgid "参考上面迷你代码，这是一个插件所需要的最少的代码，包含元数据(__meta__)和插件类(由getPluginClass函数返回)。"
 msgstr ""
 "Refer to the mini-code above, which is the minimum code required for a "
 "plugin, including metadata (__meta__) and plugin classes (returned by the"
 " getPluginClass function)."
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:58 <included from
+#: ../../Detail.rst:58
 msgid "元数据(__meta__)完整列表::"
 msgstr "Complete list of metadata (__meta__)::"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:96 <included from
+#: ../../Detail.rst:96
 msgid "插件类::"
 msgstr "Plugin class::"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:123 <included from
+#: ../../Detail.rst:123
 msgid "插件类详解"
 msgstr "Plugin class details"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:125 <included from
+#: ../../Detail.rst:125
 msgid ""
 "插件类可以是继承自程序的某个基类，run、register_*至少存在一个方能加载为插件，以便于插件类使用程序基类接口，不过你可能需要在 "
 "``__init__.py`` 顶处导入::"
@@ -275,53 +255,51 @@ msgstr ""
 "the plugin class can use the program base class interface, but you may "
 "need to ``__init__.py`` top place import::"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:132 <included from
+#: ../../Detail.rst:132
 msgid "方法: run -> 仅插件加载时运行此方法"
 msgstr "Method: run -> runs this method only when the plugin is loaded"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:134 <included from
+#: ../../Detail.rst:134
 msgid "环境: 非web"
 msgstr "Environment: non-web"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:136 <included from
+#: ../../Detail.rst:136
 msgid "用法: 普通方法"
 msgstr "Usage: general method"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:139 <included from
+#: ../../Detail.rst:139
 msgid "方法: register_tep -> 注册模板扩展点，提供模板文件或HTML代码"
 msgstr ""
 "Method: register_tep -> registers the template extension point, providing"
 " the template file or HTML code"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:141
-#: /mnt/e/Flask-PluginKit/docs/index.rst>:231 <included from
+#: ../../Detail.rst:141 ../../Detail.rst:231
 msgid "环境: web请求上下文、模板中使用"
 msgstr "Context: used in web request context, templates"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:148
-#: /mnt/e/Flask-PluginKit/docs/index.rst>:194 <included from
+#: ../../Detail.rst:148 ../../Detail.rst:194
 msgid "用法:"
 msgstr "Usage:"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:144 <included from
+#: ../../Detail.rst:144
 msgid "要求返回字典，格式是: dict(扩展点=HTML字符串或模板文件)"
 msgstr ""
 "Request to return a dictionary in the format: dict(extension point = HTML"
 " string or template file)"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:145 <included from
+#: ../../Detail.rst:145
 msgid "以.html .htm结尾即模板文件，模板文件应该在\"插件包/templates\"下"
 msgstr ""
 "Template files ending with .htm or .html should be under "
 "\"plugins/templates\""
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:146 <included from
+#: ../../Detail.rst:146
 msgid "非模板文件支持解析HTML代码，不支持jinja2过滤器、函数等"
 msgstr ""
 "Non-template files support parsing HTML code and do not support jinja2 "
 "filters, functions, etc"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:147 <included from
+#: ../../Detail.rst:147
 msgid ""
 "建议您在插件templates下新建目录存放html文件，因为flask-"
 "pluginkit仅加载插件下templates目录，且不保证模板冲突，新建目录可以避免与其他插件模板文件冲突，导致无法正常引用。"
@@ -332,33 +310,31 @@ msgstr ""
 "conflict. Creating a new directory can avoid conflicts with other "
 "template files, so it cannot be referenced normally."
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:148 <included from
+#: ../../Detail.rst:148
 msgid ""
 "支持模板排序，您需要初始化 ``PluginManager`` 时传入 ``stpl=True`` "
 "即可支持。register_tep时，格式是:排序数字@模板代码或文件"
 msgstr ""
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:150
-#: /mnt/e/Flask-PluginKit/docs/index.rst>:235 <included from
+#: ../../Detail.rst:150 ../../Detail.rst:235
 msgid "示例-注册::"
 msgstr "Example - registration::"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:158
-#: /mnt/e/Flask-PluginKit/docs/index.rst>:243 <included from
+#: ../../Detail.rst:158 ../../Detail.rst:243
 msgid "示例-使用::"
 msgstr "Example - use::"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:186 <included from
+#: ../../Detail.rst:186
 msgid "方法: register_hep -> 注册钩子扩展点，在flask钩子中注册函数"
 msgstr ""
 "Method: register_hep -> registers the hook extension point and registers "
 "the function in the flask hook"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:188 <included from
+#: ../../Detail.rst:188
 msgid "环境: web请求上下文、注册到flask钩子"
 msgstr "Environment: web request context, register with flask hook"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:191 <included from
+#: ../../Detail.rst:191
 msgid ""
 "要求返回字典，格式是: dict(扩展点=function)，目前支持三种扩展点: "
 "before_request_hook、after_request_hook、teardown_request_hook"
@@ -367,21 +343,21 @@ msgstr ""
 "which currently supports three extension points: before_request_hook, "
 "after_request_hook, teardown_request_hook"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:192 <included from
+#: ../../Detail.rst:192
 msgid "三种扩展点对应的钩子分别是请求前、请求后(返回前)、请求后(返回前，无论是否发生异常)"
 msgstr ""
 "The hooks corresponding to the three extension points are respectively "
 "before the request, after the request (before the return) and after the "
 "request (before the return, no matter if there is an exception)."
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:193 <included from
+#: ../../Detail.rst:193
 msgid "before_reqest_hook还可以拦截请求，设置属性is_before_request_return=True，使用make_response、jsonify等响应函数或Response构造响应类"
 msgstr ""
 "before_reqest_hook can also intercept requests, set the property "
 "is_before_request_return=True, and construct the Response class using "
 "Response functions such as make_response, jsonify, and so on"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:194 <included from
+#: ../../Detail.rst:194
 msgid ""
 "建议您在插件类中单独写一个方法，并传递给扩展点，其中after_request_hook会传入 ``response`` "
 "参数，teardown_request_hook会传入 ``exception`` 参数，您扩展点的函数必须支持传入，并可以自行使用。"
@@ -392,48 +368,45 @@ msgstr ""
 "extension point function must support the incoming, and can be used on "
 "its own."
 
-#: ../../Detail.rst ../../Surrounding.rst
-#: /mnt/e/Flask-PluginKit/docs/index.rst>:43
-#: /mnt/e/Flask-PluginKit/docs/index.rst>:196
-#: /mnt/e/Flask-PluginKit/docs/index.rst>:216 <included from
+#: ../../Detail.rst:196 ../../Detail.rst:216 ../../Surrounding.rst:43
 msgid "示例::"
 msgstr "The sample::"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:210 <included from
+#: ../../Detail.rst:210
 msgid "方法: register_bep -> 注册蓝图扩展点，用来注册一个蓝图"
 msgstr ""
 "Method: register_bep -> registers a blueprint extension point for "
 "registering a blueprint"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:212 <included from
+#: ../../Detail.rst:212
 msgid "环境: web请求上下文"
 msgstr "Context: web request context"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:214 <included from
+#: ../../Detail.rst:214
 msgid "用法: 注册蓝图，要求返回字典，dict(blueprint=蓝图类, prefix=蓝图挂载点(比如/example))"
 msgstr ""
 "Usage: register the blueprint, and request to return the dictionary, "
 "dict(blueprint = blueprint class, prefix = blueprint mount point (eg: "
 "/example))"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:229 <included from
+#: ../../Detail.rst:229
 msgid "方法: register_yep -> 注册静态扩展点，提供模板所需引入的css样式"
 msgstr ""
 "Method: register_yep -> registers static extension points, providing the "
 "CSS styles that the template needs to introduce"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:233 <included from
+#: ../../Detail.rst:233
 msgid "用法: 要求返回字典，类似于register_tep，格式是: dict(扩展点=CSS文件)，CSS文件应该在\"插件包/static\"目录下。"
 msgstr ""
 "Usage: request to return a dictionary, similar to register_tep, in the "
 "format: dict(extension point = CSS file), and the CSS file should be in "
 "the \"plugin/static\" directory."
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:257 <included from
+#: ../../Detail.rst:257
 msgid "简单存储"
 msgstr "Simple storage"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:259 <included from
+#: ../../Detail.rst:259
 msgid ""
 "v1.3.0支持简单存储服务，其配置姑且命名s3，初始化 ``PluginManager`` "
 "时传递s3，值为local(本地文件)、redis(需要传递s3_redis参数，即redis_url)，目前仅支持这两种。 "
@@ -448,18 +421,18 @@ msgstr ""
 "``storage`` function is introduced to ``sf(inherited)`` and "
 "``args(derived class parameters, if any)``."
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:262 <included from
+#: ../../Detail.rst:262
 msgid "使用简单存储有两种情况，一是在app应用上下文及请求上下文中，二是在程序中独立使用::"
 msgstr ""
 "Simple storage can be used in two cases: one is in the app application "
 "context and the request context, and the other is used independently in "
 "the program::"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:280 <included from
+#: ../../Detail.rst:280
 msgid "动态连接点(dcp)"
 msgstr "Dynamic connection point(dcp)"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:282 <included from
+#: ../../Detail.rst:282
 msgid ""
 "动态连接点，动态注册并执行函数将结果返回给模板使用。您可以通过 :func:`flask_pluginkit.push_dcp` "
 "推送给标识点一个函数，在模板中通过 ``emit_dcp`` 执行并获取执行结果(即HTML代码)。"
@@ -470,19 +443,19 @@ msgstr ""
 " pass in the template ``emit_dcp`` executed and obtain the results (i.e.,"
 " HTML code)."
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:284 <included from
+#: ../../Detail.rst:284
 msgid "用法::"
 msgstr "Usage::"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:295 <included from
+#: ../../Detail.rst:295
 msgid "使用案例::"
 msgstr "Use case::"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:317 <included from
+#: ../../Detail.rst:317
 msgid "加载逻辑"
 msgstr "Load the logic"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:319 <included from
+#: ../../Detail.rst:319
 msgid ""
 "插件加载在程序启动时完成, 加载类是 :class:`~flask_pluginkit.PluginManager`, "
 "它的析构函数支持你传递plugins_base(默认程序目录)、plugins_folder(插件所在目录)设置插件绝对路径目录，还支持工厂模式，更多参数参见API文档。"
@@ -494,23 +467,23 @@ msgstr ""
 "and also supports factory mode. See API documentation for more "
 "parameters."
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:322 <included from
+#: ../../Detail.rst:322
 msgid "流程如下:"
 msgstr "The process is as follows:"
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:324 <included from
+#: ../../Detail.rst:324
 msgid "通过 ``init_app`` 完成实例构造，初始化参数。"
 msgstr ""
 "Through ``init_app`` completed instance structure, initialization "
 "parameters."
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:325 <included from
+#: ../../Detail.rst:325
 msgid "扫描插件目录，符合插件规则的包将被动态加载。"
 msgstr ""
 "Scan the plugin directory, and packages that conform to the plugin rules "
 "will be loaded dynamically."
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:326 <included from
+#: ../../Detail.rst:326
 msgid ""
 "加载插件信息，依次运行 ``run`` -> ``register_tep`` -> ``register_hep`` -> "
 "``register_bep`` -> ``register_yep`` 等方法, 写入到所有插件列表。"
@@ -519,13 +492,13 @@ msgstr ""
 "``register_hep`` -> ``register_bep`` -> ``register_yep`` methods such as "
 "written to the list of all plugin."
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:327 <included from
+#: ../../Detail.rst:327
 msgid "Flask-PluginKit设置支持多模板文件夹、多静态文件夹（插件目录下）。"
 msgstr ""
 "Flask-pluginkit Settings support multiple template folders, multiple "
 "static folders (under plugin directory)."
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:328 <included from
+#: ../../Detail.rst:328
 msgid ""
 "Flask-PluginKit注册全局模板函数 ``emit_tep``、``emit_yep``、``emit_dcp``, "
 "分别是渲染模板上下文、CSS上下文、渲染动态连接点。"
@@ -534,17 +507,17 @@ msgstr ""
 "``emit_yep``, ``emit_dcp``, these are the render template context, the "
 "CSS context, and the render dynamic join points."
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:329 <included from
+#: ../../Detail.rst:329
 msgid "注册所有启用插件的蓝图扩展点BEP。"
 msgstr "Register all plugin enabled blueprint extension points BEP."
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:330 <included from
+#: ../../Detail.rst:330
 msgid "使用before_request等装饰器注册所有启用插件的钩子扩展点。"
 msgstr ""
 "Register all plugins enabled hook extension points using decorators like "
 "before_request."
 
-#: ../../Detail.rst /mnt/e/Flask-PluginKit/docs/index.rst>:331 <included from
+#: ../../Detail.rst:331
 msgid ""
 "将 ``PluginManager`` 附加到app中，完成加载，可以使用 ``app.extensions['pluginkit']`` 调用 "
 "``PluginManager`` 类中方法。"
@@ -557,13 +530,11 @@ msgstr ""
 msgid "插件周边"
 msgstr "Surrounding"
 
-#: ../../Surrounding.rst /mnt/e/Flask-PluginKit/docs/index.rst>:2 <included
-#: from
+#: ../../Surrounding.rst:2
 msgid "fixflask.py"
 msgstr ""
 
-#: ../../Surrounding.rst /mnt/e/Flask-PluginKit/docs/index.rst>:4 <included
-#: from
+#: ../../Surrounding.rst:4
 msgid ""
 "这个文件是继承Flask的类，增加了一些功能，即支持多静态文件夹(来自于 ``flask-multistatic`` )、支持 "
 "``before_request_top`` (此装饰器与before_request作用一致，区别是它将装饰的函数置于钩子首位)。"
@@ -574,18 +545,15 @@ msgstr ""
 "the first difference is that it puts the function of the decorative "
 "hook)."
 
-#: ../../Surrounding.rst /mnt/e/Flask-PluginKit/docs/index.rst>:7 <included
-#: from
+#: ../../Surrounding.rst:7
 msgid "使用方法::"
 msgstr "Method of use::"
 
-#: ../../Surrounding.rst /mnt/e/Flask-PluginKit/docs/index.rst>:13 <included
-#: from
+#: ../../Surrounding.rst:13
 msgid "web.py"
 msgstr ""
 
-#: ../../Surrounding.rst /mnt/e/Flask-PluginKit/docs/index.rst>:15 <included
-#: from
+#: ../../Surrounding.rst:15
 msgid ""
 "这是一个蓝图，:class:`~flask_pluginkit.blueprint`, "
 "在您的app中注册此蓝图，它提供一个页面展示插件列表，支持禁用、启用插件、重启app、访问认证。"
@@ -595,8 +563,7 @@ msgstr ""
 "supporting disabling, enabling plug-ins, restarting apps, and access "
 "authentication."
 
-#: ../../Surrounding.rst /mnt/e/Flask-PluginKit/docs/index.rst>:17 <included
-#: from
+#: ../../Surrounding.rst:17
 msgid ""
 "当然，这个蓝图仅支持flask-pluginkit的 :class:`~flask_pluginkit.PluginManager` "
 "初始化的app，没有此扩展，蓝图不可用。"
@@ -605,23 +572,19 @@ msgstr ""
 ":class:`~flask_pluginkit.PluginManager`. Initializing app, without this "
 "extension, the blueprint is not available."
 
-#: ../../Surrounding.rst /mnt/e/Flask-PluginKit/docs/index.rst>:19 <included
-#: from
+#: ../../Surrounding.rst:19
 msgid "重启app功能::"
 msgstr "Restart the app::"
 
-#: ../../Surrounding.rst /mnt/e/Flask-PluginKit/docs/index.rst>:32 <included
-#: from
+#: ../../Surrounding.rst:32
 msgid "访问认证::"
 msgstr "Access authentication::"
 
-#: ../../Surrounding.rst /mnt/e/Flask-PluginKit/docs/index.rst>:56 <included
-#: from
+#: ../../Surrounding.rst:56
 msgid "installer.py"
 msgstr ""
 
-#: ../../Surrounding.rst /mnt/e/Flask-PluginKit/docs/index.rst>:58 <included
-#: from
+#: ../../Surrounding.rst:58
 msgid ""
 "安装插件类, :class:`~flask_pluginkit.PluginInstaller`, 支持添加http远程插件和本地插件，提供 "
 "``addPlugin`` 和 ``removePlugin`` 两个api接口(返回dict，参数见Api Document)"
@@ -635,21 +598,21 @@ msgstr ""
 msgid "Api Documentation"
 msgstr ""
 
-#: ../../Api.rst /mnt/e/Flask-PluginKit/docs/index.rst>:2 <included from
+#: ../../Api.rst:2
 msgid "Restful api returns the json format"
 msgstr ""
 
-#: ../../Api.rst /mnt/e/Flask-PluginKit/docs/index.rst>:4 <included from
+#: ../../Api.rst:4
 msgid "Return json data, public return: {\"msg\": null, \"code\": int}"
 msgstr ""
 
-#: ../../Api.rst /mnt/e/Flask-PluginKit/docs/index.rst>:5 <included from
+#: ../../Api.rst:5
 msgid ""
 "When code is 0, the request is successful; non-zero is the request "
 "failure, at this time, msg has a failure message."
 msgstr ""
 
-#: ../../Api.rst /mnt/e/Flask-PluginKit/docs/index.rst>:8 <included from
+#: ../../Api.rst:8
 msgid "flask_pluginkit"
 msgstr ""
 
@@ -720,22 +683,19 @@ msgid "Emit a event(with dcp) and gets the dynamic join point data(html code)."
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.emit_dcp
-#: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp of
-msgid "params event"
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_tep
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_yep
+#: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp
+#: flask_pluginkit.flask_pluginkit.PluginManager.storage
+#: flask_pluginkit.installer.PluginInstaller.addPlugin
+#: flask_pluginkit.installer.PluginInstaller.removePlugin
+#: flask_pluginkit.utils.LocalStorage.set of
+msgid "参数"
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.emit_dcp:3
 #: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp:3 of
 msgid "str,unicode: A unique identifier name for dcp."
-msgstr ""
-
-#: flask_pluginkit.flask_pluginkit.PluginManager.emit_dcp
-#: flask_pluginkit.flask_pluginkit.PluginManager.emit_tep
-#: flask_pluginkit.flask_pluginkit.PluginManager.emit_yep
-#: flask_pluginkit.installer.PluginInstaller.addPlugin
-#: flask_pluginkit.installer.PluginInstaller.removePlugin
-#: flask_pluginkit.utils.LocalStorage.set of
-msgid "参数"
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.emit_dcp:5
@@ -880,16 +840,8 @@ msgstr ""
 msgid "Connect a dcp, push a function."
 msgstr ""
 
-#: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp of
-msgid "params callback"
-msgstr ""
-
 #: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp:5 of
 msgid "function: Corresponding to the event to perform a function."
-msgstr ""
-
-#: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp of
-msgid "params position"
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp:7 of
@@ -919,16 +871,8 @@ msgid ""
 "classes, args is its parameters, highest priority."
 msgstr ""
 
-#: flask_pluginkit.flask_pluginkit.PluginManager.storage of
-msgid "params sf"
-msgstr ""
-
 #: flask_pluginkit.flask_pluginkit.PluginManager.storage:4 of
 msgid "class based :class:`~flask_pluginkit.BaseStorage`"
-msgstr ""
-
-#: flask_pluginkit.flask_pluginkit.PluginManager.storage of
-msgid "params args"
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.storage:6 of
@@ -953,7 +897,7 @@ msgstr ""
 msgid "Example usage::"
 msgstr ""
 
-#: ../../Api.rst /mnt/e/Flask-PluginKit/docs/index.rst>:17 <included from
+#: ../../Api.rst:17
 msgid "installer"
 msgstr ""
 
@@ -1007,7 +951,7 @@ msgstr ""
 msgid "The plugin package name."
 msgstr ""
 
-#: ../../Api.rst /mnt/e/Flask-PluginKit/docs/index.rst>:26 <included from
+#: ../../Api.rst:26
 msgid "web"
 msgstr ""
 
@@ -1023,7 +967,7 @@ msgstr ""
 msgid "Blueprint instance for managing plugins"
 msgstr ""
 
-#: ../../Api.rst /mnt/e/Flask-PluginKit/docs/index.rst>:35 <included from
+#: ../../Api.rst:35
 msgid "fixflask"
 msgstr ""
 
@@ -1038,14 +982,7 @@ msgid ""
 msgstr ""
 
 #: flask_pluginkit.fixflask.Flask:1 of
-msgid "基类：:class:`flask.app.Flask`"
-msgstr ""
-
-#: flask_pluginkit.fixflask.Flask:1 of
-msgid ""
-"The current class code from flask-multistatic, support for multiple "
-"static folder, in addition, also increases the before_req decorator to "
-"set the xx the highest priority"
+msgid "基类：:class:`flask_multistatic.MultiStaticFlask`"
 msgstr ""
 
 #: flask_pluginkit.fixflask.Flask.before_request_top:1 of
@@ -1068,13 +1005,7 @@ msgid ""
 "application should use this decorator at this time."
 msgstr ""
 
-#: flask_pluginkit.fixflask.Flask.send_static_file:1 of
-msgid ""
-"Function used internally to send static files from the static folder to "
-"the browser."
-msgstr ""
-
-#: ../../Api.rst /mnt/e/Flask-PluginKit/docs/index.rst>:44 <included from
+#: ../../Api.rst:44
 msgid "utils"
 msgstr ""
 
@@ -1142,7 +1073,17 @@ msgstr ""
 msgid "check python version 2 or 3"
 msgstr ""
 
-#: ../../Api.rst /mnt/e/Flask-PluginKit/docs/index.rst>:53 <included from
+#: flask_pluginkit.utils.isValidSemver:1 of
+msgid ""
+"Semantic version number - determines whether the version is qualified. "
+"The format is MAJOR.Minor.PATCH, more with https://semver.org/"
+msgstr ""
+
+#: flask_pluginkit.utils.sortedSemver:1 of
+msgid "Semantically sort the list of version Numbers"
+msgstr ""
+
+#: ../../Api.rst:53
 msgid "exceptions"
 msgstr ""
 
@@ -1152,7 +1093,7 @@ msgstr ""
 
 #: flask_pluginkit.CSSLoadError:1 flask_pluginkit.DCPError:1
 #: flask_pluginkit.InstallError:1 flask_pluginkit.TarError:1
-#: flask_pluginkit.ZipError:1 of
+#: flask_pluginkit.VersionError:1 flask_pluginkit.ZipError:1 of
 msgid "基类：:class:`flask_pluginkit.exceptions.PluginError`"
 msgstr ""
 
@@ -1160,298 +1101,251 @@ msgstr ""
 msgid "更新日志"
 msgstr "CHANGELOG"
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:2 <included
-#: from
+#: ../../../CHANGELOG.rst:2
+msgid "V2.1.1"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:4
+msgid "Released in 2018-12-06"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:6
+msgid "修复插件版本号的问题"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:9
 msgid "V2.1.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:4 <included
-#: from
+#: ../../../CHANGELOG.rst:11
 msgid "Released in 2018-11-02"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:6 <included
-#: from
+#: ../../../CHANGELOG.rst:13
 msgid "修复bug，并将移除旧版本"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:7 <included
-#: from
+#: ../../../CHANGELOG.rst:14
 msgid "添加动态连接点(dcp)，可以为某个标识点添加、删除函数并在模板种获取标识点函数执行的结果(HTML代码)"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:8 <included
-#: from
+#: ../../../CHANGELOG.rst:15
 msgid "更改 ``register_cep`` 为 ``register_hep``, 请确保更改，谨慎升级"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:9 <included
-#: from
+#: ../../../CHANGELOG.rst:16
 msgid "更新文档"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:12 <included
-#: from
+#: ../../../CHANGELOG.rst:19
 msgid "V2.0.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:14 <included
-#: from
+#: ../../../CHANGELOG.rst:21
 msgid "Released in 2018-10-27"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:16 <included
-#: from
+#: ../../../CHANGELOG.rst:23
 msgid "支持Python3"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:17 <included
-#: from
+#: ../../../CHANGELOG.rst:24
 msgid "尽可能完整的文档"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:18 <included
-#: from
+#: ../../../CHANGELOG.rst:25
 msgid "存储索引由 ``flask_pluginkit.db`` 改为 ``flask_pluginkit_dat``"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:19 <included
-#: from
+#: ../../../CHANGELOG.rst:26
 msgid "插件元数据中插件名称由 ``__name__`` 改为 ``__plugin_name__``, 以避免与python冲突, 请谨慎升级到此版本"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:22 <included
-#: from
+#: ../../../CHANGELOG.rst:29
 msgid "V1.3.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:24 <included
-#: from
+#: ../../../CHANGELOG.rst:31
 msgid "Released in 2018-10-15"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:26 <included
-#: from
+#: ../../../CHANGELOG.rst:33
 msgid "简单存储服务，用来给插件提供数据存储和读取"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:27 <included
-#: from
+#: ../../../CHANGELOG.rst:34
 msgid "本地存储和redis存储"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:28 <included
-#: from
+#: ../../../CHANGELOG.rst:35
 msgid "自定义存储"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:31 <included
-#: from
+#: ../../../CHANGELOG.rst:38
 msgid "V1.2.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:33 <included
-#: from
+#: ../../../CHANGELOG.rst:40
 msgid "Released in 2018-10-11"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:35 <included
-#: from
+#: ../../../CHANGELOG.rst:42
 msgid "模板排序"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:36 <included
-#: from
+#: ../../../CHANGELOG.rst:43
 msgid "支持HTTP Basic Auth认证方式"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:39 <included
-#: from
+#: ../../../CHANGELOG.rst:46
 msgid "V1.0.2"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:41 <included
-#: from
+#: ../../../CHANGELOG.rst:48
 msgid "Released in 2018-10-09"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:43 <included
-#: from
+#: ../../../CHANGELOG.rst:50
 msgid "重载uwsgi"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:46 <included
-#: from
+#: ../../../CHANGELOG.rst:53
 msgid "V1.0.1"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:48 <included
-#: from
+#: ../../../CHANGELOG.rst:55
 msgid "Released in 2018-10-08"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:50 <included
-#: from
+#: ../../../CHANGELOG.rst:57
 msgid "修复插件依赖于before_request的问题"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:51 <included
-#: from
+#: ../../../CHANGELOG.rst:58
 msgid "集成支持多静态文件夹"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:54 <included
-#: from
+#: ../../../CHANGELOG.rst:61
 msgid "V1.0.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:56 <included
-#: from
+#: ../../../CHANGELOG.rst:63
 msgid "Released in 2018-09-27"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:58 <included
-#: from
+#: ../../../CHANGELOG.rst:65
 msgid "使用sphinx制作接口文档"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:61 <included
-#: from
+#: ../../../CHANGELOG.rst:68
 msgid "V0.1.10"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:63 <included
-#: from
+#: ../../../CHANGELOG.rst:70
 msgid "Released in 2018-09-25"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:65 <included
-#: from
+#: ../../../CHANGELOG.rst:72
 msgid "调整register_yep，改为更灵活的方式分类载入css文件"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:66 <included
-#: from
+#: ../../../CHANGELOG.rst:73
 msgid "支持emit_tep渲染模板时传递额外数据"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:67 <included
-#: from
+#: ../../../CHANGELOG.rst:74
 msgid "优化部分代码"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:70 <included
-#: from
+#: ../../../CHANGELOG.rst:77
 msgid "V0.1.9"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:72 <included
-#: from
+#: ../../../CHANGELOG.rst:79
 msgid "Released in 2018-09-24"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:74
-#: /mnt/e/Flask-PluginKit/docs/index.rst>:90 <included from
+#: ../../../CHANGELOG.rst:81 ../../../CHANGELOG.rst:97
 msgid "修复bug"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:75 <included
-#: from
+#: ../../../CHANGELOG.rst:82
 msgid "插件Web管理页面：支持认证"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:78 <included
-#: from
+#: ../../../CHANGELOG.rst:85
 msgid "V0.1.8"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:80 <included
-#: from
+#: ../../../CHANGELOG.rst:87
 msgid "Released in 2018-09-22"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:82 <included
-#: from
+#: ../../../CHANGELOG.rst:89
 msgid "层叠样式表扩展点，可在模板中引用"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:83 <included
-#: from
+#: ../../../CHANGELOG.rst:90
 msgid "模板扩展点使用更改，去除get_tep、get_tep_string，使用emit_tep代替，支持包含模板和HTML代码"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:86 <included
-#: from
+#: ../../../CHANGELOG.rst:93
 msgid "V0.1.7"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:88 <included
-#: from
+#: ../../../CHANGELOG.rst:95
 msgid "Released in 2018-09-20"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:91 <included
-#: from
+#: ../../../CHANGELOG.rst:98
 msgid "不支持python2.6"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:94 <included
-#: from
+#: ../../../CHANGELOG.rst:101
 msgid "V0.1.6"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:96 <included
-#: from
+#: ../../../CHANGELOG.rst:103
 msgid "Released in 2018-09-19"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:98 <included
-#: from
+#: ../../../CHANGELOG.rst:105
 msgid "插件Web管理页面：启用、禁用插件，重启应用"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:101 <included
-#: from
+#: ../../../CHANGELOG.rst:108
 msgid "V0.1.4"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:103 <included
-#: from
+#: ../../../CHANGELOG.rst:110
 msgid "Released in 2018-09-09"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:105 <included
-#: from
+#: ../../../CHANGELOG.rst:112
 msgid "Add ``before_request_return`` CEP"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:108 <included
-#: from
+#: ../../../CHANGELOG.rst:115
 msgid "V0.1.3"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:110 <included
-#: from
+#: ../../../CHANGELOG.rst:117
 msgid "Flask扩展，以支持应用插件式开发"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:111 <included
-#: from
+#: ../../../CHANGELOG.rst:118
 msgid "支持上下文扩展点、模板扩展点、蓝图扩展点"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:112 <included
-#: from
+#: ../../../CHANGELOG.rst:119
 msgid "模板扩展点支持HTML代码和文件"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:113 <included
-#: from
+#: ../../../CHANGELOG.rst:120
 msgid "插件支持添加静态文件(需要安装\\ ``flask-multistatic``\\ 扩展)"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/e/Flask-PluginKit/docs/index.rst>:114 <included
-#: from
+#: ../../../CHANGELOG.rst:121
 msgid "插件安装管理(从url或local安装插件zip、gz包)"
 msgstr ""
 
@@ -1527,5 +1421,37 @@ msgstr ""
 #~ msgid ""
 #~ "支持模板排序，您需要初始化 ``PluginManager`` 时传入 ``stpl=True``"
 #~ " 即可支持。register_tep时，格式是\"排序数字@模板代码或文件\""
+#~ msgstr ""
+
+#~ msgid "params event"
+#~ msgstr ""
+
+#~ msgid "params callback"
+#~ msgstr ""
+
+#~ msgid "params position"
+#~ msgstr ""
+
+#~ msgid "params sf"
+#~ msgstr ""
+
+#~ msgid "params args"
+#~ msgstr ""
+
+#~ msgid "基类：:class:`flask.app.Flask`"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The current class code from flask-"
+#~ "multistatic, support for multiple static "
+#~ "folder, in addition, also increases the"
+#~ " before_req decorator to set the xx"
+#~ " the highest priority"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Function used internally to send static"
+#~ " files from the static folder to "
+#~ "the browser."
 #~ msgstr ""
 

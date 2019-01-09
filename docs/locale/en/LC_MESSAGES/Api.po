@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-16 14:07+0800\n"
+"POT-Creation-Date: 2019-01-09 11:27+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -103,22 +103,19 @@ msgid "Emit a event(with dcp) and gets the dynamic join point data(html code)."
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.emit_dcp
-#: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp of
-msgid "params event"
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_tep
+#: flask_pluginkit.flask_pluginkit.PluginManager.emit_yep
+#: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp
+#: flask_pluginkit.flask_pluginkit.PluginManager.storage
+#: flask_pluginkit.installer.PluginInstaller.addPlugin
+#: flask_pluginkit.installer.PluginInstaller.removePlugin
+#: flask_pluginkit.utils.LocalStorage.set of
+msgid "参数"
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.emit_dcp:3
 #: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp:3 of
 msgid "str,unicode: A unique identifier name for dcp."
-msgstr ""
-
-#: flask_pluginkit.flask_pluginkit.PluginManager.emit_dcp
-#: flask_pluginkit.flask_pluginkit.PluginManager.emit_tep
-#: flask_pluginkit.flask_pluginkit.PluginManager.emit_yep
-#: flask_pluginkit.installer.PluginInstaller.addPlugin
-#: flask_pluginkit.installer.PluginInstaller.removePlugin
-#: flask_pluginkit.utils.LocalStorage.set of
-msgid "参数"
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.emit_dcp:5
@@ -263,16 +260,8 @@ msgstr ""
 msgid "Connect a dcp, push a function."
 msgstr ""
 
-#: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp of
-msgid "params callback"
-msgstr ""
-
 #: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp:5 of
 msgid "function: Corresponding to the event to perform a function."
-msgstr ""
-
-#: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp of
-msgid "params position"
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.push_dcp:7 of
@@ -302,16 +291,8 @@ msgid ""
 "classes, args is its parameters, highest priority."
 msgstr ""
 
-#: flask_pluginkit.flask_pluginkit.PluginManager.storage of
-msgid "params sf"
-msgstr ""
-
 #: flask_pluginkit.flask_pluginkit.PluginManager.storage:4 of
 msgid "class based :class:`~flask_pluginkit.BaseStorage`"
-msgstr ""
-
-#: flask_pluginkit.flask_pluginkit.PluginManager.storage of
-msgid "params args"
 msgstr ""
 
 #: flask_pluginkit.flask_pluginkit.PluginManager.storage:6 of
@@ -421,14 +402,7 @@ msgid ""
 msgstr ""
 
 #: flask_pluginkit.fixflask.Flask:1 of
-msgid "基类：:class:`flask.app.Flask`"
-msgstr ""
-
-#: flask_pluginkit.fixflask.Flask:1 of
-msgid ""
-"The current class code from flask-multistatic, support for multiple "
-"static folder, in addition, also increases the before_req decorator to "
-"set the xx the highest priority"
+msgid "基类：:class:`flask_multistatic.MultiStaticFlask`"
 msgstr ""
 
 #: flask_pluginkit.fixflask.Flask.before_request_top:1 of
@@ -449,12 +423,6 @@ msgid ""
 "  if your web application uses before_request and plugins depend on one "
 "of them (like g), the plugin will not run properly,  so your web "
 "application should use this decorator at this time."
-msgstr ""
-
-#: flask_pluginkit.fixflask.Flask.send_static_file:1 of
-msgid ""
-"Function used internally to send static files from the static folder to "
-"the browser."
 msgstr ""
 
 #: ../../Api.rst:44
@@ -525,6 +493,16 @@ msgstr ""
 msgid "check python version 2 or 3"
 msgstr ""
 
+#: flask_pluginkit.utils.isValidSemver:1 of
+msgid ""
+"Semantic version number - determines whether the version is qualified. "
+"The format is MAJOR.Minor.PATCH, more with https://semver.org/"
+msgstr ""
+
+#: flask_pluginkit.utils.sortedSemver:1 of
+msgid "Semantically sort the list of version Numbers"
+msgstr ""
+
 #: ../../Api.rst:53
 msgid "exceptions"
 msgstr ""
@@ -535,7 +513,7 @@ msgstr ""
 
 #: flask_pluginkit.CSSLoadError:1 flask_pluginkit.DCPError:1
 #: flask_pluginkit.InstallError:1 flask_pluginkit.TarError:1
-#: flask_pluginkit.ZipError:1 of
+#: flask_pluginkit.VersionError:1 flask_pluginkit.ZipError:1 of
 msgid "基类：:class:`flask_pluginkit.exceptions.PluginError`"
 msgstr ""
 
@@ -563,5 +541,37 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid ":returns dict"
+#~ msgstr ""
+
+#~ msgid "params event"
+#~ msgstr ""
+
+#~ msgid "params callback"
+#~ msgstr ""
+
+#~ msgid "params position"
+#~ msgstr ""
+
+#~ msgid "params sf"
+#~ msgstr ""
+
+#~ msgid "params args"
+#~ msgstr ""
+
+#~ msgid "基类：:class:`flask.app.Flask`"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The current class code from flask-"
+#~ "multistatic, support for multiple static "
+#~ "folder, in addition, also increases the"
+#~ " before_req decorator to set the xx"
+#~ " the highest priority"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Function used internally to send static"
+#~ " files from the static folder to "
+#~ "the browser."
 #~ msgstr ""
 

@@ -1,9 +1,0 @@
-Flask
-Flask-PluginKit>=2.1.1
-requests
-setproctitle
-gevent
-gunicorn
-enum34
-pycrypto
-psutil
