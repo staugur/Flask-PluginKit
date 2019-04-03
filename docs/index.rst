@@ -8,9 +8,6 @@ Flask-PluginKit
 
 插件可以是本地目录，也可以是第三方包（比如pypi）
 
-.. image:: https://img.shields.io/github/license/mashape/apistatus.svg?style=popout
-    :target: https://github.com/staugur/Flask-PluginKit/
-
 .. image:: https://codecov.io/gh/staugur/Flask-PluginKit/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/staugur/Flask-PluginKit
 

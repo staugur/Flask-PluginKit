@@ -51,7 +51,7 @@
             pass
 
 
-这里还有一个完整的例子，包含了Flask-PluginKit的完整功能，`点击查看 <https://github.com/staugur/Flask-PluginKit/tree/master/example/plugins/example>`_
+这里还有一个完整的例子，包含了Flask-PluginKit的完整功能，`点击查看 <https://github.com/staugur/Flask-PluginKit/tree/master/example/pypi/flask_pluginkit_demo>`_
 
 代码解析
 --------
@@ -376,5 +376,5 @@ Third party plugin
         4.4 测试站可以看看界面描述等等是否符合心中要求，没问题就发布到正式站，pypi.org，命令是： `twine upload dist/*`
 
     5. 示例
-        `pypi demo <https://github.com/staugur/Flask-PluginKit/tree/master/example/plugins/example/pypi>`_
+        `pypi demo <https://github.com/staugur/Flask-PluginKit/tree/master/example/pypi/>`_
 
