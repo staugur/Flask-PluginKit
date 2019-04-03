@@ -23,7 +23,7 @@ clean:
 	rm -rf build dist *.egg-info +
 
 dev:
-	pip install .
+	pip uninstall -y Flask-PluginKit && pip install .
 	$(MAKE) clean
 
 test:
@@ -38,9 +38,10 @@ publish-release:
 
 rst:
 	$(MAKE) dev
-	sphinx-apidoc -d 2 -f --ext-autodoc --ext-viewcode --private -o docs flask_pluginkit
+	# sphinx-apidoc -d 2 -f --ext-autodoc --ext-viewcode --private -o docs flask_pluginkit
 
 html:
+	# require py3+
 	cd docs && sphinx-build -b html . _build/html
 
 gettext:

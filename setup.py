@@ -121,7 +121,7 @@ setup(
     version=version,
     url='https://github.com/staugur/Flask-PluginKit',
     download_url="https://github.com/staugur/Flask-PluginKit/releases/tag/v%s" % version,
-    license='MIT',
+    license='BSD',
     author=author,
     author_email=email,
     keywords="flask plugin",

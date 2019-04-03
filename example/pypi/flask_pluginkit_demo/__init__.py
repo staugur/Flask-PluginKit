@@ -7,7 +7,7 @@
     Your Plugin Description.
 
     :copyright: (c) 2018 by staugur.
-    :license: MIT, see LICENSE for more details.
+    :license: BSD, see LICENSE for more details.
 """
 
 #: Importing these two modules is the first and must be done.
@@ -36,7 +36,7 @@ __version__     = "0.1.1"
 __url__         = "https://github.com/staugur/Flask-PluginKit"
 #: Plugin License
 #: 插件许可证
-__license__     = "MIT"
+__license__     = "BSD"
 #: Plugin License File
 #: 插件许可证文件
 __license_file__= "LICENSE"
@@ -52,7 +52,7 @@ __state__       = "enabled"
 from flask import Blueprint
 
 #: Example No.1
-plugin_blueprint = Blueprint("example", "example")
+plugin_blueprint = Blueprint("example", "example",static_folder='static')
 @plugin_blueprint.route("/")
 def plugin():
     return "plugin demo"
@@ -74,13 +74,13 @@ def getPluginClass():
     return PluginDemoMain
 
 #: 插件主类, 请保证getPluginClass准确返回此类
-class PluginDemoMain(PluginBase):
-    """ 继承自PluginBase基类 """
+class PluginDemoMain(object):
 
     def run(self):
         """ 插件一般运行入口 """
         self.localstorage = LocalStorage()
         self.localstorage.set(__name__, "is demo")
+        self.pb = PluginBase()
 
     def limit(self, **kwargs):
         """请求限流策略"""

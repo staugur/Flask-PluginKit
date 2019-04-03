@@ -6,7 +6,7 @@
     web: The server-side plugin management blueprint.
 
     :copyright: (c) 2018 by staugur.
-    :license: MIT, see LICENSE for more details.
+    :license: BSD, see LICENSE for more details.
 """
 
 import time

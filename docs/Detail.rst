@@ -1,7 +1,10 @@
 插件概述
 --------
 
-插件是一个本地目录，它应该位于程序plugins目录下，且是一个合法的python包，即：plugins下包含 ``__init__.py`` 文件，插件也包含 ``__init__.py`` , 这个文件标识了目录是一个包，同时也标识了这个插件，是核心代码，插件入口。
+插件可以是一个本地目录，它应该位于程序plugins目录下，且是一个合法的python包，即：plugins下包含 ``__init__.py`` 文件，插件也包含 ``__init__.py`` , 这个文件标识了目录是一个包，同时也标识了这个插件，是核心代码，插件入口。
+
+但请注意：插件亦可以是一个第三方包，您可以使用pip安装它，而不必放到程序当前目录！第三方插件的格式也应该同本地目录一般，详细见 `#第三方插件 <#third-party-plugin>`_
+
 
 术语表
 ------
@@ -329,3 +332,49 @@ v1.3.0支持简单存储服务，其配置姑且命名s3，初始化 ``PluginMan
     6. 注册所有启用插件的蓝图扩展点BEP。
     7. 使用before_request等装饰器注册所有启用插件的钩子扩展点。
     8. 将 ``PluginManager`` 附加到app中，完成加载，可以使用 ``app.extensions['pluginkit']`` 调用 ``PluginManager`` 类中方法。
+
+
+Third party plugin
+-------------------
+
+第三方插件是指非程序子目录、来自于pip或easy_install等安装的本地模块。
+
+第三方插件解放使用，程序可以不用将插件代码放到子目录，只需要使用 `pip install` 安装到本地机器上，然后在 `PluginManager` 初始化时传入 `plugin_packages` 参数即可。
+
+这意味着，任何人都可以编写一个包，发布到pypi；使用者写好 `requirements.txt` 并安装依赖，在初始化中调用，一气呵成，而几乎不用担心后续第三方插件升级。
+
+
+如何编写第三方插件：
+********************
+
+    1. 首先根据上方 `代码解析 <#id12>`_ 和 `插件类详解 <#id13>`_ 写一个包，参见 `核心代码 <#id10>`_ ，要写在 `__init__.py` 中。
+
+
+    2. 第一步中实际上就是编写本地插件的过程，本步骤需要编写 `setup.py` ，使本地插件能发布到pypi中供其他人使用::
+
+        from setuptools import setup
+        setup(
+            name='flask_pluginkit_demo',
+            packages=['flask_pluginkit_demo',],
+            include_package_data=True,
+           ...
+        )
+
+    3. 如果你的插件包含模板目录templates或静态目录static等，需要再编写一个额外的清单文件 `MANIFEST.in`::
+
+        recursive-include flask_pluginkit_demo/templates *
+        recursive-include flask_pluginkit_demo/static *
+
+    4. 测试发布
+
+        4.1 打包：python setup.py sdist bdist_wheel   #更多参数自行调整
+
+        4.2 到这里，可以使用 `pip install .` 在本地测试是否正常安装。
+
+        4.3 本地测试通过，可以发布到test.pypi.org，这是官方pypi的测试站，里面的包不会被轻易使用，命令是： `twine upload --repository-url https://test.pypi.org/legacy/ dist/*`
+
+        4.4 测试站可以看看界面描述等等是否符合心中要求，没问题就发布到正式站，pypi.org，命令是： `twine upload dist/*`
+
+    5. 示例
+        `pypi demo <https://github.com/staugur/Flask-PluginKit/tree/master/example/plugins/example/pypi>`_
+

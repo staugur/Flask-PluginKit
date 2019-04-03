@@ -1,0 +1,6 @@
+<form action="{{ url_for('jwt.login') }}" method="post">
+            <p><input type="text" id="username" name="username" autofocus="autofocus" required="required" autocomplete="off" placeholder="请随意输入用户名" value="" /></p>
+            <p><input type="password" id="password" name="password" required="required" placeholder="请随意输入密码" value="" /></p>
+            <p><input type="checkbox" name="remember" value="true">Remember Me 7d</p>
+            <input type="submit" value="登录">
+        </form>

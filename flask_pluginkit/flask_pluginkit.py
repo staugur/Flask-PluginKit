@@ -6,7 +6,7 @@
     pluginkit: load and run plugins.
 
     :copyright: (c) 2018 by staugur.
-    :license: MIT, see LICENSE for more details.
+    :license: BSD, see LICENSE for more details.
 """
 
 import os
@@ -86,12 +86,24 @@ class PluginManager(object):
 
         :param app: The flask application.
 
-        :param plugins_base: The plugin folder where the plugins resides.
+        :param plugins_base: str: The plugin folder where the plugins resides.
 
-        :param plugins_folder: The base folder for the application. It is used to build the plugins package name.
+        :param plugins_folder: str: The base folder for the application. It is used to build the plugins package name.
+
+        :param logger:
+
+        :param stpl: Bool: Template sorting options
+
+        :param stpl_reverse: Bool: Template sort reverse. Default False
+
+        :param s3: str: Simple storage service, local or redis or empty
+
+        :param s3_redis: str: If s3 is redis, thie key is redis url, such as redis://@localhost:6379/0
+
+        :param plugin_packages: list,tuple: List of third-party plug-in package names
         """
         self.plugins_folder = plugins_folder
-        self.plugin_abspath = os.path.join(plugins_base or os.getcwd(), self.plugins_folder)
+        self.plugins_abspath = os.path.join(plugins_base or os.getcwd(), self.plugins_folder)
 
         #: all locally stored plugins
         #:
@@ -123,6 +135,12 @@ class PluginManager(object):
         #: .. versionadded:: 2.1.0
         self.dcp_funcs = {}
 
+        #: Third-party plugin package from pypi, format::
+        #: [plugin1, plugin2, plugin...]
+        #:
+        #: .. versionadded:: 2.2.0
+        self._plugin_packages = kwargs.get("plugin_packages", tuple())
+
         #: initialize app via a factory
         #:
         #: .. versionadded:: 0.1.4
@@ -136,12 +154,12 @@ class PluginManager(object):
         #: Custom add multiple template folders
         app.jinja_loader = jinja2.ChoiceLoader([
             app.jinja_loader,
-            jinja2.FileSystemLoader([p["plugin_tpl_path"] for p in self.get_enabled_plugins if os.path.isdir(os.path.join(app.root_path, p["plugin_tpl_path"]))]),
+            jinja2.FileSystemLoader([p["plugin_tpl_path"] for p in self.get_enabled_plugins if os.path.isdir(p["plugin_tpl_path"])]),
         ])
 
         #: Custom add more static folder, the requirement is the app initialized by :class:`~flask_pluginkit.Flask`.
         if isinstance(app.static_folder, list):
-            app.static_folder += [p["plugin_ats_path"] for p in self.get_enabled_plugins if os.path.isdir(os.path.join(app.root_path, p["plugin_ats_path"]))]
+            app.static_folder += [p["plugin_ats_path"] for p in self.get_enabled_plugins if os.path.isdir(p["plugin_ats_path"])]
 
         #: Register template variable
         app.jinja_env.globals["emit_tep"] = self.emit_tep
@@ -184,149 +202,170 @@ class PluginManager(object):
         self.app = app
 
     def __scanPlugins(self):
-        """Scan plugin directory.
+        """Scanning local plugin directories and third-party plugin packages.
 
         :returns: No return, but self.__plugins will be updated
 
-        :raises: PluginError: raises an exception
+        :raises: PluginError: raises an exception, maybe CSSLoadError, VersionError, based PluginError
         """
-        self.logger.info("Initialization Plugins Start, loadPlugins path: %s" % self.plugin_abspath)
-        if os.path.isdir(self.plugin_abspath) and os.path.isfile(os.path.join(self.plugin_abspath, "__init__.py")):
-            for package in os.listdir(self.plugin_abspath):
-                _plugin_path = os.path.join(self.plugin_abspath, package)
-                if os.path.isdir(_plugin_path) and os.path.isfile(os.path.join(_plugin_path, "__init__.py")):
-                    self.logger.info("find plugin package: %s" % package)
+        self.logger.info("Initialization Plugins Start, local plugins path: %s, third party plugins: %s" % (self.plugins_abspath, self._plugin_packages))
+
+        #: Load third-party plugins
+        if self._plugin_packages and isinstance(self._plugin_packages, (list, tuple)):
+            for package_name in self._plugin_packages:
+                try:
+                    plugin = __import__(package_name)
+                except ImportError:
+                    raise PluginError("ImportError for %s" % package_name)
+                else:
+                    plugin_abspath = os.path.dirname(os.path.abspath(plugin.__file__))
+                    self.__loadPlugin(plugin, plugin_abspath, package_name)
+
+        #: Load local plug-in directory
+        if os.path.isdir(self.plugins_abspath) and os.path.isfile(os.path.join(self.plugins_abspath, "__init__.py")):
+            for package_name in os.listdir(self.plugins_abspath):
+                package_abspath = os.path.join(self.plugins_abspath, package_name)
+                if os.path.isdir(package_abspath) and os.path.isfile(os.path.join(package_abspath, "__init__.py")):
+                    self.logger.info("find plugin package: %s" % package_name)
                     #: Dynamic load module (plugins.package): you can query custom information and get the plugin's class definition through getPluginClass
-                    plugin = __import__("{0}.{1}".format(self.plugins_folder, package), fromlist=[self.plugins_folder, ])
-                    #: Detection plugin information
-                    if hasattr(plugin, "__plugin_name__") and \
-                            hasattr(plugin, "__version__") and \
-                            hasattr(plugin, "__description__") and \
-                            hasattr(plugin, "__author__") and \
-                            hasattr(plugin, "getPluginClass"):
-                        try:
-                            #: Get plugin information
-                            pluginInfo = self.__loadPluginInfo(package, plugin)
-                            #: Get the plugin main class and instantiate it
-                            p = plugin.getPluginClass()
-                            i = p()
-                        except Exception as e:
-                            raise e
-                        #: Subsequent methods are not executed when not enabled
-                        if pluginInfo["plugin_state"] != "enabled":
-                            self.__plugins.append(pluginInfo)
-                            continue
-                        #: Update plugin information
-                        pluginInfo.update(plugin_instance=i)
-                        #: Run the *run* method of the plugin main class
-                        if hasattr(i, "run"):
-                            i.run()
-                        #: Register the template extension point
-                        if hasattr(i, "register_tep"):
-                            """ Template extension point requirements:
-                            format:
-                                plugin_tep = {tep:dict(HTMLFile=str, HTMLString=str), tep...}
+                    plugin = __import__("{0}.{1}".format(self.plugins_folder, package_name), fromlist=[self.plugins_folder, ])
+                    self.__loadPlugin(plugin, package_abspath, package_name)
 
-                            returns:
-                                return {tep_1: HTMLFile(str), tep_2: HTMLString(str)}
-
-                            explanation:
-                                1. This must be dict, where key means that tep is the extension point identifier,
-                                    and each extension point can contain only one template type,
-                                    either HTML or string, which requires STR type, and other types trigger exceptions
-                                2. HTML template type suffix for `html` or `htm` as template file (the other as pure HTML code),
-                                    to be real, will adopt a `render_template` way rendering,
-                                    using template type can be specified when rendering and introduced to additional data
-                            """
-                            tep = i.register_tep()
-                            if isinstance(tep, dict):
-                                newTep = dict()
-                                for event, tpl in tep.items():
-                                    if isinstance(tpl, string_types):
-                                        if os.path.splitext(tpl)[-1] in (".html", ".htm"):
-                                            if os.path.isfile(os.path.join(self.plugin_abspath, package, "templates", tpl.split("@")[-1] if "@" in tpl and self.stpl is True else tpl)):
-                                                newTep[event] = dict(HTMLFile=tpl)
-                                            else:
-                                                raise jinja2.TemplateNotFound("TEP Template File Not Found: %s" % tpl)
-                                        else:
-                                            newTep[event] = dict(HTMLString=jinja2.Markup(tpl))
-                                    else:
-                                        raise PluginError("Invalid TEP Format")
-                                pluginInfo.update(plugin_tep=newTep)
-                                self.logger.info("Register TEP Success")
-                            else:
-                                raise PluginError("Register TEP Failed, not a dict")
-                        #: Register context extension points
-                        if hasattr(i, "register_hep"):
-                            cep = i.register_hep()
-                            if isinstance(cep, dict):
-                                pluginInfo.update(plugin_hep=cep)
-                                self.logger.info("Register HEP Success")
-                            else:
-                                raise PluginError("Register HEP Failed, not a dict")
-                        #: Register the blueprint extension point
-                        if hasattr(i, "register_bep"):
-                            bep = i.register_bep()
-                            if isinstance(bep, dict):
-                                pluginInfo.update(plugin_bep=bep)
-                                self.logger.info("Register BEP Success")
-                            else:
-                                raise PluginError("Register BEP Failed, not a dict")
-                        #: Register the css extension point
-                        if hasattr(i, "register_yep"):
-                            """Register the plugin's cascading style sheet (CSS) file, requirements:
-                            format:
-                                plugin_yep = {yep: css, yep: [css, ...]}
-
-                            returns:
-                                return {yep: [css, ...], yep: [css, ...], ...}
-
-                            explanation:
-                                1. This must be dict, and a key or an extension is the name of the page that CSS suggests to be introduced,
-                                    and each extension can be a single CSS or a set of CSS
-                                2. CSS suffix must be `.css`, and real
-                            """
-                            yep = i.register_yep()
-                            if isinstance(yep, dict):
-                                newYep = dict()
-                                for event, css in yep.items():
-                                    if isinstance(css, string_types):
-                                        if os.path.isfile(os.path.join(self.plugin_abspath, package, "static", css)) and css.endswith(".css"):
-                                            newYep[event] = [self.static_url_path + "/" + css]
-                                        else:
-                                            raise CSSLoadError("YEP CSS File Is Invalid: %s" % css)
-                                    elif isinstance(css, (list, tuple)):
-                                        newCss = []
-                                        for ac in css:
-                                            if isinstance(ac, string_types) and os.path.isfile(os.path.join(self.plugin_abspath, package, "static", ac)) and ac.endswith(".css"):
-                                                newCss.append(self.static_url_path + "/" + ac)
-                                            else:
-                                                raise CSSLoadError("YEP CSS File Is Invalid: %s" % ac)
-                                        newYep[event] = newCss
-                                    else:
-                                        raise PluginError("Invalid YEP Format")
-                                pluginInfo.update(plugin_yep=newYep)
-                                self.logger.info("Register YEP Success")
-                            else:
-                                raise PluginError("Register YEP Failed, not a dict")
-                        #: Register signal extension points`sep`
-                        #: Add to the global plugin
-                        if hasattr(i, "run") or hasattr(i, "register_tep") or hasattr(i, "register_hep") or hasattr(i, "register_bep") or hasattr(i, "register_yep"):
-                            self.__plugins.append(pluginInfo)
-                        else:
-                            self.logger.error("The current package does not have the `run` or `register_tep` or `register_hep` or `register_bep` or `register_yep` method")
-
-    def __loadPluginInfo(self, package, plugin):
-        """ Organize plugin information.
-
-        :param package: Plugin package names (directories under plugins), such as PluginDemo
+    def __loadPlugin(self, plugin, package_abspath, package_name=None):
+        """Load plugin, plugin is a python package with `__import__`.
 
         :param plugin: Dynamically loaded plugin modules
+
+        :param package_abspath: The package absolute directory
+
+        :param package_name: Plugin package names (directories under plugins), such as PluginDemo
+        """
+        #: Detection plugin information
+        if hasattr(plugin, "__plugin_name__") and \
+                hasattr(plugin, "__version__") and \
+                hasattr(plugin, "__description__") and \
+                hasattr(plugin, "__author__") and \
+                hasattr(plugin, "getPluginClass"):
+            try:
+                #: Get plugin information
+                pluginInfo = self.__getPluginInfo(plugin, package_abspath, package_name)
+                #: Get the plugin main class and instantiate it
+                p = plugin.getPluginClass()
+                i = p()
+            except Exception as e:
+                raise e
+            #: Subsequent methods are not executed when not enabled
+            if pluginInfo["plugin_state"] != "enabled":
+                self.__plugins.append(pluginInfo)
+                return
+            #: Update plugin information
+            pluginInfo.update(plugin_instance=i)
+            #: Run the *run* method of the plugin main class
+            if hasattr(i, "run"):
+                #: Run once only when loading
+                i.run()
+            #: Register the template extension point
+            if hasattr(i, "register_tep"):
+                """ Template extension point requirements:
+                format:
+                    plugin_tep = {tep:dict(HTMLFile=str, HTMLString=str), tep...}
+
+                returns:
+                    return {tep_1: HTMLFile(str), tep_2: HTMLString(str)}
+
+                explanation:
+                    1. This must be dict, where key means that tep is the extension point identifier,
+                        and each extension point can contain only one template type,
+                        either HTML or string, which requires STR type, and other types trigger exceptions
+                    2. HTML template type suffix for `html` or `htm` as template file (the other as pure HTML code),
+                        to be real, will adopt a `render_template` way rendering,
+                        using template type can be specified when rendering and introduced to additional data
+                """
+                tep = i.register_tep()
+                if isinstance(tep, dict):
+                    newTep = dict()
+                    for event, tpl in tep.items():
+                        if isinstance(tpl, string_types):
+                            if os.path.splitext(tpl)[-1] in (".html", ".htm"):
+                                if os.path.isfile(os.path.join(pluginInfo["plugin_tpl_path"], tpl.split("@")[-1] if "@" in tpl and self.stpl is True else tpl)):
+                                    newTep[event] = dict(HTMLFile=tpl)
+                                else:
+                                    raise jinja2.TemplateNotFound("TEP Template File Not Found: %s" % tpl)
+                            else:
+                                newTep[event] = dict(HTMLString=jinja2.Markup(tpl))
+                        else:
+                            raise PluginError("Invalid TEP Format")
+                    pluginInfo.update(plugin_tep=newTep)
+                    self.logger.info("Register TEP Success")
+                else:
+                    raise PluginError("Register TEP Failed, not a dict")
+            #: Register context extension points
+            if hasattr(i, "register_hep"):
+                cep = i.register_hep()
+                if isinstance(cep, dict):
+                    pluginInfo.update(plugin_hep=cep)
+                    self.logger.info("Register HEP Success")
+                else:
+                    raise PluginError("Register HEP Failed, not a dict")
+            #: Register the blueprint extension point
+            if hasattr(i, "register_bep"):
+                bep = i.register_bep()
+                if isinstance(bep, dict):
+                    pluginInfo.update(plugin_bep=bep)
+                    self.logger.info("Register BEP Success")
+                else:
+                    raise PluginError("Register BEP Failed, not a dict")
+            #: Register the css extension point
+            if hasattr(i, "register_yep"):
+                """Register the plugin's cascading style sheet (CSS) file, requirements:
+                format:
+                    plugin_yep = {yep: css, yep: [css, ...]}
+
+                returns:
+                    return {yep: [css, ...], yep: [css, ...], ...}
+
+                explanation:
+                    1. This must be dict, and a key or an extension is the name of the page that CSS suggests to be introduced,
+                        and each extension can be a single CSS or a set of CSS
+                    2. CSS suffix must be `.css`, and real
+                """
+                yep = i.register_yep()
+                if isinstance(yep, dict):
+                    newYep = dict()
+                    for event, css in yep.items():
+                        if isinstance(css, string_types):
+                            if os.path.isfile(os.path.join(pluginInfo["plugin_ats_path"], css)) and css.endswith(".css"):
+                                newYep[event] = [self.static_url_path + "/" + css]
+                            else:
+                                raise CSSLoadError("YEP CSS File Is Invalid: %s" % css)
+                        elif isinstance(css, (list, tuple)):
+                            newCss = []
+                            for ac in css:
+                                if isinstance(ac, string_types) and os.path.isfile(os.path.join(pluginInfo["plugin_ats_path"], ac)) and ac.endswith(".css"):
+                                    newCss.append(self.static_url_path + "/" + ac)
+                                else:
+                                    raise CSSLoadError("YEP CSS File Is Invalid: %s" % ac)
+                            newYep[event] = newCss
+                        else:
+                            raise PluginError("Invalid YEP Format")
+                    pluginInfo.update(plugin_yep=newYep)
+                    self.logger.info("Register YEP Success")
+                else:
+                    raise PluginError("Register YEP Failed, not a dict")
+            #: Register signal extension points`sep`
+            #: Add to the global plugin
+            if hasattr(i, "run") or hasattr(i, "register_tep") or hasattr(i, "register_hep") or hasattr(i, "register_bep") or hasattr(i, "register_yep"):
+                self.__plugins.append(pluginInfo)
+            else:
+                self.logger.error("The current package does not have the `run` or `register_tep` or `register_hep` or `register_bep` or `register_yep` method")
+
+    def __getPluginInfo(self, plugin, package_abspath, package_name):
+        """ Organize plugin information.
 
         :returns: dict: plugin info
         """
         if not isValidSemver(plugin.__version__):
-            raise VersionError("The plugin version does not conform to the standard named %s" % package)
+            raise VersionError("The plugin version does not conform to the standard named %s" % package_name)
 
         try:
             url = plugin.__url__
@@ -353,14 +392,15 @@ class PluginManager(object):
         except AttributeError:
             plugin_state = "enabled"
         # 插件状态首先读取`__state`状态值，优先级低于状态文件，ENABLED文件优先级低于DISABLED文件
-        if os.path.isfile(os.path.join(self.plugin_abspath, package, "ENABLED")):
+        if os.path.isfile(os.path.join(package_abspath, "ENABLED")):
             plugin_state = "enabled"
-        if os.path.isfile(os.path.join(self.plugin_abspath, package, "DISABLED")):
+        if os.path.isfile(os.path.join(package_abspath, "DISABLED")):
             plugin_state = "disabled"
 
         return {
             "plugin_name": plugin.__plugin_name__,
-            "plugin_package_name": package,
+            "plugin_package_name": package_name,
+            "plugin_package_abspath": package_abspath,
             "plugin_description": plugin.__description__,
             "plugin_version": plugin.__version__,
             "plugin_author": plugin.__author__,
@@ -369,8 +409,8 @@ class PluginManager(object):
             "plugin_license_file": license_file,
             "plugin_readme_file": readme_file,
             "plugin_state": plugin_state,
-            "plugin_tpl_path": os.path.join(self.plugins_folder, package, "templates"),
-            "plugin_ats_path": os.path.join(self.plugins_folder, package, "static"),
+            "plugin_tpl_path": os.path.join(package_abspath, "templates"),
+            "plugin_ats_path": os.path.join(package_abspath, "static"),
             "plugin_tep": {},
             "plugin_hep": {},
             "plugin_bep": {},
@@ -392,18 +432,20 @@ class PluginManager(object):
     def disable_plugin(self, plugin_name):
         """Disable a plugin (that is, create a DISABLED empty file) and restart the application to take effect"""
         plugin = self.get_plugin_info(plugin_name)
-        ENABLED = os.path.join(self.plugin_abspath, plugin["plugin_package_name"], "ENABLED")
+        ENABLED = os.path.join(plugin["plugin_package_abspath"], "ENABLED")
+        DISABLED = os.path.join(plugin["plugin_package_abspath"], "DISABLED")
         if os.path.isfile(ENABLED):
             os.remove(ENABLED)
-        self.__touch_file(os.path.join(self.plugin_abspath, plugin["plugin_package_name"], "DISABLED"))
+        self.__touch_file(DISABLED)
 
     def enable_plugin(self, plugin_name):
         """Enable a plugin (that is, create a ENABLED empty file) and restart the application to take effect"""
         plugin = self.get_plugin_info(plugin_name)
-        DISABLED = os.path.join(self.plugin_abspath, plugin["plugin_package_name"], "DISABLED")
+        ENABLED = os.path.join(plugin["plugin_package_abspath"], "ENABLED")
+        DISABLED = os.path.join(plugin["plugin_package_abspath"], "DISABLED")
         if os.path.isfile(DISABLED):
             os.remove(DISABLED)
-        self.__touch_file(os.path.join(self.plugin_abspath, plugin["plugin_package_name"], "ENABLED"))
+        self.__touch_file(ENABLED)
 
     @property
     def get_all_plugins(self):

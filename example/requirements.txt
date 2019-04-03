@@ -1,3 +1,0 @@
-Flask
-Flask-PluginKit>=2.1.0
-Flask-RESTful

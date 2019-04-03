@@ -6,7 +6,7 @@
     Exception Classes
 
     :copyright: (c) 2018 by staugur.
-    :license: MIT, see LICENSE for more details.
+    :license: BSD, see LICENSE for more details.
 """
 
 
