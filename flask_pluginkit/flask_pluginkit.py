@@ -139,7 +139,7 @@ class PluginManager(object):
         #: [plugin1, plugin2, plugin...]
         #:
         #: .. versionadded:: 2.2.0
-        self._plugin_packages = kwargs.get("plugin_packages", tuple())
+        self.plugin_packages = kwargs.get("plugin_packages", tuple())
 
         #: initialize app via a factory
         #:
@@ -208,11 +208,11 @@ class PluginManager(object):
 
         :raises: PluginError: raises an exception, maybe CSSLoadError, VersionError, based PluginError
         """
-        self.logger.info("Initialization Plugins Start, local plugins path: %s, third party plugins: %s" % (self.plugins_abspath, self._plugin_packages))
+        self.logger.info("Initialization Plugins Start, local plugins path: %s, third party plugins: %s" % (self.plugins_abspath, self.plugin_packages))
 
         #: Load third-party plugins
-        if self._plugin_packages and isinstance(self._plugin_packages, (list, tuple)):
-            for package_name in self._plugin_packages:
+        if self.plugin_packages and isinstance(self.plugin_packages, (list, tuple)):
+            for package_name in self.plugin_packages:
                 try:
                     plugin = __import__(package_name)
                 except ImportError:

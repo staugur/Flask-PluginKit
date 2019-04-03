@@ -344,6 +344,15 @@ Third party plugin
 这意味着，任何人都可以编写一个包，发布到pypi；使用者写好 `requirements.txt` 并安装依赖，在初始化中调用，一气呵成，而几乎不用担心后续第三方插件升级。
 
 
+调用：
+*******
+::
+
+    from flask_pluginkit import Flask, PluginManager
+    app = Flask(__name__)
+    plugin_manager = PluginManager(app, plugin_packages=["flask_pluginkit_demo"])
+
+
 如何编写第三方插件：
 ********************
 
