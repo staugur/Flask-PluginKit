@@ -2,7 +2,7 @@
 
 基于Flask的插件式开发工具(Web program plugin development kit based on flask).
 
-[![Build Status](https://travis-ci.com/staugur/Flask-PluginKit.svg?branch=master)](https://travis-ci.com/staugur/Flask-PluginKit) [![Documentation Status](https://readthedocs.org/projects/flask-pluginkit/badge/?version=latest)](https://flask-pluginkit.readthedocs.io/) [![codecov](https://codecov.io/gh/staugur/Flask-PluginKit/branch/master/graph/badge.svg)](https://codecov.io/gh/staugur/Flask-PluginKit) [![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg?style=popout)](https://pypi.org/project/Flask-PluginKit/) [![PyPI](https://img.shields.io/pypi/v/Flask-PluginKit.svg?style=popout)](https://pypi.org/project/Flask-PluginKit/) [![Pyversions](https://img.shields.io/pypi/pyversions/flask-pluginkit.svg
+[![Build Status](https://travis-ci.com/staugur/Flask-PluginKit.svg?branch=master)](https://travis-ci.com/staugur/Flask-PluginKit) [![Documentation Status](https://readthedocs.org/projects/flask-pluginkit/badge/?version=latest)](https://flask-pluginkit.readthedocs.io/) [![codecov](https://codecov.io/gh/staugur/Flask-PluginKit/branch/master/graph/badge.svg)](https://codecov.io/gh/staugur/Flask-PluginKit) [![PyPI](https://img.shields.io/pypi/v/Flask-PluginKit.svg?style=popout)](https://pypi.org/project/Flask-PluginKit/) [![Pyversions](https://img.shields.io/pypi/pyversions/flask-pluginkit.svg
 )](https://pypi.org/project/Flask-PluginKit)
 
 ### 使用概述(Overview)
@@ -79,7 +79,7 @@ plugin.init_app(app)
 
 ### 许可证(LICENSE)
 
-[MIT LICENSE](http://flask.pocoo.org/docs/license/#flask-license)
+[BSD LICENSE](http://flask.pocoo.org/docs/license/#flask-license)
 
 
 ### 说在后面(END)
