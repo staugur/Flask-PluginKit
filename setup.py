@@ -1,48 +1,7 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-Flask-PluginKit
-===============
 
-基于Flask的插件式开发工具(Web program plugin development kit based on flask).
-
-使用概述(Overview)
-~~~~~~~~~~~~~~~~~~
-
-安装(Installation)
-
-.. code:: bash
-
-    $ pip install Flask-PluginKit
-
-普通模式(Usage)
-
-.. code:: python
-
-    from flask_pluginkit import PluginManager
-    plugin = PluginManager(app)
-
-工厂模式(The factory pattern)
-
-.. code:: python
-
-    from flask_pluginkit import PluginManager
-    plugin = PluginManager()
-    plugin.init_app(app)
-
-文档(Documentation)
-~~~~~~~~~~~~~~~~~~~
-
-`中文 <https://flask-pluginkit.readthedocs.io/zh_CN/latest/>`__
-
-`English <https://flask-pluginkit.readthedocs.io/en/latest/>`__
-
-LICENSE
-~~~~~~~
-
-`MIT LICENSE <http://flask.pocoo.org/docs/license/#flask-license>`__
-
-"""
-
+import io
 import os
 import re
 import ast
@@ -73,6 +32,11 @@ def _get_author():
         author = ast.literal_eval(author_re.search(fh.read().decode('utf-8')).group(1))
 
     return (mail_re.search(author).group(1), mail_re.search(author).group(2))
+
+
+def _get_readme():
+    with io.open('README.rst', 'rt', encoding='utf8') as f:
+        return f.read()
 
 
 class PublishCommand(Command):
@@ -126,12 +90,13 @@ setup(
     author_email=email,
     keywords="flask plugin",
     description='Load and run plugins for your Flask application',
-    long_description=__doc__,
+    long_description=_get_readme(),
     test_suite='setup.test_suite',
     packages=['flask_pluginkit'],
     include_package_data=True,
     zip_safe=False,
     platforms='any',
+    python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*',
     install_requires=[
         'Flask>=0.9',
         'semver>=2.8.1',
@@ -145,7 +110,7 @@ setup(
         'Framework :: Flask',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
+        'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',

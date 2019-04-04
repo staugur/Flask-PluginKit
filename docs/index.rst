@@ -50,3 +50,15 @@ Api Documentation
 --------
 
 .. include:: ../CHANGELOG.rst
+
+------
+贡献
+------
+
+.. include:: ../CONTRIBUTING.rst
+
+-----------
+TODO和DONE
+-----------
+
+.. include:: ../TODO.rst
