@@ -30,7 +30,8 @@ Thank you for considering contributing to Flask-PluginKit!
 * 编写代码，请尽量符合PEP8规范。
 * 编写测试用例和文档。
 * 分别使用pypy、py2.7、py3.4+环境运行测试 `make dev && make test` 。
-* 使用py3.4+环境可以生成文档 `make dev && make html` ，如果您贡献翻译文档，请再执行命令 `make en` ，然后翻译po文件，最后执行 `make trans` 生成翻译文档。
+* 使用py3.4+环境可以生成文档 `make dev && make html` 。
+* 如果您贡献翻译文档，请再执行命令 `make en` ，然后翻译po文件，最后执行 `make trans` 生成翻译文档。
 
 **最后请求合并**
 

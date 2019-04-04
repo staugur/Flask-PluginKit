@@ -12,10 +12,13 @@
 import os
 import sys
 from flask.app import setupmethod
-from flask_multistatic import MultiStaticFlask
+try
+    from flask_multistatic import MultiStaticFlask as BaseFlask
+except ImportError:
+    from flask import Flask as BaseFlask
 
 
-class Flask(MultiStaticFlask):
+class Flask(BaseFlask):
 
     @setupmethod
     def before_request_top(self, f):
