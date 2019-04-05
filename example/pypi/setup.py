@@ -1,7 +1,7 @@
 import re
 import ast
 from setuptools import setup
-from flask_pluginkit_demo import __version__, __author__, __description__
+from flask_pluginkit_demo import __version__, __author__, __license__, __description__
 
 def _get_author():
     mail_re = re.compile(r'(.*)\s<(.*)>')
@@ -11,7 +11,7 @@ def _get_author():
 setup(
     name='flask_pluginkit_demo',
     version=__version__,
-    license='BSD',
+    license=__license__,
     author=author,
     author_email=email,
     url='https://github.com/staugur/Flask-PluginKit',

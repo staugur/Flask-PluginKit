@@ -4,13 +4,13 @@ import os
 import json
 import unittest
 from flask import Flask, g
-from flask_pluginkit import Flask as FixFlask, PluginManager, blueprint, LocalStorage, PY2, push_dcp, DCPError
+from flask_pluginkit import Flask as FixFlask, PluginManager, blueprint, LocalStorage, PY2, push_dcp, DCPError, NotCallableError
 from jinja2 import Markup
 
 # app1 with flask-pluginkit
 app1 = Flask("app1")
 app1.config['TESTING'] = True
-PluginManager(app1, s3="local")
+plugin = PluginManager(app1, s3="local")
 app1.register_blueprint(blueprint)
 
 # app2 without flask-pluginkit
@@ -79,14 +79,18 @@ class PMTest(unittest.TestCase):
         with app1.test_request_context():
             app1.preprocess_request()
             push_dcp("test", callback)
-            result = [f() for f in app1.extensions["pluginkit"].dcp_funcs["test"]]
+            result = [f() for f in app1.extensions["pluginkit"]._dcp_funcs["test"]]
             ft = app1.extensions["pluginkit"].emit_dcp("test")
             self.assertRaises(DCPError, push_dcp, ['raise'], callback)
-            self.assertRaises(DCPError, push_dcp, 'raise', "abc")
+            self.assertRaises(NotCallableError, push_dcp, 'raise', "abc")
             self.assertIsInstance(ft, Markup)
             self.assertEqual(ft, Markup("test"))
             self.assertEqual(result, ["test"])
 
+    def test_dfp(self):
+        plugin.push_func("test", callback)
+        self.assertEqual("test", plugin.emit_func("test"))
+        self.assertRaises(NotCallableError, plugin.push_func,'test','xxx')
 
 if __name__ == '__main__':
     unittest.main()

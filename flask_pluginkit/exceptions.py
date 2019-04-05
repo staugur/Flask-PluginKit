@@ -36,3 +36,11 @@ class DCPError(PluginError):
 
 class VersionError(PluginError):
     pass
+
+
+class DFPError(PluginError):
+    pass
+
+
+class NotCallableError(PluginError):
+    pass

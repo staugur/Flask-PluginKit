@@ -14,6 +14,7 @@
 * bep - 蓝图扩展点
 * yep - 样式扩展点
 * dcp - 动态连接点
+* dfp - 动态函数扩展
 
 核心代码
 --------
@@ -256,8 +257,8 @@
         </body
         </html>
 
-简单存储
-********
+简单存储(s3)
+************
 
 v1.3.0支持简单存储服务，其配置姑且命名s3，初始化 ``PluginManager`` 时传递s3，值为local(本地文件)、redis(需要传递s3_redis参数，即redis_url)，目前仅支持这两种。
 不过您也可以自定义存储类，要求是继承自 :class:`~flask_pluginkit.BaseStorage`, 执行 ``storage`` 函数时传入 ``sf(继承的类)`` 和 ``args(继承类参数，如果有的话)``。
@@ -290,7 +291,7 @@ v1.3.0支持简单存储服务，其配置姑且命名s3，初始化 ``PluginMan
 
     ``push_dcp`` 传入标识点、函数和定位，需要在请求上下文中执行::
         event: 标识点，有效字符串
-        callback: 普通函数、匿名函数，目前版本不可是类方法
+        callback: 普通函数、匿名函数、类、类实例化的方法
         position: 定位，默认right插入event末尾，left插入event首位，在 ``emit_dcp`` 中可以体验输出效果
 
     请注意： 每次使用 ``emit_dcp`` 后都会清空此标识点的函数！
@@ -315,6 +316,41 @@ v1.3.0支持简单存储服务，其配置姑且命名s3，初始化 ``PluginMan
 
     # index.html
     {{ emit_dcp('event', extra='template') }}
+
+动态函数扩展(dfp)
+*****************
+
+v2.3.0增加，此功能可以让插件或用户动态地推送一个可回调函数或类方法。
+
+您可以在上下文中通过 :func:`flask_pluginkit.PluginManager.push_func` 推送给标识点一个函数、类、类方法等，
+通过 :func:`flask_pluginkit.PluginManager.emit_func` 方法执行并获取执行结果。
+
+用法::
+
+    `emit_func` 调用时就像是调用一般函数、类、类方法一样，支持传入可变长度参数和可变字典参数以适应函数调用。
+
+    `push_func` 传入标识名、可回调函数或类方法，调用要求请参考具体插件说明（也许要求在应用上下文、也许要求在请求上下文）::
+        cuin: 标识名称，有效字符串
+        callback: 普通函数、匿名函数、类、类实例化的方法
+
+使用案例::
+
+    from flask_pluginkit import Flask, PluginManager
+
+    app = Flask(__name__)
+
+    plugin = PluginManager(app)
+
+    def test(extra, key='value'):
+        return extra + 'test; key value: ' + key
+
+    plugin.push_func("test", test)
+
+    @app.route("/")
+    def index():
+        test_result = plugin.emit_func("test", "this is extra text", key='diy_key')
+        return test_result
+
 
 加载逻辑
 --------

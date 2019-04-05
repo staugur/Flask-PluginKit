@@ -52,44 +52,8 @@ utils
 exceptions
 ----------
 
-.. autoexception:: flask_pluginkit.PluginError
-    :members:
-    :undoc-members:
-    :show-inheritance:
-    :noindex:
-
-.. autoexception:: flask_pluginkit.TarError
-    :members:
-    :undoc-members:
-    :show-inheritance:
-    :noindex:
-
-.. autoexception:: flask_pluginkit.ZipError
-    :members:
-    :undoc-members:
-    :show-inheritance:
-    :noindex:
-
-.. autoexception:: flask_pluginkit.InstallError
-    :members:
-    :undoc-members:
-    :show-inheritance:
-    :noindex:
-
-.. autoexception:: flask_pluginkit.CSSLoadError
-    :members:
-    :undoc-members:
-    :show-inheritance:
-    :noindex:
-
-.. autoexception:: flask_pluginkit.DCPError
-    :members:
-    :undoc-members:
-    :show-inheritance:
-    :noindex:
-
-.. autoexception:: flask_pluginkit.VersionError
-    :members:
+.. automodule:: flask_pluginkit.exceptions
+    :members: 
     :undoc-members:
     :show-inheritance:
     :noindex:

@@ -14,9 +14,8 @@ import re
 import jinja2
 import logging
 from collections import deque
-from inspect import isfunction
 from flask import Response, render_template
-from .exceptions import PluginError, CSSLoadError, DCPError, VersionError
+from .exceptions import PluginError, CSSLoadError, DCPError, VersionError, DFPError, NotCallableError
 from .utils import PY2, string_types, isValidSemver
 try:
     from flask import _app_ctx_stack as stack
@@ -133,13 +132,19 @@ class PluginManager(object):
         #: dict(event=deque())
         #:
         #: .. versionadded:: 2.1.0
-        self.dcp_funcs = {}
+        self._dcp_funcs = {}
 
         #: Third-party plugin package from pypi, format::
         #: [plugin1, plugin2, plugin...]
         #:
         #: .. versionadded:: 2.2.0
         self.plugin_packages = kwargs.get("plugin_packages", tuple())
+
+        #: Dynamic function point initialization, format::
+        #: dict(event=deque())
+        #:
+        #: .. versionadded:: 2.3.0
+        self._dfp_funcs = {}
 
         #: initialize app via a factory
         #:
@@ -599,23 +604,25 @@ class PluginManager(object):
 
         :param event: str,unicode: A unique identifier name for dcp.
 
-        :param callback: function: Corresponding to the event to perform a function.
+        :param callback: callable: Corresponding to the event to perform a function.
 
         :param position: The position of the insertion function, right(default) and left.
 
-        :raises: DCPError: raises an exception
+        :raises: DCPError,NotCallableError: raises an exception
 
         .. versionadded:: 2.1.0
         """
-        if event and isinstance(event, string_types) and isfunction(callback) and position in ("left", "right"):
-            if event in self.dcp_funcs:
+        if event and isinstance(event, string_types) and callable(callback) and position in ("left", "right"):
+            if event in self._dcp_funcs:
                 if position == "right":
-                    self.dcp_funcs[event].append(callback)
+                    self._dcp_funcs[event].append(callback)
                 else:
-                    self.dcp_funcs[event].appendleft(callback)
+                    self._dcp_funcs[event].appendleft(callback)
             else:
-                self.dcp_funcs[event] = deque([callback])
+                self._dcp_funcs[event] = deque([callback])
         else:
+            if not callable(callback):
+                raise NotCallableError("The event %s cannot be called back" % event)
             raise DCPError("Invalid parameter")
 
     def emit_dcp(self, event, **context):
@@ -629,20 +636,63 @@ class PluginManager(object):
 
         .. versionadded:: 2.1.0
         """
-        if event and isinstance(event, string_types) and event in self.dcp_funcs:
+        if event and isinstance(event, string_types) and event in self._dcp_funcs:
             results = []
-            for f in self.dcp_funcs[event]:
+            for f in self._dcp_funcs[event]:
                 rv = f(**context)
                 if rv is not None:
                     results.append(rv)
-            del self.dcp_funcs[event]
+            del self._dcp_funcs[event]
             return jinja2.Markup(TemplateEventResult(results))
         else:
             return jinja2.Markup()
 
+    def push_func(self, cuin, callback):
+        """Push a function.
+
+        :param cuin: str,unicode: Callback Unique Identifier Name.
+
+        :param callback: callable: Corresponding to the cuin to perform a function.
+
+        :raises: DFPError,NotCallableError: raises an exception
+
+        .. versionadded:: 2.3.0
+        """
+        if cuin and isinstance(cuin, string_types) and callable(callback):
+            if cuin in self._dfp_funcs:
+                raise DFPError("The cuin already exists")
+            else:
+                self._dfp_funcs[cuin] = callback
+        else:
+            if not callable(callback):
+                raise NotCallableError("The cuin %s cannot be called back" % cuin)
+            raise DFPError("Invalid parameter")
+
+    def emit_func(self, cuin, *args, **kwargs):
+        """Emit a event(with dcp) and gets the dynamic join point data(html code).
+
+        :param cuin: str,unicode: Callback Unique Identifier Name.
+
+        :param args: list: Variable length parameter for cuin.
+
+        :param kwargs: dict: Keyword parameter for cuin.
+
+        :returns: The result of calling the function.
+
+        .. versionadded:: 2.3.0
+        """
+        if cuin and isinstance(cuin, string_types):
+            if cuin in self._dfp_funcs:
+                f = self._dfp_funcs[cuin]
+                return f(*args, **kwargs)
+            else:
+                raise DFPError("The cuin does not exist")
+        else:
+            raise DFPError("Invalid parameter")
+
 
 def push_dcp(event, callback, position='right'):
-    """Push a function for :class:`~flask_pluginkit.PluginManager`, :func:`push_dcp`.
+    """Push a callable for :class:`~flask_pluginkit.PluginManager`, :func:`push_dcp`.
 
     Example usage::
 
