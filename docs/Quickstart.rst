@@ -25,9 +25,9 @@
 插件结构
 --------
 
-安装完成后，您可以开发第一个插件。最小的插件需要至少拥有自己的目录，目录必须包含\ ``__init__.py``\ 文件，否则不认为这是一个插件包！
+安装完成后，您可以开发第一个插件。最小的插件需要至少拥有自己的目录，目录必须包含 ``__init__.py`` 文件，否则不认为这是一个插件包！
 
-您的插件核心代码应该写在\ ``__init__.py``\ 文件中，包含注册插件所需的元数据。
+您的插件核心代码应该写在 ``__init__.py`` 文件中，包含注册插件所需的元数据。
 
 一个最简单的插件可能是这样的：
 
@@ -52,19 +52,19 @@
 Hello World!
 ------------
 
-这是一个示例应用，代码\ `在这里 <https://github.com/staugur/flask-pluginkit/tree/master/example>`__\ 。
+这是一个示例应用，代码 `在这里 <https://github.com/staugur/flask-pluginkit/tree/master/example>`__ 。
 
 这个示例中的演示插件(位于plugins/example)，它基本上已经包含了Flask-PluginKit目前所提供的所有功能点，它本来就是一个帮助插件，可以复制修改一份建立属于您的插件。
 
--  安装依赖包，\ ``pip install -r requirements.txt``
--  运行它，\ ``python main.py``\ ，首页大概是这样：
+-  安装依赖包， ``pip install -r requirements.txt``
+-  运行它， ``python main.py`` ，首页大概是这样：
 
     |image0|
 
     温馨提示：红色部分，就是plugins/example/static/example/demo.css设定的，支持插件添加静态文件，在v0.1.8及之后版本支持通过register\_yep注册静态文件，当然也可以直接在模板中link
     css，但不建议。
 
--  更多插件相关，请参阅\ ``插件详解``\ 一节。
+-  更多插件相关，请参阅 ``插件详解`` 一节。
 
 启用、禁用插件
 --------------

@@ -8,7 +8,7 @@ flask_pluginkit
 ---------------
 
 .. automodule:: flask_pluginkit.flask_pluginkit
-    :members: PluginManager, push_dcp
+    :members: PluginManager, push_dcp, emit_config
     :undoc-members:
     :show-inheritance:
     :noindex:

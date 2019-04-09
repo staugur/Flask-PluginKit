@@ -15,6 +15,8 @@ import jinja2
 import logging
 from collections import deque
 from flask import Response, render_template
+from flask.app import setupmethod
+from types import MethodType
 from .exceptions import PluginError, CSSLoadError, DCPError, VersionError, DFPError, NotCallableError
 from .utils import PY2, string_types, isValidSemver
 try:
@@ -190,6 +192,25 @@ class PluginManager(object):
         for bep in self.get_all_bep:
             app.register_blueprint(bep["blueprint"], url_prefix=bep["prefix"])
 
+        #: Bind a decorator to app
+        if hasattr(app, "before_request_top") is False:
+            @setupmethod
+            def before_request_top(self,f):
+                """Registers a function to run before each request, like fixflask.Flask
+
+                ..versionadded:: 2.3.2
+                """
+                self.before_request_funcs.setdefault(None, []).insert(0, f)
+                return f
+            app.before_request_top = MethodType(before_request_top, app)
+
+        #: Register top request context extension points
+        @app.before_request_top
+        def _before_request_top():
+            #: Before the top request of the context extension point
+            for cep_func in self.get_all_hep["before_request_top_hook"]:
+                cep_func()
+
         #: Register request context extension points
         @app.before_request
         def _before_request():
@@ -235,8 +256,8 @@ class PluginManager(object):
             for package_name in self.plugin_packages:
                 try:
                     plugin = __import__(package_name)
-                except ImportError:
-                    raise PluginError("ImportError for %s" % package_name)
+                except ImportError as e:
+                    raise PluginError("ImportError for %s, detail is %s" %(package_name, e))
                 else:
                     plugin_abspath = os.path.dirname(os.path.abspath(plugin.__file__))
                     self.__loadPlugin(plugin, plugin_abspath, package_name)
@@ -508,12 +529,15 @@ class PluginManager(object):
 
         * before_request_hook, Before request (intercept requests are allowed)
 
+        * before_request_top_hook, Before top request (Put it first)
+
         * after_request_hook, After request (no exception before return)
 
         * teardown_request_hook, After request (before return, with or without exception)
         """
         return dict(
             before_request_hook=[plugin["plugin_hep"]["before_request_hook"] for plugin in self.get_enabled_plugins if plugin["plugin_hep"].get("before_request_hook")],
+            before_request_top_hook=[plugin["plugin_hep"]["before_request_top_hook"] for plugin in self.get_enabled_plugins if plugin["plugin_hep"].get("before_request_top_hook")],
             after_request_hook=[plugin["plugin_hep"]["after_request_hook"] for plugin in self.get_enabled_plugins if plugin["plugin_hep"].get("after_request_hook")],
             teardown_request_hook=[plugin["plugin_hep"]["teardown_request_hook"] for plugin in self.get_enabled_plugins if plugin["plugin_hep"].get("teardown_request_hook")],
         )
@@ -734,3 +758,13 @@ def push_dcp(event, callback, position='right'):
     """
     ctx = stack.top
     ctx.app.extensions.get('pluginkit').push_dcp(event, callback, position)
+
+def emit_config():
+    """Get Flask-PluginKit Configure from App Context, :func:`emit_config`.
+
+    :returns: dict
+
+    .. versionadded:: 2.3.2
+    """
+    ctx = stack.top
+    ctx.app.extensions.get('pluginkit').get_config

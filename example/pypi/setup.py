@@ -21,6 +21,9 @@ setup(
     packages=['flask_pluginkit_demo',],
     zip_safe=False,
     include_package_data=True,
+    install_requires=[
+        'Flask-PluginKit>=2.2.0',
+    ],
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
