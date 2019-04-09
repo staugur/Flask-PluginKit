@@ -10,6 +10,7 @@ from jinja2 import Markup
 # app1 with flask-pluginkit
 app1 = Flask("app1")
 app1.config['TESTING'] = True
+app1.config['PLUGINKIT_TEST'] = True
 plugin = PluginManager(app1, s3="local")
 app1.register_blueprint(blueprint)
 
@@ -91,6 +92,13 @@ class PMTest(unittest.TestCase):
         plugin.push_func("test", callback)
         self.assertEqual("test", plugin.emit_func("test"))
         self.assertRaises(NotCallableError, plugin.push_func,'test','xxx')
+
+    def test_config(self):
+        conf = plugin.get_config
+        self.assertIsInstance(conf, dict)
+        self.assertIn("PLUGINKIT_TEST", conf)
+        self.assertTrue(conf["PLUGINKIT_TEST"], True)
+        
 
 if __name__ == '__main__':
     unittest.main()

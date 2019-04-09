@@ -1,10 +1,9 @@
 Flask-PluginKit
 ===============
 
-基于Flask的插件式开发工具(Web program plugin development kit based on
-flask).
+基于Flask的插件式开发工具(Web program plugin development kit based on flask).
 
-|Build Status| |Documentation Status| |codecov| |PyPI| |Pyversions|
+|Build Status| |Documentation Status| |codecov| |PyPI| |Pyversions| |Anti996|
 
 使用概述(Overview)
 -------------------
@@ -22,7 +21,7 @@ flask).
 
 .. code:: bash
 
-    $ make test
+    $ make dev && make test
 
 普通模式(Usage)
 
@@ -84,3 +83,6 @@ flask).
    :target: https://pypi.org/project/Flask-PluginKit/
 .. |Pyversions| image:: https://img.shields.io/pypi/pyversions/flask-pluginkit.svg
    :target: https://pypi.org/project/Flask-PluginKit
+.. |Anti996| image:: https://img.shields.io/badge/link-996.icu-red.svg
+   :target: https://996.icu
+   :alt: 996.ICU

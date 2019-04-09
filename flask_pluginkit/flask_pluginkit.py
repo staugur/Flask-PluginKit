@@ -100,6 +100,8 @@ class PluginManager(object):
         :param s3_redis: str: If s3 is redis, thie key is redis url, such as redis://@localhost:6379/0
 
         :param plugin_packages: list,tuple: List of third-party plug-in package names
+
+        :param pluginkit_config: dict: Your Flask-PluginKit Configure
         """
         self.plugins_folder = plugins_folder
         self.plugins_abspath = os.path.join(plugins_base or os.getcwd(), self.plugins_folder)
@@ -139,6 +141,8 @@ class PluginManager(object):
         #:
         #: .. versionadded:: 2.2.0
         self.plugin_packages = kwargs.get("plugin_packages", tuple())
+        if not isinstance(self.plugin_packages, (tuple, list)):
+            raise PluginError("Initialization parameter error for plugin_packages")
 
         #: Dynamic function point initialization, format::
         #: dict(event=deque())
@@ -146,7 +150,14 @@ class PluginManager(object):
         #: .. versionadded:: 2.3.0
         self._dfp_funcs = {}
 
-        #: initialize app via a factory
+        #: Configuration Dictionary of Flask-PLuginKit in Project
+        #:
+        #: .. versionadded:: 2.3.1
+        self._pluginkit_config = kwargs.get("pluginkit_config", dict())
+        if not isinstance(self._pluginkit_config, dict):
+            raise PluginError("Initialization parameter error for pluginkit_config")
+
+        #: Initialize app via a factory
         #:
         #: .. versionadded:: 0.1.4
         if app is not None:
@@ -154,6 +165,10 @@ class PluginManager(object):
 
     def init_app(self, app):
         self.static_url_path = app.static_url_path
+
+        #: Update configuration from app.config
+        self._pluginkit_config.update({ key:app.config[key] for key in app.config.keys() if key and key.startswith("PLUGINKIT_") })
+
         self.__scanPlugins()
 
         #: Custom add multiple template folders
@@ -357,9 +372,17 @@ class PluginManager(object):
                     self.logger.info("Register YEP Success")
                 else:
                     raise PluginError("Register YEP Failed, not a dict")
-            #: Register signal extension points`sep`
+            #: Register the dfp with a func
+            if hasattr(i, "register_dfp"):
+                dfp = i.register_dfp()
+                if isinstance(dfp, dict):
+                    for cuin,func in dfp.items():
+                        self.push_func(cuin,func)
+                else:
+                    raise PluginError("Register DFP Failed, not a dict")
+            #: TODO: Register signal extension points `sep`
             #: Add to the global plugin
-            if hasattr(i, "run") or hasattr(i, "register_tep") or hasattr(i, "register_hep") or hasattr(i, "register_bep") or hasattr(i, "register_yep"):
+            if hasattr(i, "run") or hasattr(i, "register_tep") or hasattr(i, "register_hep") or hasattr(i, "register_bep") or hasattr(i, "register_yep") or hasattr(i, "register_dfp"):
                 self.__plugins.append(pluginInfo)
             else:
                 self.logger.error("The current package does not have the `run` or `register_tep` or `register_hep` or `register_bep` or `register_yep` method")
@@ -690,6 +713,15 @@ class PluginManager(object):
         else:
             raise DFPError("Invalid parameter")
 
+    @property
+    def get_config(self):
+        """Your Flask-PluginKit Configure.
+
+        :returns: dict
+
+        .. versionadded:: 2.3.1
+        """
+        return self._pluginkit_config
 
 def push_dcp(event, callback, position='right'):
     """Push a callable for :class:`~flask_pluginkit.PluginManager`, :func:`push_dcp`.

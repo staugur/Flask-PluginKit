@@ -13,9 +13,7 @@
 #: Importing these two modules is the first and must be done.
 #: 首先导入这两个必须模块
 from __future__ import absolute_import
-#from libs.base import PluginBase
-class PluginBase():
-    pass
+from libs.base import PluginBase
 #: Import the other modules here, and if it's your own module, use the relative Import. eg: from .lib import Lib
 #: 在这里导入其他模块, 如果有自定义包, 使用相对导入, 如: from .lib import Lib
 from flask import current_app

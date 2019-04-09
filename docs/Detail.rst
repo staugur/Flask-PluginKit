@@ -14,7 +14,7 @@
 * bep - 蓝图扩展点
 * yep - 样式扩展点
 * dcp - 动态连接点
-* dfp - 动态函数扩展
+* dfp - 动态函数扩展点
 
 核心代码
 --------
@@ -123,10 +123,14 @@
             """注册样式扩展点，返回扩展点及对应css文件"""
             return dict()
 
+        def register_dfp(self):
+            """注册函数扩展点，返回扩展点名称及对应函数，实际使用push_func方法"""
+            return dict()
+
 插件类详解
 ----------
 
-插件类可以是继承自程序的某个基类，run、register_*至少存在一个方能加载为插件，以便于插件类使用程序基类接口，不过你可能需要在 ``__init__.py`` 顶处导入::
+插件类可以是继承自程序的某个基类，run、register_*至少存在一个方能加载为插件；如果你想使用程序其他基类接口，可能需要在 ``__init__.py`` 顶处导入::
 
     #: 若想引用程序基类需先导入这个模块
     #: If you want to refer to the program base class, you need to pilot the module.
@@ -135,7 +139,7 @@
 方法: run -> 仅插件加载时运行此方法
 ***********************************
 
-    环境: 非web
+    环境: 非web环境
 
     用法: 普通方法
 
@@ -257,6 +261,28 @@
         </body
         </html>
 
+方法: register_dfp -> 仅插件加载时运行此方法
+********************************************
+
+    环境: 非web环境
+
+    用法: 普通方法
+
+    示例-注册::
+
+        # 插件类中
+        def register_dfp(self):
+            return dict(test_func=lambda:"test a func")
+
+    示例-使用emit_func方法调用，参考 `动态函数扩展点 <#dfp>`_
+
+配置信息(config)
+****************
+
+您可以在初始化 ``PluginManager`` 时传入pluginkit_config参数设置额外的配置（以供插件使用），另外，此参数会加载app.config中 ``PLUGINKIT_`` 开头的配置。
+
+在插件中，可以使用 ``PluginManager.get_config`` 属性获取配置信息。
+
 简单存储(s3)
 ************
 
@@ -317,8 +343,8 @@ v1.3.0支持简单存储服务，其配置姑且命名s3，初始化 ``PluginMan
     # index.html
     {{ emit_dcp('event', extra='template') }}
 
-动态函数扩展(dfp)
-*****************
+动态函数扩展点(dfp)
+*******************
 
 v2.3.0增加，此功能可以让插件或用户动态地推送一个可回调函数或类方法。
 
