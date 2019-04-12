@@ -6,7 +6,7 @@
     web: The server-side plugin management blueprint.
 
     :copyright: (c) 2018 by staugur.
-    :license: BSD, see LICENSE for more details.
+    :license: BSD 3-Clause, see LICENSE for more details.
 """
 
 import time
@@ -22,7 +22,7 @@ else:
 #: Blueprint instance for managing plugins
 #:
 #: .. versionadded:: 0.1.6
-blueprint = Blueprint('flask_pluginkit', __name__, template_folder='templates')
+blueprint = Blueprint('flask_pluginkit', 'flask_pluginkit', template_folder='templates')
 
 
 @blueprint.before_request
@@ -37,10 +37,15 @@ def pluginkit_beforerequest():
 
     if authMethod == "BOOL":
         """Boolean Auth"""
-        if hasattr(g, "signin") and g.signin is True:
-            authResult.update(code=0)
+        PLUGINKIT_AUTHFIELD = current_app.config.get("PLUGINKIT_AUTHFIELD")
+        if PLUGINKIT_AUTHFIELD:
+            if PLUGINKIT_AUTHFIELD is True:
+                authResult.update(code=0)
         else:
-            authResult.update(code=10000, msg="Invalid authentication field")
+            if hasattr(g, "signin") and g.signin is True:
+                authResult.update(code=0)
+        authResult.update(code=10000, msg="Invalid authentication field")
+
     elif authMethod == "BASIC":
         """HTTP Basic Auth"""
 
@@ -74,6 +79,7 @@ def pluginkit_beforerequest():
             return not_authenticated()
         else:
             authResult.update(code=0)
+
     else:
         authResult.update(code=0, msg="No authentication required", method=None)
 
@@ -119,14 +125,14 @@ def api():
             environment:
                 Currently only support overloading using gunicorn applications
             requirement:
-                App Config, ENV=False GUNICORN_ENABLED=True GUNICORN_PROCESSNAME=Real runtime process name
+                App Config, such as ENV='production', GUNICORN_ENABLED=True, GUNICORN_PROCESSNAME='Real runtime process name'
             """
             try:
                 import os
                 import signal
                 import psutil
             except ImportError:
-                res.update(msg="No dependent modules installed", code=20000)
+                res.update(msg="No dependent modules(psutil) installed", code=20000)
             else:
                 #: gunicorn app config
                 ENV = current_app.config.get("ENV")
@@ -154,10 +160,12 @@ def api():
                     #: reload gunicorn
                     thread.start_new_thread(reload, (pid, ))
                     res.update(code=0)
+
                 elif ENV == "production" and UWSGI_ENABLED is True and "uwsgi" == p.name():
                     #: reload uwsgi
                     thread.start_new_thread(reload, (pid, ))
                     res.update(code=0)
+
                 else:
                     res.update(msg="According to the rules are not allowed to restart", code=20001)
     else:

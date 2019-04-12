@@ -5,20 +5,22 @@
 
 ::
 
-    $ pip install Flask-PluginKit
+    $ pip install -U Flask-PluginKit
 
 第一种方法：普通模式(Usage)
 
 ::
 
-    from flask_pluginkit import PluginManager
+    from flask_pluginkit import PluginManager, Flask
+    app = Flask(__name__)
     plugin = PluginManager(app)
 
 第二种方法：工厂模式(The factory pattern)
 
 ::
 
-    from flask_pluginkit import PluginManager
+    from flask_pluginkit import PluginManager, Flask
+    app = Flask(__name__)
     plugin = PluginManager()
     plugin.init_app(app)
 
@@ -56,20 +58,19 @@ Hello World!
 
 这个示例中的演示插件(位于plugins/example)，它基本上已经包含了Flask-PluginKit目前所提供的所有功能点，它本来就是一个帮助插件，可以复制修改一份建立属于您的插件。
 
--  安装依赖包， ``pip install -r requirements.txt``
--  运行它， ``python main.py`` ，首页大概是这样：
+-  安装依赖包， ``pip install -r test-requirements.txt`` #包含了一个第三方插件和一个本地插件
+-  运行它， ``sh run.sh`` ，首页大概是这样：
 
     |image0|
 
-    温馨提示：红色部分，就是plugins/example/static/example/demo.css设定的，支持插件添加静态文件，在v0.1.8及之后版本支持通过register\_yep注册静态文件，当然也可以直接在模板中link
-    css，但不建议。
+    温馨提示：红色部分，就是第三方插件中的css设定的，支持插件添加静态文件，在v0.1.8及之后版本支持通过register\_yep注册静态文件，当然也可以直接在模板中link css，但不建议。
 
 -  更多插件相关，请参阅 ``插件详解`` 一节。
 
 启用、禁用插件
 --------------
 
-插件不是pypi上发布的包，它应该在应用程序中的本地目录，启用(enabled)、禁用(disabled)一个插件有两种方法。
+无论是本地插件还是第三方插件，都应该安装在了本地环境中，启用(enabled)、禁用(disabled)一个插件有两种方法。
 
 -  第一种方法是将\ ``__init__.py``\ 中\ ``__state__``\ 值设为\ ``enabled``\ 或\ ``disabled``
 -  第二种方法是添加\ ``ENABLED``\ 或\ ``DISABLED``\ 文件（此方法优先级高于第一种，DISABLED文件优先级高于ENABLED文件）

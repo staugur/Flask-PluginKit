@@ -6,7 +6,7 @@
     pluginkit: load and run plugins.
 
     :copyright: (c) 2018 by staugur.
-    :license: BSD, see LICENSE for more details.
+    :license: BSD 3-Clause, see LICENSE for more details.
 """
 
 import os
@@ -695,7 +695,7 @@ class PluginManager(object):
             return jinja2.Markup()
 
     def push_func(self, cuin, callback):
-        """Push a function.
+        """Push a function for dfp.
 
         :param cuin: str,unicode: Callback Unique Identifier Name.
 
@@ -716,7 +716,7 @@ class PluginManager(object):
             raise DFPError("Invalid parameter")
 
     def emit_func(self, cuin, *args, **kwargs):
-        """Emit a event(with dcp) and gets the dynamic join point data(html code).
+        """Emit a cuin(with dfp) and gets the func result.
 
         :param cuin: str,unicode: Callback Unique Identifier Name.
 

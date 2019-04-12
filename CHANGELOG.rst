@@ -1,3 +1,20 @@
+
+v2.4.0
+------
+
+Released in 2019-04-12
+
+- feat: before_request_second
+- feat: redis cache with connection or redis_url
+- feat: redis cache 自定义key
+- feat: web访问认证选择BOOL类型时可以自定义认证成功字段
+- docs: update docs
+- style: update web manager html
+- chore: update LICENSE detail
+- chore: github org for flask-pluginkit(Official plugins)
+- chore: update test examples
+- chore: third plugin demo to https://github.com/flask-pluginkit/demo
+
 v2.3.2
 ------
 

@@ -6,7 +6,9 @@ Flask-PluginKit
 
 一个基于Flask的插件开发工具，支持多种扩展类型，您可以用来创建插件而无需更改核心代码。
 
-插件可以是本地目录，也可以是第三方包（比如pypi）
+插件可以是本地目录，也可以是第三方包（比如pypi）。
+
+同时，这里有一个插件组：https://github.com/flask-pluginkit
 
 .. image:: https://codecov.io/gh/staugur/Flask-PluginKit/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/staugur/Flask-PluginKit
@@ -45,12 +47,6 @@ Api Documentation
 
 .. include:: ./Api.rst
 
---------
-更新日志
---------
-
-.. include:: ../CHANGELOG.rst
-
 ------
 贡献
 ------
@@ -62,3 +58,9 @@ TODO和DONE
 -----------
 
 .. include:: ../TODO.rst
+
+--------
+更新日志
+--------
+
+.. include:: ../CHANGELOG.rst

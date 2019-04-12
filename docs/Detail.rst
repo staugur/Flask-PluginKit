@@ -52,7 +52,7 @@
             pass
 
 
-这里还有一个完整的例子，包含了Flask-PluginKit的完整功能，`点击查看 <https://github.com/staugur/Flask-PluginKit/tree/master/example/pypi/flask_pluginkit_demo>`_
+这里还有一个完整的例子，包含了Flask-PluginKit的完整功能，`点击查看 <https://github.com/staugur/Flask-PluginKit/tree/master/example>`_
 
 代码解析
 --------
@@ -196,9 +196,9 @@
     环境: web请求上下文、注册到flask钩子
 
     用法: 
-        * 要求返回字典，格式是: dict(扩展点=function)，目前支持三种扩展点: before_request_hook、after_request_hook、teardown_request_hook
-        * 三种扩展点对应的钩子分别是请求前、请求后(返回前)、请求后(返回前，无论是否发生异常)
-        * before_reqest_hook还可以拦截请求，设置属性is_before_request_return=True，使用make_response、jsonify等响应函数或Response构造响应类
+        * 要求返回字典，格式是: dict(扩展点=function)，目前支持三种扩展点: before_request_top_hook、before_request_hook、after_request_hook、teardown_request_hook
+        * 三种扩展点对应的钩子分别是请求前（优先级为1）、请求前、请求后(返回前)、请求后(返回前，无论是否发生异常)
+        * before_reqest_hook还可以拦截请求，要求使用了make_response、jsonify等响应函数或Response构造响应类，且设置属性is_before_request_return=True
         * 建议您在插件类中单独写一个方法，并传递给扩展点，其中after_request_hook会传入 ``response`` 参数，teardown_request_hook会传入 ``exception`` 参数，您扩展点的函数必须支持传入，并可以自行使用。
 
     示例::
@@ -279,9 +279,11 @@
 配置信息(config)
 ****************
 
-您可以在初始化 ``PluginManager`` 时传入pluginkit_config参数设置额外的配置（以供插件使用），另外，此参数会加载app.config中 ``PLUGINKIT_`` 开头的配置。
+您可以在初始化 :class:`~flask_pluginkit.PluginManager` 时传入pluginkit_config参数设置额外的配置（以供插件使用），另外，此参数会加载app.config中 ``PLUGINKIT_`` 开头的配置。
 
-在插件中，可以使用 ``PluginManager.get_config`` 属性获取配置信息。
+在插件中，可以使用 :attr:`flask_pluginkit.PluginManager.get_config` 属性获取配置信息。
+
+在应用上下文中，可以使用 :attr:`flask_pluginkit.emit_config` 获取配置信息。
 
 简单存储(s3)
 ************
@@ -304,12 +306,13 @@ v1.3.0支持简单存储服务，其配置姑且命名s3，初始化 ``PluginMan
     def run(self):
         self.s3 = LocalStorage()
 
-    # 两者使用同个文件或同个redis库时数据一致
+    # 两者使用LocalStorage类，由于存储在本地同个文件中，所以数据时相同的；
+    # 使用RedisStorage类，连接配置的库不同，数据会相应改变，同库则数据相同。
 
 动态连接点(dcp)
 *****************
 
-动态连接点，动态注册并执行函数将结果返回给模板使用。您可以通过 :func:`flask_pluginkit.push_dcp` 推送给标识点一个函数，在模板中通过 ``emit_dcp`` 执行并获取执行结果(即HTML代码)。
+动态连接点，动态注册并执行函数将结果返回给模板使用。您可以在上下文中通过 :func:`flask_pluginkit.push_dcp` 推送给标识点一个函数，在模板中通过 ``emit_dcp`` 执行并获取执行结果(即HTML代码)。
 
 用法::
 
@@ -388,12 +391,12 @@ v2.3.0增加，此功能可以让插件或用户动态地推送一个可回调�
 
     1. 通过 ``init_app`` 完成实例构造，初始化参数。
     2. 扫描插件目录，符合插件规则的包将被动态加载。
-    3. 加载插件信息，依次运行 ``run`` -> ``register_tep`` -> ``register_hep`` -> ``register_bep`` -> ``register_yep`` 等方法, 写入到所有插件列表。
+    3. 加载插件信息，依次运行 ``run`` -> ``register_tep`` -> ``register_hep`` -> ``register_bep`` -> ``register_yep`` -> ``register_dfp`` 等方法, 写入到所有插件列表。
     4. Flask-PluginKit设置支持多模板文件夹、多静态文件夹（插件目录下）。
     5. Flask-PluginKit注册全局模板函数 ``emit_tep``、``emit_yep``、``emit_dcp``, 分别是渲染模板上下文、CSS上下文、渲染动态连接点。
     6. 注册所有启用插件的蓝图扩展点BEP。
     7. 使用before_request等装饰器注册所有启用插件的钩子扩展点。
-    8. 将 ``PluginManager`` 附加到app中，完成加载，可以使用 ``app.extensions['pluginkit']`` 调用 ``PluginManager`` 类中方法。
+    8. 将 ``PluginManager`` 附加到app中，完成加载，可以使用 ``app.extensions['pluginkit']`` 或 ``app.plugin_manager`` 调用 ``PluginManager`` 类中方法。
 
 
 Third party plugin
@@ -421,7 +424,7 @@ Third party plugin
     1. 首先根据上方 `代码解析 <#id12>`_ 和 `插件类详解 <#id13>`_ 写一个包，参见 `核心代码 <#id10>`_ ，要写在 `__init__.py` 中。
 
 
-    2. 第一步中实际上就是编写本地插件的过程，本步骤需要编写 `setup.py` ，使本地插件能发布到pypi中供其他人使用::
+    2. 第一步中实际上就是编写本地插件的过程，本步骤需要编写 `setup.py` ，使本地插件能（可选发布到pypi中）通过pip供其他人使用::
 
         from setuptools import setup
         setup(
@@ -447,5 +450,5 @@ Third party plugin
         4.4 测试站可以看看界面描述等等是否符合心中要求，没问题就发布到正式站，pypi.org，命令是： `twine upload dist/*`
 
     5. 示例
-        `pypi demo <https://github.com/staugur/Flask-PluginKit/tree/master/example/pypi/>`_
+        `pypi demo <https://github.com/flask-pluginkit/demo>`_
 

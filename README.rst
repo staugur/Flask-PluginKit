@@ -53,8 +53,8 @@ Flask-PluginKit
 -  码云 https://gitee.com/staugur/Flask-PluginKit
 -  Author https://www.saintic.com
 -  Issues https://github.com/staugur/Flask-PluginKit/issues
--  使用 *Flask-PluginKit* 的项目
-   https://github.com/topics/flask-pluginkit
+-  使用 *Flask-PluginKit* 的项目 https://github.com/topics/flask-pluginkit
+-  基于 *Flask-PluginKit* 的官方插件 https://github.com/flask-pluginkit
 
 文档(Documentation)
 ---------------------

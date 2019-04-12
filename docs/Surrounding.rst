@@ -1,13 +1,19 @@
 fixflask.py
 -----------
 
-这个文件是继承Flask的类，增加了一些功能，即支持多静态文件夹(来自于 ``flask-multistatic`` )、支持 ``before_request_top`` (此装饰器与before_request作用一致，区别是它将装饰的函数置于钩子首位)。
+这个文件是继承Flask的类，增加了一些功能，即支持多静态文件夹(来自于 ``flask-multistatic`` )、支持 ``before_request_top`` (此装饰器与before_request作用一致，区别在于它总是将装饰的函数置于钩子首位)和 ``before_request_second`` （同上，但是这个装饰器总是把函数置于第二位）。
 
 
 使用方法::
 
     from flask_pluginkit import Flask
     app = Flask(__name__)
+    @app.before_request_top
+    def first():
+        pass
+    @app.before_request_second
+    def second():
+        pass
 
 web.py
 ------
@@ -36,9 +42,9 @@ web.py
     # app配置
     app.config.update(PLUGINKIT_AUTHMETHOD=值)
 
-    值为BOOL为字段认证，使用 ``g.signin`` 认证，当此值为 ``True`` 时允许访问。
+    值为BOOL为字段认证，使用 ``g.signin`` 认证，当此值为 ``True`` 时允许访问；您也可以使用 ``PLUGINKIT_AUTHFIELD`` 配置项指定，当此项存在且为True时允许访问。
 
-    值为BASIC为HTTP Basic Auth，支持传入 ``PLUGINKIT_AUTHREALM`` 设置提示信息，必须传入 ``PLUGINKIT_AUTHUSERS`` 设置认证的用户名及密码，要求类型是字典，key是用户名，value是密码。
+    值为BASIC为HTTP Basic Auth，支持传入 ``PLUGINKIT_AUTHREALM`` 设置提示信息，必须传入 ``PLUGINKIT_AUTHUSERS`` 设置认证的用户名及密码，要求类型是字典，key是用户名，value是密码，允许多个k、v组合。
 
 示例::
 

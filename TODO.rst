@@ -25,3 +25,6 @@ DONE
 - 插件版本号检测是否符合语义化版本2.0标准
 - 支持pypi第三方包
 - 支持推送扩展函数
+- before_request_second
+- redis cache with connection or redis_url
+- redis cache 自定义key

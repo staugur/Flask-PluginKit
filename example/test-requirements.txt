@@ -1,3 +1,4 @@
 Flask
 Flask-PluginKit>=2.2.0
 Flask-RESTful
+git+https://github.com/flask-pluginkit/demo@master

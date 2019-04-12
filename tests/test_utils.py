@@ -2,7 +2,7 @@
 
 import os
 import unittest
-from flask_pluginkit import isValidSemver, sortedSemver
+from flask_pluginkit import isValidSemver, sortedSemver, LocalStorage
 
 
 class UtilsTest(unittest.TestCase):
@@ -19,6 +19,13 @@ class UtilsTest(unittest.TestCase):
         self.assertRaises(TypeError, sortedSemver, 'raise')
         self.assertRaises(ValueError, sortedSemver, ["0.0.1", "v0.0.2"])
 
+    def test_localstorage(self):
+        storage = LocalStorage()
+        data = dict(a=1)
+        storage.set('test', data)
+        newData = storage.get('test')
+        self.assertIsInstance(newData, dict)
+        self.assertEqual(newData, data)
 
 if __name__ == '__main__':
     unittest.main()

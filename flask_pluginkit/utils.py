@@ -6,7 +6,7 @@
     utils: Some tool classes and functions.
 
     :copyright: (c) 2018 by staugur.
-    :license: BSD, see LICENSE for more details.
+    :license: BSD 3-Clause, see LICENSE for more details.
 """
 
 import os
@@ -38,10 +38,12 @@ class BaseStorage(object):
 class LocalStorage(BaseStorage):
 
     def open(self, flag="c"):
-        """Open handle"""
-        #: set protocol=2 to fix python3
-        #:
-        #: .. versionadded:: 1.3.1
+        """Open handle
+
+        set protocol=2 to fix python3
+
+        .. versionadded:: 1.3.1
+        """
         return shelve.open(os.path.join(gettempdir(), self.index), flag=flag, protocol=2)
 
     def set(self, key, value):
@@ -89,8 +91,15 @@ class LocalStorage(BaseStorage):
 
 class RedisStorage(BaseStorage):
 
-    def __init__(self, redis_url):
-        self._db = self.open(redis_url)
+    def __init__(self, redis_url=None, redis_connection=None):
+        self._db = self.open(redis_url) if redis_url else redis_connection
+
+    def set_index(self, inedx):
+        """Set key name.
+
+        ..versionadded:: 2.4.0
+        """
+        self.index = index
 
     def open(self, redis_url):
         """open handler, you need install redis module"""

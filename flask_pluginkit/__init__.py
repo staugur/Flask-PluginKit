@@ -9,7 +9,7 @@ from .utils import BaseStorage, LocalStorage, RedisStorage, PY2, string_types, i
 
 __author__ = "staugur <staugur@saintic.com>"
 
-__version__ = "2.3.2"
+__version__ = "2.4.0"
 
 __all__ = ["Flask", "PluginManager", "PluginInstaller", "blueprint", "push_dcp", "emit_config",
            "PluginError", "TarError", "ZipError", "InstallError", "CSSLoadError", "DCPError", "VersionError", "DFPError", "NotCallableError",
