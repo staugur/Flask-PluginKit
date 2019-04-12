@@ -6,6 +6,7 @@ TODO
 - 自定义web认证
 - web认证黑白名单
 - 模板代码、文件优先级
+- 模板中`emit_config`
 
 DONE
 -----
