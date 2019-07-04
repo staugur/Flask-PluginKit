@@ -44,7 +44,6 @@ def pluginkit_beforerequest():
         else:
             if hasattr(g, "signin") and g.signin is True:
                 authResult.update(code=0)
-        authResult.update(code=10000, msg="Invalid authentication field")
 
     elif authMethod == "BASIC":
         """HTTP Basic Auth"""
