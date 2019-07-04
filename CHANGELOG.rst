@@ -1,4 +1,11 @@
 
+v2.4.1
+-------
+
+Released in 2019-07-04
+
+- fix: remove line for web "BOOL" auth
+
 v2.4.0
 ------
 

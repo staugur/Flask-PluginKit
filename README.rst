@@ -3,6 +3,8 @@ Flask-PluginKit
 
 基于Flask的插件式开发工具(Web program plugin development kit based on flask).
 
+*能耐一般水平有限，目前版本功能弱爆了，准备重构新版，不建议使用当前版本，因为你不熟悉代码实际用起来问题多多，文档还不全~~*
+
 |Build Status| |Documentation Status| |codecov| |PyPI| |Pyversions| |Anti996|
 
 使用概述(Overview)
@@ -15,7 +17,7 @@ Flask-PluginKit
     # 正式版(Release)
     $ pip install -U Flask-PluginKit
     # 开发版(Dev)
-    $ pip install -U git+https://github.com/staugur/Flask-PluginKit.git
+    $ pip install -U git+https://github.com/staugur/Flask-PluginKit.git@master
 
 测试用例(TestCase)
 
