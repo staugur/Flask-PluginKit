@@ -1,16 +1,24 @@
 # -*- coding: utf-8 -*-
+"""
+    flask_pluginkit
+    ~~~~~~~~~~~~~~~
 
-from .exceptions import PluginError, TarError, ZipError, InstallError, CSSLoadError, DCPError, VersionError, DFPError, NotCallableError
-from .flask_pluginkit import PluginManager, push_dcp, emit_config
-from .installer import PluginInstaller
-from .web import blueprint
-from .fixflask import Flask
-from .utils import BaseStorage, LocalStorage, RedisStorage, PY2, string_types, isValidSemver, sortedSemver
+    Load and run plugins for your Flask application
+
+    :copyright: (c) 2019 by staugur.
+    :license: BSD 3-Clause, see LICENSE for more details.
+"""
+
+from .pluginkit import PluginManager
+from .utils import Flask, LocalStorage, RedisStorage
 
 __author__ = "staugur <staugur@saintic.com>"
 
-__version__ = "2.4.1"
+__version__ = "3.0.0"
 
-__all__ = ["Flask", "PluginManager", "PluginInstaller", "blueprint", "push_dcp", "emit_config",
-           "PluginError", "TarError", "ZipError", "InstallError", "CSSLoadError", "DCPError", "VersionError", "DFPError", "NotCallableError",
-           "BaseStorage", "LocalStorage", "RedisStorage", "PY2", "string_types", "isValidSemver", "sortedSemver"]
+__all__ = [
+    "Flask",
+    "PluginManager",
+    "LocalStorage",
+    "RedisStorage",
+]

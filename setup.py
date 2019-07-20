@@ -19,7 +19,8 @@ def _get_version():
     version_re = re.compile(r'__version__\s+=\s+(.*)')
 
     with open('flask_pluginkit/__init__.py', 'rb') as fh:
-        version = ast.literal_eval(version_re.search(fh.read().decode('utf-8')).group(1))
+        version = ast.literal_eval(version_re.search(
+            fh.read().decode('utf-8')).group(1))
 
     return str(version)
 
@@ -29,7 +30,8 @@ def _get_author():
     mail_re = re.compile(r'(.*)\s<(.*)>')
 
     with open('flask_pluginkit/__init__.py', 'rb') as fh:
-        author = ast.literal_eval(author_re.search(fh.read().decode('utf-8')).group(1))
+        author = ast.literal_eval(author_re.search(
+            fh.read().decode('utf-8')).group(1))
 
     return (mail_re.search(author).group(1), mail_re.search(author).group(2))
 
@@ -67,7 +69,8 @@ class PublishCommand(Command):
         os.system("rm -rf build/ dist/ Flask_PluginKit.egg-info/")
         os.system("python setup.py sdist bdist_wheel")
         if self.test:
-            os.system("twine upload --repository-url https://test.pypi.org/legacy/ dist/*")
+            os.system(
+                "twine upload --repository-url https://test.pypi.org/legacy/ dist/*")
         elif self.release:
             os.system("twine upload dist/*")
         os.system("rm -rf build/ dist/ Flask_PluginKit.egg-info/")
@@ -85,22 +88,32 @@ setup(
     version=version,
     url='https://github.com/staugur/Flask-PluginKit',
     download_url="https://github.com/staugur/Flask-PluginKit/releases/tag/v%s" % version,
-    license='BSD',
+    project_urls={
+        "Documentation": "https://flask-pluginkit.readthedocs.io",
+        "Code": "https://github.com/staugur/Flask-PluginKit",
+        "Issue tracker": "https://github.com/staugur/Flask-PluginKit/issues",
+    },
+    license='BSD 3-Clause',
     author=author,
     author_email=email,
     keywords="flask plugin",
     description='Load and run plugins for your Flask application',
     long_description=_get_readme(),
     test_suite='setup.test_suite',
+    tests_require=[
+        'Flask>=0.11.1',
+        'flask-pluginkit-demo'
+    ],
+    dependency_links=[
+        "git+https://github.com/flask-pluginkit/demo@master#egg=flask-pluginkit-demo"
+    ],
     packages=['flask_pluginkit'],
     include_package_data=True,
     zip_safe=False,
-    platforms='any',
-    python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*',
+    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*",
     install_requires=[
         'Flask>=0.9',
-        'semver>=2.8.1',
-        'flask-multistatic>=1.0'
+        'semver>=2.0.0'
     ],
     cmdclass={
         'publish': PublishCommand,
@@ -113,10 +126,10 @@ setup(
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: Implementation :: PyPy',
+        'Programming Language :: Python :: Implementation :: CPython',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ]

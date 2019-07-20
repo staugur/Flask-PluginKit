@@ -1,0 +1,148 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, staugur
+# This file is distributed under the same license as the Flask-PluginKit
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Flask-PluginKit 3.0.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-19 22:32+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: ../../tutorial/tep.rst:4
+msgid "Template Extension Point"
+msgstr "模板扩展点"
+
+#: ../../tutorial/tep.rst:7
+msgid "Description"
+msgstr "描述"
+
+#: ../../tutorial/tep.rst:9
+msgid "The extension point abbreviation is tep."
+msgstr "这个扩展点缩写为tep。"
+
+#: ../../tutorial/tep.rst:11
+msgid ""
+"As the name implies, tep only works in the template environment. It is "
+"used to enhance or extend existing templates. It can be simple html code "
+"or complex html files. It needs to be manually called by the user in the "
+"existing template."
+msgstr ""
+"顾名思义，tep仅适用于模板环境,用于增强或扩展现有模板。"
+"它可以是简单的html代码或复杂的html文件，需要由用户在现有模板中手动调用。"
+
+#: ../../tutorial/tep.rst:16
+msgid ""
+"The plugin needs to return the tep field via register. The tep data type "
+"returned is a dictionary with the format {tep_name: html_code_or_file}, "
+"which can have multiple tep_names."
+msgstr ""
+"插件需要通过register返回tep字段，返回的tep数据类型是一个格式为"
+"{tep_name: html_code_or_file}的字典，且可以有多个tep_name。"
+
+#: ../../tutorial/tep.rst:20
+msgid ""
+"The Flask-PluginKit loads tep via "
+":meth:`~flask_pluginkit.PluginManager._tep_handler`, this method will "
+"detect tep rules and specific content. The value corresponding to "
+"tep_name is recognized as a template file if it ends with **.html**, "
+"**.htm**, **.xhtml**, otherwise it is a simple html code."
+msgstr ""
+"Flask-PluginKit通过 :meth:`~flask_pluginkit.PluginManager._tep_handler` "
+"加载tep，此方法将检测tep规则和内容。如果tep_name对应的值以 **.html** 、"
+" **.htm** 、 **.xhtml** 结尾，则会认定为模板文件，否则便是html代码。"
+
+#: ../../tutorial/tep.rst:26
+msgid ""
+"Although the tep_name in the tep returned by each plugin is unique, since"
+" a web application can have multiple plugins, the tep_name can contain "
+"not only the html code but also the template file for the entire web "
+"application."
+msgstr ""
+"虽然每个插件返回的tep中的tep_name是唯一的，但由于Web应用程序可以有多个插件，"
+"因此对整个Web应用程序来说，tep_name不仅会包含html代码，还包含模板文件。"
+
+#: ../../tutorial/tep.rst:30
+msgid ""
+"In use, in the existing template, all contents corresponding to tep_name "
+"are called by :meth:`~flask_pluginkit.PluginManager.emit_tep`, the "
+"template file is rendered by :func:`flask.render_template`, and the html "
+"code is rendered by :func:`flask.render_template_string`, which means "
+"that the html code can also be supported by jinja2 like a template file, "
+"jinja2 syntax, functions, macros, etc. In addition, use emit_tep to pass "
+"in the typ parameter settings to render only html code or files, and also"
+" pass in other keyword parameters as context data for rendering."
+msgstr ""
+"使用时，在现有模板中，tep_name对应的所有内容都通过
+" :meth:`~flask_pluginkit.PluginManager.emit_tep` 调用，其中，模板文件通过"
+" :func:`flask.render_template` 渲染，html代码通过"
+" :func:`flask.render_template_string` 渲染。"
+"这意味着，html代码也可以像模板文件一样支持jinja2语法、函数、宏等，此外，"
+"使用emit_tep可以传递typ参数设置仅渲染HTML代码或模板文件，而且可以传递额外的"
+"关键字参数给tep_name，作为渲染的上下文数据。"
+
+#: ../../tutorial/tep.rst:41
+msgid ""
+"The template file supports sorting. You need to pass "
+":attr:`~flask_pluginkit.PluginManager.stpl` is True when initializing the"
+" :class:`~flask_pluginkit.PluginManager`. The usage is \"sort-field"
+"\\@template-file\"."
+msgstr ""
+"模板文件支持排序。你需要在初始化 :class:`~flask_pluginkit.PluginManager` 时"
+"设置 :attr:`~flask_pluginkit.PluginManager.stpl` = True。"
+"用法是 \"排序字段\\@模板文件\"。"
+
+#: ../../tutorial/tep.rst:48
+msgid ""
+"It is recommended that you create a new directory to store html files "
+"under the plugin templates. Because the Flask-PluginKit only loads the "
+"templates directory under the plugin, and does not guarantee template "
+"conflicts, the new directory can avoid conflicts with other plugin "
+"template files, which can not be referenced properly."
+msgstr ""
+"如果有模板文件，建议您在插件目录的templates下创建一个子目录以存储html文件，"
+"因为Flask-PluginKit只加载插件下的templates目录，并且不保证模板冲突，"
+"所以在templates下创建子目录可以尽可能地避免与其他插件模板文件冲突，"
+"以免文件无法正确引用。"
+
+#: ../../tutorial/tep.rst:55
+msgid "Example"
+msgstr "示例"
+
+#: ../../tutorial/tep.rst:57
+msgid "Plugin registration for tep"
+msgstr "注册tep"
+
+#: ../../tutorial/tep.rst:69
+msgid ""
+"As above, you need to create a new \"templates/example\" directory in the"
+" plugin directory, and put header.html into the directory. If it does not"
+" exist, the exception "
+":class:`~flask_pluginkit.exceptions.TemplateNotFound` will be thrown."
+msgstr ""
+"如上所述，您需要在插件中创建一个新的\"templates/example\"目录，并将"
+"header.html放入目录中，如果它不存在，那么会抛出异常："
+" :class:`~flask_pluginkit.exceptions.TemplateNotFound`"
+
+#: ../../tutorial/tep.rst:74
+msgid "User call"
+msgstr "用户调用"
+
+#: ../../tutorial/tep.rst:76
+msgid ""
+"In the existing template, assume that the following file named base.html "
+"is the base template, user need to manually call "
+":meth:`~flask_pluginkit.PluginManager.emit_tep`, can pass additional "
+"data:"
+msgstr ""
+"在现有模板中，假设以下文件名为base.html是基础模板，用户需要手动调用"
+" :meth:`~flask_pluginkit.PluginManager.emit_tep` ，可以传递额外的数据："

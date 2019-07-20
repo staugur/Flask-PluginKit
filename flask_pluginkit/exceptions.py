@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-    Flask-PluginKit.exceptions
+    flask_pluginkit.exceptions
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     Exception Classes
 
-    :copyright: (c) 2018 by staugur.
+    :copyright: (c) 2019 by staugur.
     :license: BSD 3-Clause, see LICENSE for more details.
 """
 
@@ -14,33 +14,13 @@ class PluginError(Exception):
     pass
 
 
-class TarError(PluginError):
-    pass
-
-
-class ZipError(PluginError):
-    pass
-
-
-class InstallError(PluginError):
-    pass
-
-
-class CSSLoadError(PluginError):
-    pass
-
-
-class DCPError(PluginError):
-    pass
-
-
 class VersionError(PluginError):
     pass
 
 
-class DFPError(PluginError):
+class PEPError(PluginError):
     pass
 
 
-class NotCallableError(PluginError):
+class TemplateNotFound(PluginError):
     pass

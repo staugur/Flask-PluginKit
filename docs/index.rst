@@ -2,69 +2,79 @@
 Flask-PluginKit
 ===============
 
-.. currentmodule:: flask_pluginkit
+Welcome to Flask-PluginKit's documentation.
 
-一个基于Flask的插件开发工具，支持多种扩展类型，您可以用来创建插件而无需更改核心代码。
+This is a Flask-based plugin development kit that supports multiple
+extension types that you can use to create plugins for web applications
+with little or no change to the core code.
 
-.. warning::
+Ask: Why did you develop this extension?
 
-    能耐一般水平有限，目前版本功能弱爆了，准备重构新版，不建议使用当前版本，因为你不熟悉代码实际用起来问题多多，文档还不全~~
+Reply: Play.
 
-插件可以是本地目录，也可以是第三方包（比如pypi）。
+Get started with :ref:`installation` and then get an overview with the
+:ref:`quickstart`. There is also a more detailed :ref:`tutorial`
+that shows how to create a small but complete plugin with Flask-PluginKit.
+The rest of the docs describe each component of Flask-PluginKit in detail,
+with a full reference in the :ref:`api` section.
 
-同时，这里有一个插件组：https://github.com/flask-pluginkit
+Flask-PluginKit depends on the `Flask`_.
+
+The plugin based on Flask-PluginKit can be a local directory or a third-party
+package (such as pypi), which is the `official plugin organization`_.
+
+.. image:: https://travis-ci.com/staugur/Flask-PluginKit.svg?branch=master
+    :target: https://travis-ci.com/staugur/Flask-PluginKit
 
 .. image:: https://codecov.io/gh/staugur/Flask-PluginKit/branch/master/graph/badge.svg
-  :target: https://codecov.io/gh/staugur/Flask-PluginKit
+    :target: https://codecov.io/gh/staugur/Flask-PluginKit
 
 .. image:: https://img.shields.io/pypi/v/Flask-PluginKit.svg?style=popout
     :target: https://pypi.org/project/Flask-PluginKit/
 
-.. image:: https://img.shields.io/pypi/pyversions/Flask-PluginKit.svg
-    :target: https://pypi.org/project/Flask-PluginKit/
+.. warning::
 
-.. contents::
-   :local:
-   :backlinks: none
+    The current version v3.0.x is completely incompatible with the old version!
 
---------
-快速开始
---------
+User Guide
+----------
 
-.. include:: ./Quickstart.rst
+Describe in detail how to develop a plugin using Flask-PluginKit.
 
---------
-插件详解
---------
+.. toctree::
+    :maxdepth: 2
 
-.. include:: ./Detail.rst
+    installation
+    quickstart
+    tutorial/index
 
---------
-插件周边
---------
 
-.. include:: ./Surrounding.rst
+API Reference
+-------------
 
------------------
-Api Documentation
------------------
+If you are looking for information on a specific function, class or
+method, this part of the documentation is for you.
 
-.. include:: ./Api.rst
+.. toctree::
+    :maxdepth: 2
 
-------
-贡献
-------
+    api
 
-.. include:: ../CONTRIBUTING.rst
 
------------
-TODO和DONE
------------
+Additional Notes
+----------------
 
-.. include:: ../TODO.rst
+Some additional instructions, styleguide, changelog, contributing,
+will be supplemented by others.
 
---------
-更新日志
---------
+.. toctree::
+    :maxdepth: 2
 
-.. include:: ../CHANGELOG.rst
+    changelog
+    contributing
+    Pocoo Styleguide <https://flask.palletsprojects.com/styleguide/>
+
+
+.. _Flask: https://www.palletsprojects.com/p/flask/
+
+.. _official plugin organization: https://github.com/flask-pluginkit

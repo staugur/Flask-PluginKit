@@ -1,0 +1,91 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, staugur
+# This file is distributed under the same license as the Flask-PluginKit
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Flask-PluginKit 3.0.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-20 17:48+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: ../../tutorial/config.rst:2
+msgid "Configuration"
+msgstr "配置"
+
+#: ../../tutorial/config.rst:5
+msgid "Description"
+msgstr "描述"
+
+#: ../../tutorial/config.rst:7
+msgid ""
+"The configuration here refers to the configuration information of the "
+"plugin. In general, the plugin needs to obtain the configuration of the "
+"web application. In the first case, the python module of the plugin needs"
+" configuration information, and the second case is that the template code"
+" of the plugin needs to obtain configuration information."
+msgstr ""
+"这里的配置是指插件的配置信息。通常，插件需要获取Web应用程序的配置。"
+"在第一种情况下，插件的python模块需要配置信息。"
+"第二种情况是插件的模板代码需要获取配置信息。"
+
+#: ../../tutorial/config.rst:13
+msgid ""
+"In the first case, the plugin can be imported directly into the "
+"configuration file module, or use ``current_app.config``."
+msgstr "第一种情况下，插件可以直接导入配置文件模块，或使用 ``current_app.config`` "
+
+#: ../../tutorial/config.rst:16
+msgid ""
+"In the second case, the Flask itself already supports the configuration "
+"of **current_app.config** directly in the template using config, but the "
+"old version (before 0.10) may not support it, so Flask-PluginKit adds a "
+"template \"global variable\", "
+":meth:`~flask_pluginkit.PluginManager.emit_config`, the configuration "
+"passed to :class:`~flask_pluginkit.PluginManager` with the "
+":attr:`~flask_pluginkit.PluginManager.pluginkit_config` parameter and the"
+" configuration of **current_app.config** can be obtained directly."
+msgstr ""
+"在第二种情况下，Flask本身已经使用config直接在模板中获取current_app.config的配置，"
+"但是旧版本（在0.10之前）可能不支持它，因此Flask-PluginKit添加了一个模板全局变量"
+" :meth:`~flask_pluginkit.PluginManager.emit_config` ，用户初始化"
+" :class:`~flask_pluginkit.PluginManager` 时，可以传递"
+" :attr:`~flask_pluginkit.PluginManager.pluginkit_config` 参数作为配置信息，"
+"如果找不到，则会直接查找current_app.config。"
+
+#: ../../tutorial/config.rst:26
+msgid ""
+"The **emit_config** will first look in the **pluginkit_config** "
+"parameter. If not found, then find **current_app.config**. If still can't"
+" find, return None."
+msgstr ""
+"这个 **emit_config** 方法将首先查看 **pluginkit_config** 参数，如果没有找到，"
+"那么找 **current_app.config** ，如果仍不能找到，返回None。"
+
+#: ../../tutorial/config.rst:31
+msgid "Example"
+msgstr "示例"
+
+#: ../../tutorial/config.rst:33
+msgid "User Definition"
+msgstr "用户定义"
+
+#: ../../tutorial/config.rst:40
+msgid "Plugin call"
+msgstr "插件调用"
+
+#: ../../tutorial/config.rst:42
+msgid ""
+"Suppose the following code is a template file under a plugin, get HELLO "
+"and DEBUG configuration:"
+msgstr "假设以下代码是插件下的模板文件，要获取HELLO和DEBUG配置："
+

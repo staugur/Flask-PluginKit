@@ -110,3 +110,4 @@ Thumbs.db
 ENABLED
 DISABLED
 .vscode/
+docs/locale/**.mo

@@ -1,0 +1,104 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, staugur
+# This file is distributed under the same license as the Flask-PluginKit
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Flask-PluginKit 3.0.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-20 20:41+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: ../../index.rst:3
+msgid "Flask-PluginKit"
+msgstr ""
+
+#: ../../index.rst:5
+msgid "Welcome to Flask-PluginKit's documentation."
+msgstr "欢迎查阅Flask-PluginKit文档"
+
+#: ../../index.rst:7
+msgid ""
+"This is a Flask-based plugin development kit that supports multiple "
+"extension types that you can use to create plugins for web applications "
+"with little or no change to the core code."
+msgstr "这是一个基于Flask的插件开发工具包，支持多种扩展类型，用以增加、扩展web应用，而很少、甚至是无需更改源代码"
+
+#: ../../index.rst:11
+msgid "Ask: Why did you develop this extension?"
+msgstr "问：为什么开发这个扩展？"
+
+#: ../../index.rst:13
+msgid "Reply: Play."
+msgstr "答：觉得好玩~~"
+
+#: ../../index.rst:15
+msgid ""
+"Get started with :ref:`installation` and then get an overview with the "
+":ref:`quickstart`. There is also a more detailed :ref:`tutorial` that "
+"shows how to create a small but complete plugin with Flask-PluginKit. The"
+" rest of the docs describe each component of Flask-PluginKit in detail, "
+"with a full reference in the :ref:`api` section."
+msgstr ""
+"首先请 :ref:`installation` ， 然后是 :ref:`quickstart` ，还有一个更详细的 :ref:`tutorial`"
+" ，展示了如何创建一个完整的插件。其他文档详细描述了Flask-PluginKit的每个组件，参考 :ref:`api` 非常重要。"
+
+#: ../../index.rst:21
+msgid "Flask-PluginKit depends on the `Flask`_."
+msgstr "Flask-PluginKit依赖于 `Flask`_"
+
+#: ../../index.rst:23
+msgid ""
+"The plugin based on Flask-PluginKit can be a local directory or a third-"
+"party package (such as pypi), which is the `official plugin "
+"organization`_."
+msgstr ""
+"基于Flask-PluginKit的插件可以是一个本地目录或第三方模块（比如来自pypi），这里是官方插件组: `official plugin "
+"organization`_"
+
+#: ../../index.rst:37
+msgid ""
+"The current version v3.0.x is completely incompatible with the old "
+"version!"
+msgstr "当前版本v3.0.x，完全不兼容旧版本！"
+
+#: ../../index.rst:40
+msgid "User Guide"
+msgstr "用户指南"
+
+#: ../../index.rst:42
+msgid "Describe in detail how to develop a plugin using Flask-PluginKit."
+msgstr "详细描述了如何使用Flask-PluginKit开发一个插件。"
+
+#: ../../index.rst:53
+msgid "API Reference"
+msgstr "API参考"
+
+#: ../../index.rst:55
+msgid ""
+"If you are looking for information on a specific function, class or "
+"method, this part of the documentation is for you."
+msgstr "如果你正在寻找特定功能，这部分文档也许有帮助。"
+
+#: ../../index.rst:65
+msgid "Additional Notes"
+msgstr "附加说明"
+
+#: ../../index.rst:67
+msgid ""
+"Some additional instructions, styleguide, changelog, contributing, will "
+"be supplemented by others."
+msgstr "一些额外的说明，样式指南、更新日志、如何贡献等。"
+
+#~ msgid "当前版本v3.0.0+，完全不兼容旧版本！"
+#~ msgstr ""
+

@@ -1,0 +1,57 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, staugur
+# This file is distributed under the same license as the Flask-PluginKit
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Flask-PluginKit 3.0.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-20 00:05+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: ../../changelog.rst:2
+msgid "Changelog"
+msgstr "更新日志"
+
+#: ../../../CHANGELOG.rst
+#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/changelog.rst>:4 <included
+#: from
+msgid "v3.0.0"
+msgstr ""
+
+#: ../../../CHANGELOG.rst
+#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/changelog.rst>:6 <included
+#: from
+msgid "Released in 2019-07-20"
+msgstr ""
+
+#: ../../../CHANGELOG.rst
+#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/changelog.rst>:8 <included
+#: from
+msgid "Refactoring everyting"
+msgstr ""
+
+#: ../../../CHANGELOG.rst
+#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/changelog.rst>:11
+#: <included from
+msgid "Previous Versions"
+msgstr "旧版本"
+
+#: ../../../CHANGELOG.rst
+#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/changelog.rst>:13
+#: <included from
+msgid ""
+"Prior to 3.0.0, the new version of the refactoring was not compatible "
+"with the old version, and the update history is no longer recorded here."
+msgstr "3.0.0之前，由于新版本重构，完全与旧版本不兼容，此处不再记录更新历史记录。"
+
+

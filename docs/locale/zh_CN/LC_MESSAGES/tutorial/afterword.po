@@ -1,0 +1,82 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, staugur
+# This file is distributed under the same license as the Flask-PluginKit
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Flask-PluginKit 3.0.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-19 22:32+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: ../../tutorial/afterword.rst:2
+msgid "Afterword"
+msgstr "后记"
+
+#: ../../tutorial/afterword.rst:5
+msgid "To the plugin user"
+msgstr "与插件用户的话"
+
+#: ../../tutorial/afterword.rst:7
+msgid ""
+"For the user, this tutorial can basically guarantee the smooth use of the"
+" tutorial. Of course, when I write this document, I can't accurately view"
+" it from the perspective of each user. Although I am also one of the "
+"users, I am also a developer. Familiar with internal processes."
+msgstr ""
+"对于用户来说，这个教程看完基本能保证使用畅通，当然，我在写这个文档的时候，"
+"无法准确地站在每个用户角度看待，虽然我也是用户之一，但是我又是开发者，"
+"比较熟悉内部流程。"
+
+#: ../../tutorial/afterword.rst:12
+msgid ""
+"At the beginning, I used Flask to write web applications, wrote a lot, "
+"and some things were repeated. Later I wanted to study something that has"
+" style. I referenced wordpress, flask-plguins, etc., and wrote the "
+"original code that can load plugins. Finally, I used More, so independent"
+" into a Flask extension and released to pypi, named Flask-PluginKit."
+msgstr ""
+"刚开始时，我用Flask写web应用，写过不少，有些东西重复，后来想研究点有格调的东西，"
+"参考了wordpress、flask-plguins等，写了原始的可以加载插件的代码，最后用的多了，"
+"所以独立成一个Flask扩展并发布到pypi，名叫Flask-PluginKit。"
+
+#: ../../tutorial/afterword.rst:18
+msgid ""
+"Later released to v2.4.1, I still have a lot of pain points in use, so I "
+"reconstructed all the code, rewritten the document, released v3.0.0!"
+msgstr ""
+"后来发布到v2.4.1，自己在使用中也还是有不少痛点，"
+"于是又重构所有代码，重写文档，发布v3.0.0！"
+
+#: ../../tutorial/afterword.rst:21
+msgid ""
+"Now this version of the feature is temporarily unavailable, but will be "
+"added later."
+msgstr "现在这版功能暂时少了，不过后面会补回来的。"
+
+#: ../../tutorial/afterword.rst:24
+msgid "I hope to give your feedback to me."
+msgstr "非常希望将您的意见反馈给我。"
+
+#: ../../tutorial/afterword.rst:27
+msgid "To the plugin developer"
+msgstr "与插件开发者的话"
+
+#: ../../tutorial/afterword.rst:29
+msgid ""
+"For developers, you not only need to read this tutorial, but also api, "
+"loading logic, and so on, of course, it is best to see some source code, "
+"although it is very good."
+msgstr ""
+"对于开发者来说，您不止需要看完这个教程，另外API、加载逻辑等也需要熟知，"
+"当然，最好能看些源码，虽然写的很菜。"
+

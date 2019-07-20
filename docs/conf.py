@@ -15,7 +15,7 @@
 # import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
-from flask_pluginkit import __version__ as version
+from pallets_sphinx_themes import get_version, ProjectLink
 
 # -- Project information -----------------------------------------------------
 
@@ -24,10 +24,9 @@ copyright = u'2018, staugur'
 author = u'staugur'
 
 # The short X.Y version
-version = u''
+# version = version
 # The full version, including alpha/beta/rc tags
-release = version
-
+release, version = get_version(project)
 
 # -- General configuration ---------------------------------------------------
 
@@ -41,7 +40,9 @@ release = version
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
+    "pallets_sphinx_themes",
 ]
+issues_github_path = "staugur/Flask-PluginKit"
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -49,7 +50,6 @@ templates_path = ['_templates']
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
-# source_suffix = ['.rst', '.md']
 source_suffix = '.rst'
 
 # The master toctree document.
@@ -60,7 +60,7 @@ master_doc = 'index'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = "zh_CN"
+# language = "en"
 locale_dirs = ['locale/']
 gettext_compact = False
 
@@ -87,14 +87,23 @@ html_theme = 'flask'
 # documentation.
 #
 html_theme_options = {
-    "index_logo": False,
-    "github_fork": "staugur/Flask-Pluginkit"
+    "index_sidebar_logo": True
+}
+html_context = {
+    "project_links": [
+        ProjectLink("PyPI releases", "https://pypi.org/project/Flask-PluginKit"),
+        ProjectLink("Source Code", "https://github.com/staugur/Flask-PluginKit"),
+        ProjectLink("Issue Tracker", "https://github.com/staugur/Flask-PluginKit/issues/"),
+    ]
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+html_logo = '_static/images/logo.png'
+html_favicon = '_static/images/favicon.png'
+html_show_sourcelink = False
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
@@ -105,10 +114,14 @@ html_static_path = ['_static']
 # 'searchbox.html']``.
 #
 # html_sidebars = {}
+#html_sidebars = {
+#    '**':    ['sourcelink.html', 'searchbox.html'],
+#}
 html_sidebars = {
-    '**':    ['sidebar.html', 'sourcelink.html', 'searchbox.html'],
+    "index": ["project.html", "localtoc.html", "searchbox.html"],
+    "**": ["localtoc.html", "relations.html", "searchbox.html"],
 }
-
+singlehtml_sidebars = {"index": ["project.html", "localtoc.html"]}
 
 # -- Options for HTMLHelp output ---------------------------------------------
 

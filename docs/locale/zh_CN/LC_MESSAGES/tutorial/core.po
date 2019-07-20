@@ -1,0 +1,299 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, staugur
+# This file is distributed under the same license as the Flask-PluginKit
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Flask-PluginKit 3.0.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-19 22:32+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: ../../tutorial/core.rst:2
+msgid "Plugin Core"
+msgstr "插件核心"
+
+#: ../../tutorial/core.rst:7
+msgid "Minimal Plugin"
+msgstr "最小化的插件"
+
+#: ../../tutorial/core.rst:20
+msgid ""
+"However, this plugin doesn't make any sense, it just means a valid plugin"
+" content, whether it's a local plugin or a third-party plugin, the core "
+"part is the same."
+msgstr ""
+"然而，这个插件没有任何意义，它只是意味着一个有效的插件内容，无论是本地插件还是"
+"第三方插件，核心部分都是一样的。"
+
+#: ../../tutorial/core.rst:24
+msgid ""
+"The mini plugin above, which starts and ends with ``__``, is called "
+"metadata, which is the most important information for getting plugins."
+msgstr ""
+"上面最小化的插件，以 ``__`` 双下划线开头和结尾，姑且称之为元数据，"
+"这用来定义插件的重要信息。"
+
+#: ../../tutorial/core.rst:27
+msgid ""
+"The ``register`` function is used to return the extension point. Of "
+"course, an empty dictionary has no meaning and will not be loaded as a "
+"plugin. Let's explain it one by one."
+msgstr ""
+"还有 ``register`` 函数用来返回扩展点。当然，一个空目录没有意义，也不会加载成插件。"
+"后面文档会一一讲解。"
+
+#: ../../tutorial/core.rst:34
+msgid "Plugin Structure"
+msgstr "插件结构"
+
+#: ../../tutorial/core.rst:36
+msgid ""
+"The most minimal plugin needs to have at least it's own directory. The "
+"directory must contain the ``__init__.py`` file, otherwise it is not "
+"considered a plugin!"
+msgstr ""
+"一个插件至少至少需要拥有自己的目录，目录必须包含 ``__init__.py`` 文件，"
+"否则它不被认为是一个插件！"
+
+#: ../../tutorial/core.rst:40
+msgid ""
+"The core code of the plugin can be written in other modules of the "
+"package, then returned in **__init__.py** using the ``register`` "
+"function, and this file contains the metadata required to register the "
+"plugin."
+msgstr ""
+"插件的核心代码可以写在插件目录下其他模块中，然后使用在 **__init__.py** 文件中使用"
+" ``register`` 函数返回扩展点，此文件还包含注册所需的元数据。"
+
+#: ../../tutorial/core.rst:44
+msgid ""
+"In `__init__.py`, you can write your plugin code all in. Of course, the "
+"recommended way is to create a module with another name under the plugin "
+"package. Write your functions, class, variable, and so on, then import "
+"the module in `__init__.py` and use register to return the extension "
+"point."
+msgstr ""
+"在 `__init__.py` 中，你可以编写你的插件代码。当然，推荐的方法是在插件目录下创建"
+"其他的模块文件，在其中编写你的函数、类、变量等，然后在 `__init__.py` 中导入模块"
+"并使用 ``register`` 返回扩展点。"
+
+#: ../../tutorial/core.rst:50
+msgid ""
+"The project structure of a complete plugin web application is probably "
+"like this:"
+msgstr "完整的插件Web应用程序的项目结构可能是像这样："
+
+#: ../../tutorial/core.rst:84
+msgid "metadata"
+msgstr "元数据"
+
+#: ../../tutorial/core.rst:86
+msgid ""
+"Below are all supported metadata configuration items, please note that "
+"the first three are required:"
+msgstr "以下是所有支持的元数据配置项，请注意前三个是必需的："
+
+#: ../../tutorial/core.rst:89
+msgid "``__plugin_name__``"
+msgstr ""
+
+#: ../../tutorial/core.rst:91
+msgid ""
+"Your plugin name is not strictly required to be consistent with the "
+"plugin directory name."
+msgstr "你的插件名称，不严格要求和插件目录名称保持一致。"
+
+#: ../../tutorial/core.rst:94
+msgid "``__author__``"
+msgstr ""
+
+#: ../../tutorial/core.rst:96
+msgid "Plugin Author"
+msgstr "插件作者"
+
+#: ../../tutorial/core.rst:98
+msgid "``__version__``"
+msgstr ""
+
+#: ../../tutorial/core.rst:100
+msgid "Plugin Version, compliance with Semantic Version 2.0 Rules."
+msgstr "插件版本，符合Semantic Version 2.0规范。"
+
+#: ../../tutorial/core.rst:102
+msgid "``__description__``"
+msgstr ""
+
+#: ../../tutorial/core.rst:104
+msgid "What is the use of plugin description information."
+msgstr "插件描述信息"
+
+#: ../../tutorial/core.rst:106
+msgid "``__url__``"
+msgstr ""
+
+#: ../../tutorial/core.rst:108
+msgid "Plugin Homepage"
+msgstr "插件主页"
+
+#: ../../tutorial/core.rst:110
+msgid "``__license__``"
+msgstr ""
+
+#: ../../tutorial/core.rst:112
+msgid "Plugin LICENSE"
+msgstr "插件许可证"
+
+#: ../../tutorial/core.rst:114
+msgid "``__license_file__``"
+msgstr ""
+
+#: ../../tutorial/core.rst:116
+msgid ""
+"The plugin LICENSE detail file. Your plugin directory should have a "
+"LICENSE file."
+msgstr "插件许可证文件，位于你的插件目录下"
+
+#: ../../tutorial/core.rst:119
+msgid "``__readme_file__``"
+msgstr ""
+
+#: ../../tutorial/core.rst:121
+msgid ""
+"The plugin profile should have a README description file in your plugin "
+"directory."
+msgstr "插件自述文件，位于你的插件目录下"
+
+#: ../../tutorial/core.rst:124
+msgid "``__state__``"
+msgstr ""
+
+#: ../../tutorial/core.rst:126
+msgid "The plugin Status, enabled (default) or disabled."
+msgstr "插件状态，enabled (默认) 或 disabled。"
+
+#: ../../tutorial/core.rst:131
+msgid "register"
+msgstr ""
+
+#: ../../tutorial/core.rst:133
+msgid ""
+"This function is also required, it should be defined or imported in "
+"`__init__.py`. Flask-PluginKit will call this function when loading, "
+"return data is not empty dict, contains various types of extension "
+"points, such as:"
+msgstr ""
+"这个函数也是必需的，应该在 ``__init__.py`` 被定义或导入。"
+"Flask-PluginKit将在加载插件时调用此函数，返回数据要求不是空的dict，"
+"包含各种类型的扩展点，例如："
+
+#: ../../tutorial/core.rst:147
+msgid "For the extension points returned, please see the following sections."
+msgstr "对于返回的扩展点，请参阅后续章节。"
+
+#: ../../tutorial/core.rst:152
+msgid "Enabling and Disabling Plugins"
+msgstr "启用、禁用插件"
+
+#: ../../tutorial/core.rst:154
+msgid "This extension, uses a different approach for handling plugins."
+msgstr "此扩展使用不同的方法来处理插件。"
+
+#: ../../tutorial/core.rst:156
+msgid ""
+"Anyway, local plugins (a subdirectory located in the application, such as"
+" plugins, is a package) or third-party plugins (which can be pypi or from"
+" git, svn, etc.), should be installed in the local environment."
+msgstr ""
+"无论如何，本地插件（位于应用程序中的子目录，例如plugins，是一个包）或"
+"第三方插件（可以是pypi或来自git，svn等等），都应该安装在本地环境中。"
+
+#: ../../tutorial/core.rst:160
+msgid ""
+"Plugins are enabled by default, and there are two ways to enable or "
+"disable a plugin."
+msgstr "插件默认是启用的，有两种方法禁用或启用一个插件。"
+
+#: ../../tutorial/core.rst:163
+msgid ""
+"The first method is to set the metadata ``__state__`` value to  "
+"**enabled** or **disabled**."
+msgstr ""
+"第一种方法是将元数据 ``__state__`` 的值设置为 **enabled** （启用）"
+"或 **disabled** （禁用）。"
+
+#: ../../tutorial/core.rst:166
+msgid ""
+"The second method is to add the ``ENABLED`` or ``DISABLED`` file in the "
+"plugin's root directory, without changing the source code. This can "
+"either be done by hand or with the method provided by "
+":meth:`~flask_pluginkit.PluginManager.disable_plugin` or "
+":meth:`~flask_pluginkit.PluginManager.enable_plugin`."
+msgstr ""
+"第二种方法是在插件目录下添加一个 ``ENABLED`` 或 ``DISABLED`` 空文件。"
+"这个操作可以手动完成，也可以依靠Flask-PluginKit提供的方法"
+" :meth:`~flask_pluginkit.PluginManager.disable_plugin` 或"
+" :meth:`~flask_pluginkit.PluginManager.enable_plugin`"
+
+#: ../../tutorial/core.rst:174
+msgid ""
+"The second method has a higher priority than the first one, and the "
+"DISABLED file has a higher priority than the ENABLED file."
+msgstr "第二种方法比第一种优先级高，DISABLED文件比ENABLED文件优先级高。"
+
+#: ../../tutorial/core.rst:177
+msgid "The directory structure of a disabled plugin is shown below."
+msgstr "禁用插件的目录结构如下所示："
+
+#: ../../tutorial/core.rst:187
+msgid ""
+"The server needs to be restarted or reloaded to disable the plugin. This "
+"is a limitation of Flask. However, it is possible, to restart the "
+"application by sending a HUP signal to the application server."
+msgstr ""
+"需要重新启动或重新加载WSGI服务器以禁用插件，这是Flask的限制。不过，"
+"通过向Web应用程序服务器发送HUP信号，也可以重载应用。"
+
+#: ../../tutorial/core.rst:191
+msgid ""
+"The following code snippets, are showing how this can be done with the "
+"WSGI server gunicorn. Gunicorn has be to started in daemon (``--daemon``)"
+" mode in order for this to work."
+msgstr ""
+"以下代码片段展示了如何使用WSGI服务器gunicorn完成此操作。"
+"Gunicorn以守护进程（``--daemon``）启动，才能通过HUP信号重载应用。"
+
+#: ../../tutorial/core.rst:195
+msgid "You can use the command to manually reload:"
+msgstr "您可以使用该命令手动重新加载："
+
+#: ../../tutorial/core.rst:201
+msgid "or direct restart (kill, then start)."
+msgstr "或直接重启（杀死进程再启动）。"
+
+#: ../../tutorial/core.rst:203
+msgid ""
+"In web applications, according to previous tests, it should use "
+":func:`os.getppid` instead of :func:`os.getpid` to get the master pid of "
+"gunicorn, and send SIGHUP signal to master pid."
+msgstr ""
+"在Web应用程序中，根据以前的测试，它应该使用 :func:`os.getppid` 代替"
+" :func:`os.getpid` 来获取gunicorn的master-pid，并向此pid发送SIGHUP信号。"
+
+#: ../../tutorial/core.rst:207
+msgid "For security, the process name should be verified!"
+msgstr "为了安全，应该校验下进程名！"
+
+#: ../../tutorial/core.rst:215
+msgid "Subsequent versions will add this feature."
+msgstr "后续版本将添加此功能。"
+

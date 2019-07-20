@@ -1,0 +1,36 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, staugur
+# This file is distributed under the same license as the Flask-PluginKit
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Flask-PluginKit 3.0.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-19 22:32+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: ../../tutorial/index.rst:4
+msgid "Tutorial"
+msgstr "教程"
+
+#: ../../tutorial/index.rst:6
+msgid ""
+"This tutorial will detail the Flask extension named Flask-PluginKit and "
+"will walk you through creating a local plugin and a third-party plugin, "
+"and cover as much as possible of all the features of Flask-PluginKit."
+msgstr ""
+"这个教程将详细介绍Flask-PluginKit扩展，并且会指导您如何创建一个本地或第三方插件。"
+
+#: ../../tutorial/index.rst:10
+msgid "Contents:"
+msgstr "内容:"
+

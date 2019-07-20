@@ -1,0 +1,1 @@
+document.getElementById('demo').innerHTML = 'hello, I am from the js file of the plugin localdemo';

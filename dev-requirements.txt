@@ -1,7 +1,9 @@
 flask>=0.9
 sphinx
 sphinx-intl
-Flask-Sphinx-Themes
+Pallets-Sphinx-Themes
 codecov
-semver
-flask-multistatic
+semver>=2.0.0
+setuptools
+twine
+wheel
