@@ -17,3 +17,5 @@ python:
   version: 2.7
   install:
     - requirements: dev-requirements.txt
+    - method: pip
+      path: .
