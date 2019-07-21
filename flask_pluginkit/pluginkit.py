@@ -100,6 +100,8 @@ class PluginManager(object):
 
         #: Template sorting
         self.stpl = options.get("stpl", False)
+
+        #: Template sort order, True descending, False ascending (default).
         self.stpl_reverse = options.get("stpl_reverse", False)
 
         #: Third-party plugin package
@@ -107,10 +109,12 @@ class PluginManager(object):
         if not isinstance(self.plugin_packages, (tuple, list)):
             raise PluginError("Invalid plugin_packages")
 
-        #: Static endpoint and url
+        #: Static endpoint
         self.static_endpoint = options.get("static_endpoint") or "assets"
-        self.static_url_path = options.get(
-            "static_url_path") or "/%s" % self.static_endpoint
+
+        #: Static url prefix
+        self.static_url_path = options.get("static_url_path") or \
+            "/%s" % self.static_endpoint
         if not isValidPrefix(self.static_url_path):
             raise PluginError("Invalid static_url_path")
 
@@ -242,7 +246,7 @@ class PluginManager(object):
             #: and each element is an extension point, like this:
             #: {"tep":{}, "hep":{}, "bep":{}}
             pets = p_obj.register()
-            if pets and isinstance(pets, dict):
+            if isinstance(pets, dict):
                 #: Get plugin information
                 plugin_info = self._get_plugin_meta(p_obj,
                                                     package_abspath, package_name)
@@ -625,8 +629,11 @@ class PluginManager(object):
 
         :returns: html code with :class:`~flask.Markup`.
         """
-        uri = url_for(self.static_endpoint, plugin_name=plugin_name,
-                      filename=filename)
+        uri = url_for(
+            self.static_endpoint,
+            plugin_name=plugin_name,
+            filename=filename
+        )
         if filename.endswith(".css"):
             uri = '<link rel="stylesheet" href="%s">' % uri
         elif filename.endswith(".js"):

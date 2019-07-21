@@ -3,9 +3,10 @@
 import os
 import sys
 import json
+import time
 import unittest
 from flask import Flask, g, Markup
-from flask_pluginkit import Flask as ExFlask, PluginManager
+from flask_pluginkit import Flask as ExFlask, PluginManager, LocalStorage
 from flask_pluginkit.exceptions import PEPError, PluginError
 from flask_pluginkit._compat import PY2
 from jinja2 import ChoiceLoader
@@ -63,6 +64,7 @@ class PMTest(unittest.TestCase):
     def test_extself_raise(self):
         with self.assertRaises(PluginError) as cm:
             PluginManager(Flask(__name__), plugin_packages=123)
+            PluginManager(Flask(__name__), plugin_packages=['non_ppk'])
 
     def test_extself_tpl_global(self):
         self.assertIn("emit_tep", app1.jinja_env.globals)
@@ -81,6 +83,14 @@ class PMTest(unittest.TestCase):
         self.assertTrue("emit_config" in app1.jinja_env.globals)
         with app1.test_request_context():
             self.assertTrue(self.app1_pm.emit_config("PLUGINKIT_TEST"))
+
+    def test_hook(self):
+        with app4.test_request_context('/'):
+            app4.preprocess_request()
+            local = LocalStorage()
+            self.assertTrue("nowtime" in local.list)
+            nowhour = time.strftime('%Y-%m-%d %H:', time.localtime(time.time()))
+            self.assertIn(nowhour, local.get("nowtime"))
 
     def test_example(self):
         if not PY2:

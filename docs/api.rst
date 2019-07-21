@@ -20,7 +20,6 @@ PluginManager Object
     .. automethod:: _hep_handler
     .. automethod:: _bep_handler
 
-
 Inherited Application Objects
 -----------------------------
 

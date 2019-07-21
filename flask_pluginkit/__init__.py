@@ -14,7 +14,7 @@ from .utils import Flask, LocalStorage, RedisStorage
 
 __author__ = "staugur <staugur@saintic.com>"
 
-__version__ = "3.0.0"
+__version__ = "3.0.1"
 
 __all__ = [
     "Flask",

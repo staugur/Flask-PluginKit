@@ -10,7 +10,9 @@
 """
 
 from __future__ import absolute_import
-from flask import Blueprint, current_app, request, jsonify
+import time
+from flask import Blueprint, jsonify
+from flask_pluginkit import LocalStorage
 
 __plugin_name__ = "localdemo"
 __author__ = "Mr.tao <staugur@saintic.com>"
@@ -25,9 +27,10 @@ def index():
 
 
 def br():
-    #current_app.logger.debug(request.endpoint)
-    #current_app.logger.debug(current_app.url_map)
-    pass
+    local = LocalStorage()
+    local.set("nowtime",
+              time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+              )
 
 
 def register():

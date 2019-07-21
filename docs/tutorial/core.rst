@@ -24,8 +24,7 @@ the core part is the same.
 The mini plugin above, which starts and ends with ``__``, is called metadata,
 which is the most important information for getting plugins.
 
-The ``register`` function is used to return the extension point. Of course,
-an empty dictionary has no meaning and will not be loaded as a plugin.
+The ``register`` function is used to return the extension point.
 Let's explain it one by one.
 
 .. _core-plugin-structure:
@@ -132,7 +131,7 @@ register
 
 This function is also required, it should be defined or imported
 in `__init__.py`. Flask-PluginKit will call this function when loading,
-return data is not empty dict, contains various types of extension points,
+return data is dict, contains various types of extension points,
 such as:
 
 .. code-block:: python

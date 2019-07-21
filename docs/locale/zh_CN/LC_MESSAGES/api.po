@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-19 22:32+0800\n"
+"POT-Creation-Date: 2019-07-21 14:07+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -392,14 +392,22 @@ msgid "Configuration Dictionary of Flask-PLuginKit in Project"
 msgstr ""
 
 #: flask_pluginkit.PluginManager.static_endpoint:1 of
-msgid "Static endpoint and url"
+msgid "Static endpoint"
+msgstr ""
+
+#: flask_pluginkit.PluginManager.static_url_path:1 of
+msgid "Static url prefix"
 msgstr ""
 
 #: flask_pluginkit.PluginManager.stpl:1 of
 msgid "Template sorting"
 msgstr ""
 
-#: ../../api.rst:25
+#: flask_pluginkit.PluginManager.stpl_reverse:1 of
+msgid "Template sort order, True descending, False ascending (default)."
+msgstr ""
+
+#: ../../api.rst:24
 msgid "Inherited Application Objects"
 msgstr ""
 
@@ -427,7 +435,7 @@ msgid ""
 " should use this decorator at this time."
 msgstr ""
 
-#: ../../api.rst:32
+#: ../../api.rst:31
 msgid "Storage Objects"
 msgstr ""
 
@@ -435,7 +443,7 @@ msgstr ""
 msgid "Local file system storage based on the shelve module."
 msgstr ""
 
-#: ../../api.rst:39 ../../api.rst:46 flask_pluginkit.utils.BaseStorage.index:1
+#: ../../api.rst:38 ../../api.rst:45 flask_pluginkit.utils.BaseStorage.index:1
 #: of
 msgid "The default index, as the only key, you can override it."
 msgstr ""
@@ -492,9 +500,9 @@ msgstr ""
 msgid "set key data"
 msgstr ""
 
-#: ../../api.rst:50
+#: ../../api.rst:49
 msgid "Useful Functions and Classes"
-msgstr ""
+msgstr "有用的函数和类"
 
 #: flask_pluginkit.utils.BaseStorage:1 of
 msgid ""
@@ -519,9 +527,9 @@ msgstr ""
 msgid "Semantically sort the list of version Numbers"
 msgstr ""
 
-#: ../../api.rst:63
+#: ../../api.rst:62
 msgid "Custom Exceptions"
-msgstr ""
+msgstr "自定义异常"
 
 #: flask_pluginkit.exceptions:2 of
 msgid "flask_pluginkit.exceptions"
@@ -556,4 +564,7 @@ msgstr ""
 #: flask_pluginkit.exceptions.PluginError:1 of
 msgid "Bases: :class:`exceptions.Exception`"
 msgstr ""
+
+#~ msgid "Static endpoint and url"
+#~ msgstr ""
 

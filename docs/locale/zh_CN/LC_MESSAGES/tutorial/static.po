@@ -1,0 +1,132 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, staugur
+# This file is distributed under the same license as the Flask-PluginKit
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Flask-PluginKit 3.0.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-21 14:22+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: ../../tutorial/static.rst:2
+msgid "Static Resource"
+msgstr "静态资源"
+
+#: ../../tutorial/static.rst:5
+msgid "Description"
+msgstr "描述"
+
+#: ../../tutorial/static.rst:7
+msgid ""
+"Generally speaking, when accessing static files during development, you "
+"can use Flask, but in the production environment, it is definitely a "
+"combination of WSGI servers and web servers such as nginx and apache. "
+"Static resources can be processed through nginx."
+msgstr "一般来说，开发的时候访问静态文件可以通过Flask，但是正式环境中，肯定是WSGI服务器和诸如nginx、apache等web服务器结合使用的，静态资源通过nginx处理才能发挥效果。"
+
+#: ../../tutorial/static.rst:12
+msgid ""
+"However, for the plugin of Flask-PluginKit, the static resources are "
+"located in the static directory of the plugin. If there are many plugins "
+"in a web application, then there are several static directories, so it is"
+" inconvenient to configure through nginx."
+msgstr ""
+"不过对Flask-PluginKit的插件来说，静态资源位于插件的static目录中，"
+"假如一个web应用很多插件，那么就有数个static目录，那么通过nginx肯定是不方便配置的。"
+
+#: ../../tutorial/static.rst:17
+msgid ""
+"So Flask-PluginKit customizes a view with an endpoint to access the "
+"static directory under the plugin, and also provides a method "
+":meth:`~flask_pluginkit.PluginManager.emit_assets` to easily get the "
+"static files under the plugin in the template. Of course, this method "
+"uses :func:`~flask.url_for` internally, so you can also use url_for to "
+"build the url."
+msgstr ""
+"所以Flask-PluginKit自定义了一个端点为assets的视图以访问插件下static目录，"
+"同时又提供了一个方法 :meth:`~flask_pluginkit.PluginManager.emit_assets` "
+"可以在模板中方便地获取插件下的静态文件。当然，这个方法内部使用的是"
+" :func:`~flask.url_for` ，所以你也可以使用url_for构建url。"
+
+#: ../../tutorial/static.rst:24
+msgid ""
+"The assets view above can customize its endpoints, pass "
+":attr:`~flask_pluginkit.PluginManager.static_endpoint` when initializing "
+":class:`~flask_pluginkit.PluginManager`, and pass "
+":attr:`~flask_pluginkit.PluginManager.static_url_path` to define view "
+"route prefix. When using **emit_assets**, it will call the view function,"
+" try to find the plugin static directory, and return 404 error if it is "
+"not found."
+msgstr ""
+"上面说的assets视图可以自定义其端点，在初始化 :class:`~flask_pluginkit.PluginManager` 时传入 "
+":attr:`~flask_pluginkit.PluginManager.static_endpoint` ，同时，传入 "
+":attr:`~flask_pluginkit.PluginManager.static_url_path` 可以定义视图路由前缀，使用 "
+"**emit_assets** 时会调用视图函数，尝试查找插件static目录，未发现时返回404错误。"
+
+#: ../../tutorial/static.rst:31
+msgid ""
+"In addition, it is worth mentioning that the static file suffix is "
+"currently processed."
+msgstr "另外，值得一提的是，目前会对静态文件后缀做处理。"
+
+#: ../../tutorial/static.rst:34
+msgid "The suffix is **.css**"
+msgstr "后缀是 **.css**"
+
+#: ../../tutorial/static.rst:36
+msgid "Will generate the html code for `link css`, for example:"
+msgstr "会生成 `link css` 的html代码，例如："
+
+#: ../../tutorial/static.rst:42
+msgid "The suffix is **.js**"
+msgstr "后缀是 **.js**"
+
+#: ../../tutorial/static.rst:44
+msgid "Will generate the html code of `script`, for example:"
+msgstr "会生成 `script` 的html代码，例如："
+
+#: ../../tutorial/static.rst:50
+msgid "Other suffixes"
+msgstr "其他后缀"
+
+#: ../../tutorial/static.rst:52
+msgid "Only the url path portion of the static file will be generated."
+msgstr "只会生成静态文件的url路径部分。"
+
+#: ../../tutorial/static.rst:55
+msgid "Example"
+msgstr "示例"
+
+#: ../../tutorial/static.rst:57
+msgid "Static files"
+msgstr "静态文件"
+
+#: ../../tutorial/static.rst:59
+msgid ""
+"Suppose a plugin called plugin_demo has a static directory. The file "
+"structure looks like this:"
+msgstr "假设一个名叫plugin_demo的插件有一个static目录，文件结构是这样的："
+
+#: ../../tutorial/static.rst:73
+msgid "Access static files"
+msgstr "访问静态文件"
+
+#: ../../tutorial/static.rst:75
+msgid ""
+"In the template, the url of the static file can be built by "
+"**emit_assets**."
+msgstr "在模板中，通过 **emit_assets** 可以构建静态文件的url。"
+
+#: ../../tutorial/static.rst:93
+msgid "The actual source code for this page is this:"
+msgstr "此页面的实际源代码如下："

@@ -1,5 +1,14 @@
 .. currentmodule:: flask-pluginkit
 
+v3.0.1
+------
+
+Released in 2019-07-21
+
+- The register functin can return empty dict, not necessarily meaningless.
+
+- Update docs and translate and add test.
+
 v3.0.0
 ------
 

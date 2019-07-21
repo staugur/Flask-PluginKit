@@ -17,6 +17,7 @@ and cover as much as possible of all the features of Flask-PluginKit.
     hep
     bep
     config
+    static
     third-party-plugin
     afterword
 
