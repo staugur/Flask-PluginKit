@@ -10,6 +10,7 @@ python:
 env:
   global:
   - CODECOV_TOKEN="a6a7750b-16dd-4694-a827-6940755771ab"
+  - FLASK_PLUGINKIT_TEST_REDISURL="redis://@localhost"
   matrix:
   - FLASK_VERSION=0.9
   - FLASK_VERSION=0.10
@@ -26,8 +27,11 @@ matrix:
       env: FLASK_VERSION=0.9
     - python: "pypy3"
       env: FLASK_VERSION=0.9
+services:
+  - redis-server
 install:
   - pip install -U -r dev-requirements.txt
+  - pip install redis
   - pip install Flask==$FLASK_VERSION
   - make dev
 script:

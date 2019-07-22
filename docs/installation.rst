@@ -15,7 +15,9 @@ Dependencies
 These distributions will be installed automatically
 when installing Flask-PluginKit.
 
-* `Flask`_ is a Lightweight Web Application Framework Written in Python.
+* `Flask`_ is a Lightweight Web Application Framework Written in Python,
+  theoretically support 0.9 and later versions.
+
 * `semver`_ is a Semantic Version Control Specification.
 
 .. _Flask: https://www.palletsprojects.com/p/flask/
@@ -35,8 +37,8 @@ create virtual environments.
 If you are using Python 2, the venv module is not available.
 Instead, install `virtualenv`_.
 
-Install Flask-Plugink
----------------------
+Install Flask-PluginKit
+-----------------------
 
 Within the activated virtual environment or global environment,
 use the following command to install Flask-PluginKit:
