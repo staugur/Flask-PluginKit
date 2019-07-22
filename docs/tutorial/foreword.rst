@@ -31,6 +31,9 @@ HEP / hep / Hook Extension Point
 BEP / bep / Blueprint Extension Point
     蓝图扩展点
 
+VEP / vep / View function Extension Point
+    视图扩展点
+
 Developer / developer
     插件开发者
 

@@ -15,7 +15,8 @@ PY2 = version_info[0] == 2
 
 if PY2:  # pragma: nocover
 
-    from urlparse import urlparse, urlunparse
+    import urllib2
+    from urlparse import urlsplit, parse_qs
 
     def iteritems(d):
         return d.iteritems()
@@ -28,7 +29,8 @@ if PY2:  # pragma: nocover
 
 else:  # pragma: nocover
 
-    from urllib.parse import urlparse, urlunparse
+    import urllib.request as urllib2
+    from urllib.parse import urlsplit, parse_qs
 
     def iteritems(d):
         return iter(d.items())
@@ -41,8 +43,9 @@ else:  # pragma: nocover
 
 __all__ = [
     'PY2',
-    'urlparse',
-    'urlunparse',
+    'urllib2',
+    'urlsplit',
+    'parse_qs',
     'iteritems',
     'itervalues',
     'string_types',

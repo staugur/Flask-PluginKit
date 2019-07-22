@@ -2,12 +2,11 @@
 
 import os
 import sys
-import json
 import time
 import unittest
-from flask import Flask, g, Markup
+from flask import Flask, g, request
 from flask_pluginkit import Flask as ExFlask, PluginManager, LocalStorage
-from flask_pluginkit.exceptions import PEPError, PluginError
+from flask_pluginkit.exceptions import PluginError
 from flask_pluginkit._compat import PY2
 from jinja2 import ChoiceLoader
 EXAMPLE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'examples/fulldemo')
@@ -108,6 +107,13 @@ class PMTest(unittest.TestCase):
             link = self.app4_pm.emit_assets('localdemo','css/style.css')
             self.assertTrue("stylesheet" in link)
             self.assertTrue("/css/style.css" in link)
+
+    def test_vep(self):
+        self.assertIn("view_limit", app4.view_functions)
+        view_limit_data = self.app4_pm.get_enabled_veps[0]
+        self.assertEqual(4, len(view_limit_data))
+        with app4.test_request_context('/limit/test'):
+            self.assertEqual("view_limit", request.endpoint)
 
 if __name__ == '__main__':
     unittest.main()

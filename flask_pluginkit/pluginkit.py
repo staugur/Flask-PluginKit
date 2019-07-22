@@ -124,10 +124,15 @@ class PluginManager(object):
             raise PluginError("Invalid pluginkit_config")
 
         #: Plugin extension type handlers
+        #:
+        #: .. versionchanged:: 3.1.0
+        #:    Add a vep handler
+        #:
         self.__pet_handlers = {
             "tep": self._tep_handler,
             "hep": self._hep_handler,
             "bep": self._bep_handler,
+            "vep": self._vep_handler,
         }
 
         #: Hook extension type handlers
@@ -189,6 +194,13 @@ class PluginManager(object):
         for bep in self.get_enabled_beps:
             app.register_blueprint(bep["blueprint"], url_prefix=bep["prefix"])
 
+        #: Register the viewfunc extension point
+        #:
+        #: .. versionadded:: 3.1.0
+        for vep in self.get_enabled_veps:
+            rule, viewfunc, endpoint, options = vep
+            app.add_url_rule(rule, endpoint, viewfunc, **options)
+
         # register extension with app
         app.extensions = getattr(app, 'extensions', None) or {}
         app.extensions['pluginkit'] = self
@@ -244,19 +256,25 @@ class PluginManager(object):
             #: Plugin extension point.
             #: It should return a dictionary type,
             #: and each element is an extension point, like this:
-            #: {"tep":{}, "hep":{}, "bep":{}}
+            #: {"tep":{}, "hep":{}, "bep":{}, "vep":[]}
+            #:
+            #: .. versionchanged:: 3.0.1
+            #:    Do not check whether it is empty or not.
+            #:
             pets = p_obj.register()
             if isinstance(pets, dict):
                 #: Get plugin information
-                plugin_info = self._get_plugin_meta(p_obj,
-                                                    package_abspath, package_name)
+                plugin_info = self._get_plugin_meta(
+                    p_obj, package_abspath, package_name
+                )
                 if plugin_info.plugin_state == "enabled":
                     for pet, value in iteritems(pets):
                         try:
                             self.__pet_handlers[pet](plugin_info, value)
                         except KeyError:
-                            raise PEPError("The plugin %s found an invalid extension point "
-                                           "called %s" % (plugin_info.plugin_name, pet))
+                            raise PEPError("The plugin %s found an invalid "
+                                           "extension point called %s" %
+                                           (plugin_info.plugin_name, pet))
                 self.__plugins.append(plugin_info)
             else:
                 raise PEPError("The register returns the wrong type, "
@@ -302,35 +320,36 @@ class PluginManager(object):
             "plugin_ats_path": os.path.join(package_abspath, "static"),
             "plugin_tep": {},
             "plugin_hep": {},
-            "plugin_bep": {}
+            "plugin_bep": {},
+            "plugin_vep": []
         })
 
-    def _tep_handler(self, plugin_info, tep):
+    def _tep_handler(self, plugin_info, tep_rule):
         """Template extension point handler.
 
         :param plugin_info: if tep is valid, will update it.
 
-        :param tep: the tep rule, like {tep_name: your_html_file_or_code}
+        :param tep_rule: the tep rule, like {tep_name: your_html_file_or_code}
 
-                    1. This must be dict, where key means that tep is
-                    the extension point identifier, and each extension point
-                    can contain only one template type, either HTML or
-                    string, which requires string,
-                    and other types trigger exceptions.
+                        1. This must be dict, where key means that tep is
+                        the extension point identifier, and each extension point
+                        can contain only one template type, either HTML or
+                        string, which requires string,
+                        and other types trigger exceptions.
 
-                    2. HTML template type suffix for `html` or `htm`
-                    as template file (the other as pure HTML code),
-                    to be real, will adopt a `render_template` way rendering,
-                    using template type can be specified when rendering
-                    and introduced to additional data.
+                        2. HTML template type suffix for `html` or `htm`
+                        as template file (the other as pure HTML code),
+                        to be real, will adopt a `render_template` way rendering,
+                        using template type can be specified when rendering
+                        and introduced to additional data.
 
         :raises TemplateNotFound: if no template file is found.
 
         :raises PEPError: if tep rule or content is invalid.
         """
-        if isinstance(tep, dict):
+        if isinstance(tep_rule, dict):
             plugin_tep = {}
-            for event, tpl in iteritems(tep):
+            for event, tpl in iteritems(tep_rule):
                 if isinstance(tpl, string_types):
                     if os.path.splitext(tpl)[-1] in (".html", ".htm", ".xhtml"):
                         if os.path.isfile(os.path.join(
@@ -356,23 +375,25 @@ class PluginManager(object):
             raise PEPError("The tep rule is invalid for %s, "
                            "it should be a dict." % plugin_info.plugin_name)
 
-    def _hep_handler(self, plugin_info, hep):
+    def _hep_handler(self, plugin_info, hep_rule):
         """Hook extension point handler.
 
-        :param hep: the hep rule, like {hook: func}, the supporting hooks
-                    are as follows:
+        :param hep_rule: like {hook: func}, the supporting hooks are as follows:
 
-                    1. before_request, Before request (intercept requests are allowed)
+                        1. before_request, Before request
+                        (intercept requests are allowed)
 
-                    2. after_request, After request (no exception before return)
+                        2. after_request, After request
+                        (no exception before return)
 
-                    3. teardown_request, After request (before return, with or without exception)
+                        3. teardown_request, After request
+                        (before return, with or without exception)
 
         :raises PEPError: if hep rule or content is invalid.
         """
-        if isinstance(hep, dict):
+        if isinstance(hep_rule, dict):
             plugin_hep = {}
-            for event, func in iteritems(hep):
+            for event, func in iteritems(hep_rule):
                 if event in self.__het_allow_hooks.keys():
                     if callable(func):
                         plugin_hep[event] = func
@@ -389,18 +410,22 @@ class PluginManager(object):
             raise PEPError("The hep rule is invalid for %s, "
                            "it should be a dict." % plugin_info.plugin_name)
 
-    def _bep_handler(self, plugin_info, bep):
+    def _bep_handler(self, plugin_info, bep_rule):
         """Blueprint extension point handler.
 
-        :param bep: the bep rule, like {blueprint=, prefix=}
+        :param bep_rule: like {blueprint=, prefix=}
 
         :raises PEPError: if bep rule or content is invalid.
         """
-        if isinstance(bep, dict) and \
-                "blueprint" in bep and \
-                "prefix" in bep:
-            bp = bep["blueprint"]
-            prefix = bep["prefix"]
+        if isinstance(bep_rule, dict) and \
+                "blueprint" in bep_rule and \
+                "prefix" in bep_rule:
+            try:
+                bp = bep_rule["blueprint"]
+                prefix = bep_rule["prefix"]
+            except KeyError:
+                raise PEPError("The bep rule is invalid for %s" %
+                               plugin_info.plugin_name)
             if not isinstance(bp, Blueprint):
                 raise PEPError("The bep blueprint is invalid for %s" %
                                plugin_info.plugin_name)
@@ -409,11 +434,41 @@ class PluginManager(object):
                                plugin_info.plugin_name)
             #: TODO check and fix bp.root_path
             #: plugin_bep, like {blueprint:Blueprint instance, prefix='/xxx'}
-            plugin_info['plugin_bep'] = bep
+            plugin_info['plugin_bep'] = bep_rule
             self.logger.debug("Register BEP Success")
         else:
             raise PEPError("The bep rule is invalid for %s, "
                            "it should be a dict." % plugin_info.plugin_name)
+
+    def _vep_handler(self, plugin_info, vep_rule):
+        """Viewfunc extension point handler.
+
+        :param vep_rule: like [{rule=, view_func=, other options}, etc.]
+
+        :raises PEPError: if bep rule or content is invalid.
+
+        .. versionadded:: 3.1.0
+        """
+        if isinstance(vep_rule, dict):
+            vep_rule = (vep_rule,)
+        if isinstance(vep_rule, (list, tuple)):
+            plugin_vep = []
+            for options in vep_rule:
+                try:
+                    rule = options.pop("rule")
+                    view_func = options.pop("view_func")
+                except KeyError:
+                    raise PEPError("The vep rule is invalid for %s" %
+                                   plugin_info.plugin_name)
+                else:
+                    endpoint = options.pop("endpoint", None)
+                    plugin_vep.append((rule, view_func, endpoint, options))
+            #: like [(rule, view_func, endpoint), (), (), etc.]
+            plugin_info['plugin_vep'] = plugin_vep
+            self.logger.debug("Register VEP Success")
+        else:
+            raise PEPError("The vep rule is invalid for %s, it should be "
+                           "a list or tuple." % plugin_info.plugin_name)
 
     def __before_request_hook_handler(self):
         for func in self.get_enabled_heps["before_request"]:
@@ -482,6 +537,21 @@ class PluginManager(object):
         :returns: List of nested dictionaries
         """
         return [p.plugin_bep for p in self.get_enabled_plugins if p.plugin_bep]
+
+    @property
+    def get_enabled_veps(self):
+        """Get all vep for the enabled plugins.
+
+        :returns: List of nested tuples
+
+        .. versionadded:: 3.1.0
+        """
+        return [
+            rule
+            for p in self.get_enabled_plugins
+            for rule in p.plugin_vep
+            if p.plugin_vep
+        ]
 
     def get_plugin_info(self, plugin_name):
         """Get plugin information from all plugins"""

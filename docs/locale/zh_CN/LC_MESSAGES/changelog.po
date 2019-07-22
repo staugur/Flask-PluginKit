@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-21 13:38+0800\n"
+"POT-Creation-Date: 2019-07-22 16:43+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,45 +22,72 @@ msgstr ""
 msgid "Changelog"
 msgstr "更新日志"
 
-#: ../../../CHANGELOG.rst /mnt/d/SaintIC/Flask-PluginKit/docs/changelog.rst>:4
-#: <included from
+#: ../../../CHANGELOG.rst:3
+msgid "v3.1.0"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:5
+msgid "Released in 2019-07-22"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:7
+msgid "feat: add :class:`~flask_pluginkit.PluginInstaller`"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:8
+msgid "feat: add vep :ref:`vep`"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:9
+msgid "test: add test case"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:10
+msgid "docs: update docs"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:11
+msgid "chore: update example"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:14
 msgid "v3.0.1"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/d/SaintIC/Flask-PluginKit/docs/changelog.rst>:6
-#: <included from
+#: ../../../CHANGELOG.rst:16
 msgid "Released in 2019-07-21"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/d/SaintIC/Flask-PluginKit/docs/changelog.rst>:8
-#: <included from
-msgid "register可以返回空dict，并不一定没有意义发布修复版本"
+#: ../../../CHANGELOG.rst:18
+msgid "The register functin can return empty dict, not necessarily meaningless."
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/d/SaintIC/Flask-PluginKit/docs/changelog.rst>:11
-#: <included from
+#: ../../../CHANGELOG.rst:20
+msgid "Update docs and translate and add test."
+msgstr ""
+
+#: ../../../CHANGELOG.rst:23
 msgid "v3.0.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/d/SaintIC/Flask-PluginKit/docs/changelog.rst>:13
-#: <included from
+#: ../../../CHANGELOG.rst:25
 msgid "Released in 2019-07-20"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/d/SaintIC/Flask-PluginKit/docs/changelog.rst>:15
-#: <included from
+#: ../../../CHANGELOG.rst:27
 msgid "Refactoring everyting"
 msgstr ""
 
-#: ../../../CHANGELOG.rst /mnt/d/SaintIC/Flask-PluginKit/docs/changelog.rst>:18
-#: <included from
+#: ../../../CHANGELOG.rst:30
 msgid "Previous Versions"
 msgstr "旧版本"
 
-#: ../../../CHANGELOG.rst /mnt/d/SaintIC/Flask-PluginKit/docs/changelog.rst>:20
-#: <included from
+#: ../../../CHANGELOG.rst:32
 msgid ""
 "Prior to 3.0.0, the new version of the refactoring was not compatible "
 "with the old version, and the update history is no longer recorded here."
 msgstr "3.0.0之前，由于新版本重构，完全与旧版本不兼容，此处不再记录更新历史记录。"
+
+#~ msgid "register可以返回空dict，并不一定没有意义发布修复版本"
+#~ msgstr ""
 

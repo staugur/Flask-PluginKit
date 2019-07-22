@@ -24,3 +24,15 @@ class PEPError(PluginError):
 
 class TemplateNotFound(PluginError):
     pass
+
+
+class TarError(PluginError):
+    pass
+
+
+class ZipError(PluginError):
+    pass
+
+
+class InstallError(PluginError):
+    pass

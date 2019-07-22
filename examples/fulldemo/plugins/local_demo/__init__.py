@@ -11,7 +11,7 @@
 
 from __future__ import absolute_import
 import time
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from flask_pluginkit import LocalStorage
 
 __plugin_name__ = "localdemo"
@@ -28,14 +28,23 @@ def index():
 
 def br():
     local = LocalStorage()
-    local.set("nowtime",
-              time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-              )
+    local.set(
+        "nowtime",
+        time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+    )
+
+
+def view_limit(path):
+    if request.method == "GET":
+        return jsonify(dict(method='GET', status=200, path=path))
+    else:
+        return jsonify(dict(method=request.method, status=403, path=path))
 
 
 def register():
     return {
         "tep": dict(code=u'<p>hello local-demo(from html code)</p>', html='localdemo/title.html'),
         'hep': dict(before_request=br),
-        'bep': dict(blueprint=bp, prefix='/localdemo')
+        'bep': dict(blueprint=bp, prefix='/localdemo'),
+        'vep': dict(rule='/limit/<path>', view_func=view_limit, methods=['GET', 'POST'])
     }

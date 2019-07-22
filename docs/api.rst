@@ -19,6 +19,7 @@ PluginManager Object
     .. automethod:: _tep_handler
     .. automethod:: _hep_handler
     .. automethod:: _bep_handler
+    .. automethod:: _vep_handler
 
 Inherited Application Objects
 -----------------------------
@@ -50,13 +51,17 @@ Useful Functions and Classes
 
 .. currentmodule:: flask_pluginkit.utils
 
-.. autoclass:: BaseStorage
-    :members:
-
 .. autofunction:: isValidSemver
 
 .. autofunction:: sortedSemver
 
+.. autoclass:: BaseStorage
+    :members:
+
+.. currentmodule:: flask_pluginkit
+
+.. autoclass:: PluginInstaller
+    :members:
 
 Custom Exceptions
 -----------------

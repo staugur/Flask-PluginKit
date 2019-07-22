@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-21 14:07+0800\n"
+"POT-Creation-Date: 2019-07-22 16:43+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,10 +55,12 @@ msgid ""
 "PluginManager via a factory::"
 msgstr ""
 
-#: flask_pluginkit.LocalStorage.set flask_pluginkit.PluginManager
+#: flask_pluginkit.LocalStorage.set flask_pluginkit.PluginInstaller.addPlugin
+#: flask_pluginkit.PluginInstaller.removePlugin flask_pluginkit.PluginManager
 #: flask_pluginkit.PluginManager._bep_handler
 #: flask_pluginkit.PluginManager._hep_handler
 #: flask_pluginkit.PluginManager._tep_handler
+#: flask_pluginkit.PluginManager._vep_handler
 #: flask_pluginkit.PluginManager.emit_assets
 #: flask_pluginkit.PluginManager.emit_tep of
 msgid "Parameters"
@@ -160,7 +162,8 @@ msgstr ""
 
 #: flask_pluginkit.PluginManager._bep_handler
 #: flask_pluginkit.PluginManager._hep_handler
-#: flask_pluginkit.PluginManager._tep_handler of
+#: flask_pluginkit.PluginManager._tep_handler
+#: flask_pluginkit.PluginManager._vep_handler of
 msgid "Raises"
 msgstr ""
 
@@ -178,30 +181,32 @@ msgstr ""
 
 #: flask_pluginkit.PluginManager._hep_handler:3 of
 msgid ""
-"the hep rule, like {hook: func}, the supporting hooks are as follows:  1."
-" before_request, Before request (intercept requests are allowed)  2. "
+"like {hook: func}, the supporting hooks are as follows:  1. "
+"before_request, Before request (intercept requests are allowed)  2. "
 "after_request, After request (no exception before return)  3. "
 "teardown_request, After request (before return, with or without "
 "exception)"
 msgstr ""
 
 #: flask_pluginkit.PluginManager._hep_handler:3 of
-msgid "the hep rule, like {hook: func}, the supporting hooks are as follows:"
+msgid "like {hook: func}, the supporting hooks are as follows:"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._hep_handler:6 of
-msgid "before_request, Before request (intercept requests are allowed)"
+#: flask_pluginkit.PluginManager._hep_handler:5 of
+msgid "1. before_request, Before request (intercept requests are allowed)"
 msgstr ""
 
 #: flask_pluginkit.PluginManager._hep_handler:8 of
-msgid "after_request, After request (no exception before return)"
+msgid "2. after_request, After request (no exception before return)"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._hep_handler:10 of
-msgid "teardown_request, After request (before return, with or without exception)"
+#: flask_pluginkit.PluginManager._hep_handler:11 of
+msgid ""
+"3. teardown_request, After request (before return, with or without "
+"exception)"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._hep_handler:12 of
+#: flask_pluginkit.PluginManager._hep_handler:14 of
 msgid "if hep rule or content is invalid."
 msgstr ""
 
@@ -210,11 +215,20 @@ msgid "Blueprint extension point handler."
 msgstr ""
 
 #: flask_pluginkit.PluginManager._bep_handler:3 of
-msgid "the bep rule, like {blueprint=, prefix=}"
+msgid "like {blueprint=, prefix=}"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._bep_handler:5 of
+#: flask_pluginkit.PluginManager._bep_handler:5
+#: flask_pluginkit.PluginManager._vep_handler:5 of
 msgid "if bep rule or content is invalid."
+msgstr ""
+
+#: flask_pluginkit.PluginManager._vep_handler:1 of
+msgid "Viewfunc extension point handler."
+msgstr ""
+
+#: flask_pluginkit.PluginManager._vep_handler:3 of
+msgid "like [{rule=, view_func=, other options}, etc.]"
 msgstr ""
 
 #: flask_pluginkit.PluginManager.disable_plugin:1 of
@@ -269,11 +283,13 @@ msgid "file name in the static directory of the plugin package"
 msgstr ""
 
 #: flask_pluginkit.LocalStorage.get flask_pluginkit.LocalStorage.list
-#: flask_pluginkit.LocalStorage.set flask_pluginkit.PluginManager.emit_assets
+#: flask_pluginkit.LocalStorage.set flask_pluginkit.PluginInstaller.addPlugin
+#: flask_pluginkit.PluginManager.emit_assets
 #: flask_pluginkit.PluginManager.emit_tep
 #: flask_pluginkit.PluginManager.get_enabled_beps
 #: flask_pluginkit.PluginManager.get_enabled_heps
-#: flask_pluginkit.PluginManager.get_enabled_teps of
+#: flask_pluginkit.PluginManager.get_enabled_teps
+#: flask_pluginkit.PluginManager.get_enabled_veps of
 msgid "Returns"
 msgstr ""
 
@@ -375,6 +391,14 @@ msgstr ""
 msgid "dict like {tep_1: dict(fil=[], cod=[]), tep_n...}"
 msgstr ""
 
+#: flask_pluginkit.PluginManager.get_enabled_veps:1 of
+msgid "Get all vep for the enabled plugins."
+msgstr ""
+
+#: flask_pluginkit.PluginManager.get_enabled_veps:3 of
+msgid "List of nested tuples"
+msgstr ""
+
 #: flask_pluginkit.PluginManager.get_plugin_info:1 of
 msgid "Get plugin information from all plugins"
 msgstr ""
@@ -407,7 +431,7 @@ msgstr ""
 msgid "Template sort order, True descending, False ascending (default)."
 msgstr ""
 
-#: ../../api.rst:24
+#: ../../api.rst:25
 msgid "Inherited Application Objects"
 msgstr ""
 
@@ -435,7 +459,7 @@ msgid ""
 " should use this decorator at this time."
 msgstr ""
 
-#: ../../api.rst:31
+#: ../../api.rst:32
 msgid "Storage Objects"
 msgstr ""
 
@@ -443,7 +467,7 @@ msgstr ""
 msgid "Local file system storage based on the shelve module."
 msgstr ""
 
-#: ../../api.rst:38 ../../api.rst:45 flask_pluginkit.utils.BaseStorage.index:1
+#: ../../api.rst:39 ../../api.rst:46 flask_pluginkit.utils.BaseStorage.index:1
 #: of
 msgid "The default index, as the only key, you can override it."
 msgstr ""
@@ -500,9 +524,19 @@ msgstr ""
 msgid "set key data"
 msgstr ""
 
-#: ../../api.rst:49
+#: ../../api.rst:50
 msgid "Useful Functions and Classes"
-msgstr "有用的函数和类"
+msgstr ""
+
+#: flask_pluginkit.utils.isValidSemver:1 of
+msgid ""
+"Semantic version number - determines whether the version is qualified. "
+"The format is MAJOR.Minor.PATCH, more with https://semver.org"
+msgstr ""
+
+#: flask_pluginkit.utils.sortedSemver:1 of
+msgid "Semantically sort the list of version Numbers"
+msgstr ""
 
 #: flask_pluginkit.utils.BaseStorage:1 of
 msgid ""
@@ -517,19 +551,63 @@ msgid ""
 "`__delitem__` methods so that the user can call it like a dict."
 msgstr ""
 
-#: flask_pluginkit.utils.isValidSemver:1 of
+#: flask_pluginkit.PluginInstaller:1 of
+msgid "plugin installer for installing a compressed local/remote plugin"
+msgstr ""
+
+#: flask_pluginkit.PluginInstaller.addPlugin:1 of
+msgid "Add a plugin, support only for `.tar.gz` or `.zip` compression packages."
+msgstr ""
+
+#: flask_pluginkit.PluginInstaller.addPlugin:3 of
 msgid ""
-"Semantic version number - determines whether the version is qualified. "
-"The format is MAJOR.Minor.PATCH, more with https://semver.org"
+"supported method:  ``remote``, download and unpack a remote plugin "
+"package;  ``local``, unzip a local plugin package."
 msgstr ""
 
-#: flask_pluginkit.utils.sortedSemver:1 of
-msgid "Semantically sort the list of version Numbers"
+#: flask_pluginkit.PluginInstaller.addPlugin:3 of
+msgid "supported method:"
 msgstr ""
 
-#: ../../api.rst:62
+#: flask_pluginkit.PluginInstaller.addPlugin:5 of
+msgid "``remote``, download and unpack a remote plugin package;"
+msgstr ""
+
+#: flask_pluginkit.PluginInstaller.addPlugin:7 of
+msgid "``local``, unzip a local plugin package."
+msgstr ""
+
+#: flask_pluginkit.PluginInstaller.addPlugin:9 of
+msgid "for method is remote, plugin can be downloaded from the address."
+msgstr ""
+
+#: flask_pluginkit.PluginInstaller.addPlugin:12 of
+msgid "for method is local, plugin local absolute path"
+msgstr ""
+
+#: flask_pluginkit.PluginInstaller.addPlugin:14 of
+msgid ""
+"for method is local, remove the plugin source code package, default is "
+"False."
+msgstr ""
+
+#: flask_pluginkit.PluginInstaller.addPlugin:17 of
+msgid ""
+"the result of adding the plugin, like dict(msg=str, code=int), code=0 is "
+"successful."
+msgstr ""
+
+#: flask_pluginkit.PluginInstaller.removePlugin:1 of
+msgid "Remove a plugin"
+msgstr ""
+
+#: flask_pluginkit.PluginInstaller.removePlugin:3 of
+msgid "The plugin package name, not __plugin_name."
+msgstr ""
+
+#: ../../api.rst:67
 msgid "Custom Exceptions"
-msgstr "自定义异常"
+msgstr ""
 
 #: flask_pluginkit.exceptions:2 of
 msgid "flask_pluginkit.exceptions"
@@ -555,9 +633,11 @@ msgstr ""
 msgid "BSD 3-Clause, see LICENSE for more details."
 msgstr ""
 
-#: flask_pluginkit.exceptions.PEPError:1
+#: flask_pluginkit.exceptions.InstallError:1
+#: flask_pluginkit.exceptions.PEPError:1 flask_pluginkit.exceptions.TarError:1
 #: flask_pluginkit.exceptions.TemplateNotFound:1
-#: flask_pluginkit.exceptions.VersionError:1 of
+#: flask_pluginkit.exceptions.VersionError:1
+#: flask_pluginkit.exceptions.ZipError:1 of
 msgid "Bases: :class:`flask_pluginkit.exceptions.PluginError`"
 msgstr ""
 
@@ -566,5 +646,33 @@ msgid "Bases: :class:`exceptions.Exception`"
 msgstr ""
 
 #~ msgid "Static endpoint and url"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "the hep rule, like {hook: func}, "
+#~ "the supporting hooks are as follows:"
+#~ "  1. before_request, Before request "
+#~ "(intercept requests are allowed)  2. "
+#~ "after_request, After request (no exception "
+#~ "before return)  3. teardown_request, After "
+#~ "request (before return, with or without"
+#~ " exception)"
+#~ msgstr ""
+
+#~ msgid "the hep rule, like {hook: func}, the supporting hooks are as follows:"
+#~ msgstr ""
+
+#~ msgid "before_request, Before request (intercept requests are allowed)"
+#~ msgstr ""
+
+#~ msgid "after_request, After request (no exception before return)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "teardown_request, After request (before "
+#~ "return, with or without exception)"
+#~ msgstr ""
+
+#~ msgid "the bep rule, like {blueprint=, prefix=}"
 #~ msgstr ""
 

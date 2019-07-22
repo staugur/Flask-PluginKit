@@ -34,7 +34,7 @@ package (such as pypi), which is the `official plugin organization`_.
 
 .. warning::
 
-    The current version v3.0.x is completely incompatible with the old version!
+    The current version v3.x is completely incompatible with the old version!
 
 User Guide
 ----------

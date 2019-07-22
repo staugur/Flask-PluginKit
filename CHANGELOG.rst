@@ -1,5 +1,15 @@
 .. currentmodule:: flask-pluginkit
 
+v3.1.0
+
+Released in 2019-07-22
+
+- feat: add :class:`~flask_pluginkit.PluginInstaller`
+- feat: add vep :ref:`vep`
+- test: add test case
+- docs: update docs
+- chore: update example
+
 v3.0.1
 ------
 

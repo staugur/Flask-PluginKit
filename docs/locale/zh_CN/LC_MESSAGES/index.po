@@ -67,9 +67,9 @@ msgstr ""
 
 #: ../../index.rst:37
 msgid ""
-"The current version v3.0.x is completely incompatible with the old "
+"The current version v3.x is completely incompatible with the old "
 "version!"
-msgstr "当前版本v3.0.x，完全不兼容旧版本！"
+msgstr "当前版本v3.x，完全不兼容旧版本！"
 
 #: ../../index.rst:40
 msgid "User Guide"

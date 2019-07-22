@@ -160,8 +160,8 @@ class RedisStorage(BaseStorage):
         try:
             from redis import from_url
         except ImportError:
-            raise ImportError(
-                "Please install the redis module, eg: pip install redis")
+            raise ImportError("Please install the redis module,"
+                              "eg: pip install redis")
         else:
             return from_url(redis_url)
 

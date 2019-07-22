@@ -43,6 +43,7 @@ class UtilsTest(unittest.TestCase):
 
     def test_localstorage(self):
         storage = LocalStorage()
+        self.assertIsInstance(storage, BaseStorage)
         data = dict(a=1, b=2)
         storage.set('test', data)
         newData = storage.get('test')
@@ -69,6 +70,7 @@ class UtilsTest(unittest.TestCase):
         if redis_url:
             from redis.exceptions import DataError
             storage = RedisStorage(redis_url=redis_url)
+            self.assertIsInstance(storage, BaseStorage)
             self.assertRaises(DataError, storage.set, 'test', dict(a=1, b=2))
             storage['test'] = 1
             self.assertEqual(storage['test'], b"1")
@@ -87,7 +89,7 @@ class UtilsTest(unittest.TestCase):
         class MyStorage(BaseStorage):
             pass
         ms = MyStorage()
-        with self.assertRaises(AttributeError) as cm:
+        with self.assertRaises(AttributeError):
             ms.get('test')
 
 
