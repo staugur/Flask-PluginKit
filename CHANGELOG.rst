@@ -1,6 +1,7 @@
 .. currentmodule:: flask-pluginkit
 
 v3.1.0
+------
 
 Released in 2019-07-22
 
