@@ -16,8 +16,8 @@ from tempfile import gettempdir
 from collections import deque
 from flask import Markup
 from flask.app import setupmethod, Flask as _BaseFlask
-from ._compat import PY2, string_types
-from exceptions import PluginError, NotCallableError
+from ._compat import PY2, string_types, text_type
+from .exceptions import PluginError, NotCallableError
 
 
 def isValidPrefix(prefix, allow_none=False):
@@ -281,6 +281,8 @@ class DcpManager(object):
             rv = f(*args, **kwargs)
             if isinstance(rv, (list, tuple)):
                 rv = "".join(rv)
-            if rv is not None:
+            if rv:
+                if not isinstance(rv, text_type):
+                    rv = rv.decode('utf-8')
                 results.append(rv)
         return Markup("".join(results))

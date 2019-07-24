@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
     local_demo
-    ~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~
 
     This is a local plugin demo.
 
@@ -41,10 +41,17 @@ def view_limit(path):
         return jsonify(dict(method=request.method, status=403, path=path))
 
 
+def page_not_found(error):
+    return jsonify(dict(status=404, msg="Not Found Page")),404
+
+
 def register():
     return {
         "tep": dict(code=u'<p>hello local-demo(from html code)</p>', html='localdemo/title.html'),
         'hep': dict(before_request=br),
         'bep': dict(blueprint=bp, prefix='/localdemo'),
-        'vep': dict(rule='/limit/<path>', view_func=view_limit, methods=['GET', 'POST'])
+        'vep': dict(rule='/limit/<path>', view_func=view_limit, methods=['GET', 'POST']),
+        'filter': dict(demo_filter1=br, demo_filter2=lambda: 'test-filter'),
+        'errhandler': {404: page_not_found},
+        'tcp': dict(timestamp=int(time.time())),
     }
