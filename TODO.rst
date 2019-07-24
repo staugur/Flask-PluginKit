@@ -10,5 +10,3 @@
 - 动态连接点，动态注册并执行函数将结果返回给模板使用
 - 支持推送扩展函数
 
-- 错误处理器 https://flask.palletsprojects.com/en/1.1.x/api/#flask.Flask.errorhandler
-- 模板过滤器和上下文处理器http://docs.jinkan.org/docs/flask/templating.html#registering-filters
