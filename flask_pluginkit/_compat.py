@@ -26,6 +26,7 @@ if PY2:  # pragma: nocover
 
     text_type = unicode
     string_types = (str, unicode)
+    integer_types = (int, long)
 
 else:  # pragma: nocover
 
@@ -40,6 +41,7 @@ else:  # pragma: nocover
 
     text_type = str
     string_types = (str,)
+    integer_types = (int, )
 
 __all__ = [
     'PY2',
