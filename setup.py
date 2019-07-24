@@ -101,7 +101,7 @@ setup(
     long_description=_get_readme(),
     test_suite='setup.test_suite',
     tests_require=[
-        'Flask>=0.11.1',
+        'Flask>=0.11',
         'flask-pluginkit-demo'
     ],
     dependency_links=[

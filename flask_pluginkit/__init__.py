@@ -9,7 +9,7 @@
     :license: BSD 3-Clause, see LICENSE for more details.
 """
 
-from .pluginkit import PluginManager
+from .pluginkit import PluginManager, push_dcp
 from .utils import Flask, LocalStorage, RedisStorage
 from ._installer import PluginInstaller
 
@@ -23,4 +23,5 @@ __all__ = [
     "LocalStorage",
     "RedisStorage",
     "PluginInstaller",
+    "push_dcp"
 ]

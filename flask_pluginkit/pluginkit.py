@@ -226,6 +226,12 @@ class PluginManager(object):
             if tf and tf[0] not in app.jinja_env.filters:
                 app.add_template_filter(tf[-1], tf[0])
 
+        #: Register the error handlers
+        #:
+        #: .. versionadded:: 3.2.0
+        for errcode, errview in iteritems(self.get_enabled_errhandlers):
+            app.register_error_handler(errcode, errview)
+
         #: Register the template context processors
         #:
         #: .. versionadded:: 3.2.0
@@ -237,7 +243,7 @@ class PluginManager(object):
             }
         )
 
-        # register extension with app
+        #: register extension with app
         app.extensions = getattr(app, 'extensions', None) or {}
         app.extensions['pluginkit'] = self
 
@@ -325,7 +331,8 @@ class PluginManager(object):
         """
         if not isValidSemver(p_obj.__version__):
             raise VersionError("The version number of %s is not compliant, "
-                               "please refer to https://semver.org" % package_name)
+                               "please refer to https://semver.org" %
+                               package_name)
 
         try:
             plugin_state = p_obj.__state__
@@ -512,12 +519,21 @@ class PluginManager(object):
     def _filter_handler(self, plugin_info, filter_rule):
         """Template filter handler.
 
-        :param filter_rule: like {filter_name=func, }
+        :param filter_rule: like {filter_name=func,} or [func,]
 
         :raises PEPError: if filter rule or content is invalid.
 
         .. versionadded:: 3.2.0
         """
+        if isinstance(filter_rule, (list, tuple)):
+            _filter_rule = {}
+            for f in filter_rule:
+                if not callable(f):
+                    raise PEPError("The filter named %s cannot be called." %
+                                   plugin_info.plugin_name)
+                else:
+                    _filter_rule[f.__name__] = f
+            filter_rule = _filter_rule
         if isinstance(filter_rule, dict):
             plugin_filter = []
             for name, func in iteritems(filter_rule):
@@ -569,7 +585,7 @@ class PluginManager(object):
                            "it should be a dict." % plugin_info.plugin_name)
 
     def __before_request_hook_handler(self):
-        for func in self.get_enalbed_heps["before_request"]:
+        for func in self.get_enabled_heps["before_request"]:
             resp = func()
             if resp is not None:
                 return resp
@@ -623,7 +639,7 @@ class PluginManager(object):
     def get_enabled_heps(self):
         """Get all hep of the enabled plugins.
 
-        :returns: dictionary with nested tuples
+        :returns: dictionary with nested tuples, like {hook:[]}
         """
         heps = {}
         for hep in self.__het_allow_hooks.keys():
@@ -635,7 +651,7 @@ class PluginManager(object):
     def get_enabled_beps(self):
         """Get all bep of the enabled plugins.
 
-        :returns: List of nested dictionaries
+        :returns: List of nested dictionaries, like [{blueprint=,prefix=},]
         """
         return [p.plugin_bep for p in self.get_enabled_plugins if p.plugin_bep]
 
@@ -643,7 +659,7 @@ class PluginManager(object):
     def get_enabled_veps(self):
         """Get all vep for the enabled plugins.
 
-        :returns: List of nested tuples
+        :returns: List of nested tuples, like [(path, view_func),]
 
         .. versionadded:: 3.1.0
         """
@@ -658,7 +674,7 @@ class PluginManager(object):
     def get_enabled_filters(self):
         """Get all template filters for the enabled plugins.
 
-        :returns: List of nested tuples
+        :returns: List of nested tuples, like [(filter_name, filter_func),]
 
         .. versionadded:: 3.2.0
         """
@@ -672,22 +688,22 @@ class PluginManager(object):
     def get_enabled_errhandlers(self):
         """Get all error handlers for the enabled plugins.
 
-        :returns: List of Nested Dictionaries
+        :returns: dict, like {code: view_func,}
 
         .. versionadded:: 3.2.0
         """
-        return [
-            {k: v}
+        return {
+            k: v
             for p in self.get_enabled_plugins
             for k, v in iteritems(p.plugin_errhandler)
             if p.plugin_errhandler
-        ]
+        }
 
     @property
     def get_enabled_tcps(self):
         """Get all template context processors for the enabled plugins.
 
-        :returns: List of Nested Dictionaries
+        :returns: List of Nested Dictionaries, like [{name:var_or_func},]
 
         .. versionadded:: 3.2.0
         """
