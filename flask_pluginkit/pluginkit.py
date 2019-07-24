@@ -11,6 +11,7 @@
 
 import os
 import logging
+from itertools import chain
 from jinja2 import ChoiceLoader, FileSystemLoader
 from flask import Blueprint, render_template, render_template_string, \
     send_from_directory, abort, url_for, Markup, current_app
@@ -132,11 +133,15 @@ class PluginManager(object):
         #: .. versionchanged:: 3.1.0
         #:    Add a vep handler
         #:
+        #: .. versionchanged:: 3.2.0
+        #:    Add a filter handler
+        #:
         self.__pet_handlers = {
             "tep": self._tep_handler,
             "hep": self._hep_handler,
             "bep": self._bep_handler,
             "vep": self._vep_handler,
+            "filter": self._filter_handler,
         }
 
         #: Hook extension type handlers
@@ -211,6 +216,13 @@ class PluginManager(object):
         for vep in self.get_enabled_veps:
             rule, viewfunc, endpoint, options = vep
             app.add_url_rule(rule, endpoint, viewfunc, **options)
+
+        #: Register the template filters
+        #:
+        #: .. versionadded:: 3.2.0
+        for tf in self.get_enabled_filters:
+            if tf and tf[0] not in app.jinja_env.filters:
+                app.jinja_env.filters[tf[0]] = tf[-1]
 
         # register extension with app
         app.extensions = getattr(app, 'extensions', None) or {}
@@ -332,7 +344,8 @@ class PluginManager(object):
             "plugin_tep": {},
             "plugin_hep": {},
             "plugin_bep": {},
-            "plugin_vep": []
+            "plugin_vep": [],
+            "plugin_filter": []
         })
 
     def _tep_handler(self, plugin_info, tep_rule):
@@ -481,6 +494,28 @@ class PluginManager(object):
             raise PEPError("The vep rule is invalid for %s, it should be "
                            "a list or tuple." % plugin_info.plugin_name)
 
+    def _filter_handler(self, plugin_info, filter_rule):
+        """Template filter handler.
+
+        :param filter_rule: like {filter_name=func, }
+
+        :raises PEPError: if filter rule or content is invalid.
+
+        .. versionadded:: 3.2.0
+        """
+        if isinstance(filter_rule, dict):
+            plugin_filter = []
+            for name, func in iteritems(filter_rule):
+                if callable(func):
+                    plugin_filter.append((name, func))
+                else:
+                    raise PEPError("The filter named %s cannot be called." %
+                                   plugin_info.plugin_name)
+            plugin_info['plugin_filter'] = plugin_filter
+        else:
+            raise PEPError("The filter rule is invalid for %s, "
+                           "it should be a dict." % plugin_info.plugin_name)
+
     def __before_request_hook_handler(self):
         for func in self.get_enalbed_heps["before_request"]:
             resp = func()
@@ -566,6 +601,20 @@ class PluginManager(object):
             for rule in p.plugin_vep
             if p.plugin_vep
         ]
+
+    @property
+    def get_enabled_filters(self):
+        """Get all template filters for the enabled plugins.
+
+        :returns: List of nested tuples
+
+        .. versionadded:: 3.2.0
+        """
+        return list(chain.from_iterable([
+            p.plugin_filter
+            for p in self.get_enabled_plugins
+            if p.plugin_filter
+        ]))
 
     def get_plugin_info(self, plugin_name):
         """Get plugin information from all plugins"""
