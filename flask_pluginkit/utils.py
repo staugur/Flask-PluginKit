@@ -13,8 +13,11 @@ import shelve
 import semver
 from os.path import join
 from tempfile import gettempdir
+from collections import deque
+from flask import Markup
 from flask.app import setupmethod, Flask as _BaseFlask
 from ._compat import PY2, string_types
+from exceptions import PluginError, NotCallableError
 
 
 def isValidPrefix(prefix, allow_none=False):
@@ -220,3 +223,64 @@ class Attribution(dict):
             return self[name]
         except KeyError:
             raise AttributeError(name)
+
+
+class DcpManager(object):
+
+    def __init__(self):
+        self._listeners = {}
+
+    @property
+    def list(self):
+        return self._listeners
+
+    def push(self, event, callback, position="right"):
+        """Connect a dcp, push a function.
+
+        :param event: a unique identifier name for dcp.
+
+        :param callback: corresponding to the event to perform a function.
+
+        :param position: the position of the insertion function,
+                         right(default) or left.
+
+        :raises PluginError:
+
+        :raises NotCallableError:
+
+        .. versionadded:: 3.2.0
+        """
+        if event and isinstance(event, string_types):
+            if not callable(callback):
+                raise NotCallableError("The event %s cannot be called" % event)
+            if position not in ("left", "right", "after", "before"):
+                raise PluginError("Invalid position")
+            if event not in self._listeners:
+                self._listeners[event] = deque([callback])
+            elif position in ("left", "before"):
+                self._listeners[event].appendleft(callback)
+            else:
+                self._listeners[event].append(callback)
+        else:
+            raise PluginError("Invalid event")
+
+    def remove(self, event, callback):
+        """Remove a callback again."""
+        try:
+            self._listeners[event].remove(callback)
+        except (KeyError, ValueError):
+            return False
+        else:
+            return True
+
+    def emit(self, event, *args, **kwargs):
+        """Emits events for the template context."""
+        results = []
+        funcs = self._listeners.get(event) or []
+        for f in funcs:
+            rv = f(*args, **kwargs)
+            if isinstance(rv, (list, tuple)):
+                rv = "".join(rv)
+            if rv is not None:
+                results.append(rv)
+        return Markup("".join(results))

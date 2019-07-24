@@ -36,3 +36,7 @@ class ZipError(PluginError):
 
 class InstallError(PluginError):
     pass
+
+
+class NotCallableError(PluginError):
+    pass

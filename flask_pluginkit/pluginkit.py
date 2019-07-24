@@ -14,9 +14,13 @@ import logging
 from jinja2 import ChoiceLoader, FileSystemLoader
 from flask import Blueprint, render_template, render_template_string, \
     send_from_directory, abort, url_for, Markup, current_app
-from .utils import isValidPrefix, isValidSemver, Attribution
+from .utils import isValidPrefix, isValidSemver, Attribution, DcpManager
 from ._compat import string_types, iteritems, text_type
 from .exceptions import PluginError, VersionError, PEPError, TemplateNotFound
+try:
+    from flask import _app_ctx_stack as stack
+except ImportError:
+    from flask import _request_ctx_stack as stack
 
 
 class PluginManager(object):
@@ -142,6 +146,11 @@ class PluginManager(object):
             "teardown_request": self.__teardown_request_hook_handler,
         }
 
+        #: Dynamic Connection Point
+        #:
+        #: .. versionadded:: 3.2.0
+        self._dcp_manager = DcpManager()
+
         #: All locally stored plugins
         self.__plugins = []
 
@@ -170,7 +179,8 @@ class PluginManager(object):
         app.jinja_env.globals.update(
             emit_tep=self.emit_tep,
             emit_assets=self.emit_assets,
-            emit_config=self.emit_config
+            emit_config=self.emit_config,
+            emit_dcp=self._dcp_manager.emit
         )
 
         #: Custom add multiple template folders.
@@ -181,7 +191,8 @@ class PluginManager(object):
         ])
 
         #: Add a static rule for plugins
-        app.add_url_rule(self.static_url_path + '/<string:plugin_name>/<path:filename>',
+        app.add_url_rule(self.static_url_path +
+                         '/<string:plugin_name>/<path:filename>',
                          endpoint=self.static_endpoint,
                          view_func=self._send_plugin_static_file)
 
@@ -471,7 +482,7 @@ class PluginManager(object):
                            "a list or tuple." % plugin_info.plugin_name)
 
     def __before_request_hook_handler(self):
-        for func in self.get_enabled_heps["before_request"]:
+        for func in self.get_enalbed_heps["before_request"]:
             resp = func()
             if resp is not None:
                 return resp
@@ -498,8 +509,11 @@ class PluginManager(object):
 
     @property
     def __get_valid_tpl(self):
-        return [p.plugin_tpl_path for p in self.get_enabled_plugins if
-                os.path.isdir(p.plugin_tpl_path)]
+        return [
+            p.plugin_tpl_path
+            for p in self.get_enabled_plugins
+            if os.path.isdir(p.plugin_tpl_path)
+        ]
 
     @property
     def get_enabled_teps(self):
@@ -557,7 +571,8 @@ class PluginManager(object):
         """Get plugin information from all plugins"""
         try:
             return next(
-                (p for p in self.get_all_plugins if p.plugin_name == plugin_name)
+                (p for p in self.get_all_plugins
+                 if p.plugin_name == plugin_name)
             )
         except StopIteration:
             raise PluginError("No plugin named %s was found" % plugin_name)
@@ -595,7 +610,7 @@ class PluginManager(object):
         except PluginError:
             return abort(404)
         else:
-            return send_from_directory(p.plugin_ats_path, filename,)
+            return send_from_directory(p.plugin_ats_path, filename)
 
     def emit_tep(self, tep, typ="all", **context):
         """Emit a tep and get the tep data(html code) with
@@ -716,3 +731,20 @@ class PluginManager(object):
             return self.pluginkit_config[conf_name]
         except KeyError:
             return current_app.config.get(conf_name)
+
+
+def push_dcp(event, callback, position='right'):
+    """Push a callable for with :meth:`~flask_pluginkit.utils.DcpManager.push`.
+
+    Example usage::
+
+        push_dcp('demo', lambda:'Hello dcp')
+
+    .. versionadded:: 3.2.0
+    """
+    ctx = stack.top
+    ctx.app.extensions.get('pluginkit')._dcp_manager.push(
+        event,
+        callback,
+        position
+    )
