@@ -16,7 +16,7 @@ from jinja2 import ChoiceLoader, FileSystemLoader
 from flask import Blueprint, render_template, render_template_string, \
     send_from_directory, abort, url_for, Markup, current_app
 from .utils import isValidPrefix, isValidSemver, Attribution, DcpManager
-from ._compat import string_types, iteritems, text_type
+from ._compat import string_types, iteritems, text_type, integer_types
 from .exceptions import PluginError, VersionError, PEPError, TemplateNotFound
 try:
     from flask import _app_ctx_stack as stack
@@ -128,13 +128,13 @@ class PluginManager(object):
         if not isinstance(self.pluginkit_config, dict):
             raise PluginError("Invalid pluginkit_config")
 
-        #: Plugin extension type handlers
+        #: Plugins Extended Preprocessor
         #:
         #: .. versionchanged:: 3.1.0
         #:    Add a vep handler
         #:
         #: .. versionchanged:: 3.2.0
-        #:    Add a filter handler
+        #:    Add filter handler, error handler, template context processor
         #:
         self.__pet_handlers = {
             "tep": self._tep_handler,
@@ -142,6 +142,8 @@ class PluginManager(object):
             "bep": self._bep_handler,
             "vep": self._vep_handler,
             "filter": self._filter_handler,
+            "errhandler": self._error_handler,
+            "tcp": self._context_processor_handler,
         }
 
         #: Hook extension type handlers
@@ -222,7 +224,18 @@ class PluginManager(object):
         #: .. versionadded:: 3.2.0
         for tf in self.get_enabled_filters:
             if tf and tf[0] not in app.jinja_env.filters:
-                app.jinja_env.filters[tf[0]] = tf[-1]
+                app.add_template_filter(tf[-1], tf[0])
+
+        #: Register the template context processors
+        #:
+        #: .. versionadded:: 3.2.0
+        app.template_context_processors[None].append(
+            lambda: {
+                k: v
+                for tcp in self.get_enabled_tcps
+                for k, v in iteritems(tcp)
+            }
+        )
 
         # register extension with app
         app.extensions = getattr(app, 'extensions', None) or {}
@@ -345,7 +358,9 @@ class PluginManager(object):
             "plugin_hep": {},
             "plugin_bep": {},
             "plugin_vep": [],
-            "plugin_filter": []
+            "plugin_filter": [],
+            "plugin_errhandler": {},
+            "plugin_tcp": {},
         })
 
     def _tep_handler(self, plugin_info, tep_rule):
@@ -516,6 +531,43 @@ class PluginManager(object):
             raise PEPError("The filter rule is invalid for %s, "
                            "it should be a dict." % plugin_info.plugin_name)
 
+    def _error_handler(self, plugin_info, errhandler_rule):
+        """Error code handler.
+
+        :param errhandler_rule: like {err_code=func, }
+
+        :raises PEPError: if error handler rule or content is invalid.
+
+        .. versionadded:: 3.2.0
+        """
+        if isinstance(errhandler_rule, dict):
+            for code, func in iteritems(errhandler_rule):
+                if not isinstance(code, integer_types):
+                    raise PEPError("The errhandler code is not interger for %s"
+                                   % plugin_info.plugin_name)
+                if not callable(func):
+                    raise PEPError("The errhandler func is not called for %s"
+                                   % plugin_info.plugin_name)
+            plugin_info["plugin_errhandler"] = errhandler_rule
+        else:
+            raise PEPError("The error handler rule is invalid for %s, "
+                           "it should be a dict." % plugin_info.plugin_name)
+
+    def _context_processor_handler(self, plugin_info, processor_rule):
+        """Template context processor's handler.
+
+        :param processor_rule: like {var_name=var, func_name=func,}
+
+        :raises PEPError: if tcp rule or content is invalid.
+
+        .. versionadded:: 3.2.0
+        """
+        if isinstance(processor_rule, dict):
+            plugin_info["plugin_tcp"] = processor_rule
+        else:
+            raise PEPError("The context processor rule is invalid for %s, "
+                           "it should be a dict." % plugin_info.plugin_name)
+
     def __before_request_hook_handler(self):
         for func in self.get_enalbed_heps["before_request"]:
             resp = func()
@@ -615,6 +667,36 @@ class PluginManager(object):
             for p in self.get_enabled_plugins
             if p.plugin_filter
         ]))
+
+    @property
+    def get_enabled_errhandlers(self):
+        """Get all error handlers for the enabled plugins.
+
+        :returns: List of Nested Dictionaries
+
+        .. versionadded:: 3.2.0
+        """
+        return [
+            {k: v}
+            for p in self.get_enabled_plugins
+            for k, v in iteritems(p.plugin_errhandler)
+            if p.plugin_errhandler
+        ]
+
+    @property
+    def get_enabled_tcps(self):
+        """Get all template context processors for the enabled plugins.
+
+        :returns: List of Nested Dictionaries
+
+        .. versionadded:: 3.2.0
+        """
+        return [
+            {k: v}
+            for p in self.get_enabled_plugins
+            for k, v in iteritems(p.plugin_tcp)
+            if p.plugin_tcp
+        ]
 
     def get_plugin_info(self, plugin_name):
         """Get plugin information from all plugins"""

@@ -34,6 +34,9 @@ BEP / bep / Blueprint Extension Point
 VEP / vep / View function Extension Point
     视图扩展点
 
+TCP / tcp / Template Context Processor / Context Processor
+    模板上下文处理器
+
 Developer / developer
     插件开发者
 
