@@ -27,7 +27,7 @@ def permission_deny(error):
 def register():
     return {
         'vep': dict(rule='/403', view_func=view_abort_403),
-        'filter': dict(repeat_filter=lambda: 'test-filter-repeat'),
+        'filter': dict(repeat_filter=lambda x: 'test-filter-repeat'),
         'errhandler': {403: permission_deny},
         'tcp': dict(change_to_str=str),
     }

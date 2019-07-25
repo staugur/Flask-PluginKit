@@ -19,6 +19,10 @@ and cover as much as possible of all the features of Flask-PluginKit.
     vep
     config
     static
+    errhandler
+    filter
+    tcp
+    dcp
     third-party-plugin
     afterword
 

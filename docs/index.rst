@@ -8,9 +8,9 @@ This is a Flask-based plugin development kit that supports multiple
 extension types that you can use to create plugins for web applications
 with little or no change to the core code.
 
-Ask: Why did you develop this extension?
+Q: Why did you develop this extension?
 
-Reply: Play.
+A: Play.
 
 Get started with :ref:`installation` and then get an overview with the
 :ref:`quickstart`. There is also a more detailed :ref:`tutorial`

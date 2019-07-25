@@ -134,8 +134,8 @@ msgstr ""
 " :class:`~flask_pluginkit.exceptions.TemplateNotFound`"
 
 #: ../../tutorial/tep.rst:74
-msgid "User call"
-msgstr "用户调用"
+msgid "Call in template"
+msgstr "在模板中调用"
 
 #: ../../tutorial/tep.rst:76
 msgid ""

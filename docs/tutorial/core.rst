@@ -140,7 +140,10 @@ such as:
         return dict(
             bep=dict(),
             hep=dict(),
-            tep=dict()
+            tep=dict(),
+            errhandler=dict(),
+            filter=dict(),
+            tcp=dict(),
         )
 
 For the extension points returned, please see the following sections.

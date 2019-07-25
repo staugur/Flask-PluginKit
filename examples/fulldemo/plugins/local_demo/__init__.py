@@ -51,7 +51,7 @@ def register():
         'hep': dict(before_request=br),
         'bep': dict(blueprint=bp, prefix='/localdemo'),
         'vep': dict(rule='/limit/<path>', view_func=view_limit, methods=['GET', 'POST']),
-        'filter': dict(demo_filter1=br, demo_filter2=lambda: 'test-filter'),
+        'filter': dict(demo_filter2=lambda x: 'test-filter'),
         'errhandler': {404: page_not_found},
         'tcp': dict(timestamp=int(time.time())),
     }

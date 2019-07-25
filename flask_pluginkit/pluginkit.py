@@ -88,6 +88,11 @@ class PluginManager(object):
     :param pluginkit_config: additional configuration can be used
                              in the template via :meth:`emit_config`.
 
+    .. versionchanged:: 3.1.0
+        Add a vep handler
+
+    .. versionchanged:: 3.2.0
+        Add filter handler, error handler, template context processor
     """
 
     def __init__(
@@ -129,20 +134,13 @@ class PluginManager(object):
             raise PluginError("Invalid pluginkit_config")
 
         #: Plugins Extended Preprocessor
-        #:
-        #: .. versionchanged:: 3.1.0
-        #:    Add a vep handler
-        #:
-        #: .. versionchanged:: 3.2.0
-        #:    Add filter handler, error handler, template context processor
-        #:
         self.__pet_handlers = {
             "tep": self._tep_handler,
             "hep": self._hep_handler,
             "bep": self._bep_handler,
             "vep": self._vep_handler,
-            "filter": self._filter_handler,
             "errhandler": self._error_handler,
+            "filter": self._filter_handler,
             "tcp": self._context_processor_handler,
         }
 
@@ -289,6 +287,9 @@ class PluginManager(object):
         :param package_name: the plugin package name
 
         :raises PEPError: Load plugin error
+
+        .. versionchanged:: 3.0.1
+            Do not check whether it is empty or not.
         """
         #: Detection plugin information
         if hasattr(p_obj, "__plugin_name__") and \
@@ -299,10 +300,6 @@ class PluginManager(object):
             #: It should return a dictionary type,
             #: and each element is an extension point, like this:
             #: {"tep":{}, "hep":{}, "bep":{}, "vep":[]}
-            #:
-            #: .. versionchanged:: 3.0.1
-            #:    Do not check whether it is empty or not.
-            #:
             pets = p_obj.register()
             if isinstance(pets, dict):
                 #: Get plugin information

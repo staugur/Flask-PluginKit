@@ -71,7 +71,7 @@ directory, and put header.html into the directory. If it does not exist, the
 exception :class:`~flask_pluginkit.exceptions.TemplateNotFound`
 will be thrown.
 
-- User call
+- Call in template
 
 In the existing template, assume that the following file named base.html is
 the base template, user need to manually call

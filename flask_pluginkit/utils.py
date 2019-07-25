@@ -242,7 +242,9 @@ class DcpManager(object):
         :param callback: corresponding to the event to perform a function.
 
         :param position: the position of the insertion function,
-                         right(default) or left.
+                         right(default) or left. The default right is inserted
+                         at the end of the event, and left is inserted into
+                         the event first.
 
         :raises PluginError: the param event or position error
 
@@ -274,7 +276,10 @@ class DcpManager(object):
             return True
 
     def emit(self, event, *args, **kwargs):
-        """Emits events for the template context."""
+        """Emits events for the template context.
+
+        :returns: strings with :class:`~flask.Markup`
+        """
         results = []
         funcs = self._listeners.get(event) or []
         for f in funcs:

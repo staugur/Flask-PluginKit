@@ -117,8 +117,8 @@ class PMTest(unittest.TestCase):
     def test_filter(self):
         self.assertIn("repeat_filter", app4.jinja_env.filters)
         self.assertIn("demo_filter2", app4.jinja_env.filters)
-        self.assertEqual('test-filter-repeat', app4.jinja_env.filters['repeat_filter']())
-        self.assertEqual('test-filter', app4.jinja_env.filters['demo_filter2']())
+        self.assertEqual('test-filter-repeat', app4.jinja_env.filters['repeat_filter']('x'))
+        self.assertEqual('test-filter', app4.jinja_env.filters['demo_filter2']('x'))
 
     def test_errhandler(self):
         ehs = app4.error_handler_spec[None]

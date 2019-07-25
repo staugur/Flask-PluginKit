@@ -34,11 +34,11 @@ msgid ""
 msgstr "这是一个基于Flask的插件开发工具包，支持多种扩展类型，用以增加、扩展web应用，而很少、甚至是无需更改源代码"
 
 #: ../../index.rst:11
-msgid "Ask: Why did you develop this extension?"
+msgid "Q: Why did you develop this extension?"
 msgstr "问：为什么开发这个扩展？"
 
 #: ../../index.rst:13
-msgid "Reply: Play."
+msgid "A: Play."
 msgstr "答：觉得好玩~~"
 
 #: ../../index.rst:15
