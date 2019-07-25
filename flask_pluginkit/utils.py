@@ -244,9 +244,9 @@ class DcpManager(object):
         :param position: the position of the insertion function,
                          right(default) or left.
 
-        :raises PluginError:
+        :raises PluginError: the param event or position error
 
-        :raises NotCallableError:
+        :raises NotCallableError: the param callback is not callable
 
         .. versionadded:: 3.2.0
         """

@@ -20,6 +20,11 @@ PluginManager Object
     .. automethod:: _hep_handler
     .. automethod:: _bep_handler
     .. automethod:: _vep_handler
+    .. automethod:: _filter_handler
+    .. automethod:: _error_handler
+    .. automethod:: _context_processor_handler
+
+.. autofunction:: push_dcp
 
 Inherited Application Objects
 -----------------------------
@@ -58,10 +63,14 @@ Useful Functions and Classes
 .. autoclass:: BaseStorage
     :members:
 
+.. autoclass:: DcpManager
+    :members:
+
 .. currentmodule:: flask_pluginkit
 
 .. autoclass:: PluginInstaller
     :members:
+
 
 Custom Exceptions
 -----------------
