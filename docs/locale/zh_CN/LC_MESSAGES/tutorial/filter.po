@@ -1,0 +1,87 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, staugur
+# This file is distributed under the same license as the Flask-PluginKit
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Flask-PluginKit 3.2.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-25 15:23+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: ../../tutorial/filter.rst:4
+msgid "Template Filter Extension Point"
+msgstr "模板过滤器扩展点"
+
+#: ../../tutorial/filter.rst:7
+msgid "Description"
+msgstr "示例"
+
+#: ../../tutorial/filter.rst:9
+msgid "The extension point abbreviation is filter."
+msgstr "这个扩展点缩写为filter。"
+
+#: ../../tutorial/filter.rst:11
+msgid ""
+"The concept of template filters comes from jinja2, which is essentially a"
+" regular python function. The filter and variables are separated by a "
+"pipe symbol ( | ), and optional parameters can also be passed in "
+"parentheses. The left side of the filter is used as the first parameter, "
+"and the remaining parameters are passed to the filter as additional "
+"parameters or keyword parameters."
+msgstr ""
+"模板过滤器的概念来自于jinja2，其本质是常规的python函数。过滤器与变量用"
+"管道符号（ | ）分割，并且也可以用圆括号传递可选参数，过滤器左边作为第一个参数，"
+"其余的参数作为额外的参数或关键字参数传递到过滤器。"
+
+#: ../../tutorial/filter.rst:18
+msgid ""
+"The plugin needs to return the filter field via register. The data type "
+"of this field can be dict or list. If it is a dict, the format is "
+"{filter_name: func}. If it is a list, the format is [func1, func2], and "
+"the function name is used as the filter name, but if an anonymous "
+"function is used, the filter name is <lambda>, which is unfriendly!"
+msgstr ""
+"插件需要通过register返回filter字段，这个字段数据类型可以是dict或者是list。"
+"如果是dict，那么格式是{filter_name: func}。如果是list，那么格式是[func1, func2]，"
+"此时函数名作为过滤器名，但是如果使用了匿名函数，那么过滤器名称是<lambda>，不友好！"
+
+#: ../../tutorial/filter.rst:25
+msgid ""
+"The Flask-PluginKit loads filter via "
+":meth:`~flask_pluginkit.PluginManager._filter_handler`, this method will "
+"detect filter rules and specific content."
+msgstr ""
+"Flask-PluginKit通过 :meth:`~flask_pluginkit.PluginManager._filter_handler` "
+"加载filter，这个方法会检测filter规则及内容。"
+
+#: ../../tutorial/filter.rst:29
+msgid ""
+"Once the registration is complete, you can use the filter in the template"
+" like Jinja2's built-in filter. For this section, you can refer to the "
+"Jinja2 documentation `filters`_."
+msgstr ""
+"一旦注册完成后，你就可以在模板中像 Jinja2 的内建过滤器一样使用它们了，"
+"关于这部分可以参考Jinja2文档 `filters`_ 。"
+
+#: ../../tutorial/filter.rst:36
+msgid "Example"
+msgstr "示例"
+
+#: ../../tutorial/filter.rst:38
+msgid "Plugin registration for filter"
+msgstr "注册filter"
+
+#: ../../tutorial/filter.rst:50
+msgid "Call in template"
+msgstr "在模板中调用"
+

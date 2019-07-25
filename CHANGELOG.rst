@@ -12,7 +12,7 @@ Released in 2019-07-25
 - feat: add template filter
 - feat: add template context processor
 - test: add test case
-- docs: update docs
+- docs: update docs and translation
 - chore: update example
 - chore: make some of the code more elegant
 
@@ -33,7 +33,7 @@ v3.0.1
 Released in 2019-07-21
 
 - The register functin can return empty dict, not necessarily meaningless.
-- Update docs and translate and add test.
+- Update docs, translation and add test.
 
 v3.0.0
 ------

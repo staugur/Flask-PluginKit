@@ -1,0 +1,78 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, staugur
+# This file is distributed under the same license as the Flask-PluginKit
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Flask-PluginKit 3.2.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-25 15:23+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: ../../tutorial/dcp.rst:4
+msgid "Dynamic Connection Point"
+msgstr "动态连接点"
+
+#: ../../tutorial/dcp.rst:7
+msgid "Description"
+msgstr "描述"
+
+#: ../../tutorial/dcp.rst:9
+msgid "The connection point abbreviation is dcp."
+msgstr "这个连接点缩写为dcp。"
+
+#: ../../tutorial/dcp.rst:11
+msgid ""
+"It doesn't need to be returned with **register**, even you may rarely use"
+" it."
+msgstr "它不需要用 **register** 返回，甚至于你可能很少用到它。"
+
+#: ../../tutorial/dcp.rst:13
+msgid ""
+"Dynamic connection points, dynamic registration and execution functions "
+"return the results to the template, which is inspired by `flask-"
+"plugins`_. However, it has been simplified to support pushing multiple "
+"functions in the application context, and in the template to get the "
+"execution results of all functions under the event (safe HTML code "
+"returned by :class:`~flask.Markup`)."
+msgstr ""
+"动态连接点，动态注册并执行函数将结果返回给模板使用，它的灵感来源于 `flask-plugins`_"
+" ，不过进行了简化，它支持在应用上下文环境中推送给事件多个函数，并在模板中获取事件"
+"下所有函数的执行结果（用 :class:`~flask.Markup` 返回的安全的HTML代码）。"
+
+#: ../../tutorial/dcp.rst:22
+msgid ""
+"The public push method is :func:`~flask_pluginkit.push_dcp`, in addition,"
+" it can be managed using "
+":attr:`~flask_pluginkit.PluginManager._dcp_manager`, it is an instance of"
+" :class:`~flask_pluginkit.utils.DcpManager`. Flask-PluginKit will update "
+"the template with a global method **emit_dcp** when it loads, the method "
+"called is :meth:`~flask_pluginkit.utils.DcpManager.emit`."
+msgstr ""
+"公开的推送方法是 :func:`~flask_pluginkit.push_dcp` ，另外，可以使用"
+" :attr:`~flask_pluginkit.PluginManager._dcp_manager` 管理，它是"
+" :class:`~flask_pluginkit.utils.DcpManager` 的实例。而Flask-PluginKit在加载时"
+"会给模板更新一个全局方法 **emit_dcp** ，实际调用的方法是"
+" :meth:`~flask_pluginkit.utils.DcpManager.emit` 。"
+
+#: ../../tutorial/dcp.rst:29
+msgid "Example"
+msgstr "示例"
+
+#: ../../tutorial/dcp.rst:31
+msgid "Push dcp"
+msgstr "推送dcp"
+
+#: ../../tutorial/dcp.rst:43
+msgid "Call in template"
+msgstr "在模板中调用"
+

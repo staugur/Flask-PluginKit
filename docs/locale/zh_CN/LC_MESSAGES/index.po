@@ -24,7 +24,7 @@ msgstr ""
 
 #: ../../index.rst:5
 msgid "Welcome to Flask-PluginKit's documentation."
-msgstr "欢迎查阅Flask-PluginKit文档"
+msgstr "欢迎查阅Flask-PluginKit文档！"
 
 #: ../../index.rst:7
 msgid ""

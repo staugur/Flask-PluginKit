@@ -1,0 +1,71 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, staugur
+# This file is distributed under the same license as the Flask-PluginKit
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Flask-PluginKit 3.2.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-25 15:23+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: ../../tutorial/tcp.rst:4
+msgid "Template Context Processors Extension Point"
+msgstr "模板上下文处理器扩展点"
+
+#: ../../tutorial/tcp.rst:7
+msgid "Description"
+msgstr "描述"
+
+#: ../../tutorial/tcp.rst:9
+msgid "The extension point abbreviation is tcp."
+msgstr "这个扩展点缩写为tcp。"
+
+#: ../../tutorial/tcp.rst:11
+msgid ""
+"Its role is to automatically introduce variables or functions you define "
+"into the template environment for use in templates (like g, request, "
+"url_for)."
+msgstr ""
+"它的作用是把你定义的变量或函数等自动引入到模板环境中，"
+"以便在模板中使用（就像g、request、url_for一样）。"
+
+#: ../../tutorial/tcp.rst:14
+msgid ""
+"The plugin needs to return the tcp field via register. The data type "
+"required for this field is dict, and the format is {var_name=var, "
+"func_name=func}."
+msgstr ""
+"插件需要通过register返回tcp字段，这个字段要求的数据类型是dict，"
+"格式是{var_name=var, func_name=func}。"
+
+#: ../../tutorial/tcp.rst:17
+msgid ""
+"The Flask-PluginKit loads tcp via "
+":meth:`~flask_pluginkit.PluginManager._context_processor_handler`, this "
+"method will detect tcp rules and specific content."
+msgstr ""
+"Flask-PluginKit通过 :meth:`~flask_pluginkit.PluginManager._context_processor_handler`"
+" 加载tcp，这个方法会检测tcp规则及其内容。"
+
+#: ../../tutorial/tcp.rst:22
+msgid "Example"
+msgstr "示例"
+
+#: ../../tutorial/tcp.rst:24
+msgid "Plugin registration for tcp"
+msgstr "注册tcp"
+
+#: ../../tutorial/tcp.rst:35
+msgid "Call in template"
+msgstr "在模板中调用"
+

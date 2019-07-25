@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-22 16:43+0800\n"
+"POT-Creation-Date: 2019-07-25 15:23+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,11 +58,15 @@ msgstr ""
 #: flask_pluginkit.LocalStorage.set flask_pluginkit.PluginInstaller.addPlugin
 #: flask_pluginkit.PluginInstaller.removePlugin flask_pluginkit.PluginManager
 #: flask_pluginkit.PluginManager._bep_handler
+#: flask_pluginkit.PluginManager._context_processor_handler
+#: flask_pluginkit.PluginManager._error_handler
+#: flask_pluginkit.PluginManager._filter_handler
 #: flask_pluginkit.PluginManager._hep_handler
 #: flask_pluginkit.PluginManager._tep_handler
 #: flask_pluginkit.PluginManager._vep_handler
 #: flask_pluginkit.PluginManager.emit_assets
-#: flask_pluginkit.PluginManager.emit_tep of
+#: flask_pluginkit.PluginManager.emit_tep flask_pluginkit.utils.DcpManager.push
+#: of
 msgid "Parameters"
 msgstr ""
 
@@ -114,6 +118,14 @@ msgid ""
 ":meth:`emit_config`."
 msgstr ""
 
+#: flask_pluginkit.PluginManager:64 of
+msgid "Add a vep handler"
+msgstr ""
+
+#: flask_pluginkit.PluginManager:67 of
+msgid "Add filter handler, error handler, template context processor"
+msgstr ""
+
 #: flask_pluginkit.PluginManager.__init__:1 of
 msgid ""
 "Receive initialization parameters and pass options to :meth:`init_app` "
@@ -161,9 +173,13 @@ msgid ""
 msgstr ""
 
 #: flask_pluginkit.PluginManager._bep_handler
+#: flask_pluginkit.PluginManager._context_processor_handler
+#: flask_pluginkit.PluginManager._error_handler
+#: flask_pluginkit.PluginManager._filter_handler
 #: flask_pluginkit.PluginManager._hep_handler
 #: flask_pluginkit.PluginManager._tep_handler
-#: flask_pluginkit.PluginManager._vep_handler of
+#: flask_pluginkit.PluginManager._vep_handler
+#: flask_pluginkit.utils.DcpManager.push of
 msgid "Raises"
 msgstr ""
 
@@ -231,6 +247,46 @@ msgstr ""
 msgid "like [{rule=, view_func=, other options}, etc.]"
 msgstr ""
 
+#: flask_pluginkit.PluginManager._filter_handler:1 of
+msgid "Template filter handler."
+msgstr ""
+
+#: flask_pluginkit.PluginManager._filter_handler:3 of
+msgid "like {filter_name=func,} or [func,]"
+msgstr ""
+
+#: flask_pluginkit.PluginManager._filter_handler:5 of
+msgid "if filter rule or content is invalid."
+msgstr ""
+
+#: flask_pluginkit.PluginManager._error_handler:1 of
+msgid "Error code handler."
+msgstr ""
+
+#: flask_pluginkit.PluginManager._error_handler:3 of
+msgid "like {err_code=func, }"
+msgstr ""
+
+#: flask_pluginkit.PluginManager._error_handler:5 of
+msgid "if error handler rule or content is invalid."
+msgstr ""
+
+#: flask_pluginkit.PluginManager._context_processor_handler:1 of
+msgid "Template context processor(tcp) handler."
+msgstr ""
+
+#: flask_pluginkit.PluginManager._context_processor_handler:3 of
+msgid "like {var_name=var, func_name=func,}"
+msgstr ""
+
+#: flask_pluginkit.PluginManager._context_processor_handler:5 of
+msgid "if tcp rule or content is invalid."
+msgstr ""
+
+#: ../../api.rst:28
+msgid "the instance of :class:`~flask_pluginkit.utils.DcpManager`"
+msgstr ""
+
 #: flask_pluginkit.PluginManager.disable_plugin:1 of
 msgid ""
 "Disable a plugin (that is, create a DISABLED empty file) and restart the "
@@ -287,9 +343,13 @@ msgstr ""
 #: flask_pluginkit.PluginManager.emit_assets
 #: flask_pluginkit.PluginManager.emit_tep
 #: flask_pluginkit.PluginManager.get_enabled_beps
+#: flask_pluginkit.PluginManager.get_enabled_errhandlers
+#: flask_pluginkit.PluginManager.get_enabled_filters
 #: flask_pluginkit.PluginManager.get_enabled_heps
+#: flask_pluginkit.PluginManager.get_enabled_tcps
 #: flask_pluginkit.PluginManager.get_enabled_teps
-#: flask_pluginkit.PluginManager.get_enabled_veps of
+#: flask_pluginkit.PluginManager.get_enabled_veps
+#: flask_pluginkit.utils.DcpManager.emit of
 msgid "Returns"
 msgstr ""
 
@@ -368,7 +428,23 @@ msgid "Get all bep of the enabled plugins."
 msgstr ""
 
 #: flask_pluginkit.PluginManager.get_enabled_beps:3 of
-msgid "List of nested dictionaries"
+msgid "List of nested dictionaries, like [{blueprint=,prefix=},]"
+msgstr ""
+
+#: flask_pluginkit.PluginManager.get_enabled_errhandlers:1 of
+msgid "Get all error handlers for the enabled plugins."
+msgstr ""
+
+#: flask_pluginkit.PluginManager.get_enabled_errhandlers:3 of
+msgid "dict, like {code: view_func,}"
+msgstr ""
+
+#: flask_pluginkit.PluginManager.get_enabled_filters:1 of
+msgid "Get all template filters for the enabled plugins."
+msgstr ""
+
+#: flask_pluginkit.PluginManager.get_enabled_filters:3 of
+msgid "List of nested tuples, like [(filter_name, filter_func),]"
 msgstr ""
 
 #: flask_pluginkit.PluginManager.get_enabled_heps:1 of
@@ -376,11 +452,19 @@ msgid "Get all hep of the enabled plugins."
 msgstr ""
 
 #: flask_pluginkit.PluginManager.get_enabled_heps:3 of
-msgid "dictionary with nested tuples"
+msgid "dictionary with nested tuples, like {hook:[]}"
 msgstr ""
 
 #: flask_pluginkit.PluginManager.get_enabled_plugins:1 of
 msgid "Get all enabled plugins"
+msgstr ""
+
+#: flask_pluginkit.PluginManager.get_enabled_tcps:1 of
+msgid "Get all template context processors for the enabled plugins."
+msgstr ""
+
+#: flask_pluginkit.PluginManager.get_enabled_tcps:3 of
+msgid "List of Nested Dictionaries, like [{name:var_or_func},]"
 msgstr ""
 
 #: flask_pluginkit.PluginManager.get_enabled_teps:1 of
@@ -396,7 +480,7 @@ msgid "Get all vep for the enabled plugins."
 msgstr ""
 
 #: flask_pluginkit.PluginManager.get_enabled_veps:3 of
-msgid "List of nested tuples"
+msgid "List of nested tuples, like [(path, view_func),]"
 msgstr ""
 
 #: flask_pluginkit.PluginManager.get_plugin_info:1 of
@@ -431,7 +515,15 @@ msgstr ""
 msgid "Template sort order, True descending, False ascending (default)."
 msgstr ""
 
-#: ../../api.rst:25
+#: flask_pluginkit.push_dcp:1 of
+msgid "Push a callable for with :meth:`~flask_pluginkit.utils.DcpManager.push`."
+msgstr ""
+
+#: flask_pluginkit.push_dcp:3 of
+msgid "Example usage::"
+msgstr ""
+
+#: ../../api.rst:33
 msgid "Inherited Application Objects"
 msgstr ""
 
@@ -459,7 +551,7 @@ msgid ""
 " should use this decorator at this time."
 msgstr ""
 
-#: ../../api.rst:32
+#: ../../api.rst:40
 msgid "Storage Objects"
 msgstr ""
 
@@ -467,7 +559,7 @@ msgstr ""
 msgid "Local file system storage based on the shelve module."
 msgstr ""
 
-#: ../../api.rst:39 ../../api.rst:46 flask_pluginkit.utils.BaseStorage.index:1
+#: ../../api.rst:47 ../../api.rst:54 flask_pluginkit.utils.BaseStorage.index:1
 #: of
 msgid "The default index, as the only key, you can override it."
 msgstr ""
@@ -524,7 +616,7 @@ msgstr ""
 msgid "set key data"
 msgstr ""
 
-#: ../../api.rst:50
+#: ../../api.rst:58
 msgid "Useful Functions and Classes"
 msgstr ""
 
@@ -549,6 +641,45 @@ msgstr ""
 msgid ""
 "This base class customizes the `__getitem__`, `__setitem__` and "
 "`__delitem__` methods so that the user can call it like a dict."
+msgstr ""
+
+#: flask_pluginkit.utils.DcpManager.emit:1 of
+msgid "Emits events for the template context."
+msgstr ""
+
+#: flask_pluginkit.utils.DcpManager.emit:3 of
+msgid "strings with :class:`~flask.Markup`"
+msgstr ""
+
+#: flask_pluginkit.utils.DcpManager.push:1 of
+msgid "Connect a dcp, push a function."
+msgstr ""
+
+#: flask_pluginkit.utils.DcpManager.push:3 of
+msgid "a unique identifier name for dcp."
+msgstr ""
+
+#: flask_pluginkit.utils.DcpManager.push:5 of
+msgid "corresponding to the event to perform a function."
+msgstr ""
+
+#: flask_pluginkit.utils.DcpManager.push:7 of
+msgid ""
+"the position of the insertion function, right(default) or left. The "
+"default right is inserted at the end of the event, and left is inserted "
+"into the event first."
+msgstr ""
+
+#: flask_pluginkit.utils.DcpManager.push:12 of
+msgid "the param event or position error"
+msgstr ""
+
+#: flask_pluginkit.utils.DcpManager.push:14 of
+msgid "the param callback is not callable"
+msgstr ""
+
+#: flask_pluginkit.utils.DcpManager.remove:1 of
+msgid "Remove a callback again."
 msgstr ""
 
 #: flask_pluginkit.PluginInstaller:1 of
@@ -605,7 +736,7 @@ msgstr ""
 msgid "The plugin package name, not __plugin_name."
 msgstr ""
 
-#: ../../api.rst:67
+#: ../../api.rst:79
 msgid "Custom Exceptions"
 msgstr ""
 
@@ -634,6 +765,7 @@ msgid "BSD 3-Clause, see LICENSE for more details."
 msgstr ""
 
 #: flask_pluginkit.exceptions.InstallError:1
+#: flask_pluginkit.exceptions.NotCallableError:1
 #: flask_pluginkit.exceptions.PEPError:1 flask_pluginkit.exceptions.TarError:1
 #: flask_pluginkit.exceptions.TemplateNotFound:1
 #: flask_pluginkit.exceptions.VersionError:1
@@ -674,5 +806,14 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "the bep rule, like {blueprint=, prefix=}"
+#~ msgstr ""
+
+#~ msgid "List of nested dictionaries"
+#~ msgstr ""
+
+#~ msgid "dictionary with nested tuples"
+#~ msgstr ""
+
+#~ msgid "List of nested tuples"
 #~ msgstr ""
 

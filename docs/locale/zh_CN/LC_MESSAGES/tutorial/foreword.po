@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-22 16:56+0800\n"
+"POT-Creation-Date: 2019-07-25 15:23+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -96,18 +96,50 @@ msgid "视图扩展点"
 msgstr ""
 
 #: ../../tutorial/foreword.rst:38
-msgid "Developer / developer"
+msgid "DCP / dcp / Dynamic Connection Point"
 msgstr ""
 
 #: ../../tutorial/foreword.rst:38
-msgid "插件开发者"
+msgid "动态连接点"
 msgstr ""
 
 #: ../../tutorial/foreword.rst:41
+msgid "TCP / tcp / Template Context Processor / Context Processor"
+msgstr ""
+
+#: ../../tutorial/foreword.rst:41
+msgid "模板上下文处理器扩展点"
+msgstr ""
+
+#: ../../tutorial/foreword.rst:44
+msgid "filter"
+msgstr ""
+
+#: ../../tutorial/foreword.rst:44
+msgid "模板过滤器扩展点"
+msgstr ""
+
+#: ../../tutorial/foreword.rst:47
+msgid "errhandler"
+msgstr ""
+
+#: ../../tutorial/foreword.rst:47
+msgid "错误处理器扩展点"
+msgstr ""
+
+#: ../../tutorial/foreword.rst:50
+msgid "Developer / developer"
+msgstr ""
+
+#: ../../tutorial/foreword.rst:50
+msgid "插件开发者"
+msgstr ""
+
+#: ../../tutorial/foreword.rst:53
 msgid "Local Plugin"
 msgstr "本地插件"
 
-#: ../../tutorial/foreword.rst:43
+#: ../../tutorial/foreword.rst:55
 msgid ""
 "It is a local directory, it should be located in the plugins directory of"
 " the web application (of course, can also be defined as other "
@@ -120,17 +152,17 @@ msgstr ""
 " ``__init__.py`` 文件，插件目录还包含 "
 "``__init__.py``，这个文件将目录标识为包并且还标识了插件，这是核心代码，插件入口。"
 
-#: ../../tutorial/foreword.rst:51
+#: ../../tutorial/foreword.rst:63
 msgid "Third-party Plugin"
 msgstr "第三方插件"
 
-#: ../../tutorial/foreword.rst:53
+#: ../../tutorial/foreword.rst:65
 msgid ""
 "Third-party plugins are non-web application subdirectories, but local "
 "modules from installations such as pip or easy_install."
 msgstr "第三方插件非Web应用程序子目录，而是来自pip或easy_install等安装的本地模块。"
 
-#: ../../tutorial/foreword.rst:56
+#: ../../tutorial/foreword.rst:68
 msgid ""
 "The third-party plugins are free to use. The web application does not "
 "need to put the plugin code into a subdirectory. It only needs to be "
@@ -143,7 +175,7 @@ msgstr ""
 "等安装到本地机器上，然后在初始化 :class:`~flask_pluginkit.PluginManager` 时，传入  "
 ":attr:`~flask_pluginkit.PluginManager.plugin_packages` 参数。"
 
-#: ../../tutorial/foreword.rst:62
+#: ../../tutorial/foreword.rst:74
 msgid ""
 "This means that anyone can write a package and publish it to pypi; the "
 "user writes `requirements.txt` and installs the dependencies, which are "
@@ -153,27 +185,27 @@ msgstr ""
 "这意味着任何人都可以编写一个包并将其发布到pypi。用户编写 ``requirements.txt`` "
 "并安装依赖项，这些依赖项在初始化中被调用，而几乎不用担心后续第三方插件升级。"
 
-#: ../../tutorial/foreword.rst:67
+#: ../../tutorial/foreword.rst:79
 msgid ""
 "For instructions on how to write third-party plugins, see :doc:`/tutorial"
 "/third-party-plugin`"
 msgstr "如何编写第三方插件，请参阅 :doc:`/tutorial/third-party-plugin`"
 
-#: ../../tutorial/foreword.rst:70
+#: ../../tutorial/foreword.rst:82
 msgid "For official plugin's github group: https://github.com/flask-pluginkit"
 msgstr "官方插件组：https://github.com/flask-pluginkit"
 
-#: ../../tutorial/foreword.rst:73
+#: ../../tutorial/foreword.rst:85
 msgid "Loading logic"
 msgstr "加载逻辑"
 
-#: ../../tutorial/foreword.rst:75
+#: ../../tutorial/foreword.rst:87
 msgid ""
 "Developers who are not Flask-PluginKit or its plugins can ignore this "
 "part."
 msgstr "非Flask-PluginKit或其插件的开发人员可以忽略这一部分。"
 
-#: ../../tutorial/foreword.rst:77
+#: ../../tutorial/foreword.rst:89
 msgid ""
 "The plugin load starts when the program starts. The load class is "
 ":class:`~flask_pluginkit.PluginManager`, its destructor allows you to "
@@ -188,47 +220,47 @@ msgstr ""
 ":attr:`~flask_pluginkit.PluginManager.plugins_folder` "
 "参数，两者决定了插件所在的目录（相对于Web应用）。加载类的更多参数请参阅API文档。"
 
-#: ../../tutorial/foreword.rst:87
+#: ../../tutorial/foreword.rst:99
 msgid "The loading process is as follows:"
 msgstr "加载流程如下:"
 
-#: ../../tutorial/foreword.rst:89
+#: ../../tutorial/foreword.rst:101
 msgid ""
 "Call :class:`~flask_pluginkit.PluginManager` normal mode or factory mode "
 "to initialize the extension."
 msgstr "调用 :class:`~flask_pluginkit.PluginManager` 使用普通方式或工厂方式初始化扩展"
 
-#: ../../tutorial/foreword.rst:92
+#: ../../tutorial/foreword.rst:104
 msgid ""
 "Scan the `plugins_folder` plugin directory and the packages that match "
 "the plugin rules will be dynamically loaded."
 msgstr "扫描 `plugins_folder` 目录，符合规则的插件会动态加载。"
 
-#: ../../tutorial/foreword.rst:95
+#: ../../tutorial/foreword.rst:107
 msgid ""
 "Load third-party plugins in "
 ":attr:`~flask_pluginkit.PluginManager.plugin_packages`."
 msgstr "扫描并加载 :attr:`~flask_pluginkit.PluginManager.plugin_packages` 参数中定义的第三方插件。"
 
-#: ../../tutorial/foreword.rst:98
+#: ../../tutorial/foreword.rst:110
 msgid "Add template global variable."
 msgstr "添加模板全局变量。"
 
-#: ../../tutorial/foreword.rst:100
+#: ../../tutorial/foreword.rst:112
 msgid "Support for multiple template directories."
 msgstr "支持多个模板目录。"
 
-#: ../../tutorial/foreword.rst:102
+#: ../../tutorial/foreword.rst:114
 msgid ""
 "Add a view function that supports access to plugin directory static "
 "resources."
 msgstr "添加一个视图函数以访问插件下静态目录里文件。"
 
-#: ../../tutorial/foreword.rst:105
+#: ../../tutorial/foreword.rst:117
 msgid "Register hep, bep."
 msgstr "注册hep、bep等。"
 
-#: ../../tutorial/foreword.rst:107
+#: ../../tutorial/foreword.rst:119
 msgid "Append the instance to **app.extensions**."
 msgstr "将实例化的pluginkit添加到 **app.extensions**"
 
