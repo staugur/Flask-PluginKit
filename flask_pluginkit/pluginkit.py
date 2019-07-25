@@ -570,7 +570,7 @@ class PluginManager(object):
                            "it should be a dict." % plugin_info.plugin_name)
 
     def _context_processor_handler(self, plugin_info, processor_rule):
-        """Template context processor's handler.
+        """Template context processor(tcp) handler.
 
         :param processor_rule: like {var_name=var, func_name=func,}
 

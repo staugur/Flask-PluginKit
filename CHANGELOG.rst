@@ -3,7 +3,7 @@
 v3.2.0
 ------
 
-Released in 2019-07-24
+Released in 2019-07-25
 
 - feat: dcp, be similar to flask-plugins event system,
         add :class:`~flask_pluginkit.utils.DcpManager`
