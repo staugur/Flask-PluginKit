@@ -23,7 +23,7 @@ else:
 #:
 #: ..versionadded:: 3.3.0
 blueprint = Blueprint('flask_pluginkit', 'flask_pluginkit',
-                      template_folder='templates')
+                      template_folder='templates', static_folder='static')
 
 
 def _get_conf(config_name):
@@ -108,6 +108,13 @@ def pluginkit_auth():
     if hasattr(current_app, "extensions") and \
             "pluginkit" in current_app.extensions:
         g.pluginkit = current_app.extensions["pluginkit"]
+        from flask_pluginkit import __version__ as version
+        from flask_pluginkit import __author__ as author
+        g.pluginkit_metadata = dict(
+            author=author,
+            version=version,
+            plugins_count=len(g.pluginkit.get_all_plugins)
+        )
     else:
         authResult.update(
             code=-1,

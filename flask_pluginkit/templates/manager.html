@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Plugins Web Manager based Flask-PluginKit!</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="https://static.saintic.com/cdn/iconfont/iconfont.css">
+    <link rel="prefetch" type="application/l10n" href="{{ url_for('.static', filename='translations.ini') }}" />
     <style type="text/css">
         .notification>button.delete {
             border: none;
@@ -18,10 +20,56 @@
 </head>
 
 <body>
-    <section class="section">
-        <div class="container is-fluid">
-            <a class="button is-danger is-small" title="No interaction directly reloads your Web application process!"
-                href="javascript:reloadApp()">Restart Application</a>
+    <div class="box container">
+        <div class="field is-grouped is-grouped-multiline">
+            {% for k,v in g.pluginkit_metadata.items() %}
+            <div class="control">
+                <div class="tags has-addons">
+                    <span class="tag is-success" data-l10n-id="{{ k }}">{{ k }}</span>
+                    <span class="tag">{{ v }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <section>
+        <div class="container">
+            <div class="columns">
+                <div class="column is-narrow">
+                    <a class="button is-danger is-small" title="" href="javascript:reloadApp()"
+                        data-l10n-id='reload'>Reload Application</a>
+                </div>
+                <div class="column is-narrow">
+                    <div class="field">
+                        <div class="file is-primary is-small">
+                            <label class="file-label">
+                                <input class="file-input is-small" type="file" name="file">
+                                <span class="file-cta">
+                                    <span class="file-icon">
+                                        <i class="saintic-icon saintic-icon-upload"></i>
+                                    </span>
+                                    <span class="file-label" data-l10n-id="upload">Local Upload Plugin</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-4">
+                    <div class="field has-addons">
+                        <div class="control">
+                            <a class="button is-info is-small" data-l10n-id='download'>
+                                Download Remote Plugin
+                            </a>
+                        </div>
+                        <div class="control has-icons-left is-expanded">
+                            <input class="input is-small" type="text" placeholder="The plugin download url">
+                            <span class="icon is-small is-left">
+                                <i class="saintic-icon saintic-icon-download"></i> 
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
                 <thead>
                     <tr>
@@ -72,6 +120,7 @@
         </div>
     </section>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('.static', filename='l10n.js') }}"></script>
     <script type="text/javascript">
         function showNotification() {
             document.getElementById("notification").style.display = 'block';
@@ -138,7 +187,7 @@
             ajax("{{ url_for('.api', Action='enablePlugin') }}&plugin_name=" + plugin_name, function (res) {
                 setMessage(
                     "<scan class='has-text-success'>Enabled. Restart the application and take effect.</scan>"
-                    )
+                )
             });
         }
 
@@ -146,7 +195,7 @@
             ajax("{{ url_for('.api', Action='disablePlugin') }}&plugin_name=" + plugin_name, function (res) {
                 setMessage(
                     "<scan class='has-text-success'>Disabled. Restart the application and take effect.</scan>"
-                    )
+                )
             });
         }
 

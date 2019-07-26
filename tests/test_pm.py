@@ -173,7 +173,7 @@ class PMTest(unittest.TestCase):
             self.assertEqual(res["code"], 1)
         with app2.test_client() as c2:
             res = c2.post('/api').data
-            self.assertIn("Authentication failed", res)
+            self.assertIn(b"Authentication failed", res)
 
         with app1.test_request_context('/'):
             app1.preprocess_request()

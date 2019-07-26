@@ -1,1 +1,2 @@
 recursive-include flask_pluginkit/templates *
+recursive-include flask_pluginkit/static *
