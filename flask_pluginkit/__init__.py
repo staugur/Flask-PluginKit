@@ -12,10 +12,11 @@
 from .pluginkit import PluginManager, push_dcp
 from .utils import Flask, LocalStorage, RedisStorage
 from ._installer import PluginInstaller
+from ._web import blueprint
 
 __author__ = "staugur <staugur@saintic.com>"
 
-__version__ = "3.2.0"
+__version__ = "3.3.0"
 
 __all__ = [
     "Flask",
@@ -23,5 +24,6 @@ __all__ = [
     "LocalStorage",
     "RedisStorage",
     "PluginInstaller",
-    "push_dcp"
+    "push_dcp",
+    "blueprint",
 ]

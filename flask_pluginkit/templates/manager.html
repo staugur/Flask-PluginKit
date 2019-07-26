@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plugins Web Manager based Flask-PluginKit!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <style type="text/css">
+        .notification>button.delete {
+            border: none;
+        }
+
+        .is-hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="section">
+        <div class="container is-fluid">
+            <a class="button is-danger is-small" title="No interaction directly reloads your Web application process!"
+                href="javascript:reloadApp()">Restart Application</a>
+            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th><abbr title="Package Name">Name</abbr></th>
+                        <th>Description</th>
+                        <th>Version</th>
+                        <th>Author</th>
+                        <th>Homepage</th>
+                        <th>LICENSE</th>
+                        <th>State</th>
+                        <th>Actoin</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in g.pluginkit.get_all_plugins %}
+                    <tr>
+                        <th>{{ loop.index }}</th>
+                        <th><abbr title="{{ p.plugin_package_name }}">{{ p.plugin_name }}</abbr></th>
+                        <th>{{ p.plugin_description }}</th>
+                        <th>{{ p.plugin_version }}</th>
+                        <th>{{ p.plugin_author }}</th>
+                        <th>{% if p.plugin_url %}<a href="{{ p.plugin_url }}"
+                                target="_blank">{{ p.plugin_url }}</a>{% else %}{{ p.plugin_url or '' }}{% endif %}</th>
+                        <th>{{ p.plugin_license or '' }}</th>
+                        <th>
+                            <scan
+                                class="{% if p.plugin_state == 'enabled' %}has-text-primary{% else %}has-text-warning{% endif %}">
+                                {{ p.plugin_state }}</scan>
+                        </th>
+                        <th>
+                            {% if p.plugin_state == 'enabled' %}
+                            <a class="button is-warning is-small"
+                                href="javascript:disablePlugin('{{ p.plugin_name }}')">Disable</a>
+                            {% else %}
+                            <a class="button is-primary is-small"
+                                href="javascript:enablePlugin('{{ p.plugin_name }}')">Enable</a>
+                            {% endif %}
+                        </th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="notification" id="notification" style="display: none;">
+                <button class="delete"></button>
+                <div id="message"></div>
+            </div>
+        </div>
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        function showNotification() {
+            document.getElementById("notification").style.display = 'block';
+        }
+
+        function hideNotification() {
+            document.getElementById("notification").style.display = 'none';
+        }
+
+        function setMessage(msg) {
+            document.getElementById("message").innerHTML = msg;
+            showNotification();
+        }
+
+        function ajax(url, success, options) {
+            var that = this,
+                urltype = typeof url === 'string',
+                successtype = typeof success === "function",
+                optionstype = typeof options === "object";
+            if (!url || !urltype) {
+                return false;
+            }
+            if (success) {
+                if (!successtype) {
+                    return false;
+                }
+            }
+            if (options) {
+                if (!optionstype) {
+                    return false;
+                }
+            } else {
+                options = {};
+            }
+            return $.ajax({
+                url: url,
+                async: options.async || true,
+                method: options.method || 'post',
+                dataType: options.dataType || 'json',
+                data: options.data || {},
+                beforeSend: options.beforeSend ? options.beforeSend : function () {},
+                success: function (res) {
+                    console.log(res);
+                    if (res.code === 0 || res.success === true) {
+                        success && success(res);
+                    } else {
+                        if (options.msgprefix != false) {
+                            setMessage("<scan class='has-text-danger'>" + (options.msgprefix || '') + (res
+                                .msg || res.code) + "</scan>");
+                        }
+                        options.fail && options.fail(res);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    setMessage(
+                        "<scan class='has-text-danger'>System exception, please try again later</scan>. Status code:" +
+                        XMLHttpRequest.status + "," + textStatus);
+                },
+                complete: options.complete ? options.complete : function () {}
+            });
+        }
+
+        function enablePlugin(plugin_name) {
+            ajax("{{ url_for('.api', Action='enablePlugin') }}&plugin_name=" + plugin_name, function (res) {
+                setMessage(
+                    "<scan class='has-text-success'>Enabled. Restart the application and take effect.</scan>"
+                    )
+            });
+        }
+
+        function disablePlugin(plugin_name) {
+            ajax("{{ url_for('.api', Action='disablePlugin') }}&plugin_name=" + plugin_name, function (res) {
+                setMessage(
+                    "<scan class='has-text-success'>Disabled. Restart the application and take effect.</scan>"
+                    )
+            });
+        }
+
+        function reloadApp() {
+            ajax("{{ url_for('.api', Action='reloadApp') }}", function (res) {
+                setMessage("<scan class='has-text-primary'>Rebooted, the page will be refreshed...</scan>")
+                setTimeout("window.location.reload()", 1000);
+            });
+        }
+        $(document).on('click', '.notification > button.delete', function () {
+            hideNotification();
+        });
+    </script>
+</body>
+
+</html>

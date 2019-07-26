@@ -29,6 +29,12 @@ PluginManager Object
 
 .. autofunction:: push_dcp
 
+.. data:: blueprint
+
+    The :class:`~flask.blueprints.Blueprint` instance for managing plugins.
+
+    .. versionadded:: 3.3.0
+
 Inherited Application Objects
 -----------------------------
 
