@@ -3,9 +3,11 @@
 import os
 import sys
 import time
+import json
 import unittest
-from flask import Flask, request, Markup
-from flask_pluginkit import Flask as ExFlask, PluginManager, LocalStorage, push_dcp
+from flask import Flask, request, Markup, g
+from flask_pluginkit import Flask as ExFlask, PluginManager, LocalStorage,\
+    push_dcp, blueprint
 from flask_pluginkit.exceptions import PluginError, NotCallableError
 from flask_pluginkit._compat import PY2, iteritems
 from jinja2 import ChoiceLoader
@@ -15,13 +17,19 @@ sys.path.append(EXAMPLE_DIR)
 
 #: app1 with flask-pluginkit
 app1 = Flask("app1")
-app1.config['TESTING'] = True
-app1.config['PLUGINKIT_TEST'] = True
+app1.config.update(
+    TESTING=True,
+    PLUGINKIT_TEST=True,
+    PLUGINKIT_AUTH_METHOD="FUNC",
+    PLUGINKIT_AUTH_FUNC=lambda :True,
+)
 PluginManager(app1)
+app1.register_blueprint(blueprint)
 
 #: app2 without flask-pluginkit
 app2 = Flask("app2")
 app2.config['TESTING'] = True
+app2.register_blueprint(blueprint)
 
 #: app3 with flask-pluginkit and exflask
 def create_app3():
@@ -98,7 +106,7 @@ class PMTest(unittest.TestCase):
                 self.assertTrue("css/style.css" in data)
                 self.assertTrue("js/hello.js" in data)
                 self.assertTrue(self.app4_pm.pluginkit_config['whoami'] in data)
-        self.assertEqual(len(app4.blueprints), 2)
+        self.assertEqual(len(app4.blueprints), 3)
         self.assertEqual(len(self.app4_pm.get_all_plugins), 3)
         self.assertEqual(len(self.app4_pm.get_enabled_beps), 2)
         self.assertIn(self.app4_pm.static_endpoint, app4.view_functions)
@@ -157,6 +165,23 @@ class PMTest(unittest.TestCase):
             self.assertIsInstance(ft, Markup)
             self.assertEqual(ft, Markup("test"))
             self.assertEqual(result, ["test"])
+
+    def test_web(self):
+        with app1.test_client() as c1:
+            res = json.loads(c1.post('/api').data)
+            self.assertIsInstance(res, dict)
+            self.assertEqual(res["code"], 1)
+        with app2.test_client() as c2:
+            res = c2.post('/api').data
+            self.assertIn("Authentication failed", res)
+
+        with app1.test_request_context('/'):
+            app1.preprocess_request()
+            self.assertTrue(hasattr(g, "pluginkit"))
+            self.assertIsInstance(g.pluginkit.get_all_plugins, list)
+        with app2.test_request_context('/'):
+            app2.preprocess_request()
+            self.assertFalse(hasattr(g, "pluginkit"))
 
 
 if __name__ == '__main__':
