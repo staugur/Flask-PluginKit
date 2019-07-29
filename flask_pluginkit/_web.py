@@ -10,6 +10,7 @@
 """
 
 from time import sleep
+from collections import OrderedDict
 from flask import Blueprint, current_app, g, request, jsonify,\
     render_template, make_response, Response
 from .utils import PY2
@@ -107,14 +108,14 @@ def pluginkit_auth():
 
     if hasattr(current_app, "extensions") and \
             "pluginkit" in current_app.extensions:
-        g.pluginkit = current_app.extensions["pluginkit"]
         from flask_pluginkit import __version__ as version
         from flask_pluginkit import __author__ as author
-        g.pluginkit_metadata = dict(
-            author=author,
-            version=version,
-            plugins_count=len(g.pluginkit.get_all_plugins)
-        )
+        g.pluginkit = current_app.extensions["pluginkit"]
+        metadata = OrderedDict()
+        metadata['author'] = author
+        metadata['version'] = version
+        metadata['plugins_count'] = len(g.pluginkit.get_all_plugins)
+        g.pluginkit_metadata = metadata
     else:
         authResult.update(
             code=-1,

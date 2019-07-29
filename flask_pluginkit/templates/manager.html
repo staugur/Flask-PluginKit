@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
     <link rel="stylesheet" type="text/css" href="https://static.saintic.com/cdn/iconfont/iconfont.css">
     <link rel="prefetch" type="application/l10n" href="{{ url_for('.static', filename='translations.ini') }}" />
+    <link href="https://img.saintic.com/cdn/images/favicon-32.png" rel="icon" type="image/x-icon" />
+    <link href="https://img.saintic.com/cdn/images/favicon-32.png" rel="shortcut icon" type="image/x-icon" />
     <style type="text/css">
         .notification>button.delete {
             border: none;
@@ -16,27 +18,29 @@
         .is-hidden {
             display: none;
         }
+
+        .set-top {
+            padding-top: 12px;
+        }
     </style>
 </head>
 
 <body>
-    <div class="box container">
-        <div class="field is-grouped is-grouped-multiline">
-            {% for k,v in g.pluginkit_metadata.items() %}
-            <div class="control">
-                <div class="tags has-addons">
-                    <span class="tag is-success" data-l10n-id="{{ k }}">{{ k }}</span>
-                    <span class="tag">{{ v }}</span>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
     <section>
         <div class="container">
+            <div class="field is-grouped is-grouped-multiline set-top">
+                {% for k,v in g.pluginkit_metadata.items() %}
+                    <div class="control">
+                        <div class="tags has-addons">
+                            <span class="tag is-success" data-l10n-id="{{ k }}">{{ k }}</span>
+                            <span class="tag">{{ v }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
             <div class="columns">
                 <div class="column is-narrow">
-                    <a class="button is-danger is-small" title="" href="javascript:reloadApp()"
+                    <a class="button is-danger is-small" title="No interaction directly overloading your web app!" href="javascript:reloadApp()"
                         data-l10n-id='reload'>Reload Application</a>
                 </div>
                 <div class="column is-narrow">
@@ -54,7 +58,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="column is-4">
+                <div class="column is-5">
                     <div class="field has-addons">
                         <div class="control">
                             <a class="button is-info is-small" data-l10n-id='download'>
@@ -168,15 +172,13 @@
                         success && success(res);
                     } else {
                         if (options.msgprefix != false) {
-                            setMessage("<scan class='has-text-danger'>" + (options.msgprefix || '') + (res
-                                .msg || res.code) + "</scan>");
+                            setMessage("<scan class='has-text-danger'>" + (options.msgprefix || '') + (res.msg || res.code) + "</scan>");
                         }
                         options.fail && options.fail(res);
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    setMessage(
-                        "<scan class='has-text-danger'>System exception, please try again later</scan>. Status code:" +
+                    setMessage("<scan class='has-text-danger'>System exception, please try again later</scan>. Status code:" +
                         XMLHttpRequest.status + "," + textStatus);
                 },
                 complete: options.complete ? options.complete : function () {}
@@ -185,17 +187,13 @@
 
         function enablePlugin(plugin_name) {
             ajax("{{ url_for('.api', Action='enablePlugin') }}&plugin_name=" + plugin_name, function (res) {
-                setMessage(
-                    "<scan class='has-text-success'>Enabled. Restart the application and take effect.</scan>"
-                )
+                setMessage("<scan class='has-text-success'>Enabled. Restart the application and take effect.</scan>");
             });
         }
 
         function disablePlugin(plugin_name) {
             ajax("{{ url_for('.api', Action='disablePlugin') }}&plugin_name=" + plugin_name, function (res) {
-                setMessage(
-                    "<scan class='has-text-success'>Disabled. Restart the application and take effect.</scan>"
-                )
+                setMessage("<scan class='has-text-success'>Disabled. Restart the application and take effect.</scan>");
             });
         }
 
@@ -205,6 +203,7 @@
                 setTimeout("window.location.reload()", 1000);
             });
         }
+
         $(document).on('click', '.notification > button.delete', function () {
             hideNotification();
         });

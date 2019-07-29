@@ -168,7 +168,10 @@ class PMTest(unittest.TestCase):
 
     def test_web(self):
         with app1.test_client() as c1:
-            res = json.loads(c1.post('/api').data)
+            data = c1.post('/api').data
+            if not PY2 and isinstance(data, bytes):
+                data = data.decode('utf-8')
+            res = json.loads(data)
             self.assertIsInstance(res, dict)
             self.assertEqual(res["code"], 1)
         with app2.test_client() as c2:
