@@ -1,0 +1,3 @@
+sphinx>=2.1.0
+sphinx-intl>=2.0.0
+Pallets-Sphinx-Themes>=1.2.1

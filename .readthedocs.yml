@@ -5,10 +5,6 @@ version: 2
 sphinx:
   configuration: docs/conf.py
 
-# Build documentation with MkDocs
-#mkdocs:
-#  configuration: mkdocs.yml
-
 # Optionally build your docs in additional formats such as PDF and ePub
 formats: []
 
@@ -17,5 +13,6 @@ python:
   version: 3.6
   install:
     - requirements: dev-requirements.txt
+    - requirements: docs/requirements.txt
     - method: pip
       path: .

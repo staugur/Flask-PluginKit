@@ -1,7 +1,7 @@
 flask>=0.9
-sphinx>=2.1.0
-sphinx-intl>=2.0.0
-Pallets-Sphinx-Themes>=1.2.1
+sphinx
+sphinx-intl
+Pallets-Sphinx-Themes
 codecov
 semver>=2.0.0
 setuptools
