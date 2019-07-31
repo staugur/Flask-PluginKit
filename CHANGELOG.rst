@@ -1,5 +1,18 @@
 .. currentmodule:: flask-pluginkit
 
+v3.3.0
+------
+
+Released in 2019-07-31
+
+- feat: update :class:`~flask_pluginkit.PluginInstaller`.
+- feat: add a blueprint to manage plugins
+- fix: close shelve connection
+- test: add test case
+- docs: update docs and translation
+- chore: update example
+- chore: update travis.yml, add deploy
+
 v3.2.0
 ------
 

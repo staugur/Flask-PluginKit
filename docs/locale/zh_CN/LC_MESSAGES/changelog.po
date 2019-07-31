@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-25 15:23+0800\n"
+"POT-Creation-Date: 2019-07-31 16:40+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,105 +23,141 @@ msgid "Changelog"
 msgstr "更新日志"
 
 #: ../../../CHANGELOG.rst:4
-msgid "v3.2.0"
+msgid "v3.3.0"
 msgstr ""
 
 #: ../../../CHANGELOG.rst:6
+msgid "Released in 2019-07-31"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:8
+msgid "feat: update :class:`~flask_pluginkit.PluginInstaller`."
+msgstr ""
+
+#: ../../../CHANGELOG.rst:9
+msgid "feat: add a blueprint to manage plugins"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:10
+msgid "fix: close shelve connection"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:11 ../../../CHANGELOG.rst:27
+#: ../../../CHANGELOG.rst:39
+msgid "test: add test case"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:12 ../../../CHANGELOG.rst:28
+msgid "docs: update docs and translation"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:13 ../../../CHANGELOG.rst:29
+#: ../../../CHANGELOG.rst:41
+msgid "chore: update example"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:14
+msgid "chore: update travis.yml, add deploy"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:17
+msgid "v3.2.0"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:19
 msgid "Released in 2019-07-25"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:9
+#: ../../../CHANGELOG.rst:22
 msgid "feat: dcp, be similar to flask-plugins event system,"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:9
+#: ../../../CHANGELOG.rst:22
 msgid ""
 "add :class:`~flask_pluginkit.utils.DcpManager` and "
 ":func:`~flask_pluginkit.push_dcp`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:11
+#: ../../../CHANGELOG.rst:24
 msgid "feat: add error handler"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:12
+#: ../../../CHANGELOG.rst:25
 msgid "feat: add template filter"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:13
+#: ../../../CHANGELOG.rst:26
 msgid "feat: add template context processor"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:14 ../../../CHANGELOG.rst:26
-msgid "test: add test case"
-msgstr ""
-
-#: ../../../CHANGELOG.rst:15 ../../../CHANGELOG.rst:27
-msgid "docs: update docs"
-msgstr ""
-
-#: ../../../CHANGELOG.rst:16 ../../../CHANGELOG.rst:28
-msgid "chore: update example"
-msgstr ""
-
-#: ../../../CHANGELOG.rst:17
+#: ../../../CHANGELOG.rst:30
 msgid "chore: make some of the code more elegant"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:20
+#: ../../../CHANGELOG.rst:33
 msgid "v3.1.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:22
+#: ../../../CHANGELOG.rst:35
 msgid "Released in 2019-07-22"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:24
+#: ../../../CHANGELOG.rst:37
 msgid "feat: add :class:`~flask_pluginkit.PluginInstaller`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:25
+#: ../../../CHANGELOG.rst:38
 msgid "feat: add vep :ref:`vep`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:31
+#: ../../../CHANGELOG.rst:40
+msgid "docs: update docs"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:44
 msgid "v3.0.1"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:33
+#: ../../../CHANGELOG.rst:46
 msgid "Released in 2019-07-21"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:35
+#: ../../../CHANGELOG.rst:48
 msgid "The register functin can return empty dict, not necessarily meaningless."
 msgstr ""
 
-#: ../../../CHANGELOG.rst:36
-msgid "Update docs and translate and add test."
+#: ../../../CHANGELOG.rst:49
+msgid "Update docs, translation and add test."
 msgstr ""
 
-#: ../../../CHANGELOG.rst:39
+#: ../../../CHANGELOG.rst:52
 msgid "v3.0.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:41
+#: ../../../CHANGELOG.rst:54
 msgid "Released in 2019-07-20"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:43
+#: ../../../CHANGELOG.rst:56
 msgid "Refactoring everyting"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:46
+#: ../../../CHANGELOG.rst:59
 msgid "Previous Versions"
 msgstr "旧版本"
 
-#: ../../../CHANGELOG.rst:48
+#: ../../../CHANGELOG.rst:61
 msgid ""
 "Prior to 3.0.0, the new version of the refactoring was not compatible "
 "with the old version, and the update history is no longer recorded here."
 msgstr "3.0.0之前，由于新版本重构，完全与旧版本不兼容，此处不再记录更新历史记录。"
 
 #~ msgid "register可以返回空dict，并不一定没有意义发布修复版本"
+#~ msgstr ""
+
+#~ msgid "Update docs and translate and add test."
+#~ msgstr ""
+
+#~ msgid "Released in 2019-07-30"
 #~ msgstr ""
 

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Plugins Web Manager based Flask-PluginKit!</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <link rel="stylesheet" href="{{ url_for('.static', filename='bulma-0.7.5.min.css') }}">
     <link rel="stylesheet" type="text/css" href="https://static.saintic.com/cdn/iconfont/iconfont.css">
     <link rel="prefetch" type="application/l10n" href="{{ url_for('.static', filename='translations.ini') }}" />
     <link href="https://img.saintic.com/cdn/images/favicon-32.png" rel="icon" type="image/x-icon" />
@@ -32,7 +32,7 @@
                 {% for k,v in g.pluginkit_metadata.items() %}
                     <div class="control">
                         <div class="tags has-addons">
-                            <span class="tag is-success" data-l10n-id="{{ k }}">{{ k }}</span>
+                            <span class="tag is-black" data-l10n-id="{{ k }}">{{ k }}</span>
                             <span class="tag">{{ v }}</span>
                         </div>
                     </div>
@@ -45,30 +45,48 @@
                 </div>
                 <div class="column is-narrow">
                     <div class="field">
-                        <div class="file is-primary is-small">
+                        <div class="file is-info is-small">
                             <label class="file-label">
-                                <input class="file-input is-small" type="file" name="file">
+                                <input class="file-input is-small" type="file" name="file" accept=".tar.gz, .zip, .tgz" id="file">
                                 <span class="file-cta">
                                     <span class="file-icon">
                                         <i class="saintic-icon saintic-icon-upload"></i>
                                     </span>
-                                    <span class="file-label" data-l10n-id="upload">Local Upload Plugin</span>
+                                    <span class="file-label" data-l10n-id="upload">Upload Local Plugin</span>
                                 </span>
                             </label>
+                            <div class="control">
+                                <button class="button is-small" data-l10n-id="submit" id="upload-plugin-submit">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-narrow">
+                    <div class="field has-addons">
+                        <div class="control">
+                            <a class="button is-link is-small" data-l10n-id="download" id="download-plugin-submit">
+                                Download Remote Plugin
+                            </a>
+                        </div>
+                        <div class="control has-icons-left is-expanded">
+                            <input class="input is-small" type="text" placeholder="The plugin download url" id="download-plugin-url">
+                            <span class="icon is-small is-left">
+                                <i class="saintic-icon saintic-icon-download"></i> 
+                            </span>
                         </div>
                     </div>
                 </div>
                 <div class="column is-5">
                     <div class="field has-addons">
                         <div class="control">
-                            <a class="button is-info is-small" data-l10n-id='download'>
-                                Download Remote Plugin
+                            <a class="button is-success is-small" data-l10n-id="install" id="install-package-submit">
+                                Install Package
                             </a>
                         </div>
                         <div class="control has-icons-left is-expanded">
-                            <input class="input is-small" type="text" placeholder="The plugin download url">
+                            <input class="input is-small" type="text" placeholder="The pypi package name or VCS url" id="install-package-url">
                             <span class="icon is-small is-left">
-                                <i class="saintic-icon saintic-icon-download"></i> 
+                                <i class="saintic-icon saintic-icon-module"></i> 
                             </span>
                         </div>
                     </div>
@@ -78,14 +96,14 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th><abbr title="Package Name">Name</abbr></th>
-                        <th>Description</th>
-                        <th>Version</th>
-                        <th>Author</th>
-                        <th>Homepage</th>
-                        <th>LICENSE</th>
-                        <th>State</th>
-                        <th>Actoin</th>
+                        <th><abbr title="Suspension display package name" data-l10n-id="packageName">Name</abbr></th>
+                        <th data-l10n-id="Description">Description</th>
+                        <th data-l10n-id="version">Version</th>
+                        <th data-l10n-id="Author">Author</th>
+                        <th data-l10n-id="URL">URL</th>
+                        <th data-l10n-id="LICENSE">LICENSE</th>
+                        <th data-l10n-id="State">State</th>
+                        <th data-l10n-id="Action">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -93,7 +111,7 @@
                     <tr>
                         <th>{{ loop.index }}</th>
                         <th><abbr title="{{ p.plugin_package_name }}">{{ p.plugin_name }}</abbr></th>
-                        <th>{{ p.plugin_description }}</th>
+                        <th>{{ p.plugin_description or '' }}</th>
                         <th>{{ p.plugin_version }}</th>
                         <th>{{ p.plugin_author }}</th>
                         <th>{% if p.plugin_url %}<a href="{{ p.plugin_url }}"
@@ -123,8 +141,8 @@
             </div>
         </div>
     </section>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script type="text/javascript" src="{{ url_for('.static', filename='l10n.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('.static', filename='jquery-3.4.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('.static', filename='l10.min.js') }}"></script>
     <script type="text/javascript">
         function showNotification() {
             document.getElementById("notification").style.display = 'block';
@@ -161,13 +179,11 @@
             }
             return $.ajax({
                 url: url,
-                async: options.async || true,
                 method: options.method || 'post',
                 dataType: options.dataType || 'json',
                 data: options.data || {},
                 beforeSend: options.beforeSend ? options.beforeSend : function () {},
                 success: function (res) {
-                    console.log(res);
                     if (res.code === 0 || res.success === true) {
                         success && success(res);
                     } else {
@@ -199,7 +215,7 @@
 
         function reloadApp() {
             ajax("{{ url_for('.api', Action='reloadApp') }}", function (res) {
-                setMessage("<scan class='has-text-primary'>Rebooted, the page will be refreshed...</scan>")
+                setMessage("<scan class='has-text-primary'>Rebooted, the page will be refreshed...</scan>");
                 setTimeout("window.location.reload()", 1000);
             });
         }
@@ -207,6 +223,79 @@
         $(document).on('click', '.notification > button.delete', function () {
             hideNotification();
         });
+
+        window.addEventListener('localized', function() {
+            document.documentElement.lang = document.webL10n.getLanguage();
+            document.documentElement.dir = document.webL10n.getDirection();
+        }, false);
+
+        $('#upload-plugin-submit').click(function() {
+            var form = new FormData();
+            var file = document.getElementById("file");
+            if (file.files.length===0) {
+                return false;
+            }
+            form.append('file', file.files[0]);
+            $.ajax({
+                url: "{{ url_for('.api', Action='uploadPlugin') }}",
+                method:  'post',
+                dataType: 'json',
+                data: form,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (res) {
+                    if (res.code === 0 || res.success === true) {
+                        setMessage("<scan class='has-text-primary'>Upload is successful</scan>");
+                    } else {
+                        setMessage("<scan class='has-text-warning'>" + res.msg + "</scan>");
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    setMessage("<scan class='has-text-danger'>System exception, please try again later</scan>. Status code:" +
+                        XMLHttpRequest.status + "," + textStatus);
+                }
+            });
+        });
+
+        $('#download-plugin-submit').click(function() {
+            var url = $('#download-plugin-url').val();
+            if (url && url != "") {
+                ajax("{{ url_for('.api', Action='downloadPlugin') }}", function(res) {
+                    setMessage("<scan class='has-text-primary'>Download is successful</scan>");
+                }, {
+                    data: {url:url},
+                    fail: function(res) {
+                        setMessage("<scan class='has-text-warning'>" + res.msg + "</scan>");
+                    }
+                });
+            }
+        });
+
+        $('#install-package-submit').click(function() {
+            var package_or_url = $('#install-package-url').val();
+            if (package_or_url && package_or_url != "" && package_or_url != '.') {
+                ajax("{{ url_for('.api', Action='installPackage') }}", function(res) {
+                    setMessage("<scan class='has-text-primary'>Already submitted installation task.</scan>");
+                }, {
+                    data: {package_or_url:package_or_url},
+                    fail: function(res) {
+                        setMessage("<scan class='has-text-warning'>" + res.msg + "</scan>");
+                    }
+                });
+            }
+        });
+
+        setInterval(function(){
+            ajax("{{ url_for('.msg') }}", function(res) {
+                if (res.msg) {
+                    setMessage("<scan>" + res.msg + "</scan>");
+                }
+            }, {
+                method: 'get'
+            });
+        }, 5000);
+
     </script>
 </body>
 

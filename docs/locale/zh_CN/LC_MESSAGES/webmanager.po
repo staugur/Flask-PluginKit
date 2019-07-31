@@ -1,0 +1,358 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, staugur
+# This file is distributed under the same license as the Flask-PluginKit
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Flask-PluginKit 3.3.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-31 14:19+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: ../../webmanager.rst:4
+msgid "Web Manager"
+msgstr "Web插件管理"
+
+#: ../../webmanager.rst:6
+msgid ""
+"In v3.3.0, the previous version of blueprint was restored and enhanced, "
+"and the plugin installation function was added."
+msgstr "在v3.3.0，恢复并增强了以前旧版本的blueprint，新增了插件安装功能。"
+
+#: ../../webmanager.rst:9
+msgid ""
+"You can register blueprint in your web application and set the blueprint "
+"prefix. The steps are as follows:"
+msgstr "您可以在您的Web应用程序中注册blueprint，并设置蓝图前缀，步骤大概如下："
+
+#: ../../webmanager.rst:20
+msgid ""
+"Launch the app, visit the /pluginmanager page, take our `example-"
+"fulldemo`_ as an example, the rendering is:"
+msgstr "启动应用，访问/pluginmanager页面，以我们的 `example-fulldemo`_ 为例，效果图是："
+
+#: ../../webmanager.rst:23
+msgid "|fulldemowebmanager-en|"
+msgstr ""
+
+#: ../../webmanager.rst:25
+msgid ""
+"This page supports Chinese and English bilingual, the following is the "
+"Chinese page effect:"
+msgstr "这个页面支持中英双语，下面是中文的页面效果："
+
+#: ../../webmanager.rst:28
+msgid "|fulldemowebmanager-cn|"
+msgstr ""
+
+#: ../../webmanager.rst:38
+msgid "Instructions"
+msgstr "使用说明"
+
+#: ../../webmanager.rst:40
+msgid "This blueprint has only one page. This page contains three main features:"
+msgstr "这个蓝图只有一个页面，这个页面包含三个主要功能："
+
+#: ../../webmanager.rst:44
+msgid "Disable, Enable Plugins"
+msgstr "禁用、启用插件"
+
+#: ../../webmanager.rst:48
+msgid "Reload Application"
+msgstr "重载应用"
+
+#: ../../webmanager.rst:50
+msgid ""
+"Disabling or enabling plugins will require a reloaded application to take"
+" effect. For security reasons, there are some restrictions on overloaded "
+"applications."
+msgstr "禁用、启用插件都需要重载应用程序才会生效，为了安全，重载应用程序有一些限制。"
+
+#: ../../webmanager.rst:54
+msgid ""
+"It can only be used in a formal environment that uses Gunicorn or uWSGI "
+"background startup, and requires that the value of **ENV** in the "
+"application's configuration item be **production**, and you also need to "
+"manually install the psutil module, eg: ``pip install psutil``."
+msgstr ""
+"只能在使用Gunicorn或uWSGI后台启动的正式环境中有效，而且要求应用程序的配置项中的"
+" **ENV** 的值是 **production** ，另外还需要您手动安装psutil模块，例如："
+" ``pip install psutil``。"
+
+#: ../../webmanager.rst:59
+msgid ""
+"If you use Gunicorn, you need the value of **PLUGINKIT_GUNICORN_ENABLED**"
+" in the application's configuration item to be True, and the value of "
+"**PLUGINKIT_PROCESSNAME** is the specific program process name."
+msgstr ""
+"如果您使用Gunicorn，需要应用程序的配置项中 **PLUGINKIT_GUNICORN_ENABLED** 的值为"
+"True，并且 **PLUGINKIT_PROCESSNAME** 的值为具体的程序进程名。"
+
+#: ../../webmanager.rst:65
+msgid ""
+"Gunicorn starts in master-worker mode in the background. The required "
+"**PLUGINKIT_PROCESSNAME** is the name of the master process. It does not "
+"contain **gunicorn: master []**, which is the process name in **[]**. "
+"There is no default value."
+msgstr ""
+"Gunicorn后台启动一般是master-worker模式，这里要求的 **PLUGINKIT_PROCESSNAME** 是"
+"master进程名，不包含 **gunicorn: master []** ，是 **[]** 里的进程名，没有默认值。"
+
+#: ../../webmanager.rst:70
+msgid ""
+"If you use uWSGI, you need the value of the application configuration "
+"item **PLUGINKIT_UWSGI_ENABLED** to be True, **PLUGINKIT_PROCESSNAME** is"
+" uwsgi by default, generally speaking, you don't have to modify it."
+msgstr ""
+"如果您使用uWSGI，需要应用程序配置项 **PLUGINKIT_UWSGI_ENABLED** 的值为True，"
+" **PLUGINKIT_PROCESSNAME** 默认是uwsgi，一般可以不用修改。"
+
+#: ../../webmanager.rst:74
+msgid ""
+"The application can be reloaded normally after the appeal is met. Here is"
+" an example:"
+msgstr "上诉情况满足后才能正常重载应用，以下是示例："
+
+#: ../../webmanager.rst:102
+msgid ""
+"Flask v1.0 has an ENV configuration added. The default value is "
+"production."
+msgstr "Flask v1.0 新增了ENV配置，默认值是production。"
+
+#: ../../webmanager.rst:107
+msgid "Install Plugins"
+msgstr "安装插件"
+
+#: ../../webmanager.rst:109
+msgid ""
+"The first two operations are simple, and the third feature requires "
+"detailed instructions."
+msgstr "前两个操作很简单，第三个功能需要详细说明下。"
+
+#: ../../webmanager.rst:112
+msgid "There are three situations for installing plugins:"
+msgstr "安装插件有三种情况："
+
+#: ../../webmanager.rst:114
+msgid "Upload Local Plugin"
+msgstr "上传本地插件"
+
+#: ../../webmanager.rst:116
+msgid ""
+"This will upload a compressed file to your server's temp directory and "
+"extract it to the web application's plugin directory (controlled by "
+":meth:`~flask_pluginkit.PluginManager.__init__`). Repeatedly uploading a "
+"compressed file will overwrite the uncompressed file."
+msgstr ""
+"这个操作会上传一个压缩文件到您的服务器的临时目录中，然后解压到web应用程序的插件目录"
+"（由 :meth:`~flask_pluginkit.PluginManager.__init__` 控制），"
+"重复上传一个压缩包会覆盖已经解压的文件。"
+
+#: ../../webmanager.rst:121
+msgid "Download Remote Plugin"
+msgstr "下载远程插件"
+
+#: ../../webmanager.rst:123
+msgid ""
+"Similar to the above situation, instead of uploading the local compressed"
+" file, download the remote compressed file to the temporary directory of "
+"your server. The subsequent steps are the same as above."
+msgstr ""
+"类似于上面一种情况，只不过不是上传本地的压缩文件了，"
+"而是下载远程的压缩文件到您的服务器的临时目录中，后续步骤跟上面一样。"
+
+#: ../../webmanager.rst:127
+msgid ""
+"The remote url here is very strict. It must be a valid download address "
+"for compressed file and can resolve valid file names. It is worth "
+"mentioning that Flask-PluginKit provides four methods to automatically "
+"obtain the file name of the remote url. Basically meet the "
+"requirements(Number Represents Priority):"
+msgstr ""
+"这里的远程url要求很严格，它必须是一个有效的压缩文件下载地址，且能解析出有效的文件名。值得一提的是，Flask-"
+"PluginKit提供了四种方法自动获取远程url的文件名，基本能满足要求（数字表示优先级）："
+
+#: ../../webmanager.rst:133
+msgid "Add url **plugin_filename** query parameters"
+msgstr "url添加 **plugin_filename** 查询参数"
+
+#: ../../webmanager.rst:135
+msgid "The file name is resolved in the url"
+msgstr "直接从url中解析出文件名"
+
+#: ../../webmanager.rst:137
+msgid "Parse the **Content-Disposition** in the return header"
+msgstr "解析返回头 **Content-Disposition**"
+
+#: ../../webmanager.rst:139
+msgid "Parse the **Content-Type** in the return header"
+msgstr "解析返回头 **Content-Type**"
+
+#: ../../webmanager.rst:141
+msgid "Examples of valid URL parameters in the input box:"
+msgstr "输入框中有效的url示例："
+
+#: ../../webmanager.rst:149
+msgid "Install Package"
+msgstr "安装模块"
+
+#: ../../webmanager.rst:151
+msgid ""
+"This situation is new. It relies on the interface of the pip module to "
+"directly install the remote compression package. It can be a pypi package"
+" or a VCS project URL. It can be directly installed into the python "
+"global environment. You need to manually pass the "
+":attr:`~flask_pluginkit.PluginManager.plugin_packages` call."
+msgstr ""
+"这种情况是新增的，它是依靠pip模块的接口直接安装远程压缩包，可以是pypi的包，也可以是VCS的项目URL，直接安装到python全局环境中，您需要手动通过"
+" :attr:`~flask_pluginkit.PluginManager.plugin_packages` 调用。"
+
+#: ../../webmanager.rst:157
+msgid "Example of input box parameters:"
+msgstr "输入框参数示例："
+
+#: ../../webmanager.rst:164
+msgid ""
+"Since it takes time to install the module, this will turn on thread "
+"processing. After the installation is successful, it will be handed over "
+"to a message queue. The page will query the message every 5 seconds and "
+"display it."
+msgstr "由于安装模块需要时间，所以这种情况会开启线程处理，安装成功后交给一个消息队列，页面中会每隔5秒查询下消息并显示。"
+
+#: ../../webmanager.rst:170
+msgid "Authentication"
+msgstr "认证"
+
+#: ../../webmanager.rst:172
+msgid ""
+"The web management page is actually dangerous for administrators. If "
+"others are free to access, it may be harmful to the system. Therefore, "
+"before accessing this blueprint, a hook function is run to authenticate "
+"the visitor."
+msgstr ""
+"Web管理页面对于管理员来说其实是危险的，如果其他人随意访问，那么可能会对系统造成危害，"
+"因此，访问这个蓝图前，运行了一个钩子函数以验证访问者。"
+
+#: ../../webmanager.rst:177
+msgid ""
+"Verify that the visitor currently supports four main methods and one "
+"helper method. The former is defined by the application configuration "
+"item ``PLUGINKIT_AUTH_METHOD``, which is defined by "
+"``PLUGINKIT_AUTH_AID_METHOD``."
+msgstr ""
+"验证访问者目前支持四种主要方法和一种辅助方法，前者通过应用程序配置项"
+" ``PLUGINKIT_AUTH_METHOD`` 定义，后者通过 ``PLUGINKIT_AUTH_AID_METHOD`` 定义。"
+
+#: ../../webmanager.rst:181
+msgid "**PLUGINKIT_AUTH_METHOD**, supports four types of values."
+msgstr "**PLUGINKIT_AUTH_METHOD** ，支持四种类型的值。"
+
+#: ../../webmanager.rst:204
+msgid "BOOL"
+msgstr ""
+
+#: ../../webmanager.rst:184
+msgid ""
+"This method will get the value of the **PLUGINKIT_AUTH_BOOLFIELD** field "
+"in the configuration via :data:`flask.g` (the default value is signin). "
+"When it is True, it will be verified."
+msgstr ""
+"这种方法会通过 :data:`flask.g` 获取配置里 **PLUGINKIT_AUTH_BOOLFIELD** 字段的值"
+"（默认值是signin），为True时，通过验证。"
+
+#: ../../webmanager.rst:188 ../../webmanager.rst:214 ../../webmanager.rst:236
+#: ../../webmanager.rst:261 ../../webmanager.rst:283
+msgid "Example:"
+msgstr "示例："
+
+#: ../../webmanager.rst:225
+msgid "BASIC"
+msgstr ""
+
+#: ../../webmanager.rst:207
+msgid ""
+"HTTP Basic Auth, a simple but unsafe method, this method requires "
+"username and password, so the application configuration item "
+"**PLUGINKIT_AUTH_USERS** is required, which is a dict, the key is "
+"username, the value is password, and multiple keys and values are "
+"supported. Optional configuration **PLUGINKIT_AUTH_REALM** to set the "
+"prompt information."
+msgstr ""
+"HTTP Basic Auth，简单但不安全的方法，这种方法要求有username和password，所以"
+"要求应用程序配置项 **PLUGINKIT_AUTH_USERS** ，是一个dict，key是username，"
+"value是password，支持多个key、value；"
+"可选配置 **PLUGINKIT_AUTH_REALM** 以设置提示信息。"
+
+#: ../../webmanager.rst:253
+msgid "TOKEN"
+msgstr ""
+
+#: ../../webmanager.rst:228
+msgid ""
+"This requires the browser to carry an authentication header. The header "
+"field is defined by the application configuration item "
+"**PLUGINKIT_AUTH_TOKENFIELD**. The default value is AccessToken. At the "
+"same time, it is required to configure a function or class method named "
+"**PLUGINKIT_AUTH_CHECKTOKEN**. Receiving a token parameter, Flask-"
+"PluginKit will execute this function, and the result will be verified "
+"when the non-zero and non-empty."
+msgstr ""
+"这个要求浏览器端携带一个认证头，头的字段由应用程序配置项 **PLUGINKIT_AUTH_TOKENFIELD** "
+"定义，默认值是AccessToken，同时要求配置一个名叫 **PLUGINKIT_AUTH_CHECKTOKEN** 的"
+"函数或类方法，这个函数要接收一个token参数，Flask-PluginKit会执行此函数，"
+"结果非0非空时通过验证。"
+
+#: ../../webmanager.rst:272
+msgid "FUNC"
+msgstr ""
+
+#: ../../webmanager.rst:256
+msgid ""
+"This should be the easiest, defined by the application configuration item"
+" **PLUGINKIT_AUTH_FUNC**, a function or class method, etc, no parameters,"
+" the execution result is non-zero and non-empty when the verification is "
+"passed."
+msgstr ""
+"这应该是最简单的了，由应用程序配置项 **PLUGINKIT_AUTH_FUNC** 定义一个函数或类方法，"
+"没有参数，执行结果非0非空时验证通过。"
+
+#: ../../webmanager.rst:274
+msgid "**PLUGINKIT_AUTH_AID_METHOD**, supports one type of value."
+msgstr "**PLUGINKIT_AUTH_AID_METHOD** ，支持一种类型的值。"
+
+#: ../../webmanager.rst:294
+msgid "IP"
+msgstr ""
+
+#: ../../webmanager.rst:277
+msgid ""
+"Flask-pluginkit will get the client IP, requires application "
+"configuration item **PLUGINKIT_AUTH_IP_WHITELIST** to define IP "
+"whitelist, and **PLUGINKIT_AUTH_IP_BLACKLIST** to define IP blacklist. "
+"Both data types are lists, and only when IP is in the whitelist and not "
+"on the blacklist, it can be verified."
+msgstr ""
+"Flask-PluginKit会获取客户端ip，要求应用程序配置 **PLUGINKIT_AUTH_IP_WHITELIST** "
+"定义ip白名单，配置 **PLUGINKIT_AUTH_IP_BLACKLIST** 定义ip黑名单，两个数据类型都是"
+"list，只有ip在白名单且不在黑名单时，验证通过。"
+
+#: ../../webmanager.rst:298
+msgid ""
+"In an application, the four types of the main method can only be used one"
+" or not; the auxiliary method can be used with the main method at the "
+"same time, or it can be used alone; in any case, there must be a "
+"verification method, otherwise the page prompt permission is rejected."
+msgstr ""
+"一个应用程序中，主要方法的四种类型只能使用一种或不使用；"
+"辅助方法可以同时与主要方法一起使用，也可以单独使用；"
+"无论如何，必须有一种验证方法，否则页面提示权限拒绝。"
+

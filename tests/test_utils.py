@@ -3,7 +3,9 @@
 import unittest
 from os import getenv
 from flask_pluginkit.utils import isValidSemver, sortedSemver, isValidPrefix, \
-    LocalStorage, RedisStorage, BaseStorage
+    LocalStorage, RedisStorage, BaseStorage, allowed_uploaded_plugin_suffix, \
+    Attribution, check_url, DcpManager
+from flask import Markup
 
 
 class UtilsTest(unittest.TestCase):
@@ -92,6 +94,44 @@ class UtilsTest(unittest.TestCase):
         with self.assertRaises(AttributeError):
             ms.get('test')
 
+    def test_checkurl(self):
+        self.assertTrue(check_url('http://127.0.0.1'))
+        self.assertTrue(check_url('http://localhost:5000'))
+        self.assertTrue(check_url('https://abc.com'))
+        self.assertTrue(check_url('https://abc.com:8443'))
+        self.assertFalse(check_url('ftp://192.168.1.2'))
+        self.assertFalse(check_url('rsync://192.168.1.2'))
+        self.assertFalse(check_url('192.168.1.2'))
+        self.assertFalse(check_url('example.com'))
+        self.assertFalse(check_url('localhost'))
+        self.assertFalse(check_url('127.0.0.1:8000'))
+        self.assertFalse(check_url('://127.0.0.1/hello-world'))
 
-if __name__ == '__main__':
+    def test_uploadsuffix(self):
+        self.assertTrue(allowed_uploaded_plugin_suffix("1.tar.gz"))
+        self.assertTrue(allowed_uploaded_plugin_suffix("abc.tgz"))
+        self.assertTrue(allowed_uploaded_plugin_suffix("demo-1.0.0.zip"))
+        self.assertFalse(allowed_uploaded_plugin_suffix(
+            "https://codeload.github.com/flask-pluginkit/demo/zip/master"))
+        self.assertFalse(allowed_uploaded_plugin_suffix("hello.tar.bz2"))
+        self.assertFalse(allowed_uploaded_plugin_suffix("test.png"))
+
+    def test_attrclass(self):
+        d = Attribution(dict(a=1, b=2, c=3))
+        with self.assertRaises(AttributeError):
+            d.d
+        self.assertEqual(d.a, 1)
+        self.assertIsInstance(d, dict)
+
+    def test_dcp(self):
+        dcp = DcpManager()
+        self.assertIsInstance(dcp.list, dict)
+        def f(): return "test"
+        dcp.push("f", f)
+        self.assertEqual(len(dcp.list), 1)
+        self.assertEqual(dcp.emit("f"), Markup("test"))
+        self.assertTrue(dcp.remove("f", f))
+        self.assertEqual(len(dcp.list), 1)
+
+if __name__ == '__main__' and not getenv("TRAVIS"):
     unittest.main()

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-25 15:23+0800\n"
+"POT-Creation-Date: 2019-07-31 15:19+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -523,7 +523,11 @@ msgstr ""
 msgid "Example usage::"
 msgstr ""
 
-#: ../../api.rst:33
+#: ../../api.rst:34
+msgid "The :class:`~flask.blueprints.Blueprint` instance for managing plugins."
+msgstr ""
+
+#: ../../api.rst:39
 msgid "Inherited Application Objects"
 msgstr ""
 
@@ -551,7 +555,7 @@ msgid ""
 " should use this decorator at this time."
 msgstr ""
 
-#: ../../api.rst:40
+#: ../../api.rst:46
 msgid "Storage Objects"
 msgstr ""
 
@@ -559,7 +563,7 @@ msgstr ""
 msgid "Local file system storage based on the shelve module."
 msgstr ""
 
-#: ../../api.rst:47 ../../api.rst:54 flask_pluginkit.utils.BaseStorage.index:1
+#: ../../api.rst:53 ../../api.rst:60 flask_pluginkit.utils.BaseStorage.index:1
 #: of
 msgid "The default index, as the only key, you can override it."
 msgstr ""
@@ -616,7 +620,7 @@ msgstr ""
 msgid "set key data"
 msgstr ""
 
-#: ../../api.rst:58
+#: ../../api.rst:64
 msgid "Useful Functions and Classes"
 msgstr ""
 
@@ -693,7 +697,8 @@ msgstr ""
 #: flask_pluginkit.PluginInstaller.addPlugin:3 of
 msgid ""
 "supported method:  ``remote``, download and unpack a remote plugin "
-"package;  ``local``, unzip a local plugin package."
+"package;  ``local``, unzip a local plugin package.  ``pip``, install "
+"package with pip command."
 msgstr ""
 
 #: flask_pluginkit.PluginInstaller.addPlugin:3 of
@@ -709,34 +714,46 @@ msgid "``local``, unzip a local plugin package."
 msgstr ""
 
 #: flask_pluginkit.PluginInstaller.addPlugin:9 of
+msgid "``pip``, install package with pip command."
+msgstr ""
+
+#: flask_pluginkit.PluginInstaller.addPlugin:11 of
 msgid "for method is remote, plugin can be downloaded from the address."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:12 of
+#: flask_pluginkit.PluginInstaller.addPlugin:14 of
 msgid "for method is local, plugin local absolute path"
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:14 of
+#: flask_pluginkit.PluginInstaller.addPlugin:16 of
 msgid ""
 "for method is local, remove the plugin source code package, default is "
 "False."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:17 of
+#: flask_pluginkit.PluginInstaller.addPlugin:19 of
+msgid "for method is pip, pypi's package or VCS url."
+msgstr ""
+
+#: flask_pluginkit.PluginInstaller.addPlugin:21 of
 msgid ""
-"the result of adding the plugin, like dict(msg=str, code=int), code=0 is "
+"the result of adding the plugin, like {msg:str, code:int}, code=0 is "
 "successful."
 msgstr ""
 
+#: flask_pluginkit.PluginInstaller.addPlugin:24 of
+msgid "Add pip method, with package_or_url param."
+msgstr ""
+
 #: flask_pluginkit.PluginInstaller.removePlugin:1 of
-msgid "Remove a plugin"
+msgid "Remove a local plugin"
 msgstr ""
 
 #: flask_pluginkit.PluginInstaller.removePlugin:3 of
 msgid "The plugin package name, not __plugin_name."
 msgstr ""
 
-#: ../../api.rst:79
+#: ../../api.rst:85
 msgid "Custom Exceptions"
 msgstr ""
 
@@ -815,5 +832,20 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "List of nested tuples"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "supported method:  ``remote``, download and"
+#~ " unpack a remote plugin package;  "
+#~ "``local``, unzip a local plugin package."
+#~ msgstr ""
+
+#~ msgid "Remove a plugin"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "the result of adding the plugin, "
+#~ "like dict(msg=str, code=int), code=0 is "
+#~ "successful."
 #~ msgstr ""
 

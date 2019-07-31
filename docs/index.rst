@@ -47,6 +47,7 @@ Describe in detail how to develop a plugin using Flask-PluginKit.
     installation
     quickstart
     tutorial/index
+    webmanager
 
 
 API Reference

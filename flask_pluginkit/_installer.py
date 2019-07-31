@@ -14,11 +14,14 @@ import re
 import shutil
 import tarfile
 import zipfile
+from sys import executable
+from subprocess import call
 from cgi import parse_header
 from posixpath import basename
 from tempfile import NamedTemporaryFile
 from .exceptions import PluginError, TarError, ZipError, InstallError
 from ._compat import PY2, string_types, urllib2, urlsplit, parse_qs
+from .utils import check_url
 
 
 class PluginInstaller(object):
@@ -31,25 +34,6 @@ class PluginInstaller(object):
         self.plugin_abspath = plugin_abspath
         if not os.path.isdir(self.plugin_abspath):
             raise PluginError("Not Found Plugin Directory")
-
-    def __isValidUrl(self, addr):
-        """Check if the UrlAddr is in a valid format, for example::
-
-            http://ip:port
-            https://abc.com
-        """
-        regex = re.compile(
-            r'^(?:http)s?://'  #: http:// or https://
-            #: domain...
-            r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'
-            r'localhost|'  #: localhost...
-            r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  #: ...or ip
-            r'(?::\d+)?'  #: optional port
-            r'(?:/?|[/?]\S+)$', re.IGNORECASE)
-        if addr and isinstance(addr, string_types):
-            if regex.match(addr):
-                return True
-        return False
 
     def __isValidTGZ(self, suffix):
         """To determine whether the suffix `.tar.gz` or `.tgz` format"""
@@ -68,7 +52,7 @@ class PluginInstaller(object):
     def __isValidFilename(self, filename):
         """Determine whether filename is valid"""
         if filename and isinstance(filename, string_types):
-            if re.match(r'^[\w\d\_\-\.]+$', filename, re.I):
+            if re.match(r'^[\w\d\_\-\.]+$', filename.split('/')[-1], re.I):
                 if self.__isValidTGZ(filename) or self.__isValidZIP(filename):
                     return True
         return False
@@ -149,7 +133,7 @@ class PluginInstaller(object):
         4. Parse the Content-Type in the return header
         """
         #: Try to set filename in advance based on the previous two steps
-        if self.__isValidUrl(url):
+        if check_url(url):
             filename = self.__getFilename(url, scene=1)
             if not filename:
                 filename = self.__getFilename(url, scene=2)
@@ -204,6 +188,23 @@ class PluginInstaller(object):
         else:
             raise InstallError("Invalid Filepath")
 
+    def _pip_install(self, package_or_url):
+        """Use the pip command to install third-party modules.
+
+        .. versionadded:: 3.3.0
+        """
+        res = dict(code=1, msg=None)
+        if package_or_url and \
+                isinstance(package_or_url, string_types) and \
+                package_or_url not in (".", "-"):
+            code = call([executable, "-m", "pip", "install", package_or_url])
+            res.update(code=code)
+            if code != 0:
+                res.update(msg="Installation failed with pip command")
+        else:
+            res.update(msg="Invalid parameter package_or_url", code=1)
+        return res
+
     def addPlugin(self, method="remote", **kwargs):
         """Add a plugin, support only for `.tar.gz` or `.zip` compression packages.
 
@@ -213,6 +214,8 @@ class PluginInstaller(object):
 
                        ``local``, unzip a local plugin package.
 
+                       ``pip``, install package with pip command.
+
         :param url: for method is remote,
                     plugin can be downloaded from the address.
 
@@ -221,8 +224,13 @@ class PluginInstaller(object):
         :param remove: for method is local, remove the plugin source code
                        package, default is False.
 
-        :returns: the result of adding the plugin, like dict(msg=str, code=int),
+        :param package_or_url: for method is pip, pypi's package or VCS url.
+
+        :returns: the result of adding the plugin, like {msg:str, code:int},
                   code=0 is successful.
+
+        .. versionchanged:: 3.3.0
+            Add pip method, with package_or_url param.
         """
         res = dict(code=1, msg=None)
         try:
@@ -231,16 +239,19 @@ class PluginInstaller(object):
             elif method == "local":
                 self._local_upload(kwargs["filepath"],
                                    kwargs.get("remove", False))
+            elif method == "pip":  # pragma: nocover
+                res = self._pip_install(kwargs["package_or_url"])
             else:
                 res.update(msg="Invalid method")
         except Exception as e:
             res.update(msg=str(e))
         else:
-            res.update(code=0)
+            if method != "pip":
+                res.update(code=0)
         return res
 
     def removePlugin(self, package):
-        """Remove a plugin
+        """Remove a local plugin
 
         :param package: The plugin package name, not __plugin_name.
         """

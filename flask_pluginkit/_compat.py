@@ -51,4 +51,5 @@ __all__ = [
     'iteritems',
     'itervalues',
     'string_types',
+    'integer_types'
 ]

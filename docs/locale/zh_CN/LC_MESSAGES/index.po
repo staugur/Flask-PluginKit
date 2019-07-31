@@ -54,7 +54,7 @@ msgstr ""
 
 #: ../../index.rst:21
 msgid "Flask-PluginKit depends on the `Flask`_."
-msgstr "Flask-PluginKit依赖于 `Flask`_"
+msgstr "Flask-PluginKit依赖于 `Flask`_ ！"
 
 #: ../../index.rst:23
 msgid ""

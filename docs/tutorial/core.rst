@@ -96,7 +96,7 @@ the first three are required:
 
 - ``__version__``
 
-    Plugin Version, compliance with Semantic Version 2.0 Rules.
+    Plugin Version, compliance with `Semantic Version 2.0`_ Rules.
 
 - ``__description__``
 
@@ -123,6 +123,8 @@ the first three are required:
 - ``__state__``
 
     The plugin Status, enabled (default) or disabled.
+
+.. _Semantic Version 2.0: https://semver.org
 
 .. _core-register:
 
@@ -214,4 +216,4 @@ The directory structure of a disabled plugin is shown below.
         def reload():
             os.kill(os.getppid(), signal.SIGHUP)
 
-    Subsequent versions will add this feature.
+    This feature is implemented in v3.3.0, reference document :doc:`/webmanager`

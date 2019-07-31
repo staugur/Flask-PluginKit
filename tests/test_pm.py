@@ -186,6 +186,5 @@ class PMTest(unittest.TestCase):
             app2.preprocess_request()
             self.assertFalse(hasattr(g, "pluginkit"))
 
-
-if __name__ == '__main__':
+if __name__ == '__main__' and not os.getenv("TRAVIS"):
     unittest.main()

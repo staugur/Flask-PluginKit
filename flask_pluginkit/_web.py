@@ -10,10 +10,13 @@
 """
 
 from time import sleep
-from collections import OrderedDict
+from collections import OrderedDict, deque
+from werkzeug.utils import secure_filename
+from tempfile import NamedTemporaryFile
 from flask import Blueprint, current_app, g, request, jsonify,\
     render_template, make_response, Response
-from .utils import PY2
+from .utils import PY2, allowed_uploaded_plugin_suffix, check_url
+from ._installer import PluginInstaller
 
 if PY2:
     import thread
@@ -26,13 +29,18 @@ else:
 blueprint = Blueprint('flask_pluginkit', 'flask_pluginkit',
                       template_folder='templates', static_folder='static')
 
+#: FIFO message queue
+#:
+#: ..versionadded:: 3.3.0
+_queue = deque()
+
 
 def _get_conf(config_name):
     return current_app.config.get(config_name)
 
 
 @blueprint.before_request
-def pluginkit_auth():
+def pluginkit_webmanager_auth():
     """You must have validation to access this page."""
     authMethod = _get_conf("PLUGINKIT_AUTH_METHOD")
     authAidMethod = _get_conf("PLUGINKIT_AUTH_AID_METHOD")
@@ -44,12 +52,9 @@ def pluginkit_auth():
                authResult["code"])
 
     if authMethod == "BOOL":
-        AUTHBOOLFIELD = _get_conf("PLUGINKIT_AUTH_BOOLFIELD")
-        if AUTHBOOLFIELD is True:
+        AUTHBOOLFIELD = _get_conf("PLUGINKIT_AUTH_BOOLFIELD") or "signin"
+        if getattr(g, AUTHBOOLFIELD, None) is True:
             authResult.update(code=0)
-        else:
-            if getattr(g, "signin", None) is True:
-                authResult.update(code=0)
 
     elif authMethod == "BASIC":
         #: the realm parameter is reserved for defining protection spaces and
@@ -109,10 +114,8 @@ def pluginkit_auth():
     if hasattr(current_app, "extensions") and \
             "pluginkit" in current_app.extensions:
         from flask_pluginkit import __version__ as version
-        from flask_pluginkit import __author__ as author
         g.pluginkit = current_app.extensions["pluginkit"]
         metadata = OrderedDict()
-        metadata['author'] = author
         metadata['version'] = version
         metadata['plugins_count'] = len(g.pluginkit.get_all_plugins)
         g.pluginkit_metadata = metadata
@@ -135,6 +138,7 @@ def index():
 @blueprint.route("/api", methods=["POST"])
 def api():
     #: plugin api action
+    pm = current_app.extensions['pluginkit']
     res = dict(msg=None, code=1)
     if hasattr(g, "pluginkit"):
         Action = request.args.get("Action")
@@ -208,7 +212,63 @@ def api():
                         code=20001,
                         msg="According to the rules are not allowed to reload",
                     )
+        elif Action == "uploadPlugin":
+            f = request.files.get("file")
+            if f and allowed_uploaded_plugin_suffix(f.filename):
+                suffix = '.' + secure_filename(f.filename).split('.')[-1]
+                with NamedTemporaryFile(mode='w+b', prefix='fpk-web-',
+                                        suffix=suffix, delete=False) as fp:
+                    fp.write(f.stream.read())
+                    filename = fp.name
+                pi = PluginInstaller(pm.plugins_abspath)
+                res = pi.addPlugin(
+                    method='local',
+                    filepath=filename,
+                    remove=True
+                )
+            else:
+                res.update(
+                    code=50000,
+                    msg="Unsuccessfully obtained file or format is not allowed"
+                )
+        elif Action == "downloadPlugin":
+            url = request.form.get("url")
+            if check_url(url):
+                pi = PluginInstaller(pm.plugins_abspath)
+                res = pi.addPlugin(
+                    method='remote',
+                    url=url
+                )
+            else:
+                res.update(
+                    code=60000,
+                    msg="Please fill in the correct URL"
+                )
+        elif Action == "installPackage":
+            package_or_url = request.form.get("package_or_url")
+
+            def _install(package_or_url):
+                pi = PluginInstaller(pm.plugins_abspath)
+                resp = pi.addPlugin(
+                    method='pip',
+                    package_or_url=package_or_url
+                )
+                if resp["code"] == 0:
+                    _queue.append('Install is successful')
+                else:
+                    _queue.append(resp["msg"])
+            thread.start_new_thread(_install, (package_or_url,))
+            res.update(code=0)
     else:
         res.update(msg="Environment is not effective", code=10000)
 
     return jsonify(res)
+
+
+@blueprint.route("/msg")
+def msg():
+    try:
+        msg = _queue.popleft()
+    except IndexError:
+        msg = ""
+    return jsonify(dict(code=0, msg=msg))

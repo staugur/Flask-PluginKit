@@ -111,7 +111,7 @@ msgstr "以下命令所需的模块可以这样安装："
 msgid ""
 "4.1 Use ``pip install .`` to install to the local environment and test "
 "the plugin functionality."
-msgstr "4.1 使用 ``pip install`` 安装到本地虚拟环境或全局，并测试插件功能。"
+msgstr "4.1 使用 ``pip install .`` 安装到本地虚拟环境或全局，并测试插件功能。"
 
 #: ../../tutorial/third-party-plugin.rst:70
 msgid ""
@@ -130,7 +130,7 @@ msgid ""
 "https://test.pypi.org/legacy/ dist/*``"
 msgstr ""
 "4.3 在发布到pypi.org前，你可以发布到test.pypi.org，这是官方的pypi测试网站，"
-"里面的包装不会轻易使用，命令是："
+"里面的包不会轻易使用，命令是："
 " ``twine upload --repository-url https://test.pypi.org/legacy/ dist/*`` "
 
 #: ../../tutorial/third-party-plugin.rst:78

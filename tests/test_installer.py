@@ -3,19 +3,13 @@
 import os
 import unittest
 from flask_pluginkit import PluginInstaller
+from flask_pluginkit.utils import check_url
 
 
 class PITest(unittest.TestCase):
 
-    def __init__(self, *args, **kwargs):
-        super(PITest, self).__init__(*args, **kwargs)
-        self.pi = PluginInstaller('.')
-
     def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
+        self.pi = PluginInstaller('.')
 
     def test_addPlugin(self):
         urls = [
@@ -39,9 +33,9 @@ class PITest(unittest.TestCase):
         self.assertIsInstance(res, dict)
         self.assertEqual(res["code"], 0)
         self.assertTrue(os.path.isdir(pkg))
-        self.assertTrue(self.pi._PluginInstaller__isValidUrl(urls[0]))
-        self.assertTrue(self.pi._PluginInstaller__isValidUrl("http://192.168.1.1/j.zip"))
-        self.assertFalse(self.pi._PluginInstaller__isValidUrl("j.zip"))
+        self.assertTrue(check_url(urls[0]))
+        self.assertTrue(check_url("http://192.168.1.1/j.zip"))
+        self.assertFalse(check_url("j.zip"))
         self.assertTrue(self.pi._PluginInstaller__isValidFilename("j.zip"))
         self.assertTrue(self.pi._PluginInstaller__isValidFilename("j.tar.gz"))
         self.assertFalse(self.pi._PluginInstaller__isValidFilename("j.gz"))
@@ -58,6 +52,5 @@ class PITest(unittest.TestCase):
         self.assertEqual(res["code"], 0)
         self.assertFalse(os.path.isdir(pkg))
 
-
-if __name__ == '__main__':
+if __name__ == '__main__' and not os.getenv("TRAVIS"):
     unittest.main()

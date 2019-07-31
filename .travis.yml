@@ -1,12 +1,12 @@
 language: python
 sudo: enabled
 python:
-  - "2.7"
-  - "3.5"
-  - "3.6"
-  - "3.7"
-  - "pypy"
-  - "pypy3"
+- '2.7'
+- '3.5'
+- '3.6'
+- '3.7'
+- pypy
+- pypy3
 env:
   global:
   - CODECOV_TOKEN="a6a7750b-16dd-4694-a827-6940755771ab"
@@ -20,24 +20,37 @@ env:
   - FLASK_VERSION=1.1.0
 matrix:
   exclude:
-    - python: "3.5"
-      env: FLASK_VERSION=0.9
-    - python: "3.6"
-      env: FLASK_VERSION=0.9
-    - python: "3.7"
-      env: FLASK_VERSION=0.9
-    - python: "pypy3"
-      env: FLASK_VERSION=0.9
-    - python: "pypy3"
-      env: FLASK_VERSION=0.11
+  - python: '3.5'
+    env: FLASK_VERSION=0.9
+  - python: '3.6'
+    env: FLASK_VERSION=0.9
+  - python: '3.7'
+    env: FLASK_VERSION=0.9
+  - python: pypy3
+    env: FLASK_VERSION=0.9
+  - python: pypy3
+    env: FLASK_VERSION=0.11
 services:
-  - redis-server
+- redis-server
 install:
-  - pip install -U -r dev-requirements.txt
-  - pip install redis
-  - pip install Flask==$FLASK_VERSION
-  - make dev
+- pip install -U -r dev-requirements.txt
+- pip install redis
+- pip install Flask==$FLASK_VERSION
+- make dev
 script:
-  - coverage run setup.py test
+- coverage run setup.py test
 after_success:
-  - codecov
+- codecov
+deploy:
+  provider: pypi
+  user: saintic
+  password:
+    secure: j6z81/IUdoZeTJWb+UbKSso9x+4X6w24RyrTf40V78bzPVvy6zaYCVMdSC9/80motDFfESe3A/5zuWwdYbly8R2Nl7fRrS0hxgy1nw6DAsptwUl1vM77CrbEWNFKKPUuq2njoP/FtLlyTJXNW2gE92Qr1D1Xsc2Xe+hG/nsRhY+ERW7nWt2Jx1FXOZ2y/rHq+tSifEz6Dd/MeWmzG/t/VgJ+HkXUgm3gxWcsl2hDLj1kDUk+r+sb4VO3emWsCiMr9fadiZ6C9OXGj+y2b9Dzs7yqyw6UtWS7c2MBR+h/7qhTP1uk1IYMIMd9eKHDGG+ax1pAeIruNVXRDdcUMKAHyyf6xTmwoMauj3PW1AtH3trzAyCpusuu48ccIzy7MZC5tvgwWG5RLbi2smt8iwNqDwEYkNbrQDK+T5WKyrYITcEFSEf7sQGDMkLvK7Gpmsha1ObNYVSC/zE1oPjjf7tvWTh5wbr6lY/5nFhLfi3mLl8xsPWoxZMD0Q3uWuSYneWkQpsJme1GTX3EMk/fk71bplh7ZgGlUYEl/VJrAAoyqOLplX2+sEwrVpUlYHcDDNyBKcgZXzNxw+LOLaLw2kRpabkqgAH/wxKJG7GRyGcvHwZlhnH1Gw0XSCiTT0hrFmUUDCpy9NlRjbVKyNNZKEacpo4jWshqIch6QEsKcIEwg0M=
+  distributions: "sdist bdist_wheel"
+  skip_existing: true
+  skip_cleanup: true
+  on:
+    python: 2.7
+    condition: $FLASK_VERSION = 1.0
+    tags: true
+    branch: master

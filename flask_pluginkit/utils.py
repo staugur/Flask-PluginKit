@@ -9,6 +9,7 @@
     :license: BSD 3-Clause, see LICENSE for more details.
 """
 
+import re
 import shelve
 import semver
 from os.path import join
@@ -113,12 +114,16 @@ class LocalStorage(BaseStorage):
 
         :returns: dict
         """
+        db = None
         try:
-            data = self._open(flag="r")
+            db = self._open(flag="r")
         except:
             return dict()
         else:
-            return dict(data)
+            return dict(db)
+        finally:
+            if db:
+                db.close()
 
     def set(self, key, value):
         """Set persistent data with shelve.
@@ -291,3 +296,37 @@ class DcpManager(object):
                     rv = rv.decode('utf-8')
                 results.append(rv)
         return Markup("".join(results))
+
+
+def allowed_uploaded_plugin_suffix(filename):
+    """Check suffix for uploaded filename
+
+    .. versionadded:: 3.3.0
+    """
+    allow_suffix = ['.tar.gz', '.tgz', '.zip']
+    if isinstance(filename, string_types):
+        for suffix in allow_suffix:
+            if filename.endswith(suffix):
+                return True
+    return False
+
+
+def check_url(addr):
+    """Check whether UrlAddr is in a valid format, for example::
+
+        http://ip:port
+        https://abc.com
+
+    .. versionadded:: 3.3.0
+    """
+    regex = re.compile(
+        r'^(?:http)s?://'
+        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'
+        r'localhost|'
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'
+        r'(?::\d+)?'
+        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+    if addr and isinstance(addr, string_types):
+        if regex.match(addr):
+            return True
+    return False
