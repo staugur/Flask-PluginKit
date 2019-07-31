@@ -137,7 +137,7 @@ Run app:
 
 4. Testing
 
-    |helloworld_testimg|
+    .. image:: ./_static/images/helloworld.png
 
 For details, see :ref:`tutorial`
 
@@ -145,4 +145,3 @@ For details, see :ref:`tutorial`
 
 .. _here: https://github.com/staugur/Flask-PluginKit/tree/master/examples/helloworld
 
-.. |helloworld_testimg| image:: ./_static/images/helloworld.png

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-31 15:19+0800\n"
+"POT-Creation-Date: 2019-07-31 17:22+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -791,7 +791,7 @@ msgid "Bases: :class:`flask_pluginkit.exceptions.PluginError`"
 msgstr ""
 
 #: flask_pluginkit.exceptions.PluginError:1 of
-msgid "Bases: :class:`exceptions.Exception`"
+msgid "Bases: :class:`Exception`"
 msgstr ""
 
 #~ msgid "Static endpoint and url"
@@ -847,5 +847,8 @@ msgstr ""
 #~ "the result of adding the plugin, "
 #~ "like dict(msg=str, code=int), code=0 is "
 #~ "successful."
+#~ msgstr ""
+
+#~ msgid "Bases: :class:`exceptions.Exception`"
 #~ msgstr ""
 

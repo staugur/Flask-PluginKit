@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-20 00:40+0800\n"
+"POT-Creation-Date: 2019-07-31 17:22+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -117,11 +117,10 @@ msgstr "启动app:"
 msgid "Testing"
 msgstr "测试"
 
-#: ../../quickstart.rst:140
-msgid "|helloworld_testimg|"
-msgstr ""
-
 #: ../../quickstart.rst:142
 msgid "For details, see :ref:`tutorial`"
 msgstr "更多细节，查阅 :ref:`tutorial`"
+
+#~ msgid "|helloworld_testimg|"
+#~ msgstr ""
 

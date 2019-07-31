@@ -20,19 +20,15 @@ set the blueprint prefix. The steps are as follows:
 Launch the app, visit the /pluginmanager page, take our `example-fulldemo`_
 as an example, the rendering is:
 
-|fulldemowebmanager-en|
+.. image:: ./_static/images/webmanager-en.png
 
 This page supports Chinese and English bilingual, the following is
 the Chinese page effect:
 
-|fulldemowebmanager-cn|
+.. image:: ./_static/images/webmanager-cn.png
 
 .. _example-fulldemo:
     https://github.com/staugur/Flask-PluginKit/tree/master/examples/fulldemo
-
-.. |fulldemowebmanager-en| image:: ./_static/images/webmanager-en.png
-
-.. |fulldemowebmanager-cn| image:: ./_static/images/webmanager-cn.png
 
 Instructions
 ------------
