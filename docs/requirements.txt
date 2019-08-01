@@ -1,2 +1,2 @@
-sphinx
-Pallets-Sphinx-Themes>=1.2.1
+Sphinx
+Pallets-Sphinx-Themes

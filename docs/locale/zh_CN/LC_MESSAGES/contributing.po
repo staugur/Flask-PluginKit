@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-19 22:32+0800\n"
+"POT-Creation-Date: 2019-08-01 15:26+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,210 +18,148 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:2
-#: <included from
+#: ../../../CONTRIBUTING.rst:2
 msgid "How to contribute to Flask-PluginKit"
 msgstr "如何为Flask-PluginKit做出贡献"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:4
-#: <included from
+#: ../../../CONTRIBUTING.rst:4
 msgid "Thank you for considering contributing to Flask-PluginKit!"
 msgstr "感谢您考虑为Flask-PluginKit做贡献"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:7
-#: <included from
+#: ../../../CONTRIBUTING.rst:7
 msgid "Feedback"
 msgstr "反馈"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:9
-#: <included from
+#: ../../../CONTRIBUTING.rst:9
 msgid ""
 "The `issues <https://github.com/staugur/Flask-PluginKit/issues>`_ on "
 "GitHub."
 msgstr ""
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:10
-#: <included from
+#: ../../../CONTRIBUTING.rst:10
 msgid "The email for staugur@saintic.com"
 msgstr ""
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:13
-#: <included from
+#: ../../../CONTRIBUTING.rst:13
 msgid "Report a problem"
 msgstr "报告问题"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:15
-#: <included from
+#: ../../../CONTRIBUTING.rst:15
 msgid "Describe what you expect to happen."
 msgstr "描述您期望发生的事情。"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:17
-#: <included from
+#: ../../../CONTRIBUTING.rst:17
 msgid ""
 "If possible, include a minimal, complete, verifiable example to help us "
 "identify the problem. This also helps to check if the issue is not "
 "related to your own code."
-msgstr ""
-"如果可能，请提供一个最小、完整、可验证的示例来帮助我们找出问题所在。"
-"这也有助于检查问题是否与你自己的代码有关。"
+msgstr "如果可能，请提供一个最小、完整、可验证的示例来帮助我们找出问题所在。这也有助于检查问题是否与你自己的代码有关。"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:21
-#: <included from
+#: ../../../CONTRIBUTING.rst:21
 msgid ""
 "Describe what actually happened. If there is an exception, include the "
 "complete exception stack."
 msgstr "描述实际发生的事情。如果有可能，请提供完整的异常堆栈。"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:24
-#: <included from
+#: ../../../CONTRIBUTING.rst:24
 msgid ""
 "List your Python, Flask, Flask-PluginKit versions. If possible, check if "
 "the new version has fixed this issue."
 msgstr "列出你的Python、Flask、Flask-PluginKit版本，如果可能，检查新版本是否解决。"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:28
-#: <included from
+#: ../../../CONTRIBUTING.rst:28
 msgid "Submit pull request"
 msgstr "提交pull request"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:30
-#: <included from
+#: ../../../CONTRIBUTING.rst:30
 msgid "**First is the environment**"
 msgstr "**首先是环境**"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:32
-#: <included from
+#: ../../../CONTRIBUTING.rst:32
 msgid ""
 "fork repository `Flask-PluginKit <https://github.com/staugur/Flask-"
 "PluginKit>`_"
 msgstr ""
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:34
-#: <included from
+#: ../../../CONTRIBUTING.rst:34
 msgid "git clone Flask-PluginKit under your account and set your `git config`"
 msgstr "克隆Flask-PluginKit，并设置好个人的 `git config`"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:36
-#: <included from
+#: ../../../CONTRIBUTING.rst:36
+#, fuzzy
 msgid ""
 "Install the dependency module of the development environment with command"
-" `pip install -r dev-requirements.txt`"
-msgstr "使用命令 `pip install -r dev-requirements.txt` 安装开发环境依赖的模块"
+" ``pip install -r dev-requirements.txt``"
+msgstr "使用命令 ``pip install -r dev-requirements.txt`` 安装开发环境依赖的模块"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:39
-#: <included from
+#: ../../../CONTRIBUTING.rst:39
 msgid "**Followed by coding**"
 msgstr "**接着是编码**"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:41
-#: <included from
+#: ../../../CONTRIBUTING.rst:41
 msgid "Write code, please try to comply with the PEP8 specification."
 msgstr "编写代码，请尽量遵守PEP8规范。"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:43
-#: <included from
+#: ../../../CONTRIBUTING.rst:43
 msgid "Write test cases and documentation."
 msgstr "编写测试用例和文档。"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:45
-#: <included from
+#: ../../../CONTRIBUTING.rst:45
+#, fuzzy
 msgid ""
-"Run the test `make dev && make test` using the pypy, py2.7, and py3.4+ "
+"Run the test ``make dev && make test`` using the pypy, py2.7, and py3.4+ "
 "environments respectively."
-msgstr "分别使用pypy、py2.7、py3.4+运行测试 `make dev && make test`"
+msgstr "分别使用pypy、py2.7、py3.4+运行测试 ``make dev && make test``"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:48
-#: <included from
-msgid "Generate the documentation `make dev && make html` ."
-msgstr "使用 `make dev && make html` 生成文档"
+#: ../../../CONTRIBUTING.rst:48
+#, fuzzy
+msgid "Generate the documentation ``make dev && make html``."
+msgstr "使用 ``make dev && make html`` 生成文档"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:50
-#: <included from
+#: ../../../CONTRIBUTING.rst:50
 msgid "If you contribute a translation document, proceed as follows:"
 msgstr "如果您想翻译文档，步骤如下："
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:52
-#: <included from
+#: ../../../CONTRIBUTING.rst:52
 msgid "execute the command ``make gettext``"
 msgstr "执行命令 ``make gettext``"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:54
-#: <included from
+#: ../../../CONTRIBUTING.rst:54
 msgid ""
 "Extract translatable messages into pot files. The generated pot file will"
 " be placed in the `docs/_build/gettext` directory."
-msgstr ""
-"这个操作会将可翻译的消息提取到pot文件中，"
-"生成的pot文件将放在 `docs/_build/gettext` 目录中。"
+msgstr "这个操作会将可翻译的消息提取到pot文件中，生成的pot文件将放在 `docs/_build/gettext` 目录中。"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:57
-#: <included from
+#: ../../../CONTRIBUTING.rst:57
 msgid "execute the command ``make cn``"
 msgstr "执行命令 ``make cn``"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:59
-#: <included from
+#: ../../../CONTRIBUTING.rst:59
 msgid ""
 "Generate or update the po file and place it in "
 "`docs/locale/<LANG>/LC_MESSAGES/` directory, then translate the po file."
-msgstr ""
-"在 `docs/locale/<LANG>/LC_MESSAGES/` 目录生成或更新po文件，"
-"然后就可以翻译不同语言下的po文件了。"
+msgstr "在 `docs/locale/<LANG>/LC_MESSAGES/` 目录生成或更新po文件，然后就可以翻译不同语言下的po文件了。"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:62
-#: <included from
+#: ../../../CONTRIBUTING.rst:62
 msgid "execute the command ``make html-cn``"
 msgstr "执行命令 ``make html-cn``"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:64
-#: <included from
+#: ../../../CONTRIBUTING.rst:64
 msgid ""
 "Constructing Translation Documents, at the same time, it will generate or"
 " update mo file."
 msgstr "构建生成翻译文档"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:67
-#: <included from
+#: ../../../CONTRIBUTING.rst:67
 msgid "**Last request for merger**"
 msgstr "**最后合并请求**"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:69
-#: <included from
+#: ../../../CONTRIBUTING.rst:69
 msgid "Submit your code"
 msgstr "提交代码"
 
-#: ../../../CONTRIBUTING.rst
-#: /mnt/c/Users/staugur/Desktop/flask-pluginkit/docs/contributing.rst>:71
-#: <included from
-msgid "Initiate `pull request` on GitHub"
-msgstr "在GitHub上发起 `pull request`"
+#: ../../../CONTRIBUTING.rst:71
+#, fuzzy
+msgid "Initiate ``pull request`` on GitHub"
+msgstr "在GitHub上发起 ``pull request``"
 

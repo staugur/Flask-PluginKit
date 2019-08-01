@@ -187,6 +187,7 @@ one helper method. The former is defined by the application configuration item
 - **PLUGINKIT_AUTH_METHOD**, supports four types of values.
 
     - BOOL
+
         This method will get the value of the **PLUGINKIT_AUTH_BOOLFIELD**
         field in the configuration via :data:`flask.g` (the default value is
         signin). When it is True, it will be verified.
@@ -210,6 +211,7 @@ one helper method. The former is defined by the application configuration item
                 g.auth = True
 
     - BASIC
+
         HTTP Basic Auth, a simple but unsafe method, this method requires
         username and password, so the application configuration item
         **PLUGINKIT_AUTH_USERS** is required, which is a dict, the key is
@@ -231,6 +233,7 @@ one helper method. The former is defined by the application configuration item
             app.register_blueprint(blueprint, url_prefix='/pluginmanager')
 
     - TOKEN
+
         This requires the browser to carry an authentication header. The header
         field is defined by the application configuration item
         **PLUGINKIT_AUTH_TOKENFIELD**. The default value is AccessToken.
@@ -259,6 +262,7 @@ one helper method. The former is defined by the application configuration item
             app.register_blueprint(blueprint, url_prefix='/pluginmanager')
 
     - FUNC
+
         This should be the easiest, defined by the application configuration
         item **PLUGINKIT_AUTH_FUNC**, a function or class method, etc,
         no parameters, the execution result is non-zero and non-empty
@@ -282,6 +286,7 @@ one helper method. The former is defined by the application configuration item
 - **PLUGINKIT_AUTH_AID_METHOD**, supports one type of value.
 
     - IP
+
         Flask-pluginkit will get the client IP, requires application
         configuration item **PLUGINKIT_AUTH_IP_WHITELIST** to define IP
         whitelist, and **PLUGINKIT_AUTH_IP_BLACKLIST** to define IP blacklist.

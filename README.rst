@@ -76,8 +76,8 @@ END
 
 Welcome to submit pull request and star.
 
-.. |Build Status| image:: https://travis-ci.com/staugur/Flask-PluginKit.svg?branch=master
-    :target: https://travis-ci.com/staugur/Flask-PluginKit
+.. |Build Status| image:: https://travis-ci.org/staugur/Flask-PluginKit.svg?branch=master
+    :target: https://travis-ci.org/staugur/Flask-PluginKit
 .. |Documentation Status| image:: https://readthedocs.org/projects/flask-pluginkit/badge/?version=latest
     :target: https://flask-pluginkit.readthedocs.io/
 .. |codecov| image:: https://codecov.io/gh/staugur/Flask-PluginKit/branch/master/graph/badge.svg

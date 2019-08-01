@@ -34,7 +34,7 @@ Submit pull request
 * git clone Flask-PluginKit under your account and set your `git config`
 
 * Install the dependency module of the development environment
-  with command `pip install -r dev-requirements.txt`
+  with command ``pip install -r dev-requirements.txt``
 
 **Followed by coding**
 
@@ -42,10 +42,10 @@ Submit pull request
 
 * Write test cases and documentation.
 
-* Run the test `make dev && make test` using the pypy, py2.7,
+* Run the test ``make dev && make test`` using the pypy, py2.7,
   and py3.4+ environments respectively.
 
-* Generate the documentation `make dev && make html` .
+* Generate the documentation ``make dev && make html``.
 
 * If you contribute a translation document, proceed as follows:
 
@@ -68,4 +68,4 @@ Submit pull request
 
 * Submit your code
 
-* Initiate `pull request` on GitHub
+* Initiate ``pull request`` on GitHub
