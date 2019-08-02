@@ -9,7 +9,7 @@ python:
 - pypy3
 env:
   global:
-  - CODECOV_TOKEN="a6a7750b-16dd-4694-a827-6940755771ab"
+  - CODECOV_TOKEN="5d629a49-baa5-47cf-8d7f-df8244c66828"
   - FLASK_PLUGINKIT_TEST_REDISURL="redis://@localhost"
   matrix:
   - FLASK_VERSION=0.9

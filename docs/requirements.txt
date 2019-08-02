@@ -1,2 +1,3 @@
-Sphinx
+sphinx
+sphinx-intl
 Pallets-Sphinx-Themes
