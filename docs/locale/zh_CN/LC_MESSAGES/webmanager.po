@@ -161,12 +161,13 @@ msgstr "类似于上面一种情况，只不过不是上传本地的压缩文件
 #: ../../webmanager.rst:127
 msgid ""
 "The remote url here is very strict. It must be a valid download address "
-"for compressed file and can resolve valid file names. It is worth "
+"for compressed file and can resolve valid file names"
+"(That is, the file suffix is .tar.gz, .tgz or .zip). It is worth "
 "mentioning that Flask-PluginKit provides four methods to automatically "
 "obtain the file name of the remote url. Basically meet the "
 "requirements(Number Represents Priority):"
 msgstr ""
-"这里的远程url要求很严格，它必须是一个有效的压缩文件下载地址，且能解析出有效的文件名。值得一提的是，Flask-"
+"这里的远程url要求很严格，它必须是一个有效的压缩文件下载地址，且能解析出有效的文件名（即文件后缀是.tar.gz、.tgz或.zip）。值得一提的是，Flask-"
 "PluginKit提供了四种方法自动获取远程url的文件名，基本能满足要求（数字表示优先级）："
 
 #: ../../webmanager.rst:133

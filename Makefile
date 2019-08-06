@@ -36,7 +36,7 @@ publish-release:
 	python setup.py publish --release
 
 html:
-	cd docs && sphinx-build -b html . _build/html
+	cd docs && sphinx-build -E -T -b html . _build/html
 
 gettext:
 	cd docs && sphinx-build -b gettext . _build/gettext 
@@ -45,7 +45,7 @@ cn:
 	cd docs && sphinx-intl update -p _build/gettext -l zh_CN
 
 html-cn:
-	cd docs && sphinx-build -D language=zh_CN -b html . _build/html_cn
+	cd docs && sphinx-build -E -T -D language=zh_CN -b html . _build/html_cn
 
 pipe:
 	$(MAKE) html

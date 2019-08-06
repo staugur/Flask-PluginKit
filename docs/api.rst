@@ -27,6 +27,8 @@ PluginManager Object
 
         the instance of :class:`~flask_pluginkit.utils.DcpManager`
 
+        .. versionadded:: 3.2.0
+
 .. autofunction:: push_dcp
 
 .. data:: blueprint

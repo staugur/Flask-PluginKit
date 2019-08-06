@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-01 15:26+0800\n"
+"POT-Creation-Date: 2019-08-06 10:46+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,7 +86,6 @@ msgid "git clone Flask-PluginKit under your account and set your `git config`"
 msgstr "克隆Flask-PluginKit，并设置好个人的 `git config`"
 
 #: ../../../CONTRIBUTING.rst:36
-#, fuzzy
 msgid ""
 "Install the dependency module of the development environment with command"
 " ``pip install -r dev-requirements.txt``"
@@ -105,14 +104,12 @@ msgid "Write test cases and documentation."
 msgstr "编写测试用例和文档。"
 
 #: ../../../CONTRIBUTING.rst:45
-#, fuzzy
 msgid ""
-"Run the test ``make dev && make test`` using the pypy, py2.7, and py3.4+ "
+"Run the test ``make dev && make test`` using the pypy, py2.7, and py3.5+ "
 "environments respectively."
-msgstr "分别使用pypy、py2.7、py3.4+运行测试 ``make dev && make test``"
+msgstr "分别使用pypy、py2.7、py3.5+运行测试 ``make dev && make test``"
 
 #: ../../../CONTRIBUTING.rst:48
-#, fuzzy
 msgid "Generate the documentation ``make dev && make html``."
 msgstr "使用 ``make dev && make html`` 生成文档"
 
@@ -127,8 +124,8 @@ msgstr "执行命令 ``make gettext``"
 #: ../../../CONTRIBUTING.rst:54
 msgid ""
 "Extract translatable messages into pot files. The generated pot file will"
-" be placed in the `docs/_build/gettext` directory."
-msgstr "这个操作会将可翻译的消息提取到pot文件中，生成的pot文件将放在 `docs/_build/gettext` 目录中。"
+" be placed in the docs/_build/gettext directory."
+msgstr "这个操作会将可翻译的消息提取到pot文件中，生成的pot文件将放在 docs/_build/gettext 目录中。"
 
 #: ../../../CONTRIBUTING.rst:57
 msgid "execute the command ``make cn``"
@@ -137,8 +134,8 @@ msgstr "执行命令 ``make cn``"
 #: ../../../CONTRIBUTING.rst:59
 msgid ""
 "Generate or update the po file and place it in "
-"`docs/locale/<LANG>/LC_MESSAGES/` directory, then translate the po file."
-msgstr "在 `docs/locale/<LANG>/LC_MESSAGES/` 目录生成或更新po文件，然后就可以翻译不同语言下的po文件了。"
+"``docs/locale/zh_CN/LC_MESSAGES/`` directory, then translate the po file."
+msgstr "在 ``docs/locale/<LANG>/LC_MESSAGES/`` 目录生成或更新po文件，然后就可以翻译不同语言下的po文件了。"
 
 #: ../../../CONTRIBUTING.rst:62
 msgid "execute the command ``make html-cn``"
@@ -159,7 +156,6 @@ msgid "Submit your code"
 msgstr "提交代码"
 
 #: ../../../CONTRIBUTING.rst:71
-#, fuzzy
 msgid "Initiate ``pull request`` on GitHub"
 msgstr "在GitHub上发起 ``pull request``"
 

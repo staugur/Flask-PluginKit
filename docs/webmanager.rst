@@ -125,7 +125,8 @@ This blueprint has only one page. This page contains three main features:
         directory of your server. The subsequent steps are the same as above.
 
         The remote url here is very strict. It must be a valid download address
-        for compressed file and can resolve valid file names.
+        for compressed file and can resolve valid file names(That is, the file
+        suffix is .tar.gz, .tgz or .zip).
         It is worth mentioning that Flask-PluginKit provides four methods to
         automatically obtain the file name of the remote url.
         Basically meet the requirements(Number Represents Priority):

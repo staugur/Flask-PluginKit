@@ -29,9 +29,9 @@ msgstr "Python版本"
 #: ../../installation.rst:9
 msgid ""
 "We recommend using the latest version of Python 3, although it is code "
-"written in 2.7. Flask-PluginKit supports Python 3.4 and newer, Python "
+"written in 2.7. Flask-PluginKit supports Python 3.5 and newer, Python "
 "2.7, and PyPy."
-msgstr "推荐使用Python3+，虽然我是在2.7下开发的。Flask-PluginKit支持3.4及新版，2.7和pypy。"
+msgstr "推荐使用Python3+，虽然我是在2.7下开发的。Flask-PluginKit支持3.5及新版，2.7和pypy。"
 
 #: ../../installation.rst:13
 msgid "Dependencies"

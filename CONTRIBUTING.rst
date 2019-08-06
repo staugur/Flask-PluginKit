@@ -43,7 +43,7 @@ Submit pull request
 * Write test cases and documentation.
 
 * Run the test ``make dev && make test`` using the pypy, py2.7,
-  and py3.4+ environments respectively.
+  and py3.5+ environments respectively.
 
 * Generate the documentation ``make dev && make html``.
 
@@ -52,12 +52,12 @@ Submit pull request
   1. execute the command ``make gettext``
 
     Extract translatable messages into pot files. The generated pot file
-    will be placed in the `docs/_build/gettext` directory.
+    will be placed in the docs/_build/gettext directory.
 
   2. execute the command ``make cn``
 
     Generate or update the po file and place it
-    in `docs/locale/<LANG>/LC_MESSAGES/` directory, then translate the po file.
+    in ``docs/locale/zh_CN/LC_MESSAGES/`` directory, then translate the po file.
 
   3. execute the command ``make html-cn``
 

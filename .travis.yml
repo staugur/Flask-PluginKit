@@ -4,12 +4,13 @@ python:
 - '2.7'
 - '3.5'
 - '3.6'
+- '3.7'
 - nightly
 - pypy
 - pypy3
 env:
   global:
-  - CODECOV_TOKEN="5d629a49-baa5-47cf-8d7f-df8244c66828"
+  - CODECOV_TOKEN="b5b63c88-6a8f-4858-aac1-d0da33bd5c9d"
   - FLASK_PLUGINKIT_TEST_REDISURL="redis://@localhost"
   matrix:
   - FLASK_VERSION=0.9
@@ -30,6 +31,7 @@ matrix:
     env: FLASK_VERSION=0.11
   allow_failures:
   - python: nightly
+  - python: "3.7"
 services:
 - redis-server
 install:

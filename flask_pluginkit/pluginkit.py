@@ -858,6 +858,7 @@ class PluginManager(object):
 
         :returns: html code with :class:`~flask.Markup`.
         """
+        #: TODO Do not build .css .js
         uri = url_for(
             self.static_endpoint,
             plugin_name=plugin_name,
