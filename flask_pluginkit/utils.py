@@ -132,7 +132,7 @@ class LocalStorage(BaseStorage):
     def set(self, key, value):
         """Set persistent data with shelve.
 
-        :param key: string: Index key
+        :param key: str: Index key
 
         :param value: All supported data types in python
 
@@ -142,6 +142,10 @@ class LocalStorage(BaseStorage):
         """
         db = self._open()
         try:
+            if PY2 and isinstance(key, text_type):
+                key = key.encode("utf-8")
+            if not PY2 and not isinstance(key, text_type):
+                key = key.decode("utf-8")
             db[key] = value
         finally:
             db.close()

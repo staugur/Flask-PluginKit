@@ -56,8 +56,8 @@ Submit pull request
 
   2. execute the command ``make cn``
 
-    Generate or update the po file and place it
-    in ``docs/locale/zh_CN/LC_MESSAGES/`` directory, then translate the po file.
+    Generate or update the po file and place it in
+    ``docs/locale/zh_CN/LC_MESSAGES/`` directory, then translate the po file.
 
   3. execute the command ``make html-cn``
 

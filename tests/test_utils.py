@@ -133,5 +133,6 @@ class UtilsTest(unittest.TestCase):
         self.assertTrue(dcp.remove("f", f))
         self.assertEqual(len(dcp.list), 1)
 
-if __name__ == '__main__' and not getenv("TRAVIS"):
+
+if __name__ == '__main__':
     unittest.main()

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-01 15:24+0800\n"
+"POT-Creation-Date: 2019-09-12 17:56+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -335,7 +335,7 @@ msgid "name of the plugin, which is `__plugin_name__`"
 msgstr ""
 
 #: flask_pluginkit.PluginManager.emit_assets:42 of
-msgid "file name in the static directory of the plugin package"
+msgid "filename in the static directory of the plugin package"
 msgstr ""
 
 #: flask_pluginkit.LocalStorage.get flask_pluginkit.LocalStorage.list
@@ -359,7 +359,7 @@ msgid "html code with :class:`~flask.Markup`."
 msgstr ""
 
 #: flask_pluginkit.PluginManager.emit_config:1 of
-msgid "Get configuration information in the template context, like config."
+msgid "Get configuration information in the template context."
 msgstr ""
 
 #: flask_pluginkit.PluginManager.emit_tep:1 of
@@ -523,11 +523,11 @@ msgstr ""
 msgid "Example usage::"
 msgstr ""
 
-#: ../../api.rst:34
+#: ../../api.rst:36
 msgid "The :class:`~flask.blueprints.Blueprint` instance for managing plugins."
 msgstr ""
 
-#: ../../api.rst:39
+#: ../../api.rst:41
 msgid "Inherited Application Objects"
 msgstr ""
 
@@ -555,7 +555,7 @@ msgid ""
 " should use this decorator at this time."
 msgstr ""
 
-#: ../../api.rst:46
+#: ../../api.rst:48
 msgid "Storage Objects"
 msgstr ""
 
@@ -563,7 +563,7 @@ msgstr ""
 msgid "Local file system storage based on the shelve module."
 msgstr ""
 
-#: ../../api.rst:53 ../../api.rst:60 flask_pluginkit.utils.BaseStorage.index:1
+#: ../../api.rst:55 ../../api.rst:62 flask_pluginkit.utils.BaseStorage.index:1
 #: of
 msgid "The default index, as the only key, you can override it."
 msgstr ""
@@ -589,7 +589,7 @@ msgid "Set persistent data with shelve."
 msgstr ""
 
 #: flask_pluginkit.LocalStorage.set:3 of
-msgid "string: Index key"
+msgid "str: Index key"
 msgstr ""
 
 #: flask_pluginkit.LocalStorage.set:5 of
@@ -620,7 +620,7 @@ msgstr ""
 msgid "set key data"
 msgstr ""
 
-#: ../../api.rst:64
+#: ../../api.rst:66
 msgid "Useful Functions and Classes"
 msgstr ""
 
@@ -753,7 +753,7 @@ msgstr ""
 msgid "The plugin package name, not __plugin_name."
 msgstr ""
 
-#: ../../api.rst:85
+#: ../../api.rst:87
 msgid "Custom Exceptions"
 msgstr ""
 
@@ -853,5 +853,14 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Bases: :class:`Exception`"
+#~ msgstr ""
+
+#~ msgid "file name in the static directory of the plugin package"
+#~ msgstr ""
+
+#~ msgid "Get configuration information in the template context, like config."
+#~ msgstr ""
+
+#~ msgid "string: Index key"
 #~ msgstr ""
 
