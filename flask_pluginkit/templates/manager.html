@@ -30,24 +30,25 @@
         <div class="container">
             <div class="field is-grouped is-grouped-multiline set-top">
                 {% for k,v in g.pluginkit_metadata.items() %}
-                    <div class="control">
-                        <div class="tags has-addons">
-                            <span class="tag is-black" data-l10n-id="{{ k }}">{{ k }}</span>
-                            <span class="tag">{{ v }}</span>
-                        </div>
+                <div class="control">
+                    <div class="tags has-addons">
+                        <span class="tag is-black" data-l10n-id="{{ k }}">{{ k }}</span>
+                        <span class="tag">{{ v }}</span>
                     </div>
+                </div>
                 {% endfor %}
             </div>
             <div class="columns">
                 <div class="column is-narrow">
-                    <a class="button is-danger is-small" title="No interaction directly overloading your web app!" href="javascript:reloadApp()"
-                        data-l10n-id='reload'>Reload Application</a>
+                    <a class="button is-danger is-small" title="No interaction directly overloading your web app!"
+                        href="javascript:reloadApp()" data-l10n-id='reload'>Reload Application</a>
                 </div>
                 <div class="column is-narrow">
                     <div class="field">
                         <div class="file is-info is-small">
                             <label class="file-label">
-                                <input class="file-input is-small" type="file" name="file" accept=".tar.gz, .zip, .tgz" id="file">
+                                <input class="file-input is-small" type="file" name="file" accept=".tar.gz, .zip, .tgz"
+                                    id="file">
                                 <span class="file-cta">
                                     <span class="file-icon">
                                         <i class="saintic-icon saintic-icon-upload"></i>
@@ -56,7 +57,8 @@
                                 </span>
                             </label>
                             <div class="control">
-                                <button class="button is-small" data-l10n-id="submit" id="upload-plugin-submit">Submit</button>
+                                <button class="button is-small" data-l10n-id="submit"
+                                    id="upload-plugin-submit">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -69,9 +71,10 @@
                             </a>
                         </div>
                         <div class="control has-icons-left is-expanded">
-                            <input class="input is-small" type="text" placeholder="The plugin download url" id="download-plugin-url">
+                            <input class="input is-small" type="text" placeholder="The plugin download url"
+                                id="download-plugin-url">
                             <span class="icon is-small is-left">
-                                <i class="saintic-icon saintic-icon-download"></i> 
+                                <i class="saintic-icon saintic-icon-download"></i>
                             </span>
                         </div>
                     </div>
@@ -84,9 +87,10 @@
                             </a>
                         </div>
                         <div class="control has-icons-left is-expanded">
-                            <input class="input is-small" type="text" placeholder="The pypi package name or VCS url" id="install-package-url">
+                            <input class="input is-small" type="text" placeholder="The pypi package name or VCS url"
+                                id="install-package-url">
                             <span class="icon is-small is-left">
-                                <i class="saintic-icon saintic-icon-module"></i> 
+                                <i class="saintic-icon saintic-icon-module"></i>
                             </span>
                         </div>
                     </div>
@@ -188,13 +192,15 @@
                         success && success(res);
                     } else {
                         if (options.msgprefix != false) {
-                            setMessage("<scan class='has-text-danger'>" + (options.msgprefix || '') + (res.msg || res.code) + "</scan>");
+                            setMessage("<scan class='has-text-danger'>" + (options.msgprefix || '') + (res
+                                .msg || res.code) + "</scan>");
                         }
                         options.fail && options.fail(res);
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    setMessage("<scan class='has-text-danger'>System exception, please try again later</scan>. Status code:" +
+                    setMessage(
+                        "<scan class='has-text-danger'>System exception, please try again later</scan>. Status code:" +
                         XMLHttpRequest.status + "," + textStatus);
                 },
                 complete: options.complete ? options.complete : function () {}
@@ -203,13 +209,17 @@
 
         function enablePlugin(plugin_name) {
             ajax("{{ url_for('.api', Action='enablePlugin') }}&plugin_name=" + plugin_name, function (res) {
-                setMessage("<scan class='has-text-success'>Enabled. Restart the application and take effect.</scan>");
+                setMessage(
+                    "<scan class='has-text-success'>Enabled. Restart the application and take effect.</scan>"
+                );
             });
         }
 
         function disablePlugin(plugin_name) {
             ajax("{{ url_for('.api', Action='disablePlugin') }}&plugin_name=" + plugin_name, function (res) {
-                setMessage("<scan class='has-text-success'>Disabled. Restart the application and take effect.</scan>");
+                setMessage(
+                    "<scan class='has-text-success'>Disabled. Restart the application and take effect.</scan>"
+                );
             });
         }
 
@@ -224,21 +234,21 @@
             hideNotification();
         });
 
-        window.addEventListener('localized', function() {
+        window.addEventListener('localized', function () {
             document.documentElement.lang = document.webL10n.getLanguage();
             document.documentElement.dir = document.webL10n.getDirection();
         }, false);
 
-        $('#upload-plugin-submit').click(function() {
+        $('#upload-plugin-submit').click(function () {
             var form = new FormData();
             var file = document.getElementById("file");
-            if (file.files.length===0) {
+            if (file.files.length === 0) {
                 return false;
             }
             form.append('file', file.files[0]);
             $.ajax({
                 url: "{{ url_for('.api', Action='uploadPlugin') }}",
-                method:  'post',
+                method: 'post',
                 dataType: 'json',
                 data: form,
                 processData: false,
@@ -252,42 +262,49 @@
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    setMessage("<scan class='has-text-danger'>System exception, please try again later</scan>. Status code:" +
+                    setMessage(
+                        "<scan class='has-text-danger'>System exception, please try again later</scan>. Status code:" +
                         XMLHttpRequest.status + "," + textStatus);
                 }
             });
         });
 
-        $('#download-plugin-submit').click(function() {
+        $('#download-plugin-submit').click(function () {
             var url = $('#download-plugin-url').val();
             if (url && url != "") {
-                ajax("{{ url_for('.api', Action='downloadPlugin') }}", function(res) {
+                ajax("{{ url_for('.api', Action='downloadPlugin') }}", function (res) {
                     setMessage("<scan class='has-text-primary'>Download is successful</scan>");
                 }, {
-                    data: {url:url},
-                    fail: function(res) {
+                    data: {
+                        url: url
+                    },
+                    fail: function (res) {
                         setMessage("<scan class='has-text-warning'>" + res.msg + "</scan>");
                     }
                 });
             }
         });
 
-        $('#install-package-submit').click(function() {
+        $('#install-package-submit').click(function () {
             var package_or_url = $('#install-package-url').val();
             if (package_or_url && package_or_url != "" && package_or_url != '.') {
-                ajax("{{ url_for('.api', Action='installPackage') }}", function(res) {
-                    setMessage("<scan class='has-text-primary'>Already submitted installation task.</scan>");
+                ajax("{{ url_for('.api', Action='installPackage') }}", function (res) {
+                    setMessage(
+                        "<scan class='has-text-primary'>Already submitted installation task.</scan>"
+                    );
                 }, {
-                    data: {package_or_url:package_or_url},
-                    fail: function(res) {
+                    data: {
+                        package_or_url: package_or_url
+                    },
+                    fail: function (res) {
                         setMessage("<scan class='has-text-warning'>" + res.msg + "</scan>");
                     }
                 });
             }
         });
 
-        setInterval(function(){
-            ajax("{{ url_for('.msg') }}", function(res) {
+        setInterval(function () {
+            ajax("{{ url_for('.msg') }}", function (res) {
                 if (res.msg) {
                     setMessage("<scan>" + res.msg + "</scan>");
                 }
@@ -295,7 +312,6 @@
                 method: 'get'
             });
         }, 5000);
-
     </script>
 </body>
 

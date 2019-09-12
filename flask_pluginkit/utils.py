@@ -55,8 +55,10 @@ def sortedSemver(versions, sort="ASC"):
             return sorted(versions, cmp=semver.compare, reverse=reverse)
         else:
             from functools import cmp_to_key
-            return sorted(versions, key=cmp_to_key(semver.compare),
-                          reverse=reverse)
+            return sorted(
+                versions, key=cmp_to_key(semver.compare),
+                reverse=reverse
+            )
     else:
         raise TypeError("Invaild versions, a list or tuple is right.")
 
@@ -104,9 +106,11 @@ class LocalStorage(BaseStorage):
     """Local file system storage based on the shelve module."""
 
     def _open(self, flag="c"):
-        return shelve.open(filename=join(gettempdir(), self.index),
-                           flag=flag,
-                           protocol=2)
+        return shelve.open(
+            filename=join(gettempdir(), self.index),
+            flag=flag,
+            protocol=2
+        )
 
     @property
     def list(self):
@@ -168,8 +172,9 @@ class RedisStorage(BaseStorage):
         try:
             from redis import from_url
         except ImportError:
-            raise ImportError("Please install the redis module,"
-                              "eg: pip install redis")
+            raise ImportError(
+                "Please install the redis module, eg: pip install redis"
+            )
         else:
             return from_url(redis_url)
 

@@ -9,15 +9,16 @@
     :license: BSD 3-Clause, see LICENSE for more details.
 """
 
-import os
 import re
 import shutil
 import tarfile
 import zipfile
+from os import remove
+from os.path import join, abspath, isdir, isfile, basename
 from sys import executable
 from subprocess import call
 from cgi import parse_header
-from posixpath import basename
+from posixpath import basename as posixbasename
 from tempfile import NamedTemporaryFile
 from .exceptions import PluginError, TarError, ZipError, InstallError
 from ._compat import PY2, string_types, urllib2, urlsplit, parse_qs
@@ -32,7 +33,7 @@ class PluginInstaller(object):
         :param plugin_abspath: the absolute path to the plugin directory.
         """
         self.plugin_abspath = plugin_abspath
-        if not os.path.isdir(self.plugin_abspath):
+        if not isdir(self.plugin_abspath):
             raise PluginError("Not Found Plugin Directory")
 
     def __isValidTGZ(self, suffix):
@@ -69,7 +70,7 @@ class PluginInstaller(object):
                 if plugin_filename and len(plugin_filename) == 1:
                     filename = plugin_filename[0]
             elif scene == 2:
-                filename = basename(urlsplit(data).path)
+                filename = posixbasename(urlsplit(data).path)
             elif scene == 3:
                 if PY2:
                     cd = data.headers.getheader("Content-Disposition", "")
@@ -81,8 +82,11 @@ class PluginInstaller(object):
                     cd = data.info().subtype
                 else:
                     cd = data.info().get_content_subtype()
-                mt = {'zip': 'zip', 'x-compressed-tar': 'tar.gz',
-                      'x-gzip': 'tar.gz'}
+                mt = {
+                    'zip': 'zip',
+                    'x-compressed-tar': 'tar.gz',
+                    'x-gzip': 'tar.gz'
+                }
                 subtype = mt.get(cd)
                 if subtype:
                     filename = "." + subtype
@@ -160,7 +164,7 @@ class PluginInstaller(object):
                         else:
                             self.__unpack_zip(filename)
                     finally:
-                        os.remove(filename)
+                        remove(filename)
                 else:
                     raise InstallError("Invalid Filename")
             finally:
@@ -171,18 +175,18 @@ class PluginInstaller(object):
 
     def _local_upload(self, filepath, remove=False):
         """Local plugin package processing"""
-        if os.path.isfile(filepath):
-            filename = os.path.basename(os.path.abspath(filepath))
+        if isfile(filepath):
+            filename = basename(abspath(filepath))
             if filename and self.__isValidFilename(filename):
                 suffix = self.__getFilenameSuffix(filename)
                 try:
                     if self.__isValidTGZ(suffix):
-                        self.__unpack_tgz(os.path.abspath(filepath))
+                        self.__unpack_tgz(abspath(filepath))
                     else:
-                        self.__unpack_zip(os.path.abspath(filepath))
+                        self.__unpack_zip(abspath(filepath))
                 finally:
                     if remove is True:
-                        os.remove(filepath)
+                        remove(filepath)
             else:
                 raise InstallError("Invalid Filename")
         else:
@@ -237,8 +241,10 @@ class PluginInstaller(object):
             if method == "remote":
                 self._remote_download(kwargs["url"])
             elif method == "local":
-                self._local_upload(kwargs["filepath"],
-                                   kwargs.get("remove", False))
+                self._local_upload(
+                    kwargs["filepath"],
+                    kwargs.get("remove", False)
+                )
             elif method == "pip":  # pragma: nocover
                 res = self._pip_install(kwargs["package_or_url"])
             else:
@@ -257,8 +263,8 @@ class PluginInstaller(object):
         """
         res = dict(code=1, msg=None)
         if package and isinstance(package, string_types):
-            path = os.path.join(self.plugin_abspath, package)
-            if os.path.isdir(path):
+            path = join(self.plugin_abspath, package)
+            if isdir(path):
                 try:
                     shutil.rmtree(path)
                 except Exception as e:

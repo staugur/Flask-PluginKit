@@ -9,8 +9,9 @@
     :license: BSD 3-Clause, see LICENSE for more details.
 """
 
-import os
 import logging
+from os import getcwd, listdir, remove
+from os.path import join, dirname, abspath, isdir, isfile, splitext
 from itertools import chain
 from jinja2 import ChoiceLoader, FileSystemLoader
 from flask import Blueprint, render_template, render_template_string, \
@@ -165,20 +166,19 @@ class PluginManager(object):
 
     def init_app(self, app, plugins_base=None, plugins_folder="plugins"):
         self.plugins_folder = plugins_folder
-        self.plugins_abspath = os.path.join(
-            plugins_base or getattr(app, 'root_path', os.getcwd()),
+        self.plugins_abspath = join(
+            plugins_base or getattr(app, 'root_path', getcwd()),
             self.plugins_folder
         )
 
         #: Scan and load plugins for :attr:`plugins_folder` and third-plugins
-        self.logger.debug("Start plugins initialization, "
-                          "local plugins path: %s, "
-                          "third party plugins: %s" %
-                          (self.plugins_abspath, self.plugin_packages))
+        self.logger.debug(
+            "Start plugins initialization, local plugins path: %s, third party"
+            "-plugins: %s" % (self.plugins_abspath, self.plugin_packages)
+        )
 
         self.__scan_third_plugins()
         self.__scan_affiliated_plugins()
-        # TODO Import single module plugin
 
         #: Analysis and run plugins. First, register template variable
         app.jinja_env.globals.update(
@@ -196,10 +196,11 @@ class PluginManager(object):
         ])
 
         #: Add a static rule for plugins
-        app.add_url_rule(self.static_url_path +
-                         '/<string:plugin_name>/<path:filename>',
-                         endpoint=self.static_endpoint,
-                         view_func=self._send_plugin_static_file)
+        app.add_url_rule(
+            self.static_url_path + '/<string:plugin_name>/<path:filename>',
+            endpoint=self.static_endpoint,
+            view_func=self._send_plugin_static_file
+        )
 
         #: Register the hook extension point processor
         for hep, handler in iteritems(self.__het_allow_hooks):
@@ -246,35 +247,37 @@ class PluginManager(object):
         app.extensions['pluginkit'] = self
 
     def __scan_third_plugins(self):
-        if self.plugin_packages and isinstance(self.plugin_packages, (list, tuple)):
+        if self.plugin_packages and \
+                isinstance(self.plugin_packages, (list, tuple)):
             for package_name in self.plugin_packages:
-                self.logger.debug("find third plugin package: %s" %
-                                  package_name)
+                self.logger.debug(
+                    "find third plugin package: %s" % package_name
+                )
                 try:
                     plugin = __import__(package_name)
                 except ImportError as e:
                     raise PluginError(e)
                 else:
-                    plugin_abspath = os.path.dirname(
-                        os.path.abspath(plugin.__file__)
-                    )
+                    plugin_abspath = dirname(abspath(plugin.__file__))
                     self.__load_plugin(plugin, plugin_abspath, package_name)
 
     def __scan_affiliated_plugins(self):
-        if os.path.isdir(self.plugins_abspath) and \
-                os.path.isfile(os.path.join(self.plugins_abspath, "__init__.py")):
-            for package_name in os.listdir(self.plugins_abspath):
-                package_abspath = os.path.join(
-                    self.plugins_abspath, package_name)
-                if os.path.isdir(package_abspath) and \
-                        os.path.isfile(os.path.join(package_abspath, "__init__.py")):
-                    self.logger.debug("find local plugin package: %s" %
-                                      package_name)
+        if isdir(self.plugins_abspath) and \
+                isfile(join(self.plugins_abspath, "__init__.py")):
+            for package_name in listdir(self.plugins_abspath):
+                package_abspath = join(self.plugins_abspath, package_name)
+                if isdir(package_abspath) and \
+                        isfile(join(package_abspath, "__init__.py")):
+                    self.logger.debug(
+                        "find local plugin package: %s" % package_name
+                    )
                     #: Dynamic load module (plugins.package):
                     #: you can query custom information and get the plugin's
                     #: class definition through `register` function.
-                    plugin = __import__("%s.%s" % (self.plugins_folder, package_name),
-                                        fromlist=[self.plugins_folder, ])
+                    plugin = __import__(
+                        "%s.%s" % (self.plugins_folder, package_name),
+                        fromlist=[self.plugins_folder, ]
+                    )
                     self.__load_plugin(plugin, package_abspath, package_name)
 
     def __load_plugin(self, p_obj, package_abspath, package_name):
@@ -311,13 +314,16 @@ class PluginManager(object):
                         try:
                             self.__pet_handlers[pet](plugin_info, value)
                         except KeyError:
-                            raise PEPError("The plugin %s found an invalid "
-                                           "extension point called %s" %
-                                           (plugin_info.plugin_name, pet))
+                            raise PEPError(
+                                "The plugin %s found an invalid "
+                                "extension point called %s" %
+                                (plugin_info.plugin_name, pet)
+                            )
                 self.__plugins.append(plugin_info)
             else:
-                raise PEPError("The register returns the wrong type, "
-                               "it should be a dict.")
+                raise PEPError(
+                    "The register returns the wrong type, it should be a dict."
+                )
         else:
             raise PEPError("The plugin metadata error")
 
@@ -327,9 +333,10 @@ class PluginManager(object):
         :returns: dict: plugin info
         """
         if not isValidSemver(p_obj.__version__):
-            raise VersionError("The version number of %s is not compliant, "
-                               "please refer to https://semver.org" %
-                               package_name)
+            raise VersionError(
+                "The version number of %s is not compliant, "
+                "please refer to https://semver.org" % package_name
+            )
 
         try:
             plugin_state = p_obj.__state__
@@ -339,9 +346,9 @@ class PluginManager(object):
         #: The plugin state first reads the `__state__` value,
         #: the priority is lower than the state file,
         #: and the ENABLED file has a lower priority than the DISABLED file.
-        if os.path.isfile(os.path.join(package_abspath, "ENABLED")):
+        if isfile(join(package_abspath, "ENABLED")):
             plugin_state = "enabled"
-        if os.path.isfile(os.path.join(package_abspath, "DISABLED")):
+        if isfile(join(package_abspath, "DISABLED")):
             plugin_state = "disabled"
 
         return Attribution({
@@ -356,8 +363,8 @@ class PluginManager(object):
             "plugin_license_file": getattr(p_obj, "__license_file__", None),
             "plugin_readme_file": getattr(p_obj, "__readme_file__", None),
             "plugin_state": plugin_state,
-            "plugin_tpl_path": os.path.join(package_abspath, "templates"),
-            "plugin_ats_path": os.path.join(package_abspath, "static"),
+            "plugin_tpl_path": join(package_abspath, "templates"),
+            "plugin_ats_path": join(package_abspath, "static"),
             "plugin_tep": {},
             "plugin_hep": {},
             "plugin_bep": {},
@@ -394,29 +401,34 @@ class PluginManager(object):
             plugin_tep = {}
             for event, tpl in iteritems(tep_rule):
                 if isinstance(tpl, string_types):
-                    if os.path.splitext(tpl)[-1] in (".html", ".htm", ".xhtml"):
-                        if os.path.isfile(os.path.join(
+                    if splitext(tpl)[-1] in (".html", ".htm", ".xhtml"):
+                        if isfile(join(
                             plugin_info.plugin_tpl_path,
                             tpl.split("@")[-1] if "@" in tpl and self.stpl is True else tpl)
                         ):
                             plugin_tep[event] = dict(fil=tpl)
                         else:
-                            raise TemplateNotFound("TEP Template File "
-                                                   "Not Found: %s" % tpl)
+                            raise TemplateNotFound(
+                                "TEP Template File Not Found: %s" % tpl
+                            )
                     else:
                         #: Keep Unicode encoding
                         if not isinstance(tpl, text_type):
                             tpl = tpl.decode('utf-8')
                         plugin_tep[event] = dict(cod=tpl)
                 else:
-                    raise PEPError("The tep content is invalid for %s" %
-                                   plugin_info.plugin_name)
+                    raise PEPError(
+                        "The tep content is invalid for %s" %
+                        plugin_info.plugin_name
+                    )
             #: plugin_tep, like {tep_name:dict(HTMLFile=str, HTMLString=str)}
             plugin_info['plugin_tep'] = plugin_tep
             self.logger.debug("Register TEP Success")
         else:
-            raise PEPError("The tep rule is invalid for %s, "
-                           "it should be a dict." % plugin_info.plugin_name)
+            raise PEPError(
+                "The tep rule is invalid for %s, "
+                "it should be a dict." % plugin_info.plugin_name
+            )
 
     def _hep_handler(self, plugin_info, hep_rule):
         """Hook extension point handler.
@@ -441,17 +453,23 @@ class PluginManager(object):
                     if callable(func):
                         plugin_hep[event] = func
                     else:
-                        raise PEPError("The hep content cannot be called back "
-                                       "for %s" % plugin_info.plugin_name)
+                        raise PEPError(
+                            "The hep content cannot be called back "
+                            "for %s" % plugin_info.plugin_name
+                        )
                 else:
-                    raise PEPError("The hep type is invalid for %s" %
-                                   plugin_info.plugin_name)
+                    raise PEPError(
+                        "The hep type is invalid for %s" %
+                        plugin_info.plugin_name
+                    )
             #: plugin_hep, like {hep_name:callable, and so on}
             plugin_info['plugin_hep'] = plugin_hep
             self.logger.debug("Register HEP Success")
         else:
-            raise PEPError("The hep rule is invalid for %s, "
-                           "it should be a dict." % plugin_info.plugin_name)
+            raise PEPError(
+                "The hep rule is invalid for %s, "
+                "it should be a dict." % plugin_info.plugin_name
+            )
 
     def _bep_handler(self, plugin_info, bep_rule):
         """Blueprint extension point handler.
@@ -467,21 +485,29 @@ class PluginManager(object):
                 bp = bep_rule["blueprint"]
                 prefix = bep_rule["prefix"]
             except KeyError:
-                raise PEPError("The bep rule is invalid for %s" %
-                               plugin_info.plugin_name)
+                raise PEPError(
+                    "The bep rule is invalid for %s" %
+                    plugin_info.plugin_name
+                )
             if not isinstance(bp, Blueprint):
-                raise PEPError("The bep blueprint is invalid for %s" %
-                               plugin_info.plugin_name)
+                raise PEPError(
+                    "The bep blueprint is invalid for %s" %
+                    plugin_info.plugin_name
+                )
             if not isValidPrefix(prefix, allow_none=True):
-                raise PEPError("The bep prefix is invalid for %s" %
-                               plugin_info.plugin_name)
+                raise PEPError(
+                    "The bep prefix is invalid for %s" %
+                    plugin_info.plugin_name
+                )
             #: TODO check and fix bp.root_path
             #: plugin_bep, like {blueprint:Blueprint instance, prefix='/xxx'}
             plugin_info['plugin_bep'] = bep_rule
             self.logger.debug("Register BEP Success")
         else:
-            raise PEPError("The bep rule is invalid for %s, "
-                           "it should be a dict." % plugin_info.plugin_name)
+            raise PEPError(
+                "The bep rule is invalid for %s, "
+                "it should be a dict." % plugin_info.plugin_name
+            )
 
     def _vep_handler(self, plugin_info, vep_rule):
         """Viewfunc extension point handler.
@@ -501,8 +527,10 @@ class PluginManager(object):
                     rule = options.pop("rule")
                     view_func = options.pop("view_func")
                 except KeyError:
-                    raise PEPError("The vep rule is invalid for %s" %
-                                   plugin_info.plugin_name)
+                    raise PEPError(
+                        "The vep rule is invalid for %s" %
+                        plugin_info.plugin_name
+                    )
                 else:
                     endpoint = options.pop("endpoint", None)
                     plugin_vep.append((rule, view_func, endpoint, options))
@@ -510,8 +538,10 @@ class PluginManager(object):
             plugin_info['plugin_vep'] = plugin_vep
             self.logger.debug("Register VEP Success")
         else:
-            raise PEPError("The vep rule is invalid for %s, it should be "
-                           "a list or tuple." % plugin_info.plugin_name)
+            raise PEPError(
+                "The vep rule is invalid for %s, it should be "
+                "a list or tuple." % plugin_info.plugin_name
+            )
 
     def _filter_handler(self, plugin_info, filter_rule):
         """Template filter handler.
@@ -526,8 +556,10 @@ class PluginManager(object):
             _filter_rule = {}
             for f in filter_rule:
                 if not callable(f):
-                    raise PEPError("The filter named %s cannot be called." %
-                                   plugin_info.plugin_name)
+                    raise PEPError(
+                        "The filter named %s cannot be called." %
+                        plugin_info.plugin_name
+                    )
                 else:
                     _filter_rule[f.__name__] = f
             filter_rule = _filter_rule
@@ -537,12 +569,16 @@ class PluginManager(object):
                 if callable(func):
                     plugin_filter.append((name, func))
                 else:
-                    raise PEPError("The filter named %s cannot be called." %
-                                   plugin_info.plugin_name)
+                    raise PEPError(
+                        "The filter named %s cannot be called." %
+                        plugin_info.plugin_name
+                    )
             plugin_info['plugin_filter'] = plugin_filter
         else:
-            raise PEPError("The filter rule is invalid for %s, "
-                           "it should be a dict." % plugin_info.plugin_name)
+            raise PEPError(
+                "The filter rule is invalid for %s, "
+                "it should be a dict." % plugin_info.plugin_name
+            )
 
     def _error_handler(self, plugin_info, errhandler_rule):
         """Error code handler.
@@ -556,15 +592,21 @@ class PluginManager(object):
         if isinstance(errhandler_rule, dict):
             for code, func in iteritems(errhandler_rule):
                 if not isinstance(code, integer_types):
-                    raise PEPError("The errhandler code is not interger for %s"
-                                   % plugin_info.plugin_name)
+                    raise PEPError(
+                        "The errhandler code is not interger for %s"
+                        % plugin_info.plugin_name
+                    )
                 if not callable(func):
-                    raise PEPError("The errhandler func is not called for %s"
-                                   % plugin_info.plugin_name)
+                    raise PEPError(
+                        "The errhandler func is not called for %s"
+                        % plugin_info.plugin_name
+                    )
             plugin_info["plugin_errhandler"] = errhandler_rule
         else:
-            raise PEPError("The error handler rule is invalid for %s, "
-                           "it should be a dict." % plugin_info.plugin_name)
+            raise PEPError(
+                "The error handler rule is invalid for %s, "
+                "it should be a dict." % plugin_info.plugin_name
+            )
 
     def _context_processor_handler(self, plugin_info, processor_rule):
         """Template context processor(tcp) handler.
@@ -578,8 +620,10 @@ class PluginManager(object):
         if isinstance(processor_rule, dict):
             plugin_info["plugin_tcp"] = processor_rule
         else:
-            raise PEPError("The context processor rule is invalid for %s, "
-                           "it should be a dict." % plugin_info.plugin_name)
+            raise PEPError(
+                "The context processor rule is invalid for %s, "
+                "it should be a dict." % plugin_info.plugin_name
+            )
 
     def __before_request_hook_handler(self):
         for func in self.get_enabled_heps["before_request"]:
@@ -612,7 +656,7 @@ class PluginManager(object):
         return [
             p.plugin_tpl_path
             for p in self.get_enabled_plugins
-            if os.path.isdir(p.plugin_tpl_path)
+            if isdir(p.plugin_tpl_path)
         ]
 
     @property
@@ -640,8 +684,11 @@ class PluginManager(object):
         """
         heps = {}
         for hep in self.__het_allow_hooks.keys():
-            heps[hep] = [p.plugin_hep[hep] for p in self.get_enabled_plugins
-                         if hep in p.plugin_hep.keys()]
+            heps[hep] = [
+                p.plugin_hep[hep]
+                for p in self.get_enabled_plugins
+                if hep in p.plugin_hep.keys()
+            ]
         return heps
 
     @property
@@ -714,10 +761,10 @@ class PluginManager(object):
     def get_plugin_info(self, plugin_name):
         """Get plugin information from all plugins"""
         try:
-            return next(
-                (p for p in self.get_all_plugins
-                 if p.plugin_name == plugin_name)
-            )
+            return next((
+                p for p in self.get_all_plugins
+                if p.plugin_name == plugin_name
+            ))
         except StopIteration:
             raise PluginError("No plugin named %s was found" % plugin_name)
 
@@ -726,10 +773,10 @@ class PluginManager(object):
         and restart the application to take effect.
         """
         p = self.get_plugin_info(plugin_name)
-        ENABLED = os.path.join(p.plugin_package_abspath, "ENABLED")
-        DISABLED = os.path.join(p.plugin_package_abspath, "DISABLED")
-        if os.path.isfile(ENABLED):
-            os.remove(ENABLED)
+        ENABLED = join(p.plugin_package_abspath, "ENABLED")
+        DISABLED = join(p.plugin_package_abspath, "DISABLED")
+        if isfile(ENABLED):
+            remove(ENABLED)
         self.__touch_file(DISABLED)
 
     def enable_plugin(self, plugin_name):
@@ -737,10 +784,10 @@ class PluginManager(object):
         and restart the application to take effect.
         """
         p = self.get_plugin_info(plugin_name)
-        ENABLED = os.path.join(p.plugin_package_abspath, "ENABLED")
-        DISABLED = os.path.join(p.plugin_package_abspath, "DISABLED")
-        if os.path.isfile(DISABLED):
-            os.remove(DISABLED)
+        ENABLED = join(p.plugin_package_abspath, "ENABLED")
+        DISABLED = join(p.plugin_package_abspath, "DISABLED")
+        if isfile(DISABLED):
+            remove(DISABLED)
         self.__touch_file(ENABLED)
 
     def __touch_file(self, filename):
@@ -790,9 +837,11 @@ class PluginManager(object):
         #: Disposable template sequence
         if self.stpl is True:
             def _sort_refresh(tep_typ):
-                func = sorted(tep_result[tep_typ],
-                              key=lambda x: x.split('@')[0],
-                              reverse=self.stpl_reverse)
+                func = sorted(
+                    tep_result[tep_typ],
+                    key=lambda x: x.split('@')[0],
+                    reverse=self.stpl_reverse
+                )
                 return map(lambda tpl: tpl.split('@')[-1], func)
             tep_result["fil"] = _sort_refresh("fil")
             tep_result["cod"] = _sort_refresh("cod")
@@ -804,7 +853,7 @@ class PluginManager(object):
             [render_template_string(i, **context) for i in tep_result["cod"]]
         ))
 
-        typ = "all" if not typ in ("fil", "cod") else typ
+        typ = "all" if typ not in ("fil", "cod") else typ
         if typ == "fil":
             return mtf
         elif typ == "cod":
@@ -854,7 +903,7 @@ class PluginManager(object):
 
         :param plugin_name: name of the plugin, which is `__plugin_name__`
 
-        :param filename: file name in the static directory of the plugin package
+        :param filename: filename in the static directory of the plugin package
 
         :returns: html code with :class:`~flask.Markup`.
         """
@@ -871,11 +920,14 @@ class PluginManager(object):
         return Markup(uri)
 
     def emit_config(self, conf_name):
-        """Get configuration information in the template context, like config."""
+        """Get configuration information in the template context."""
         try:
             return self.pluginkit_config[conf_name]
         except KeyError:
             return current_app.config.get(conf_name)
+
+    def _build_test(self):
+        pass
 
 
 def push_dcp(event, callback, position='right'):

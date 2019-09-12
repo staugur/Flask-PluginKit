@@ -31,7 +31,6 @@ matrix:
     env: FLASK_VERSION=0.11
   allow_failures:
   - python: nightly
-  - python: "3.7"
 services:
 - redis-server
 install:
@@ -47,7 +46,7 @@ deploy:
   provider: pypi
   user: saintic
   password:
-    secure: qIFYcJ/u2xOYVrMe/UKjfygKj9gTzvtFHIs5v3LGtkFMc7QJ6jEEsC3yWh8upAB5iddb2pI5wLcrYn4J13sxMd7I0na+sDHyq/CKrN3qJzdmD2U9FlHI8eLoOCPCEAfySyvO7hgWhk5oga4eJarEZBlq+5UGb6YfQnx7J32ViHEBEBWD6GFKAwAwtKOAYtRqlsRyJjz/41JnphXK7tpcUHZIO0s0XVC765CnXvHDlLPzol+ynEJz0/avTKJkUhC+I961QTSUgZC+J9QJcSepg+Bq6EssoRF5ldVKpRtrsjTNAEc535z/5JsvddNK7/+iay2X42YDBSvxYIOrFuqFLJK7AxxdGtHhiU5nwkYbDMERDVOmHCBbSMSqTOt9HMT486RGnizKGUUyk9Gsc+xZcYa+vSg4C9bCVdTBaJQ31Rv5NraMV7+APtL6iCcFufWyv5dHjKiyDNBKFtvpxDKC3Y+Hd3mOiS8+INNNMRoxZ7tbgYrQ2u3MkAAwLEyWJ2qgJI/Rx9jSTUVRcaT6csxwmSWNrvakUr3vZUR7EVA6nOcp7ShnCclEPTKgmqFZYqC3gA9KoO2MF/mSNYosrlCTPc23WEKqVobkqlLWVCR6dpw3k0JbPLB5rSIsHXz2dXdWDsHa45WhCiz6nfAsUpqGlk9NIty+NXuTrcQaE54HqAo=
+    secure: xr/5VfQWftfjcd4djqUaXgC4V9qxRA2nLRkgX/gDnDaPJ8JL04JqNm8q/sF0p7YoIJZZUMbk/PJpaykZmOTzEpwT4bDKRWxlMEDOO+H/JsSD2Eoll9LNygAnb/MBWkqIfZn8gAQJuegc7luCTT0Ha62gOdAnQIDwF9zwCP50sA8yoPwlzPB/km1BFzQ5ZHLisCw43WCRIqBPB4/sgOxgVm8U5WDUVvhiTc3Lh2oKxEcCeR7NVbMd3bbcomOrHwhicTDRiUNJmIqpjM/2rhf+JsfPjJjnGdrE1EeVRGbplnFzCJbeOLU2O8Ol9VROJ+5JTZ1Y2JEHjyDS41NW/LXmhMUX9s2ivgWFfvWRZ0XAoKo5WTHhY23E5ERlujsqgERNKgBciZQnKvTLzhM8NABsihYpf35eCJf/4hJ8re6QgtdHzR+4eTJG+n42RDPJgzeCgEeaxsrei7xiYa3aMNLZ+DpWS+Uo6q7F6tiMYqzspvaCCNOoj0N1AeF1PBUfFy8Gm18aoDO17iF7IOrpiiBE8PKjjgwT0lNjNG+ivSPGlh+E1BiWfhdX34+MTzSvE3uFTOjiCJL5TzBLJi5KwteR0Opla4LIzrcDJiy25yz+24kwuSmTIX2uENXnjvENPkHXfI+NopSqAguFOQFcUBMT0aC/FykQ/nfR5tau0GyPAAo=
   distributions: sdist bdist_wheel
   skip_existing: true
   skip_cleanup: true
