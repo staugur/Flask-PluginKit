@@ -28,7 +28,6 @@ def isValidPrefix(prefix, allow_none=False):
     if isinstance(prefix, string_types):
         return prefix.startswith('/') and \
             not prefix.endswith('/') and \
-            prefix.count('/') == 1 and \
             ' ' not in prefix
     return False
 

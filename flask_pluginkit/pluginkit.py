@@ -322,10 +322,15 @@ class PluginManager(object):
                 self.__plugins.append(plugin_info)
             else:
                 raise PEPError(
-                    "The register returns the wrong type, it should be a dict."
+                    "When loading %s, the register returns the wrong type, "
+                    "it should be a dict." %
+                    getattr(p_obj, "__plugin_name__", package_name)
                 )
         else:
-            raise PEPError("The plugin metadata error")
+            raise PEPError(
+                "The plugin %s metadata error" %
+                getattr(p_obj, "__plugin_name__", package_name)
+            )
 
     def _get_plugin_meta(self, p_obj, package_abspath, package_name):
         """ Organize plugin information.

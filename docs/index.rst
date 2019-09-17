@@ -35,6 +35,8 @@ package (such as pypi), which is the `official plugin organization`_.
 .. warning::
 
     The current version v3.x is completely incompatible with the old version!
+    But the plugin can be easily compatible with the new version, just return
+    the registered method with ``register``.
 
 User Guide
 ----------

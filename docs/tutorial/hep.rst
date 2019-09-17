@@ -71,7 +71,7 @@ Example
 
     from flask import request, g, current_app
 
-    def set_login_state(self):
+    def set_login_state():
         g.login_in = request.args.get("username") == "admin" and \
                      request.args.get("password") == "admin
 
