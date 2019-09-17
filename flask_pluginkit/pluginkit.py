@@ -89,11 +89,17 @@ class PluginManager(object):
     :param pluginkit_config: additional configuration can be used
                              in the template via :meth:`emit_config`.
 
+    :param try_compatible: Boolean, default True, try to load the registration
+                           method of getPluginClass in 2.x and convert.
+
     .. versionchanged:: 3.1.0
         Add a vep handler
 
     .. versionchanged:: 3.2.0
         Add filter handler, error handler, template context processor
+
+    .. versionchanged:: 3.3.1
+        Add try_compatible, if True, it will try to load old version
     """
 
     def __init__(
@@ -156,6 +162,11 @@ class PluginManager(object):
         #:
         #: .. versionadded:: 3.2.0
         self._dcp_manager = DcpManager()
+
+        #: Compatibility loading
+        #:
+        #: .. versionadded:: 3.3.1
+        self._try_compatible = options.get("try_compatible", True)
 
         #: All locally stored plugins
         self.__plugins = []
@@ -280,6 +291,46 @@ class PluginManager(object):
                     )
                     self.__load_plugin(plugin, package_abspath, package_name)
 
+    def __try_load_oldmeta(self, p_obj):
+        """Try compatible with the old version
+
+        :param p_obj: dynamically loaded plugin modules
+
+        .. versionadded:: 3.3.1
+        """
+        if hasattr(p_obj, "register"):
+            return
+
+        #: Set resp
+        resp = {}
+
+        #: Detection plugin information
+        if hasattr(p_obj, "getPluginClass"):
+            #: Get the plugin main class and instantiate it
+            p = p_obj.getPluginClass()()
+
+            #: Register the template extension point
+            if hasattr(p, "register_tep"):
+                resp["tep"] = p.register_tep()
+
+            #: Register context extension points
+            if hasattr(p, "register_hep"):
+                heps = p.register_hep()
+                if isinstance(heps, dict):
+                    resp["hep"] = {
+                        hep_name.replace("_hook", ""): hep_func
+                        for hep_name, hep_func in iteritems(heps)
+                    }
+                else:
+                    resp["hep"] = heps
+
+            #: Register the blueprint extension point
+            if hasattr(p, "register_bep"):
+                resp["bep"] = p.register_bep()
+
+        #: Dynamically add a function
+        p_obj.register = lambda: resp
+
     def __load_plugin(self, p_obj, package_abspath, package_name):
         """Try to load the plugin.
 
@@ -293,7 +344,12 @@ class PluginManager(object):
 
         .. versionchanged:: 3.0.1
             Do not check whether it is empty or not.
+
+        .. versionchanged:: 3.3.1
+            Read and convert the method of getPluginClass in the old version.
         """
+        if self._try_compatible:
+            self.__try_load_oldmeta(p_obj)
         #: Detection plugin information
         if hasattr(p_obj, "__plugin_name__") and \
                 hasattr(p_obj, "__version__") and \

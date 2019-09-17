@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-16 11:29+0800\n"
+"POT-Creation-Date: 2019-09-17 15:59+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -119,11 +119,21 @@ msgid ""
 msgstr ""
 
 #: flask_pluginkit.PluginManager:64 of
-msgid "Add a vep handler"
+msgid ""
+"Boolean, default True, try to load the registration method of "
+"getPluginClass in 2.x and convert."
 msgstr ""
 
 #: flask_pluginkit.PluginManager:67 of
+msgid "Add a vep handler"
+msgstr ""
+
+#: flask_pluginkit.PluginManager:70 of
 msgid "Add filter handler, error handler, template context processor"
+msgstr ""
+
+#: flask_pluginkit.PluginManager:73 of
+msgid "Add try_compatible, if True, it will try to load old version"
 msgstr ""
 
 #: flask_pluginkit.PluginManager.__init__:1 of
@@ -791,7 +801,7 @@ msgid "Bases: :class:`flask_pluginkit.exceptions.PluginError`"
 msgstr ""
 
 #: flask_pluginkit.exceptions.PluginError:1 of
-msgid "Bases: :class:`Exception`"
+msgid "Bases: :class:`exceptions.Exception`"
 msgstr ""
 
 #~ msgid "Static endpoint and url"

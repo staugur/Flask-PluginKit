@@ -34,9 +34,7 @@ package (such as pypi), which is the `official plugin organization`_.
 
 .. warning::
 
-    The current version v3.x is completely incompatible with the old version!
-    But the plugin can be easily compatible with the new version, just return
-    the registered method with ``register``.
+    V3.3.1 or later is compatible with some data in v2.x, refer :ref:`faq-cov`
 
 User Guide
 ----------
@@ -75,6 +73,7 @@ will be supplemented by others.
 
     changelog
     contributing
+    faq
     Pocoo Styleguide <https://flask.palletsprojects.com/styleguide/>
 
 

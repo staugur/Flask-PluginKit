@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-16 11:29+0800\n"
+"POT-Creation-Date: 2019-09-17 15:59+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,37 +66,32 @@ msgstr ""
 "organization`_"
 
 #: ../../index.rst:37
-msgid ""
-"The current version v3.x is completely incompatible with the old version!"
-" But the plugin can be easily compatible with the new version, just "
-"return the registered method with ``register``."
-msgstr ""
-"当前版本v3.x，完全不兼容旧版本！"
-"但是插件可以很容易兼容新版本，只需要将注册的方法用 ``register`` 重新返回即可。"
+msgid "V3.3.1 or later is compatible with some data in v2.x, refer :ref:`faq-cov`"
+msgstr "v3.3.1及后续版本可以自动兼容v2.x中部分数据，参考 :ref:`faq-cov`"
 
-#: ../../index.rst:42
+#: ../../index.rst:40
 msgid "User Guide"
 msgstr "用户指南"
 
-#: ../../index.rst:44
+#: ../../index.rst:42
 msgid "Describe in detail how to develop a plugin using Flask-PluginKit."
 msgstr "详细描述了如何使用Flask-PluginKit开发一个插件。"
 
-#: ../../index.rst:56
+#: ../../index.rst:54
 msgid "API Reference"
 msgstr "API参考"
 
-#: ../../index.rst:58
+#: ../../index.rst:56
 msgid ""
 "If you are looking for information on a specific function, class or "
 "method, this part of the documentation is for you."
 msgstr "如果你正在寻找特定功能，这部分文档也许有帮助。"
 
-#: ../../index.rst:68
+#: ../../index.rst:66
 msgid "Additional Notes"
 msgstr "附加说明"
 
-#: ../../index.rst:70
+#: ../../index.rst:68
 msgid ""
 "Some additional instructions, styleguide, changelog, contributing, will "
 "be supplemented by others."
@@ -109,4 +104,13 @@ msgstr "一些额外的说明，样式指南、更新日志、如何贡献等。
 #~ "The current version v3.x is completely"
 #~ " incompatible with the old version!"
 #~ msgstr "当前版本v3.x，完全不兼容旧版本！"
+
+#~ msgid ""
+#~ "The current version v3.x is completely"
+#~ " incompatible with the old version! "
+#~ "But the plugin can be easily "
+#~ "compatible with the new version, just"
+#~ " return the registered method with "
+#~ "``register``."
+#~ msgstr "当前版本v3.x，完全不兼容旧版本！但是插件可以很容易兼容新版本，只需要将注册的方法用 ``register`` 重新返回即可。"
 
