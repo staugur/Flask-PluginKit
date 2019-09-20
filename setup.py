@@ -88,7 +88,7 @@ setup(
     url='https://github.com/staugur/Flask-PluginKit',
     download_url="https://github.com/staugur/Flask-PluginKit/releases/tag/v%s" % version,
     project_urls={
-        "Documentation": "https://flask-pluginkit.readthedocs.io",
+        "Documentation": "https://flask-pluginkit.rtfd.vip",
         "Code": "https://github.com/staugur/Flask-PluginKit",
         "Issue tracker": "https://github.com/staugur/Flask-PluginKit/issues",
     },

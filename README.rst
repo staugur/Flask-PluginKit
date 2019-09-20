@@ -40,9 +40,9 @@ Quickstart
 Documentation
 -------------
 
--  `简体中文 <https://flask-pluginkit.readthedocs.io/zh_CN/latest/>`__
+-  `简体中文 <https://flask-pluginkit.rtfd.vip/zh_CN/latest/>`__
 
--  `English <https://flask-pluginkit.readthedocs.io/en/latest/>`__
+-  `English <https://flask-pluginkit.rtfd.vip/en/latest/>`__
 
 
 Contributing
@@ -78,8 +78,8 @@ Welcome to submit pull request and star.
 
 .. |Build Status| image:: https://travis-ci.org/staugur/Flask-PluginKit.svg?branch=master
     :target: https://travis-ci.org/staugur/Flask-PluginKit
-.. |Documentation Status| image:: https://readthedocs.org/projects/flask-pluginkit/badge/?version=latest
-    :target: https://flask-pluginkit.readthedocs.io/
+.. |Documentation Status| image:: https://open.saintic.com/rtfd/badge/flask-pluginkit
+    :target: https://flask-pluginkit.rtfd.vip
 .. |codecov| image:: https://codecov.io/gh/staugur/Flask-PluginKit/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/staugur/Flask-PluginKit
 .. |PyPI| image:: https://img.shields.io/pypi/v/Flask-PluginKit.svg?style=popout
