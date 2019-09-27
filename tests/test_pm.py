@@ -140,6 +140,19 @@ class PMTest(unittest.TestCase):
             resp403 = c.get('/403')
             self.assertEqual(403, resp403.status_code)
             self.assertIn(b"permission deny", resp403.data)
+            #: raise apierror
+            respapierror = c.get('/api_error')
+            if PY2:
+                data = json.loads(respapierror.data)
+            else:
+                if isinstance(respapierror.data, bytes):
+                    data = json.loads(respapierror.data.decode('utf-8'))
+                else:
+                    data = json.loads(respapierror.data)
+            self.assertIsInstance(data, dict)
+            self.assertIn("msg", data)
+            self.assertEqual("test_err_class_handler", data["msg"])
+            self.assertEqual(10000, data["code"])
 
     def test_tcp(self):
         context = {

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-20 16:41+0800\n"
+"POT-Creation-Date: 2019-09-27 17:18+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,7 +55,8 @@ msgid ""
 "PluginManager via a factory::"
 msgstr ""
 
-#: flask_pluginkit.LocalStorage.set flask_pluginkit.PluginInstaller.addPlugin
+#: flask_pluginkit.JsonResponse.force_type flask_pluginkit.LocalStorage.set
+#: flask_pluginkit.PluginInstaller.addPlugin
 #: flask_pluginkit.PluginInstaller.removePlugin flask_pluginkit.PluginManager
 #: flask_pluginkit.PluginManager._bep_handler
 #: flask_pluginkit.PluginManager._context_processor_handler
@@ -136,6 +137,17 @@ msgstr ""
 msgid "Add try_compatible, if True, it will try to load old version"
 msgstr ""
 
+#: flask_pluginkit.PluginManager:76 of
+msgid "Add hep named before_first_request."
+msgstr ""
+
+#: flask_pluginkit.PluginManager:79 of
+msgid ""
+"The param ``stpl`` allows to be set to `asc` or `desc`, respectively, "
+"ascending, descending, which will also open the template sorting. So, the"
+" param ``stpl_reverse`` will be deprecated."
+msgstr ""
+
 #: flask_pluginkit.PluginManager.__init__:1 of
 msgid ""
 "Receive initialization parameters and pass options to :meth:`init_app` "
@@ -211,7 +223,9 @@ msgid ""
 "before_request, Before request (intercept requests are allowed)  2. "
 "after_request, After request (no exception before return)  3. "
 "teardown_request, After request (before return, with or without "
-"exception)"
+"exception)  4. before_first_request, Before first request (Registers a "
+"function to be run before the first request to this instance of the "
+"application.)"
 msgstr ""
 
 #: flask_pluginkit.PluginManager._hep_handler:3 of
@@ -233,6 +247,12 @@ msgid ""
 msgstr ""
 
 #: flask_pluginkit.PluginManager._hep_handler:14 of
+msgid ""
+"4. before_first_request, Before first request (Registers a function to be"
+" run before the first request to this instance of the application.)"
+msgstr ""
+
+#: flask_pluginkit.PluginManager._hep_handler:18 of
 msgid "if hep rule or content is invalid."
 msgstr ""
 
@@ -262,11 +282,15 @@ msgid "Template filter handler."
 msgstr ""
 
 #: flask_pluginkit.PluginManager._filter_handler:3 of
-msgid "like {filter_name=func,} or [func,]"
+msgid "like {filter_name=func,} or [func, (name,func)]"
 msgstr ""
 
 #: flask_pluginkit.PluginManager._filter_handler:5 of
 msgid "if filter rule or content is invalid."
+msgstr ""
+
+#: flask_pluginkit.PluginManager._filter_handler:9 of
+msgid "If filter_rule is list or tuple, allow nested tuple to set name"
 msgstr ""
 
 #: flask_pluginkit.PluginManager._error_handler:1 of
@@ -274,11 +298,17 @@ msgid "Error code handler."
 msgstr ""
 
 #: flask_pluginkit.PluginManager._error_handler:3 of
-msgid "like {err_code=func, }"
+msgid ""
+"eg: {err_code=func} or [{error=exception_class, handler=func}, "
+"{error=err_code, handler=func}]"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._error_handler:5 of
+#: flask_pluginkit.PluginManager._error_handler:6 of
 msgid "if error handler rule or content is invalid."
+msgstr ""
+
+#: flask_pluginkit.PluginManager._error_handler:10 of
+msgid "Allow registration of class-based exception handlers"
 msgstr ""
 
 #: flask_pluginkit.PluginManager._context_processor_handler:1 of
@@ -337,19 +367,30 @@ msgid "Other types of files, only return file url path segment, like this::"
 msgstr ""
 
 #: flask_pluginkit.PluginManager.emit_assets:25 of
+msgid ""
+"However, the ``_raw`` parameter has been added in v3.4.0, and if it is "
+"True, only uri is generated."
+msgstr ""
+
+#: flask_pluginkit.PluginManager.emit_assets:28 of
 msgid "The following is a mini example::"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:40 of
+#: flask_pluginkit.PluginManager.emit_assets:48 of
 msgid "name of the plugin, which is `__plugin_name__`"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:42 of
+#: flask_pluginkit.PluginManager.emit_assets:50 of
 msgid "filename in the static directory of the plugin package"
 msgstr ""
 
-#: flask_pluginkit.LocalStorage.get flask_pluginkit.LocalStorage.list
-#: flask_pluginkit.LocalStorage.set flask_pluginkit.PluginInstaller.addPlugin
+#: flask_pluginkit.PluginManager.emit_assets:52 of
+msgid "if True, not to parse automatically, only generate uri. Default False."
+msgstr ""
+
+#: flask_pluginkit.JsonResponse.force_type flask_pluginkit.LocalStorage.get
+#: flask_pluginkit.LocalStorage.list flask_pluginkit.LocalStorage.set
+#: flask_pluginkit.PluginInstaller.addPlugin
 #: flask_pluginkit.PluginManager.emit_assets
 #: flask_pluginkit.PluginManager.emit_tep
 #: flask_pluginkit.PluginManager.get_enabled_beps
@@ -363,9 +404,13 @@ msgstr ""
 msgid "Returns"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:44
+#: flask_pluginkit.PluginManager.emit_assets:55
 #: flask_pluginkit.PluginManager.emit_tep:28 of
 msgid "html code with :class:`~flask.Markup`."
+msgstr ""
+
+#: flask_pluginkit.PluginManager.emit_assets:57 of
+msgid "Add _raw, only generate uri without parse"
 msgstr ""
 
 #: flask_pluginkit.PluginManager.emit_config:1 of
@@ -446,7 +491,11 @@ msgid "Get all error handlers for the enabled plugins."
 msgstr ""
 
 #: flask_pluginkit.PluginManager.get_enabled_errhandlers:3 of
-msgid "dict, like {code: view_func,}"
+msgid "list, like [(err_code_class, func_handler), ...]"
+msgstr ""
+
+#: flask_pluginkit.PluginManager.get_enabled_errhandlers:7 of
+msgid "Return type changed from dict to list"
 msgstr ""
 
 #: flask_pluginkit.PluginManager.get_enabled_filters:1 of
@@ -565,7 +614,51 @@ msgid ""
 " should use this decorator at this time."
 msgstr ""
 
-#: ../../api.rst:48
+#: flask_pluginkit.JsonResponse:1 of
+msgid ""
+"In response to a return type that cannot be processed. If it is a dict, "
+"return json."
+msgstr ""
+
+#: flask_pluginkit.JsonResponse.force_type:1 of
+msgid ""
+"Enforce that the WSGI response is a response object of the current type."
+"  Werkzeug will use the :class:`BaseResponse` internally in many "
+"situations like the exceptions.  If you call :meth:`get_response` on an "
+"exception you will get back a regular :class:`BaseResponse` object, even "
+"if you are using a custom subclass."
+msgstr ""
+
+#: flask_pluginkit.JsonResponse.force_type:7 of
+msgid ""
+"This method can enforce a given response type, and it will also convert "
+"arbitrary WSGI callables into response objects if an environ is "
+"provided::"
+msgstr ""
+
+#: flask_pluginkit.JsonResponse.force_type:18 of
+msgid ""
+"This is especially useful if you want to post-process responses in the "
+"main dispatcher and use functionality provided by your subclass."
+msgstr ""
+
+#: flask_pluginkit.JsonResponse.force_type:21 of
+msgid "Keep in mind that this will modify response objects in place if possible!"
+msgstr ""
+
+#: flask_pluginkit.JsonResponse.force_type:24 of
+msgid "a response object or wsgi application."
+msgstr ""
+
+#: flask_pluginkit.JsonResponse.force_type:25 of
+msgid "a WSGI environment object."
+msgstr ""
+
+#: flask_pluginkit.JsonResponse.force_type:26 of
+msgid "a response object."
+msgstr ""
+
+#: ../../api.rst:50
 msgid "Storage Objects"
 msgstr ""
 
@@ -573,7 +666,7 @@ msgstr ""
 msgid "Local file system storage based on the shelve module."
 msgstr ""
 
-#: ../../api.rst:55 ../../api.rst:62 flask_pluginkit.utils.BaseStorage.index:1
+#: ../../api.rst:57 ../../api.rst:64 flask_pluginkit.utils.BaseStorage.index:1
 #: of
 msgid "The default index, as the only key, you can override it."
 msgstr ""
@@ -630,7 +723,19 @@ msgstr ""
 msgid "set key data"
 msgstr ""
 
-#: ../../api.rst:66
+#: flask_pluginkit.MongoStorage:1 of
+msgid "Use mongodb stand-alone storage"
+msgstr ""
+
+#: ../../api.rst:71
+msgid "The default index, as the default database, you can override it."
+msgstr ""
+
+#: flask_pluginkit.MongoStorage.db:1 of
+msgid "Return the mongo connection"
+msgstr ""
+
+#: ../../api.rst:74
 msgid "Useful Functions and Classes"
 msgstr ""
 
@@ -763,7 +868,7 @@ msgstr ""
 msgid "The plugin package name, not __plugin_name."
 msgstr ""
 
-#: ../../api.rst:87
+#: ../../api.rst:94
 msgid "Custom Exceptions"
 msgstr ""
 
@@ -801,7 +906,7 @@ msgid "Bases: :class:`flask_pluginkit.exceptions.PluginError`"
 msgstr ""
 
 #: flask_pluginkit.exceptions.PluginError:1 of
-msgid "Bases: :class:`Exception`"
+msgid "Bases: :class:`exceptions.Exception`"
 msgstr ""
 
 #~ msgid "Static endpoint and url"
@@ -872,5 +977,24 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "string: Index key"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "like {hook: func}, the supporting hooks"
+#~ " are as follows:  1. before_request, "
+#~ "Before request (intercept requests are "
+#~ "allowed)  2. after_request, After request "
+#~ "(no exception before return)  3. "
+#~ "teardown_request, After request (before "
+#~ "return, with or without exception)"
+#~ msgstr ""
+
+#~ msgid "like {filter_name=func,} or [func,]"
+#~ msgstr ""
+
+#~ msgid "like {err_code=func, }"
+#~ msgstr ""
+
+#~ msgid "dict, like {code: view_func,}"
 #~ msgstr ""
 

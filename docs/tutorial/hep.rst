@@ -23,6 +23,12 @@ three hooks with the following names:
 
     After request (before return, with or without exception)
 
+- before_first_request
+
+    Registers a function to be run before the first request to this instance of
+    the application.
+
+
 Other hooks will be supported later, and a exception
 :class:`~flask_pluginkit.exceptions.PEPError` will be triggered if a hook name
 that is not supported by the current version is used.
@@ -61,6 +67,10 @@ that there are different requirements for different hook type handlers:
     Similar to after_request, this hook is triggered by the flask when
     the web exception occurs. Flask-PluginKit will pass the **exception**
     parameter to the corresponding hook function without returning.
+
+- before_first_request
+
+    Refer before_request, run only once after the app starts, no return value.
 
 Example
 -------

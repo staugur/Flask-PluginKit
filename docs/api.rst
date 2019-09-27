@@ -43,6 +43,8 @@ Inherited Application Objects
 .. autoclass:: Flask
     :members:
 
+.. autoclass:: JsonResponse
+    :members:
 
 Storage Objects
 ----------------
@@ -61,6 +63,12 @@ Storage Objects
 
         The default index, as the only key, you can override it.
 
+.. autoclass:: MongoStorage
+    :members:
+
+    .. attribute:: index
+
+        The default index, as the default database, you can override it.
 
 Useful Functions and Classes
 ----------------------------
@@ -81,7 +89,6 @@ Useful Functions and Classes
 
 .. autoclass:: PluginInstaller
     :members:
-
 
 Custom Exceptions
 -----------------

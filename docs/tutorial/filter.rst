@@ -22,6 +22,9 @@ If it is a list, the format is [func1, func2], and the function name is
 used as the filter name, but if an anonymous function is used,
 the filter name is <lambda>, which is unfriendly!
 
+So, if the format is list, the element type is allowed to be tuple, ie:
+[func1, (name, func2)], thus setting the name of the filter.
+
 The Flask-PluginKit loads filter via
 :meth:`~flask_pluginkit.PluginManager._filter_handler`, this method will
 detect filter rules and specific content.

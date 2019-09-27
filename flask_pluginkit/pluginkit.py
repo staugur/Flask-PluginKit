@@ -17,7 +17,7 @@ from jinja2 import ChoiceLoader, FileSystemLoader
 from flask import Blueprint, render_template, render_template_string, \
     send_from_directory, abort, url_for, Markup, current_app
 from .utils import isValidPrefix, isValidSemver, Attribution, DcpManager
-from ._compat import string_types, iteritems, text_type, integer_types
+from ._compat import string_types, iteritems, text_type
 from .exceptions import PluginError, VersionError, PEPError, TemplateNotFound
 try:
     from flask import _app_ctx_stack as stack
@@ -100,6 +100,14 @@ class PluginManager(object):
 
     .. versionchanged:: 3.3.1
         Add try_compatible, if True, it will try to load old version
+
+    .. versionchanged:: 3.4.0
+        Add hep named before_first_request.
+
+    .. versionchanged:: 3.4.0
+        The param ``stpl`` allows to be set to `asc` or `desc`, respectively,
+        ascending, descending, which will also open the template sorting.
+        So, the param ``stpl_reverse`` will be deprecated.
     """
 
     def __init__(
@@ -120,6 +128,9 @@ class PluginManager(object):
 
         #: Template sort order, True descending, False ascending (default).
         self.stpl_reverse = options.get("stpl_reverse", False)
+        if self.stpl in ("asc", "desc"):
+            self.stpl = True
+            self.stpl_reverse = False if self.stpl == "asc" else True
 
         #: Third-party plugin package
         self.plugin_packages = options.get("plugin_packages") or []
@@ -156,6 +167,7 @@ class PluginManager(object):
             "before_request": self.__before_request_hook_handler,
             "after_request": self.__after_request_hook_handler,
             "teardown_request": self.__teardown_request_hook_handler,
+            "before_first_request": self.__before_fist_request_hook_handler,
         }
 
         #: Dynamic Connection Point
@@ -239,8 +251,8 @@ class PluginManager(object):
         #: Register the error handlers
         #:
         #: .. versionadded:: 3.2.0
-        for errcode, errview in iteritems(self.get_enabled_errhandlers):
-            app.register_error_handler(errcode, errview)
+        for (err_code_exc, errview) in self.get_enabled_errhandlers:
+            app.register_error_handler(err_code_exc, errview)
 
         #: Register the template context processors
         #:
@@ -297,6 +309,9 @@ class PluginManager(object):
         :param p_obj: dynamically loaded plugin modules
 
         .. versionadded:: 3.3.1
+
+        .. versionchanged:: 3.4.0
+            Check, if no getPluginClass, raise PluginError
         """
         if hasattr(p_obj, "register"):
             return
@@ -328,6 +343,9 @@ class PluginManager(object):
             if hasattr(p, "register_bep"):
                 resp["bep"] = p.register_bep()
 
+        else:
+            raise PluginError("Legacy plugin metadata error")
+
         #: Dynamically add a function
         p_obj.register = lambda: resp
 
@@ -341,6 +359,8 @@ class PluginManager(object):
         :param package_name: the plugin package name
 
         :raises PEPError: Load plugin error
+
+        :raises PluginError: Compatibility loading error
 
         .. versionchanged:: 3.0.1
             Do not check whether it is empty or not.
@@ -392,6 +412,9 @@ class PluginManager(object):
         """ Organize plugin information.
 
         :returns: dict: plugin info
+
+        .. versionchanged:: 3.4.0
+            plugin_errhandler format change: {} -> []
         """
         if not isValidSemver(p_obj.__version__):
             raise VersionError(
@@ -431,7 +454,7 @@ class PluginManager(object):
             "plugin_bep": {},
             "plugin_vep": [],
             "plugin_filter": [],
-            "plugin_errhandler": {},
+            "plugin_errhandler": [],
             "plugin_tcp": {},
         })
 
@@ -504,6 +527,10 @@ class PluginManager(object):
 
                         3. teardown_request, After request
                         (before return, with or without exception)
+
+                        4. before_first_request, Before first request
+                        (Registers a function to be run before the first
+                        request to this instance of the application.)
 
         :raises PEPError: if hep rule or content is invalid.
         """
@@ -607,22 +634,27 @@ class PluginManager(object):
     def _filter_handler(self, plugin_info, filter_rule):
         """Template filter handler.
 
-        :param filter_rule: like {filter_name=func,} or [func,]
+        :param filter_rule: like {filter_name=func,} or [func, (name,func)]
 
         :raises PEPError: if filter rule or content is invalid.
 
         .. versionadded:: 3.2.0
+
+        .. versionchanged:: 3.4.0
+            If filter_rule is list or tuple, allow nested tuple to set name
         """
         if isinstance(filter_rule, (list, tuple)):
             _filter_rule = {}
             for f in filter_rule:
-                if not callable(f):
+                name, func = f if isinstance(f, (tuple, list)) else (None, f)
+                if not callable(func):
                     raise PEPError(
-                        "The filter named %s cannot be called." %
-                        plugin_info.plugin_name
+                        "The filter found a func, that cannot be called for %s"
+                        % plugin_info.plugin_name
                     )
-                else:
-                    _filter_rule[f.__name__] = f
+                if not name:
+                    name = func.__name__
+                _filter_rule[name] = func
             filter_rule = _filter_rule
         if isinstance(filter_rule, dict):
             plugin_filter = []
@@ -631,7 +663,7 @@ class PluginManager(object):
                     plugin_filter.append((name, func))
                 else:
                     raise PEPError(
-                        "The filter named %s cannot be called." %
+                        "The filter cannot be called for %s." %
                         plugin_info.plugin_name
                     )
             plugin_info['plugin_filter'] = plugin_filter
@@ -644,29 +676,65 @@ class PluginManager(object):
     def _error_handler(self, plugin_info, errhandler_rule):
         """Error code handler.
 
-        :param errhandler_rule: like {err_code=func, }
+        :param errhandler_rule: eg: {err_code=func} or [{error=exception_class,
+                                handler=func}, {error=err_code, handler=func}]
 
         :raises PEPError: if error handler rule or content is invalid.
 
         .. versionadded:: 3.2.0
+
+        .. versionchanged:: 3.4.0
+            Allow registration of class-based exception handlers
         """
         if isinstance(errhandler_rule, dict):
+            _errhandler_rule = []
             for code, func in iteritems(errhandler_rule):
-                if not isinstance(code, integer_types):
+                if not isinstance(code, int):
                     raise PEPError(
                         "The errhandler code is not interger for %s"
                         % plugin_info.plugin_name
                     )
+                _errhandler_rule.append(dict(error=code, handler=func))
+            errhandler_rule = _errhandler_rule
+        if isinstance(errhandler_rule, (tuple, list)):
+            plugin_errhandler_rules = []
+            for eh in errhandler_rule:
+                #: eh is a dict, like {error: code_or_class, handler: func}
+                if not isinstance(eh, dict) or \
+                        "error" not in eh or \
+                        "handler" not in eh:
+                    raise PEPError(
+                        "The errhandler format error for %s"
+                        % plugin_info.plugin_name
+                    )
+                code_or_exc = eh["error"]
+                func = eh["handler"]
+                if not isinstance(code_or_exc, int):
+                    try:
+                        _is_ok_exc = issubclass(code_or_exc, Exception)
+                    except TypeError:
+                        raise PEPError(
+                            "The errhandler custom error class requires"
+                            " inheritance of Exception for %s"
+                            % plugin_info.plugin_name
+                        )
+                    else:
+                        if not _is_ok_exc:
+                            raise PEPError(
+                                "The errhandler exc is not a subclass of"
+                                " Exception for %s" % plugin_info.plugin_name
+                            )
                 if not callable(func):
                     raise PEPError(
                         "The errhandler func is not called for %s"
                         % plugin_info.plugin_name
                     )
-            plugin_info["plugin_errhandler"] = errhandler_rule
+                plugin_errhandler_rules.append((code_or_exc, func))
+            plugin_info["plugin_errhandler"] = plugin_errhandler_rules
         else:
             raise PEPError(
                 "The error handler rule is invalid for %s, "
-                "it should be a dict." % plugin_info.plugin_name
+                "it should be a list or tuple." % plugin_info.plugin_name
             )
 
     def _context_processor_handler(self, plugin_info, processor_rule):
@@ -685,6 +753,10 @@ class PluginManager(object):
                 "The context processor rule is invalid for %s, "
                 "it should be a dict." % plugin_info.plugin_name
             )
+
+    def __before_fist_request_hook_handler(self):
+        for func in self.get_enabled_heps["before_first_request"]:
+            func()
 
     def __before_request_hook_handler(self):
         for func in self.get_enabled_heps["before_request"]:
@@ -793,16 +865,18 @@ class PluginManager(object):
     def get_enabled_errhandlers(self):
         """Get all error handlers for the enabled plugins.
 
-        :returns: dict, like {code: view_func,}
+        :returns: list, like [(err_code_class, func_handler), ...]
 
         .. versionadded:: 3.2.0
+
+        .. versionchanged:: 3.4.0
+            Return type changed from dict to list
         """
-        return {
-            k: v
+        return list(chain.from_iterable([
+            p.plugin_errhandler
             for p in self.get_enabled_plugins
-            for k, v in iteritems(p.plugin_errhandler)
             if p.plugin_errhandler
-        }
+        ]))
 
     @property
     def get_enabled_tcps(self):
@@ -922,7 +996,7 @@ class PluginManager(object):
         else:
             return mtf + mtc
 
-    def emit_assets(self, plugin_name, filename):
+    def emit_assets(self, plugin_name, filename, _raw=False):
         """Get the static file in template context.
         This global function, which can be used directly in the template,
         is used to quickly reference the static resources of the plugin.
@@ -947,6 +1021,9 @@ class PluginManager(object):
             /assets/plugin/img/logo.png
             /assets/plugin/attachment/test.zip
 
+        However, the ``_raw`` parameter has been added in v3.4.0, and if it is
+        True, only uri is generated.
+
         The following is a mini example::
 
             <!DOCTYPE html>
@@ -959,6 +1036,11 @@ class PluginManager(object):
                 <div class="logo">
                     <img src="{{ emit_assets('demo', 'img/logo.png') }}">
                 </div>
+                <div class="showJsPath">
+                    <scan>
+                        {{ emit_assets('demo', 'js/demo.js', _raw=True) }}
+                    </scan>
+                </div>
             </body>
             </html>
 
@@ -966,18 +1048,24 @@ class PluginManager(object):
 
         :param filename: filename in the static directory of the plugin package
 
+        :param _raw: if True, not to parse automatically, only generate uri.
+                     Default False.
+
         :returns: html code with :class:`~flask.Markup`.
+
+        .. versionchanged:: 3.4.0
+            Add _raw, only generate uri without parse
         """
-        #: TODO Do not build .css .js
         uri = url_for(
             self.static_endpoint,
             plugin_name=plugin_name,
             filename=filename
         )
-        if filename.endswith(".css"):
-            uri = '<link rel="stylesheet" href="%s">' % uri
-        elif filename.endswith(".js"):
-            uri = '<script type="text/javascript" src="%s"></script>' % uri
+        if _raw is not True:
+            if filename.endswith(".css"):
+                uri = '<link rel="stylesheet" href="%s">' % uri
+            elif filename.endswith(".js"):
+                uri = '<script type="text/javascript" src="%s"></script>' % uri
         return Markup(uri)
 
     def emit_config(self, conf_name):

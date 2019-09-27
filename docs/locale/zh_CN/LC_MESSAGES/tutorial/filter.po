@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.2.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-25 15:23+0800\n"
+"POT-Creation-Date: 2019-09-27 17:18+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,7 @@ msgstr "模板过滤器扩展点"
 
 #: ../../tutorial/filter.rst:7
 msgid "Description"
-msgstr "示例"
+msgstr "描述"
 
 #: ../../tutorial/filter.rst:9
 msgid "The extension point abbreviation is filter."
@@ -39,9 +39,8 @@ msgid ""
 "and the remaining parameters are passed to the filter as additional "
 "parameters or keyword parameters."
 msgstr ""
-"模板过滤器的概念来自于jinja2，其本质是常规的python函数。过滤器与变量用"
-"管道符号（ | ）分割，并且也可以用圆括号传递可选参数，过滤器左边作为第一个参数，"
-"其余的参数作为额外的参数或关键字参数传递到过滤器。"
+"模板过滤器的概念来自于jinja2，其本质是常规的python函数。过滤器与变量用管道符号（ | "
+"）分割，并且也可以用圆括号传递可选参数，过滤器左边作为第一个参数，其余的参数作为额外的参数或关键字参数传递到过滤器。"
 
 #: ../../tutorial/filter.rst:18
 msgid ""
@@ -51,11 +50,17 @@ msgid ""
 "the function name is used as the filter name, but if an anonymous "
 "function is used, the filter name is <lambda>, which is unfriendly!"
 msgstr ""
-"插件需要通过register返回filter字段，这个字段数据类型可以是dict或者是list。"
-"如果是dict，那么格式是{filter_name: func}。如果是list，那么格式是[func1, func2]，"
-"此时函数名作为过滤器名，但是如果使用了匿名函数，那么过滤器名称是<lambda>，不友好！"
+"插件需要通过register返回filter字段，这个字段数据类型可以是dict或者是list。如果是dict，那么格式是{filter_name:"
+" func}。如果是list，那么格式是[func1, "
+"func2]，此时函数名作为过滤器名，但是如果使用了匿名函数，那么过滤器名称是<lambda>，不友好！"
 
 #: ../../tutorial/filter.rst:25
+msgid ""
+"So, if the format is list, the element type is allowed to be tuple, ie: "
+"[func1, (name, func2)], thus setting the name of the filter."
+msgstr "所以，如果格式是list，允许元素类型为tuple，即：[func1, (name, func2)]，从而设置过滤器的名字。"
+
+#: ../../tutorial/filter.rst:28
 msgid ""
 "The Flask-PluginKit loads filter via "
 ":meth:`~flask_pluginkit.PluginManager._filter_handler`, this method will "
@@ -64,24 +69,22 @@ msgstr ""
 "Flask-PluginKit通过 :meth:`~flask_pluginkit.PluginManager._filter_handler` "
 "加载filter，这个方法会检测filter规则及内容。"
 
-#: ../../tutorial/filter.rst:29
+#: ../../tutorial/filter.rst:32
 msgid ""
 "Once the registration is complete, you can use the filter in the template"
 " like Jinja2's built-in filter. For this section, you can refer to the "
 "Jinja2 documentation `filters`_."
-msgstr ""
-"一旦注册完成后，你就可以在模板中像 Jinja2 的内建过滤器一样使用它们了，"
-"关于这部分可以参考Jinja2文档 `filters`_ 。"
+msgstr "一旦注册完成后，你就可以在模板中像 Jinja2 的内建过滤器一样使用它们了，关于这部分可以参考Jinja2文档 `filters`_ 。"
 
-#: ../../tutorial/filter.rst:36
+#: ../../tutorial/filter.rst:39
 msgid "Example"
 msgstr "示例"
 
-#: ../../tutorial/filter.rst:38
+#: ../../tutorial/filter.rst:41
 msgid "Plugin registration for filter"
 msgstr "注册filter"
 
-#: ../../tutorial/filter.rst:50
+#: ../../tutorial/filter.rst:53
 msgid "Call in template"
 msgstr "在模板中调用"
 

@@ -1,5 +1,20 @@
 .. currentmodule:: flask-pluginkit
 
+v3.4.0
+------
+
+Released in 2019-09-27
+
+- feat: add before_first_request hook to hep
+- feat: errhandler allow exception
+- feat: emit_assets add _raw param
+- feat: filter allow [f1, f2, (name, f3)]
+- feat: web manager add a button, select language
+- feat: stpl alow asc or desc, open the template sorting
+- fix: check getPluginClass
+- fix: check url prefix
+- chore: update docs, example and test case
+
 v3.3.1
 ------
 

@@ -53,6 +53,11 @@ Will generate the html code of `script`, for example:
 
 Only the url path portion of the static file will be generated.
 
+.. note::
+
+    In emit_assets, you can add ``_raw=True`` to let Flask-PluginKit not add
+    code based on the suffix, but instead return the resource path directly.
+
 Example
 -------
 
@@ -88,6 +93,10 @@ In the template, the url of the static file can be built by **emit_assets**.
             <img src="{{ emit_assets('plugin_demo', 'hello.png') }}">
         </div>
 
+        <div class="showJsPath">
+            <b>{{ emit_assets('plugin_demo', 'js/demo.js', _raw=True) }}</b>
+        </div>
+
         {{ emit_assets("plugin_demo", filename="js/demo.js") }}
     </body>
     </html>
@@ -104,6 +113,10 @@ The actual source code for this page is this:
     <body>
         <div class="image">
             <img src="/assets/plugin_demo/hello.png">
+        </div>
+
+        <div class="showJsPath">
+            <b>/assets/plugin_demo/js/demo.js</b>
         </div>
 
         <script type="text/javascript" src="/assets/plugin_demo/js/demo.js"></script>

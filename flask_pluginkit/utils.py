@@ -9,13 +9,12 @@
     :license: BSD 3-Clause, see LICENSE for more details.
 """
 
-import re
 import shelve
 import semver
 from os.path import join
 from tempfile import gettempdir
 from collections import deque
-from flask import Markup
+from flask import Markup, Response, jsonify
 from flask.app import setupmethod, Flask as _BaseFlask
 from ._compat import PY2, string_types, text_type
 from .exceptions import PluginError, NotCallableError
@@ -203,6 +202,47 @@ class RedisStorage(BaseStorage):
         return self._db.hlen(self.index)
 
 
+class MongoStorage(BaseStorage):
+    """Use mongodb stand-alone storage
+
+    .. versionadded:: 3.4.0
+    """
+
+    def __init__(self, mongo_url=None, mongo_connection=None):
+        self._db = self._open(mongo_url) if mongo_url else mongo_connection
+
+    def _open(self, mongo_url):
+        from pymongo import MongoClient
+        from pymongo.errors import ConfigurationError
+        client = MongoClient(mongo_url)
+        try:
+            client.get_default_database()
+        except ConfigurationError:
+            #: Now, self.index is a database name
+            self._db = client[self.index]
+        else:
+            self._db = client
+
+    @property
+    def db(self):
+        """Return the mongo connection"""
+        return self._db
+
+
+class JsonResponse(Response):
+    """In response to a return type that cannot be processed.
+    If it is a dict, return json.
+
+    .. versionadded:: 3.4.0
+    """
+
+    @classmethod
+    def force_type(cls, rv, environ=None):
+        if isinstance(rv, dict):
+            rv = jsonify(rv)
+        return super(JsonResponse, cls).force_type(rv, environ)
+
+
 class Flask(_BaseFlask):
 
     @setupmethod
@@ -328,13 +368,14 @@ def check_url(addr):
 
     .. versionadded:: 3.3.0
     """
-    regex = re.compile(
+    from re import compile, IGNORECASE
+    regex = compile(
         r'^(?:http)s?://'
         r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'
         r'localhost|'
         r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'
         r'(?::\d+)?'
-        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+        r'(?:/?|[/?]\S+)$', IGNORECASE)
     if addr and isinstance(addr, string_types):
         if regex.match(addr):
             return True

@@ -10,19 +10,21 @@
 """
 
 from .pluginkit import PluginManager, push_dcp
-from .utils import Flask, LocalStorage, RedisStorage
+from .utils import Flask, LocalStorage, RedisStorage, MongoStorage, JsonResponse
 from ._installer import PluginInstaller
 from ._web import blueprint
 
 __author__ = "staugur <staugur@saintic.com>"
 
-__version__ = "3.3.2"
+__version__ = "3.4.0"
 
 __all__ = [
     "Flask",
     "PluginManager",
     "LocalStorage",
     "RedisStorage",
+    "MongoStorage",
+    "JsonResponse",
     "PluginInstaller",
     "push_dcp",
     "blueprint",

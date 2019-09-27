@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.2.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-25 15:23+0800\n"
+"POT-Creation-Date: 2019-09-27 17:18+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,34 +38,46 @@ msgid ""
 "key is a standard HTTP code (such as 404, 403, 500), the value is an "
 "error handler view function, and supports multiple error code handling."
 msgstr ""
-"错误处理器，这个扩展点也很简单，通过register返回errhandler字段，这个字段要求格式是"
-"{http-code: error-view-func, other-code: other-error-view-func}，键是标准的"
-"HTTP代码，值是错误处理函数，支持多个错误代码处理。"
+"错误处理器，这个扩展点也很简单，通过register返回errhandler字段，这个字段要求格式是{http-code: error-view-"
+"func, other-code: other-error-view-func}，键是标准的HTTP代码，值是错误处理函数，支持多个错误代码处理。"
 
 #: ../../tutorial/errhandler.rst:17
+msgid ""
+"However, there is now a new format: [{error=exception_class, "
+"handler=func}, {error=err_code, handler=func}], this form allows you to "
+"use http-code to handle error codes while allowing a custom exception "
+"class to be passed in. And the associated processor (capturing the "
+"handler for this exception class), please refer to the Flask "
+"documentation for this class-based form of code."
+msgstr ""
+"不过，现在新增一种格式：[{error=exception_class, handler=func}, {error=err_code"
+",handler=func}]，这种形式允许你使用http-code处理错误码，同时允许传入一个自定义的异"
+"常类和相关的处理器（捕获这个异常类的处理函数），请参考Flask文档编写这种基于类的形式的代码。"
+
+#: ../../tutorial/errhandler.rst:23
 msgid ""
 "The Flask-PluginKit loads errhandler via "
 ":meth:`~flask_pluginkit.PluginManager._error_handler`, this method will "
 "detect errhandler rules and specific content."
 msgstr ""
-"Flask-PluginKit通过 :meth:`~flask_pluginkit.PluginManager._error_handler` 加载"
-"errhandler，这个方法会检测errhandler规则及其内容。"
+"Flask-PluginKit通过 :meth:`~flask_pluginkit.PluginManager._error_handler` "
+"加载errhandler，这个方法会检测errhandler规则及其内容。"
 
-#: ../../tutorial/errhandler.rst:21
+#: ../../tutorial/errhandler.rst:27
 msgid ""
 "It should be noted that if multiple duplicate error handling functions "
 "are eventually overwritten, only one is valid. The error handling "
 "function can be written in the official documentation is `flask-error-"
 "handlers`_."
 msgstr ""
-"需要注意的是，如果多个重复的错误处理函数，最终会被覆盖，仅一个有效。"
-"错误处理函数的编写可以参考官方文档是 `flask-error-handlers`_ 。"
+"需要注意的是，如果多个重复的错误处理函数，最终会被覆盖，仅一个有效。错误处理函数的编写可以参考官方文档是 `flask-error-"
+"handlers`_ 。"
 
-#: ../../tutorial/errhandler.rst:29
+#: ../../tutorial/errhandler.rst:35
 msgid "Example"
 msgstr "示例"
 
-#: ../../tutorial/errhandler.rst:31
+#: ../../tutorial/errhandler.rst:37
 msgid "Plugin registration for errhandler"
 msgstr "注册errhandler"
 

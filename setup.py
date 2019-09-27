@@ -2,9 +2,9 @@
 
 import io
 import os
-import re
 import ast
 import unittest
+from re import compile
 from setuptools import setup, Command
 
 
@@ -15,7 +15,7 @@ def test_suite():
 
 
 def _get_version():
-    version_re = re.compile(r'__version__\s+=\s+(.*)')
+    version_re = compile(r'__version__\s+=\s+(.*)')
 
     with open('flask_pluginkit/__init__.py', 'rb') as fh:
         version = ast.literal_eval(version_re.search(
@@ -25,8 +25,8 @@ def _get_version():
 
 
 def _get_author():
-    author_re = re.compile(r'__author__\s+=\s+(.*)')
-    mail_re = re.compile(r'(.*)\s<(.*)>')
+    author_re = compile(r'__author__\s+=\s+(.*)')
+    mail_re = compile(r'(.*)\s<(.*)>')
 
     with open('flask_pluginkit/__init__.py', 'rb') as fh:
         author = ast.literal_eval(author_re.search(

@@ -5,11 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Plugins Web Manager based Flask-PluginKit!</title>
+    <link href="{{ url_for('.static', filename='favicon.png') }}" rel="icon" type="image/x-icon" />
+    <link href="{{ url_for('.static', filename='favicon.png') }}" rel="shortcut icon" type="image/x-icon" />
+    <link rel="prefetch" type="application/l10n" href="{{ url_for('.static', filename='translations.ini') }}" />
     <link rel="stylesheet" href="{{ url_for('.static', filename='bulma-0.7.5.min.css') }}">
     <link rel="stylesheet" type="text/css" href="https://static.saintic.com/cdn/iconfont/iconfont.css">
-    <link rel="prefetch" type="application/l10n" href="{{ url_for('.static', filename='translations.ini') }}" />
-    <link href="https://img.saintic.com/cdn/images/favicon-32.png" rel="icon" type="image/x-icon" />
-    <link href="https://img.saintic.com/cdn/images/favicon-32.png" rel="shortcut icon" type="image/x-icon" />
     <style type="text/css">
         .notification>button.delete {
             border: none;
@@ -37,6 +37,15 @@
                     </div>
                 </div>
                 {% endfor %}
+                <div class="control">
+                    <div class="select is-success is-small">
+                        <select onchange="document.webL10n.setLanguage(this.value || this.options[this.selectedIndex].text);">
+                            <option disabled selected>Language</option>
+                            <option>en</option>
+                            <option>zh-cn</option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="columns">
                 <div class="column is-narrow">

@@ -50,6 +50,7 @@ __all__ = [
     'parse_qs',
     'iteritems',
     'itervalues',
+    'text_type',
     'string_types',
     'integer_types'
 ]

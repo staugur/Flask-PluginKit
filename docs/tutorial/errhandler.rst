@@ -14,6 +14,12 @@ errhandler field through register, this field requires the format is
 the key is a standard HTTP code (such as 404, 403, 500), the value is an
 error handler view function, and supports multiple error code handling.
 
+However, there is now a new format: [{error=exception_class, handler=func},
+{error=err_code, handler=func}], this form allows you to use http-code to
+handle error codes while allowing a custom exception class to be passed in.
+And the associated processor (capturing the handler for this exception class),
+please refer to the Flask documentation for this class-based form of code.
+
 The Flask-PluginKit loads errhandler via
 :meth:`~flask_pluginkit.PluginManager._error_handler`, this method will
 detect errhandler rules and specific content.
@@ -37,7 +43,33 @@ Example
     def permission_deny(error):
         return jsonify(dict(status=403, msg="permission deny")),403
 
+    class ApiError(Exception):
+
+        def __init__(self, code, message, status_code=200):
+            super(ApiError, self).__init__()
+            self.code = code
+            self.message = message
+            self.status_code = status_code
+
+        def to_dict(self):
+            return dict(code=self.code, msg=self.message)
+
+    def handle_api_error(e):
+        #: e is an instance of an exception class
+        response = jsonify(e.to_dict())
+        response.status_code = e.status_code
+        return response
+
+    def raise_api_error_view():
+        #: Actively triggering ApiError in the view will be intercepted by
+        #: handle_api_error and return json response.
+        raise ApiError(10000, "err_message")
+
     def register():
         return {
-            'errhandler': {403: permission_deny},
+            'vep': dict(rule='/api_error', view_func=raise_api_error_view),
+            'errhandler': [
+                dict(error=403, handler=permission_deny),
+                dict(error=ApiError, handler=handle_api_error)
+            ]
         }

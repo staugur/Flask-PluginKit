@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-17 16:30+0800\n"
+"POT-Creation-Date: 2019-09-27 17:40+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,162 +23,206 @@ msgid "Changelog"
 msgstr "更新日志"
 
 #: ../../../CHANGELOG.rst:4
-msgid "v3.3.1"
+msgid "v3.4.0"
 msgstr ""
 
 #: ../../../CHANGELOG.rst:6
-msgid "Released in 2019-09-17"
+msgid "Released in 2019-09-27"
 msgstr ""
 
 #: ../../../CHANGELOG.rst:8
-msgid "feat: automatically compatible 2.x partial registration method"
+msgid "feat: add before_first_request hook to hep"
 msgstr ""
 
 #: ../../../CHANGELOG.rst:9
-msgid "fix: update shelve set key type"
+msgid "feat: errhandler allow exception"
 msgstr ""
 
 #: ../../../CHANGELOG.rst:10
-msgid "fix: remove the number of tests `/`"
+msgid "feat: emit_assets add _raw param"
 msgstr ""
 
 #: ../../../CHANGELOG.rst:11
-msgid "test: add docs"
+msgid "feat: filter allow [f1, f2, (name, f3)]"
 msgstr ""
 
 #: ../../../CHANGELOG.rst:12
-msgid "chore: update travis.yml"
+msgid "feat: web manager add a button, select language"
 msgstr ""
 
 #: ../../../CHANGELOG.rst:13
-msgid "chore: formatting code and optimizing import"
+msgid "feat: stpl alow asc or desc, open the template sorting"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:14
+msgid "fix: check getPluginClass"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:15
+msgid "fix: check url prefix"
 msgstr ""
 
 #: ../../../CHANGELOG.rst:16
-msgid "v3.3.0"
+msgid "chore: update docs, example and test case"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:18
-msgid "Released in 2019-07-31"
-msgstr ""
-
-#: ../../../CHANGELOG.rst:20
-msgid "feat: update :class:`~flask_pluginkit.PluginInstaller`."
+#: ../../../CHANGELOG.rst:19
+msgid "v3.3.1"
 msgstr ""
 
 #: ../../../CHANGELOG.rst:21
-msgid "feat: add a blueprint to manage plugins"
+msgid "Released in 2019-09-17"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:22
-msgid "fix: close shelve connection"
+#: ../../../CHANGELOG.rst:23
+msgid "feat: automatically compatible 2.x partial registration method"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:23 ../../../CHANGELOG.rst:39
-#: ../../../CHANGELOG.rst:51
-msgid "test: add test case"
+#: ../../../CHANGELOG.rst:24
+msgid "fix: update shelve set key type"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:24 ../../../CHANGELOG.rst:40
-msgid "docs: update docs and translation"
-msgstr ""
-
-#: ../../../CHANGELOG.rst:25 ../../../CHANGELOG.rst:41
-#: ../../../CHANGELOG.rst:53
-msgid "chore: update example"
+#: ../../../CHANGELOG.rst:25
+msgid "fix: remove the number of tests `/`"
 msgstr ""
 
 #: ../../../CHANGELOG.rst:26
-msgid "chore: update travis.yml, add deploy"
+msgid "test: add docs"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:29
-msgid "v3.2.0"
+#: ../../../CHANGELOG.rst:27
+msgid "chore: update travis.yml"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:28
+msgid "chore: formatting code and optimizing import"
 msgstr ""
 
 #: ../../../CHANGELOG.rst:31
+msgid "v3.3.0"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:33
+msgid "Released in 2019-07-31"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:35
+msgid "feat: update :class:`~flask_pluginkit.PluginInstaller`."
+msgstr ""
+
+#: ../../../CHANGELOG.rst:36
+msgid "feat: add a blueprint to manage plugins"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:37
+msgid "fix: close shelve connection"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:38 ../../../CHANGELOG.rst:54
+#: ../../../CHANGELOG.rst:66
+msgid "test: add test case"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:39 ../../../CHANGELOG.rst:55
+msgid "docs: update docs and translation"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:40 ../../../CHANGELOG.rst:56
+#: ../../../CHANGELOG.rst:68
+msgid "chore: update example"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:41
+msgid "chore: update travis.yml, add deploy"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:44
+msgid "v3.2.0"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:46
 msgid "Released in 2019-07-25"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:34
+#: ../../../CHANGELOG.rst:49
 msgid "feat: dcp, be similar to flask-plugins event system,"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:34
+#: ../../../CHANGELOG.rst:49
 msgid ""
 "add :class:`~flask_pluginkit.utils.DcpManager` and "
 ":func:`~flask_pluginkit.push_dcp`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:36
+#: ../../../CHANGELOG.rst:51
 msgid "feat: add error handler"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:37
+#: ../../../CHANGELOG.rst:52
 msgid "feat: add template filter"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:38
+#: ../../../CHANGELOG.rst:53
 msgid "feat: add template context processor"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:42
+#: ../../../CHANGELOG.rst:57
 msgid "chore: make some of the code more elegant"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:45
+#: ../../../CHANGELOG.rst:60
 msgid "v3.1.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:47
+#: ../../../CHANGELOG.rst:62
 msgid "Released in 2019-07-22"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:49
+#: ../../../CHANGELOG.rst:64
 msgid "feat: add :class:`~flask_pluginkit.PluginInstaller`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:50
+#: ../../../CHANGELOG.rst:65
 msgid "feat: add vep :ref:`vep`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:52
+#: ../../../CHANGELOG.rst:67
 msgid "docs: update docs"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:56
+#: ../../../CHANGELOG.rst:71
 msgid "v3.0.1"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:58
+#: ../../../CHANGELOG.rst:73
 msgid "Released in 2019-07-21"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:60
+#: ../../../CHANGELOG.rst:75
 msgid "The register functin can return empty dict, not necessarily meaningless."
 msgstr ""
 
-#: ../../../CHANGELOG.rst:61
+#: ../../../CHANGELOG.rst:76
 msgid "Update docs, translation and add test."
 msgstr ""
 
-#: ../../../CHANGELOG.rst:64
+#: ../../../CHANGELOG.rst:79
 msgid "v3.0.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:66
+#: ../../../CHANGELOG.rst:81
 msgid "Released in 2019-07-20"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:68
+#: ../../../CHANGELOG.rst:83
 msgid "Refactoring everyting"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:71
+#: ../../../CHANGELOG.rst:86
 msgid "Previous Versions"
 msgstr "旧版本"
 
-#: ../../../CHANGELOG.rst:73
+#: ../../../CHANGELOG.rst:88
 msgid ""
 "Prior to 3.3.1, the new version of the refactoring was not compatible "
 "with the old version, and the update history is no longer recorded here."
