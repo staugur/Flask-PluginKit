@@ -97,6 +97,7 @@ class PMTest(unittest.TestCase):
             self.assertTrue("nowtime" in local.list)
             nowhour = time.strftime('%Y-%m-%d %H:', time.localtime(time.time()))
             self.assertIn(nowhour, local.get("nowtime"))
+            del local["nowtime"]
 
     def test_example(self):
         if not PY2:
