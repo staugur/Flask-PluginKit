@@ -1,5 +1,14 @@
 .. currentmodule:: flask-pluginkit
 
+v3.4.1
+------
+
+Released in 2020-03-25
+
+- feat: add :meth:`~flask_pluginkit.LocalStorage.setmany`
+- feat: add :meth:`~flask_pluginkit.RedisStorage.setmany`
+- fix: update result(original) :meth:`~flask_pluginkit.RedisStorage.get`
+
 v3.4.0
 ------
 

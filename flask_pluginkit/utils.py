@@ -9,14 +9,15 @@
     :license: BSD 3-Clause, see LICENSE for more details.
 """
 
+import json
 import shelve
 import semver
-from os.path import join
+from os.path import join, abspath
 from tempfile import gettempdir
 from collections import deque
 from flask import Markup, Response, jsonify
 from flask.app import setupmethod, Flask as _BaseFlask
-from ._compat import PY2, string_types, text_type
+from ._compat import PY2, string_types, text_type, iteritems
 from .exceptions import PluginError, NotCallableError
 
 
@@ -70,10 +71,21 @@ class BaseStorage(object):
 
     This base class customizes the `__getitem__`, `__setitem__`
     and `__delitem__` methods so that the user can call it like a dict.
+
+    .. versionchanged:: 3.4.1
+        Change :attr:`index` to :attr:`DEFAULT_INDEX`
     """
 
     #: The default index, as the only key, you can override it.
-    index = "flask_pluginkit_dat"
+    DEFAULT_INDEX = "flask_pluginkit_dat"
+
+    @property
+    def index(self):
+        """Get the final index
+
+        .. versionadded:: 3.4.1
+        """
+        return getattr(self, "COVERED_INDEX", None) or self.DEFAULT_INDEX
 
     def __getitem__(self, key):
         if hasattr(self, "get"):
@@ -104,11 +116,15 @@ class BaseStorage(object):
 class LocalStorage(BaseStorage):
     """Local file system storage based on the shelve module."""
 
+    def __init__(self, path=None):
+        self.COVERED_INDEX = path or join(gettempdir(), self.DEFAULT_INDEX)
+
     def _open(self, flag="c"):
         return shelve.open(
-            filename=join(gettempdir(), self.index),
+            filename=abspath(self.index),
             flag=flag,
-            protocol=2
+            protocol=2,
+            writeback=False
         )
 
     @property
@@ -128,6 +144,13 @@ class LocalStorage(BaseStorage):
             if db:
                 db.close()
 
+    def __ck(self, key):
+        if PY2 and isinstance(key, text_type):
+            key = key.encode("utf-8")
+        if not PY2 and not isinstance(key, text_type):
+            key = key.decode("utf-8")
+        return key
+
     def set(self, key, value):
         """Set persistent data with shelve.
 
@@ -141,12 +164,21 @@ class LocalStorage(BaseStorage):
         """
         db = self._open()
         try:
-            if PY2 and isinstance(key, text_type):
-                key = key.encode("utf-8")
-            if not PY2 and not isinstance(key, text_type):
-                key = key.decode("utf-8")
-            db[key] = value
+            db[self.__ck(key)] = value
         finally:
+            db.close()
+
+    def setmany(self, **mapping):
+        """Set more data
+
+        :param mapping: the more k=v
+
+        .. versionadded:: 3.4.1
+        """
+        if mapping and isinstance(mapping, dict):
+            db = self._open()
+            for k, v in iteritems(mapping):
+                db[self.__ck(k)] = v
             db.close()
 
     def get(self, key, default=None):
@@ -160,6 +192,10 @@ class LocalStorage(BaseStorage):
             return default
         else:
             return value
+
+    def remove(self, key):
+        db = self._open()
+        del db[key]
 
     def __len__(self):
         return len(self.list)
@@ -184,15 +220,32 @@ class RedisStorage(BaseStorage):
     @property
     def list(self):
         """list redis hash data"""
-        return self._db.hgetall(self.index)
+        return {
+            k: json.loads(v)
+            for k, v in iteritems(self._db.hgetall(self.index))
+        }
 
     def set(self, key, value):
         """set key data"""
-        return self._db.hset(self.index, key, value)
+        return self._db.hset(self.index, key, json.dumps(value))
+
+    def setmany(self, **mapping):
+        """Set more data
+
+        :param mapping: the more k=v
+
+        .. versionadded:: 3.4.1
+        """
+        if mapping and isinstance(mapping, dict):
+            mapping = {k: json.dumps(v) for k, v in iteritems(mapping)}
+            return self._db.hmset(self.index, mapping)
 
     def get(self, key, default=None):
-        """get key data from redis"""
-        return self._db.hget(self.index, key) or default
+        """get key original data from redis"""
+        v = self._db.hget(self.index, key)
+        if v:
+            return json.loads(v)
+        return default
 
     def remove(self, key):
         """delete key from redis"""
@@ -200,6 +253,10 @@ class RedisStorage(BaseStorage):
 
     def __len__(self):
         return self._db.hlen(self.index)
+
+    def __del__(self):
+        if self._db:
+            self._db.connection_pool.disconnect()
 
 
 class MongoStorage(BaseStorage):

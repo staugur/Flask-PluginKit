@@ -57,11 +57,9 @@ class UtilsTest(unittest.TestCase):
         self.assertEqual("hello", storage["test"])
         # Invalid, LocalStorage did not implement this method
         del storage["test"]
-        self.assertEqual("hello", storage["test"])
+        self.assertIsNone(storage.get("test"))
         self.assertIsNone(storage['_non_existent_key_'])
         self.assertEqual(1, storage.get('_non_existent_key_', 1))
-        # test other index
-        storage.index = '_non_existent_index_'
         self.assertEqual(0, len(storage))
 
     def test_redisstorage(self):
@@ -70,12 +68,10 @@ class UtilsTest(unittest.TestCase):
         """
         redis_url = getenv("FLASK_PLUGINKIT_TEST_REDISURL")
         if redis_url:
-            from redis.exceptions import DataError
             storage = RedisStorage(redis_url=redis_url)
             self.assertIsInstance(storage, BaseStorage)
-            self.assertRaises(DataError, storage.set, 'test', dict(a=1, b=2))
             storage['test'] = 1
-            self.assertEqual(storage['test'], b"1")
+            self.assertEqual(storage['test'], 1)
             self.assertEqual(len(storage), len(storage.list))
             self.assertEqual(len(storage), storage._db.hlen(storage.index))
             self.assertIsNone(storage['_non_existent_key_'])
@@ -83,8 +79,6 @@ class UtilsTest(unittest.TestCase):
             # RedisStorage allow remove
             del storage['test']
             self.assertIsNone(storage['test'])
-            # test other index
-            storage.index = '_non_existent_index_'
             self.assertEqual(0, len(storage))
 
     def test_basestorage(self):
