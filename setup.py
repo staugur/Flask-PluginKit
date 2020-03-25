@@ -101,10 +101,6 @@ setup(
     test_suite='setup.test_suite',
     tests_require=[
         'Flask>=0.11',
-        'flask-pluginkit-demo'
-    ],
-    dependency_links=[
-        "git+https://github.com/flask-pluginkit/demo@master#egg=flask-pluginkit-demo"
     ],
     packages=['flask_pluginkit'],
     include_package_data=True,

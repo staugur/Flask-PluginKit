@@ -38,6 +38,7 @@ services:
 install:
 - pip install -U -r dev-requirements.txt
 - pip install redis
+- pip install git+https://github.com/flask-pluginkit/demo@master
 - pip install Flask==$FLASK_VERSION
 - make dev
 script:
