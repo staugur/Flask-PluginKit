@@ -60,7 +60,6 @@ class UtilsTest(unittest.TestCase):
         self.assertIsNone(storage.get("test"))
         self.assertIsNone(storage['_non_existent_key_'])
         self.assertEqual(1, storage.get('_non_existent_key_', 1))
-        print('localstorage', storage.index, storage.list)
         self.assertEqual(0, len(storage))
 
     def test_redisstorage(self):

@@ -244,6 +244,8 @@ class RedisStorage(BaseStorage):
         """get key original data from redis"""
         v = self._db.hget(self.index, key)
         if v:
+            if not PY2 and not isinstance(v, text_type):
+                v = v.decode("utf-8")
             return json.loads(v)
         return default
 
