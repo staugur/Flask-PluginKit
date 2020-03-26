@@ -8,7 +8,7 @@ from flask_pluginkit.utils import isValidSemver, sortedSemver, isValidPrefix, \
     Attribution, check_url, DcpManager
 from flask import Markup
 
-PY35 = (v.major,v.minor) == (3,5)
+PY35 = (version_info.major, version_info.minor) == (3, 5)
 
 class UtilsTest(unittest.TestCase):
 
