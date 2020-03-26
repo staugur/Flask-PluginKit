@@ -40,7 +40,6 @@ install:
 - pip install redis
 - pip install git+https://github.com/flask-pluginkit/demo@master#egg=flask-pluginkit-demo
 - pip install Flask==$FLASK_VERSION
-- pip install Werkzeug<1.0.0
 - make dev
 script:
 - coverage run setup.py test

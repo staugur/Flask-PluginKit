@@ -101,6 +101,7 @@ setup(
     test_suite='setup.test_suite',
     tests_require=[
         'Flask>=0.11',
+        'Werkzeug<1.0'
     ],
     packages=['flask_pluginkit'],
     include_package_data=True,
