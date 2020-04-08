@@ -22,8 +22,9 @@ as an example, the rendering is:
 
 .. image:: ./_static/images/webmanager-en.png
 
-This page supports Chinese and English bilingual, the following is
-the Chinese page effect:
+This page supports Chinese and English bilingual(The picture is old, the new
+version supports the language of choice), the following is the Chinese page
+effect:
 
 .. image:: ./_static/images/webmanager-cn.png
 

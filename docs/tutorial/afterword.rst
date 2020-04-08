@@ -18,9 +18,6 @@ extension and released to pypi, named Flask-PluginKit.
 Later released to v2.4.1, I still have a lot of pain points in use, so
 I reconstructed all the code, rewritten the document, released v3.0.0!
 
-Now this version of the feature is temporarily unavailable,
-but will be added later.
-
 I hope to give your feedback to me.
 
 To the plugin developer

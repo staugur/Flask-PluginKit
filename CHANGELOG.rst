@@ -1,5 +1,14 @@
 .. currentmodule:: flask-pluginkit
 
+v3.5.0
+------
+
+Released in 2020-04-08
+
+- feat: add class-based view extension point (beta, use Flask-Classful) 
+- chore: web plugin manager page setInterval (called as needed)
+- update docs & test case, example
+
 v3.4.1
 ------
 

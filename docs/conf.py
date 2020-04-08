@@ -94,6 +94,7 @@ html_context = {
         ProjectLink("PyPI releases", "https://pypi.org/project/Flask-PluginKit"),
         ProjectLink("Source Code", "https://github.com/staugur/Flask-PluginKit"),
         ProjectLink("Issue Tracker", "https://github.com/staugur/Flask-PluginKit/issues/"),
+        ProjectLink("Official Document", "https://flask-pluginkit.rtfd.vip")
     ]
 }
 

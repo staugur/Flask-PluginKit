@@ -123,6 +123,12 @@ class PMTest(unittest.TestCase):
         with app4.test_request_context('/limit/test'):
             self.assertEqual("view_limit", request.endpoint)
 
+    def test_cvep(self):
+        self.assertIn("ClassfulView:index", app4.view_functions)
+        self.assertEqual(2, len(self.app4_pm.get_enabled_cveps[0]))
+        with app4.test_request_context('/classful/'):
+            self.assertEqual("ClassfulView:index", request.endpoint)
+
     def test_filter(self):
         self.assertIn("repeat_filter", app4.jinja_env.filters)
         self.assertIn("demo_filter2", app4.jinja_env.filters)

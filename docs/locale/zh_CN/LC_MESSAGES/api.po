@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-27 17:18+0800\n"
+"POT-Creation-Date: 2020-04-08 13:37+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,18 +56,20 @@ msgid ""
 msgstr ""
 
 #: flask_pluginkit.JsonResponse.force_type flask_pluginkit.LocalStorage.set
+#: flask_pluginkit.LocalStorage.setmany
 #: flask_pluginkit.PluginInstaller.addPlugin
 #: flask_pluginkit.PluginInstaller.removePlugin flask_pluginkit.PluginManager
 #: flask_pluginkit.PluginManager._bep_handler
 #: flask_pluginkit.PluginManager._context_processor_handler
+#: flask_pluginkit.PluginManager._cvep_handler
 #: flask_pluginkit.PluginManager._error_handler
 #: flask_pluginkit.PluginManager._filter_handler
 #: flask_pluginkit.PluginManager._hep_handler
 #: flask_pluginkit.PluginManager._tep_handler
 #: flask_pluginkit.PluginManager._vep_handler
 #: flask_pluginkit.PluginManager.emit_assets
-#: flask_pluginkit.PluginManager.emit_tep flask_pluginkit.utils.DcpManager.push
-#: of
+#: flask_pluginkit.PluginManager.emit_tep flask_pluginkit.RedisStorage.setmany
+#: flask_pluginkit.utils.DcpManager.push of
 msgid "Parameters"
 msgstr ""
 
@@ -148,6 +150,10 @@ msgid ""
 " param ``stpl_reverse`` will be deprecated."
 msgstr ""
 
+#: flask_pluginkit.PluginManager:84 of
+msgid "Add ``cvep`` feature for beta."
+msgstr ""
+
 #: flask_pluginkit.PluginManager.__init__:1 of
 msgid ""
 "Receive initialization parameters and pass options to :meth:`init_app` "
@@ -164,18 +170,18 @@ msgstr ""
 
 #: flask_pluginkit.PluginManager._tep_handler:5 of
 msgid ""
-"the tep rule, like {tep_name: your_html_file_or_code}  1. This must be "
-"dict, where key means that tep is the extension point identifier, and "
-"each extension point can contain only one template type, either HTML or "
-"string, which requires string, and other types trigger exceptions.  2. "
-"HTML template type suffix for `html` or `htm` as template file (the other"
-" as pure HTML code), to be real, will adopt a `render_template` way "
-"rendering, using template type can be specified when rendering and "
-"introduced to additional data."
+"look like {tep_name: your_html_file_or_code}  1. This must be dict, where"
+" key means that tep is the extension point identifier, and each extension"
+" point can contain only one template type, either HTML or string, which "
+"requires string, and other types trigger exceptions.  2. HTML template "
+"type suffix for `html` or `htm` as template file (the other as pure HTML "
+"code), to be real, will adopt a `render_template` way rendering, using "
+"template type can be specified when rendering and introduced to "
+"additional data."
 msgstr ""
 
 #: flask_pluginkit.PluginManager._tep_handler:5 of
-msgid "the tep rule, like {tep_name: your_html_file_or_code}"
+msgid "look like {tep_name: your_html_file_or_code}"
 msgstr ""
 
 #: flask_pluginkit.PluginManager._tep_handler:7 of
@@ -196,6 +202,7 @@ msgstr ""
 
 #: flask_pluginkit.PluginManager._bep_handler
 #: flask_pluginkit.PluginManager._context_processor_handler
+#: flask_pluginkit.PluginManager._cvep_handler
 #: flask_pluginkit.PluginManager._error_handler
 #: flask_pluginkit.PluginManager._filter_handler
 #: flask_pluginkit.PluginManager._hep_handler
@@ -219,17 +226,16 @@ msgstr ""
 
 #: flask_pluginkit.PluginManager._hep_handler:3 of
 msgid ""
-"like {hook: func}, the supporting hooks are as follows:  1. "
-"before_request, Before request (intercept requests are allowed)  2. "
-"after_request, After request (no exception before return)  3. "
-"teardown_request, After request (before return, with or without "
-"exception)  4. before_first_request, Before first request (Registers a "
-"function to be run before the first request to this instance of the "
-"application.)"
+"look like {hook: func}, the supporting hooks:  1. before_request, Before "
+"request (intercept requests are allowed)  2. after_request, After request"
+" (no exception before return)  3. teardown_request, After request (before"
+" return, with or without exception)  4. before_first_request, Before "
+"first request (Registers a function to be run before the first request to"
+" this instance of the application.)"
 msgstr ""
 
 #: flask_pluginkit.PluginManager._hep_handler:3 of
-msgid "like {hook: func}, the supporting hooks are as follows:"
+msgid "look like {hook: func}, the supporting hooks:"
 msgstr ""
 
 #: flask_pluginkit.PluginManager._hep_handler:5 of
@@ -261,11 +267,10 @@ msgid "Blueprint extension point handler."
 msgstr ""
 
 #: flask_pluginkit.PluginManager._bep_handler:3 of
-msgid "like {blueprint=, prefix=}"
+msgid "look like {blueprint=, prefix=}"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._bep_handler:5
-#: flask_pluginkit.PluginManager._vep_handler:5 of
+#: flask_pluginkit.PluginManager._bep_handler:5 of
 msgid "if bep rule or content is invalid."
 msgstr ""
 
@@ -277,12 +282,28 @@ msgstr ""
 msgid "like [{rule=, view_func=, other options}, etc.]"
 msgstr ""
 
+#: flask_pluginkit.PluginManager._vep_handler:5 of
+msgid "if vep rule or content is invalid."
+msgstr ""
+
+#: flask_pluginkit.PluginManager._cvep_handler:1 of
+msgid "Class-based views extension point handler."
+msgstr ""
+
+#: flask_pluginkit.PluginManager._cvep_handler:3 of
+msgid "look like [{view_class=, other options}, etc.]"
+msgstr ""
+
+#: flask_pluginkit.PluginManager._cvep_handler:5 of
+msgid "if cvep rule or content is invalid."
+msgstr ""
+
 #: flask_pluginkit.PluginManager._filter_handler:1 of
 msgid "Template filter handler."
 msgstr ""
 
 #: flask_pluginkit.PluginManager._filter_handler:3 of
-msgid "like {filter_name=func,} or [func, (name,func)]"
+msgid "e.g. {filter_name=func,} or [func, (name,func)]"
 msgstr ""
 
 #: flask_pluginkit.PluginManager._filter_handler:5 of
@@ -316,14 +337,14 @@ msgid "Template context processor(tcp) handler."
 msgstr ""
 
 #: flask_pluginkit.PluginManager._context_processor_handler:3 of
-msgid "like {var_name=var, func_name=func,}"
+msgid "look like {var_name=var, func_name=func,}"
 msgstr ""
 
 #: flask_pluginkit.PluginManager._context_processor_handler:5 of
 msgid "if tcp rule or content is invalid."
 msgstr ""
 
-#: ../../api.rst:28
+#: ../../api.rst:29
 msgid "the instance of :class:`~flask_pluginkit.utils.DcpManager`"
 msgstr ""
 
@@ -394,6 +415,7 @@ msgstr ""
 #: flask_pluginkit.PluginManager.emit_assets
 #: flask_pluginkit.PluginManager.emit_tep
 #: flask_pluginkit.PluginManager.get_enabled_beps
+#: flask_pluginkit.PluginManager.get_enabled_cveps
 #: flask_pluginkit.PluginManager.get_enabled_errhandlers
 #: flask_pluginkit.PluginManager.get_enabled_filters
 #: flask_pluginkit.PluginManager.get_enabled_heps
@@ -486,6 +508,14 @@ msgstr ""
 msgid "List of nested dictionaries, like [{blueprint=,prefix=},]"
 msgstr ""
 
+#: flask_pluginkit.PluginManager.get_enabled_cveps:1 of
+msgid "Get all cvep for the enabled plugins."
+msgstr ""
+
+#: flask_pluginkit.PluginManager.get_enabled_cveps:3 of
+msgid "List of nested tuples, like [(view_class, other options),]"
+msgstr ""
+
 #: flask_pluginkit.PluginManager.get_enabled_errhandlers:1 of
 msgid "Get all error handlers for the enabled plugins."
 msgstr ""
@@ -511,7 +541,7 @@ msgid "Get all hep of the enabled plugins."
 msgstr ""
 
 #: flask_pluginkit.PluginManager.get_enabled_heps:3 of
-msgid "dictionary with nested tuples, like {hook:[]}"
+msgid "dictionary with nested tuples, look like {hook:[]}"
 msgstr ""
 
 #: flask_pluginkit.PluginManager.get_enabled_plugins:1 of
@@ -531,7 +561,7 @@ msgid "Get all tep of the enabled plugins."
 msgstr ""
 
 #: flask_pluginkit.PluginManager.get_enabled_teps:3 of
-msgid "dict like {tep_1: dict(fil=[], cod=[]), tep_n...}"
+msgid "dict, look like {tep_1: dict(fil=[], cod=[]), tep_n...}"
 msgstr ""
 
 #: flask_pluginkit.PluginManager.get_enabled_veps:1 of
@@ -582,11 +612,11 @@ msgstr ""
 msgid "Example usage::"
 msgstr ""
 
-#: ../../api.rst:36
+#: ../../api.rst:37
 msgid "The :class:`~flask.blueprints.Blueprint` instance for managing plugins."
 msgstr ""
 
-#: ../../api.rst:41
+#: ../../api.rst:42
 msgid "Inherited Application Objects"
 msgstr ""
 
@@ -658,7 +688,7 @@ msgstr ""
 msgid "a response object."
 msgstr ""
 
-#: ../../api.rst:50
+#: ../../api.rst:51
 msgid "Storage Objects"
 msgstr ""
 
@@ -666,8 +696,8 @@ msgstr ""
 msgid "Local file system storage based on the shelve module."
 msgstr ""
 
-#: ../../api.rst:57 ../../api.rst:64 flask_pluginkit.utils.BaseStorage.index:1
-#: of
+#: ../../api.rst:58 ../../api.rst:65
+#: flask_pluginkit.utils.BaseStorage.DEFAULT_INDEX:1 of
 msgid "The default index, as the only key, you can override it."
 msgstr ""
 
@@ -703,12 +733,22 @@ msgstr ""
 msgid "raises"
 msgstr ""
 
+#: flask_pluginkit.LocalStorage.setmany:1
+#: flask_pluginkit.RedisStorage.setmany:1 of
+msgid "Set more data"
+msgstr ""
+
+#: flask_pluginkit.LocalStorage.setmany:3
+#: flask_pluginkit.RedisStorage.setmany:3 of
+msgid "the more k=v"
+msgstr ""
+
 #: flask_pluginkit.RedisStorage:1 of
 msgid "Use redis stand-alone storage"
 msgstr ""
 
 #: flask_pluginkit.RedisStorage.get:1 of
-msgid "get key data from redis"
+msgid "get key original data from redis"
 msgstr ""
 
 #: flask_pluginkit.RedisStorage.list:1 of
@@ -727,7 +767,7 @@ msgstr ""
 msgid "Use mongodb stand-alone storage"
 msgstr ""
 
-#: ../../api.rst:71
+#: ../../api.rst:72
 msgid "The default index, as the default database, you can override it."
 msgstr ""
 
@@ -735,7 +775,7 @@ msgstr ""
 msgid "Return the mongo connection"
 msgstr ""
 
-#: ../../api.rst:74
+#: ../../api.rst:75
 msgid "Useful Functions and Classes"
 msgstr ""
 
@@ -760,6 +800,14 @@ msgstr ""
 msgid ""
 "This base class customizes the `__getitem__`, `__setitem__` and "
 "`__delitem__` methods so that the user can call it like a dict."
+msgstr ""
+
+#: flask_pluginkit.utils.BaseStorage:9 of
+msgid "Change :attr:`index` to :attr:`DEFAULT_INDEX`"
+msgstr ""
+
+#: flask_pluginkit.utils.BaseStorage.index:1 of
+msgid "Get the final index"
 msgstr ""
 
 #: flask_pluginkit.utils.DcpManager.emit:1 of
@@ -868,7 +916,7 @@ msgstr ""
 msgid "The plugin package name, not __plugin_name."
 msgstr ""
 
-#: ../../api.rst:94
+#: ../../api.rst:95
 msgid "Custom Exceptions"
 msgstr ""
 
@@ -906,7 +954,7 @@ msgid "Bases: :class:`flask_pluginkit.exceptions.PluginError`"
 msgstr ""
 
 #: flask_pluginkit.exceptions.PluginError:1 of
-msgid "Bases: :class:`exceptions.Exception`"
+msgid "Bases: :class:`Exception`"
 msgstr ""
 
 #~ msgid "Static endpoint and url"
@@ -996,5 +1044,61 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "dict, like {code: view_func,}"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "the tep rule, like {tep_name: "
+#~ "your_html_file_or_code}  1. This must be "
+#~ "dict, where key means that tep is"
+#~ " the extension point identifier, and "
+#~ "each extension point can contain only"
+#~ " one template type, either HTML or"
+#~ " string, which requires string, and "
+#~ "other types trigger exceptions.  2. HTML"
+#~ " template type suffix for `html` or"
+#~ " `htm` as template file (the other"
+#~ " as pure HTML code), to be "
+#~ "real, will adopt a `render_template` way"
+#~ " rendering, using template type can "
+#~ "be specified when rendering and "
+#~ "introduced to additional data."
+#~ msgstr ""
+
+#~ msgid "the tep rule, like {tep_name: your_html_file_or_code}"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "like {hook: func}, the supporting hooks"
+#~ " are as follows:  1. before_request, "
+#~ "Before request (intercept requests are "
+#~ "allowed)  2. after_request, After request "
+#~ "(no exception before return)  3. "
+#~ "teardown_request, After request (before "
+#~ "return, with or without exception)  4."
+#~ " before_first_request, Before first request "
+#~ "(Registers a function to be run "
+#~ "before the first request to this "
+#~ "instance of the application.)"
+#~ msgstr ""
+
+#~ msgid "like {hook: func}, the supporting hooks are as follows:"
+#~ msgstr ""
+
+#~ msgid "like {blueprint=, prefix=}"
+#~ msgstr ""
+
+#~ msgid "like {filter_name=func,} or [func, (name,func)]"
+#~ msgstr ""
+
+#~ msgid "like {var_name=var, func_name=func,}"
+#~ msgstr ""
+
+#~ msgid "dictionary with nested tuples, like {hook:[]}"
+#~ msgstr ""
+
+#~ msgid "dict like {tep_1: dict(fil=[], cod=[]), tep_n...}"
+#~ msgstr ""
+
+#~ msgid "get key data from redis"
 #~ msgstr ""
 

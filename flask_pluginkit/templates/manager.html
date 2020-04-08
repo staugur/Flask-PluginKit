@@ -248,6 +248,23 @@
             document.documentElement.dir = document.webL10n.getDirection();
         }, false);
 
+        var isLoop = 0;
+        function getLoopMsg() {
+            if (isLoop === 1) {
+                return;
+            }
+            isLoop = 1;
+            setInterval(function () {
+                ajax("{{ url_for('.msg') }}", function (res) {
+                    if (res.msg) {
+                        setMessage("<scan>" + res.msg + "</scan>");
+                    }
+                }, {
+                    method: 'get'
+                });
+            }, 5000);
+        }
+
         $('#upload-plugin-submit').click(function () {
             var form = new FormData();
             var file = document.getElementById("file");
@@ -301,6 +318,7 @@
                     setMessage(
                         "<scan class='has-text-primary'>Already submitted installation task.</scan>"
                     );
+                    getLoopMsg();
                 }, {
                     data: {
                         package_or_url: package_or_url
@@ -312,15 +330,6 @@
             }
         });
 
-        setInterval(function () {
-            ajax("{{ url_for('.msg') }}", function (res) {
-                if (res.msg) {
-                    setMessage("<scan>" + res.msg + "</scan>");
-                }
-            }, {
-                method: 'get'
-            });
-        }, 5000);
     </script>
 </body>
 

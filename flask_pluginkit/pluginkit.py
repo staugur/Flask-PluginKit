@@ -108,6 +108,9 @@ class PluginManager(object):
         The param ``stpl`` allows to be set to `asc` or `desc`, respectively,
         ascending, descending, which will also open the template sorting.
         So, the param ``stpl_reverse`` will be deprecated.
+
+    .. versionchanged:: 3.5.0
+        Add ``cvep`` feature for beta.
     """
 
     def __init__(
@@ -157,6 +160,7 @@ class PluginManager(object):
             "hep": self._hep_handler,
             "bep": self._bep_handler,
             "vep": self._vep_handler,
+            "cvep": self._cvep_handler,
             "errhandler": self._error_handler,
             "filter": self._filter_handler,
             "tcp": self._context_processor_handler,
@@ -208,7 +212,7 @@ class PluginManager(object):
             emit_tep=self.emit_tep,
             emit_assets=self.emit_assets,
             emit_config=self.emit_config,
-            emit_dcp=self._dcp_manager.emit
+            emit_dcp=self._dcp_manager.emit,
         )
 
         #: Custom add multiple template folders.
@@ -240,6 +244,13 @@ class PluginManager(object):
         for vep in self.get_enabled_veps:
             rule, viewfunc, endpoint, options = vep
             app.add_url_rule(rule, endpoint, viewfunc, **options)
+
+        #: Register the class-based view extension point
+        #:
+        #: .. versionadded:: 3.5.0
+        for cvep in self.get_enabled_cveps:
+            viewclass, options = cvep
+            viewclass.register(app, **options)
 
         #: Register the template filters
         #:
@@ -415,6 +426,9 @@ class PluginManager(object):
 
         .. versionchanged:: 3.4.0
             plugin_errhandler format change: {} -> []
+
+        .. versionchanged:: 3.5.0
+            add plugin_cvep
         """
         if not isValidSemver(p_obj.__version__):
             raise VersionError(
@@ -453,6 +467,7 @@ class PluginManager(object):
             "plugin_hep": {},
             "plugin_bep": {},
             "plugin_vep": [],
+            "plugin_cvep": [],
             "plugin_filter": [],
             "plugin_errhandler": [],
             "plugin_tcp": {},
@@ -463,17 +478,17 @@ class PluginManager(object):
 
         :param plugin_info: if tep is valid, will update it.
 
-        :param tep_rule: the tep rule, like {tep_name: your_html_file_or_code}
+        :param tep_rule: look like {tep_name: your_html_file_or_code}
 
                         1. This must be dict, where key means that tep is
-                        the extension point identifier, and each extension point
-                        can contain only one template type, either HTML or
-                        string, which requires string,
+                        the extension point identifier, and each extension
+                        point can contain only one template type, either HTML
+                        or string, which requires string,
                         and other types trigger exceptions.
 
                         2. HTML template type suffix for `html` or `htm`
-                        as template file (the other as pure HTML code),
-                        to be real, will adopt a `render_template` way rendering,
+                        as template file (the other as pure HTML code), to be
+                        real, will adopt a `render_template` way rendering,
                         using template type can be specified when rendering
                         and introduced to additional data.
 
@@ -505,7 +520,7 @@ class PluginManager(object):
                         "The tep content is invalid for %s" %
                         plugin_info.plugin_name
                     )
-            #: plugin_tep, like {tep_name:dict(HTMLFile=str, HTMLString=str)}
+            #: result look like {tep_name:dict(HTMLFile=str, HTMLString=str)}
             plugin_info['plugin_tep'] = plugin_tep
             self.logger.debug("Register TEP Success")
         else:
@@ -517,7 +532,7 @@ class PluginManager(object):
     def _hep_handler(self, plugin_info, hep_rule):
         """Hook extension point handler.
 
-        :param hep_rule: like {hook: func}, the supporting hooks are as follows:
+        :param hep_rule: look like {hook: func}, the supporting hooks:
 
                         1. before_request, Before request
                         (intercept requests are allowed)
@@ -550,7 +565,7 @@ class PluginManager(object):
                         "The hep type is invalid for %s" %
                         plugin_info.plugin_name
                     )
-            #: plugin_hep, like {hep_name:callable, and so on}
+            #: plugin_hep, look like {hep_name:callable, and so on}
             plugin_info['plugin_hep'] = plugin_hep
             self.logger.debug("Register HEP Success")
         else:
@@ -562,7 +577,7 @@ class PluginManager(object):
     def _bep_handler(self, plugin_info, bep_rule):
         """Blueprint extension point handler.
 
-        :param bep_rule: like {blueprint=, prefix=}
+        :param bep_rule: look like {blueprint=, prefix=}
 
         :raises PEPError: if bep rule or content is invalid.
         """
@@ -588,7 +603,7 @@ class PluginManager(object):
                     plugin_info.plugin_name
                 )
             #: TODO check and fix bp.root_path
-            #: plugin_bep, like {blueprint:Blueprint instance, prefix='/xxx'}
+            #: result look like {blueprint:Blueprint instance, prefix='/xxx'}
             plugin_info['plugin_bep'] = bep_rule
             self.logger.debug("Register BEP Success")
         else:
@@ -600,9 +615,9 @@ class PluginManager(object):
     def _vep_handler(self, plugin_info, vep_rule):
         """Viewfunc extension point handler.
 
-        :param vep_rule: like [{rule=, view_func=, other options}, etc.]
+        :param vep_rule: look like [{rule=, view_func=, other options}, etc.]
 
-        :raises PEPError: if bep rule or content is invalid.
+        :raises PEPError: if vep rule or content is invalid.
 
         .. versionadded:: 3.1.0
         """
@@ -622,7 +637,7 @@ class PluginManager(object):
                 else:
                     endpoint = options.pop("endpoint", None)
                     plugin_vep.append((rule, view_func, endpoint, options))
-            #: like [(rule, view_func, endpoint), (), (), etc.]
+            #: look like [(rule, view_func, endpoint), (), (), etc.]
             plugin_info['plugin_vep'] = plugin_vep
             self.logger.debug("Register VEP Success")
         else:
@@ -631,10 +646,42 @@ class PluginManager(object):
                 "a list or tuple." % plugin_info.plugin_name
             )
 
+    def _cvep_handler(self, plugin_info, cvep_rule):
+        """Class-based views extension point handler.
+
+        :param cvep_rule: look like [{view_class=, other options}, etc.]
+
+        :raises PEPError: if cvep rule or content is invalid.
+
+        .. versionadded:: 3.5.0
+        """
+        if isinstance(cvep_rule, dict):
+            cvep_rule = (cvep_rule,)
+        if isinstance(cvep_rule, (list, tuple)):
+            plugin_cvep = []
+            for options in cvep_rule:
+                try:
+                    view_class = options.pop("view_class")
+                except KeyError:
+                    raise PEPError(
+                        "The cvep rule is invalid for %s" %
+                        plugin_info.plugin_name
+                    )
+                else:
+                    plugin_cvep.append((view_class, options))
+            #: look like [(view_class, other options), (), (), etc.]
+            plugin_info['plugin_cvep'] = plugin_cvep
+            self.logger.debug("Register CVEP Success")
+        else:
+            raise PEPError(
+                "The cvep rule is invalid for %s, it should be "
+                "a list or tuple." % plugin_info.plugin_name
+            )
+
     def _filter_handler(self, plugin_info, filter_rule):
         """Template filter handler.
 
-        :param filter_rule: like {filter_name=func,} or [func, (name,func)]
+        :param filter_rule: e.g. {filter_name=func,} or [func, (name,func)]
 
         :raises PEPError: if filter rule or content is invalid.
 
@@ -699,7 +746,7 @@ class PluginManager(object):
         if isinstance(errhandler_rule, (tuple, list)):
             plugin_errhandler_rules = []
             for eh in errhandler_rule:
-                #: eh is a dict, like {error: code_or_class, handler: func}
+                #: eh is dict, look like {error: code_or_class, handler: func}
                 if not isinstance(eh, dict) or \
                         "error" not in eh or \
                         "handler" not in eh:
@@ -740,7 +787,7 @@ class PluginManager(object):
     def _context_processor_handler(self, plugin_info, processor_rule):
         """Template context processor(tcp) handler.
 
-        :param processor_rule: like {var_name=var, func_name=func,}
+        :param processor_rule: look like {var_name=var, func_name=func,}
 
         :raises PEPError: if tcp rule or content is invalid.
 
@@ -796,7 +843,7 @@ class PluginManager(object):
     def get_enabled_teps(self):
         """Get all tep of the enabled plugins.
 
-        :returns: dict like {tep_1: dict(fil=[], cod=[]), tep_n...}
+        :returns: dict, look like {tep_1: dict(fil=[], cod=[]), tep_n...}
         """
         teps = {}
         for p in self.get_enabled_plugins:
@@ -813,7 +860,7 @@ class PluginManager(object):
     def get_enabled_heps(self):
         """Get all hep of the enabled plugins.
 
-        :returns: dictionary with nested tuples, like {hook:[]}
+        :returns: dictionary with nested tuples, look like {hook:[]}
         """
         heps = {}
         for hep in self.__het_allow_hooks.keys():
@@ -845,6 +892,21 @@ class PluginManager(object):
             for p in self.get_enabled_plugins
             for rule in p.plugin_vep
             if p.plugin_vep
+        ]
+
+    @property
+    def get_enabled_cveps(self):
+        """Get all cvep for the enabled plugins.
+
+        :returns: List of nested tuples, like [(view_class, other options),]
+
+        .. versionadded:: 3.5.0
+        """
+        return [
+            rule
+            for p in self.get_enabled_plugins
+            for rule in p.plugin_cvep
+            if p.plugin_cvep
         ]
 
     @property

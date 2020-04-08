@@ -10,10 +10,11 @@
 """
 
 from flask import abort, jsonify
+from flask_classful import FlaskView
 
 __plugin_name__ = "repeatdemo"
 __author__ = "Mr.tao <staugur@saintic.com>"
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 
 def view_abort_403():
@@ -47,8 +48,15 @@ def raise_api_error_view():
     raise ApiError(10000, "test_err_class_handler")
 
 
+class ClassfulView(FlaskView):
+
+    def index(self):
+        return "test"
+
+
 def register():
     return {
+        'cvep': dict(view_class=ClassfulView),
         'vep': [
             dict(rule='/403', view_func=view_abort_403),
             dict(rule='/api_error', view_func=raise_api_error_view)

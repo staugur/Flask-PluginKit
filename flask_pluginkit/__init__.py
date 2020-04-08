@@ -17,7 +17,7 @@ from ._web import blueprint
 
 __author__ = "staugur <staugur@saintic.com>"
 
-__version__ = "3.4.1"
+__version__ = "3.5.0"
 
 __all__ = [
     "Flask",

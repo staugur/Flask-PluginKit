@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-19 22:32+0800\n"
+"POT-Creation-Date: 2020-04-08 13:37+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,10 +32,7 @@ msgid ""
 " tutorial. Of course, when I write this document, I can't accurately view"
 " it from the perspective of each user. Although I am also one of the "
 "users, I am also a developer. Familiar with internal processes."
-msgstr ""
-"对于用户来说，这个教程看完基本能保证使用畅通，当然，我在写这个文档的时候，"
-"无法准确地站在每个用户角度看待，虽然我也是用户之一，但是我又是开发者，"
-"比较熟悉内部流程。"
+msgstr "对于用户来说，这个教程看完基本能保证使用畅通，当然，我在写这个文档的时候，无法准确地站在每个用户角度看待，虽然我也是用户之一，但是我又是开发者，比较熟悉内部流程。"
 
 #: ../../tutorial/afterword.rst:12
 msgid ""
@@ -45,38 +42,33 @@ msgid ""
 "original code that can load plugins. Finally, I used More, so independent"
 " into a Flask extension and released to pypi, named Flask-PluginKit."
 msgstr ""
-"刚开始时，我用Flask写web应用，写过不少，有些东西重复，后来想研究点有格调的东西，"
-"参考了wordpress、flask-plguins等，写了原始的可以加载插件的代码，最后用的多了，"
-"所以独立成一个Flask扩展并发布到pypi，名叫Flask-PluginKit。"
+"刚开始时，我用Flask写web应用，写过不少，有些东西重复，后来想研究点有格调的东西，参考了wordpress、flask-"
+"plguins等，写了原始的可以加载插件的代码，最后用的多了，所以独立成一个Flask扩展并发布到pypi，名叫Flask-PluginKit。"
 
 #: ../../tutorial/afterword.rst:18
 msgid ""
 "Later released to v2.4.1, I still have a lot of pain points in use, so I "
 "reconstructed all the code, rewritten the document, released v3.0.0!"
-msgstr ""
-"后来发布到v2.4.1，自己在使用中也还是有不少痛点，"
-"于是又重构所有代码，重写文档，发布v3.0.0！"
+msgstr "后来发布到v2.4.1，自己在使用中也还是有不少痛点，于是又重构所有代码，重写文档，发布v3.0.0！"
 
 #: ../../tutorial/afterword.rst:21
-msgid ""
-"Now this version of the feature is temporarily unavailable, but will be "
-"added later."
-msgstr "现在这版功能暂时少了，不过后面会补回来的。"
-
-#: ../../tutorial/afterword.rst:24
 msgid "I hope to give your feedback to me."
 msgstr "非常希望将您的意见反馈给我。"
 
-#: ../../tutorial/afterword.rst:27
+#: ../../tutorial/afterword.rst:24
 msgid "To the plugin developer"
 msgstr "与插件开发者的话"
 
-#: ../../tutorial/afterword.rst:29
+#: ../../tutorial/afterword.rst:26
 msgid ""
 "For developers, you not only need to read this tutorial, but also api, "
 "loading logic, and so on, of course, it is best to see some source code, "
 "although it is very good."
-msgstr ""
-"对于开发者来说，您不止需要看完这个教程，另外API、加载逻辑等也需要熟知，"
-"当然，最好能看些源码，虽然写的很菜。"
+msgstr "对于开发者来说，您不止需要看完这个教程，另外API、加载逻辑等也需要熟知，当然，最好能看些源码，虽然写的很菜。"
+
+#~ msgid ""
+#~ "Now this version of the feature is"
+#~ " temporarily unavailable, but will be "
+#~ "added later."
+#~ msgstr "现在这版功能暂时少了，不过后面会补回来的。"
 
