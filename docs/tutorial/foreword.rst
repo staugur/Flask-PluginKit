@@ -79,7 +79,7 @@ to worry about subsequent third-party plugin upgrades.
 For instructions on how to write third-party plugins,
 see :doc:`/tutorial/third-party-plugin`
 
-For official plugin's github group: https://github.com/flask-pluginkit
+For official plugin's github group: https://github.com/saintic
 
 Loading logic
 -------------

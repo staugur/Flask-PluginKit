@@ -109,7 +109,7 @@ class UtilsTest(unittest.TestCase):
         self.assertTrue(allowed_uploaded_plugin_suffix("abc.tgz"))
         self.assertTrue(allowed_uploaded_plugin_suffix("demo-1.0.0.zip"))
         self.assertFalse(allowed_uploaded_plugin_suffix(
-            "https://codeload.github.com/flask-pluginkit/demo/zip/master"))
+            "https://codeload.github.com/saintic/flask-pluginkit-demo/zip/master"))
         self.assertFalse(allowed_uploaded_plugin_suffix("hello.tar.bz2"))
         self.assertFalse(allowed_uploaded_plugin_suffix("test.png"))
 

@@ -144,5 +144,5 @@ msgstr ""
 " ``twine upload dist/*`` "
 
 #: ../../tutorial/third-party-plugin.rst:83
-msgid "`Third-party example <https://github.com/flask-pluginkit/demo>`_"
-msgstr "`第三方插件示例 <https://github.com/flask-pluginkit/demo>`_"
+msgid "`Third-party example <https://github.com/saintic/flask-pluginkit-demo>`_"
+msgstr "`第三方插件示例 <https://github.com/saintic/flask-pluginkit-demo>`_"

@@ -87,6 +87,14 @@ class BaseStorage(object):
         """
         return getattr(self, "COVERED_INDEX", None) or self.DEFAULT_INDEX
 
+    @index.setter
+    def index(self, _covered_index):
+        """Set the covered index
+
+        .. versionadded:: 3.5.1
+        """
+        self.COVERED_INDEX = _covered_index
+
     def __getitem__(self, key):
         if hasattr(self, "get"):
             return self.get(key)
@@ -256,15 +264,12 @@ class RedisStorage(BaseStorage):
     def __len__(self):
         return self._db.hlen(self.index)
 
-    def __del__(self):
-        if self._db:
-            self._db.connection_pool.disconnect()
-
 
 class MongoStorage(BaseStorage):
     """Use mongodb stand-alone storage
 
-    .. versionadded:: 3.4.0
+    .. deprecated:: 3.5.1
+        The next version removed
     """
 
     def __init__(self, mongo_url=None, mongo_connection=None):

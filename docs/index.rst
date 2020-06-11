@@ -79,4 +79,4 @@ will be supplemented by others.
 
 .. _Flask: https://www.palletsprojects.com/p/flask/
 
-.. _official plugin organization: https://github.com/flask-pluginkit
+.. _official plugin organization: https://github.com/saintic?q=flask-pluginkit

@@ -146,7 +146,7 @@ This blueprint has only one page. This page contains three main features:
 
             for 1, http://xx.com/download?plugin_filename=xx.zip
             for 2, http://xx.xx.com/plugin-v0.0.1.tar.gz
-            for 3 and 4, https://codeload.github.com/flask-pluginkit/demo/zip/master
+            for 3 and 4, https://codeload.github.com/saintic/flask-pluginkit-demo/zip/master
 
     .. _webmanager-install-package:
 
@@ -163,7 +163,7 @@ This blueprint has only one page. This page contains three main features:
         .. code-block:: text
 
             flask-pluginkit-valine
-            git+https://github.com/flask-pluginkit/demo@master
+            git+https://github.com/saintic/flask-pluginkit-demo@master
 
         .. note::
 

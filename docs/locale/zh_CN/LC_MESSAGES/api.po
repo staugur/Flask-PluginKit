@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-08 13:37+0800\n"
+"POT-Creation-Date: 2020-06-11 10:32+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -279,7 +279,7 @@ msgid "Viewfunc extension point handler."
 msgstr ""
 
 #: flask_pluginkit.PluginManager._vep_handler:3 of
-msgid "like [{rule=, view_func=, other options}, etc.]"
+msgid "look like [{rule=, view_func=, other options}, etc.]"
 msgstr ""
 
 #: flask_pluginkit.PluginManager._vep_handler:5 of
@@ -954,7 +954,7 @@ msgid "Bases: :class:`flask_pluginkit.exceptions.PluginError`"
 msgstr ""
 
 #: flask_pluginkit.exceptions.PluginError:1 of
-msgid "Bases: :class:`Exception`"
+msgid "Bases: :class:`exceptions.Exception`"
 msgstr ""
 
 #~ msgid "Static endpoint and url"
@@ -1100,5 +1100,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "get key data from redis"
+#~ msgstr ""
+
+#~ msgid "like [{rule=, view_func=, other options}, etc.]"
 #~ msgstr ""
 

@@ -1,4 +1,4 @@
 Flask>=0.11
 Flask-PluginKit>=3.4.0
 Flask-Classful>=0.14.0
-git+https://github.com/flask-pluginkit/demo@master
+git+https://github.com/saintic/flask-pluginkit-demo@master

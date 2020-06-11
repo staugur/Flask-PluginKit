@@ -80,5 +80,5 @@ whether it meets the requirements of the heart, and publish it to the
 official station without problems, pypi.org, the command is:
 ``twine upload dist/*``
 
-5. `Third-party example <https://github.com/flask-pluginkit/demo>`_
+5. `Third-party example <https://github.com/saintic/flask-pluginkit-demo>`_
 

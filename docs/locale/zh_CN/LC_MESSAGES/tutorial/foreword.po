@@ -192,8 +192,8 @@ msgid ""
 msgstr "如何编写第三方插件，请参阅 :doc:`/tutorial/third-party-plugin`"
 
 #: ../../tutorial/foreword.rst:82
-msgid "For official plugin's github group: https://github.com/flask-pluginkit"
-msgstr "官方插件组：https://github.com/flask-pluginkit"
+msgid "For official plugin's github group: https://github.com/saintic"
+msgstr "官方插件组：https://github.com/saintic"
 
 #: ../../tutorial/foreword.rst:85
 msgid "Loading logic"

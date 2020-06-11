@@ -61,8 +61,7 @@ Links
 -  GitHub https://github.com/staugur/Flask-PluginKit
 -  Author https://www.saintic.com
 -  Issues https://github.com/staugur/Flask-PluginKit/issues
--  Projects using *Flask-PluginKit* https://github.com/topics/flask-pluginkit
--  Official plugins based on *Flask-PluginKit* https://github.com/flask-pluginkit
+-  Official plugins based on `Flask-PluginKit <https://github.com/saintic?q=flask-pluginkit>`_
 
 
 LICENSE
