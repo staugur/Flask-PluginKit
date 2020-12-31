@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-19 22:32+0800\n"
+"POT-Creation-Date: 2020-12-31 17:47+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,9 +43,8 @@ msgid ""
 "prefix: /your_blueprint_url_prefix}. Only one blueprint is currently "
 "supported."
 msgstr ""
-"插件需要通过register返回bep字段，返回的bep数据类型是一个格式为"
-"{blueprint: Blueprint Instance, prefix: /your_blueprint_url_prefix}的字典。"
-"目前仅支持一个蓝图。"
+"插件需要通过register返回bep字段，返回的bep数据类型是一个格式为{blueprint: Blueprint Instance, "
+"prefix: /your_blueprint_url_prefix}的字典。目前仅支持一个蓝图。"
 
 #: ../../tutorial/bep.rst:19
 msgid ""
@@ -61,8 +60,7 @@ msgid ""
 "The blueprint can be mounted under None or under other prefixes. Flask-"
 "PluginKit does not detect blueprint routing, as long as the prefix is "
 "legal."
-msgstr ""
-"蓝图可以安装在None或其他前缀下，只要前缀合法，Flask-PluginKit不会检测蓝图路由。"
+msgstr "蓝图可以安装在None或其他前缀下，只要前缀合法，Flask-PluginKit不会检测蓝图路由。"
 
 #: ../../tutorial/bep.rst:27
 msgid ""
@@ -70,11 +68,17 @@ msgid ""
 "pollute your original application. Others are plugin developers."
 msgstr "用户需确保插件无害，并且不会污染原始应用程序，其他则是插件开发人员的事情。"
 
-#: ../../tutorial/bep.rst:31
+#: ../../tutorial/bep.rst:30
+msgid ""
+"If you just want to add the view to the existing blueprint, you can refer"
+" to :ref:`vep-on-blueprint`"
+msgstr "如果你只想把视图添加到已有蓝图中，可以参考 :ref:`vep-on-blueprint`"
+
+#: ../../tutorial/bep.rst:34
 msgid "Example"
 msgstr "示例"
 
-#: ../../tutorial/bep.rst:33
+#: ../../tutorial/bep.rst:36
 msgid "Plugin registration for bep"
 msgstr "注册bep"
 

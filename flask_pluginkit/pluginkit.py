@@ -203,7 +203,6 @@ class PluginManager(object):
             "Start plugins initialization, local plugins path: %s, third party"
             "-plugins: %s" % (self.plugins_abspath, self.plugin_packages)
         )
-
         self.__scan_third_plugins()
         self.__scan_affiliated_plugins()
 
@@ -241,9 +240,24 @@ class PluginManager(object):
         #: Register the viewfunc extension point
         #:
         #: .. versionadded:: 3.1.0
+        #:
+        #: .. versionchanged:: 3.6.0
+        #:     allow blueprint name
         for vep in self.get_enabled_veps:
-            rule, viewfunc, endpoint, options = vep
-            app.add_url_rule(rule, endpoint, viewfunc, **options)
+            rule, viewfunc, endpoint, options, _bp = vep
+            if _bp:
+                if _bp in app.blueprints:
+                    s = app.blueprints[_bp].make_setup_state(app, {})
+                    s.add_url_rule(
+                        rule, endpoint, viewfunc, **options
+                    )
+                else:
+                    raise PEPError(
+                        "The required blueprint({}) was not found when "
+                        "registering vep with {}".format(_bp, rule)
+                    )
+            else:
+                app.add_url_rule(rule, endpoint, viewfunc, **options)
 
         #: Register the class-based view extension point
         #:
@@ -615,11 +629,14 @@ class PluginManager(object):
     def _vep_handler(self, plugin_info, vep_rule):
         """Viewfunc extension point handler.
 
-        :param vep_rule: look like [{rule=, view_func=, other options}, etc.]
+        :param vep_rule: look like [{rule=, view_func=, _blurprint=, opts}, ]
 
         :raises PEPError: if vep rule or content is invalid.
 
         .. versionadded:: 3.1.0
+
+        .. versionchanged:: 3.6.0
+            Allow adding vep on blueprint
         """
         if isinstance(vep_rule, dict):
             vep_rule = (vep_rule,)
@@ -636,8 +653,16 @@ class PluginManager(object):
                     )
                 else:
                     endpoint = options.pop("endpoint", None)
-                    plugin_vep.append((rule, view_func, endpoint, options))
-            #: look like [(rule, view_func, endpoint), (), (), etc.]
+                    #: If it is not None,
+                    #: it means that vep is bound to the blueprint
+                    #:
+                    #: .. versionadded:: 3.6.0
+                    _bp = options.pop("_blueprint", None)
+
+                    plugin_vep.append(
+                        (rule, view_func, endpoint, options, _bp)
+                    )
+            #: look like [(rule, view_func, endpoint, opts, bp), (), (), etc.]
             plugin_info['plugin_vep'] = plugin_vep
             self.logger.debug("Register VEP Success")
         else:
@@ -1058,7 +1083,7 @@ class PluginManager(object):
         else:
             return mtf + mtc
 
-    def emit_assets(self, plugin_name, filename, _raw=False):
+    def emit_assets(self, plugin_name, filename, _raw=False, _external=False):
         """Get the static file in template context.
         This global function, which can be used directly in the template,
         is used to quickly reference the static resources of the plugin.
@@ -1113,15 +1138,21 @@ class PluginManager(object):
         :param _raw: if True, not to parse automatically, only generate uri.
                      Default False.
 
+        :param _external: _external parameter passed to url_for
+
         :returns: html code with :class:`~flask.Markup`.
 
         .. versionchanged:: 3.4.0
             Add _raw, only generate uri without parse
+
+        .. versionchanged:: 3.6.0
+            Add _external, pass to :func:`flask.url_for`
         """
         uri = url_for(
             self.static_endpoint,
             plugin_name=plugin_name,
-            filename=filename
+            filename=filename,
+            _external=_external,
         )
         if _raw is not True:
             if filename.endswith(".css"):

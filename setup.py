@@ -69,7 +69,7 @@ class PublishCommand(Command):
         os.system("python setup.py sdist bdist_wheel")
         if self.test:
             os.system(
-                "twine upload --repository-url https://test.pypi.org/legacy/ dist/*")
+                "twine upload -r testpypi dist/*")
         elif self.release:
             os.system("twine upload dist/*")
         os.system("rm -rf build/ dist/ Flask_PluginKit.egg-info/")
@@ -110,7 +110,7 @@ setup(
     python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*",
     install_requires=[
         'Flask>=0.9',
-        'semver>=2.0.0'
+        'semver>=2.10.0'
     ],
     cmdclass={
         'publish': PublishCommand,

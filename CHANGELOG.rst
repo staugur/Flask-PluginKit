@@ -1,5 +1,16 @@
 .. currentmodule:: flask-pluginkit
 
+v3.6.0
+------
+
+Released in 2020-12-31
+
+- feat: add :ref:`vep-on-blueprint`, is beta
+- feat: the :meth:`~flask_pluginkit.PluginManager.emit_assets` add _external
+- fix: semver.compare and semver.parse
+- update docs & test case, example
+- deprecated: MongoStorage
+
 v3.5.0
 ------
 

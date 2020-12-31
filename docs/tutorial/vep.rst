@@ -35,6 +35,17 @@ detect vep rules and specific content.
 
 .. _add_url_rule: http://flask.palletsprojects.com/api/#flask.Flask.add_url_rule
 
+.. _vep-on-blueprint:
+
+vep on blueprint
+----------------
+
+The vep allows to be set on the blueprint, format: {_blueprint: blueprint-name, rule:/path, view_func:xx}.
+
+Require blueprint to exist, otherwise raise :class:`~flask_pluginkit.exceptions.PEPError`
+
+.. versionadded:: 3.6.0
+
 Example
 -------
 
@@ -57,6 +68,9 @@ Example
             </form>
             '''
 
+    def bvep():
+        return "vep on blueprint"
+
     def register():
         return dict(
             vep = [
@@ -68,6 +82,13 @@ Example
                     rule="/upload",
                     view_func=upload_file,
                     methods=["GET", "POST"]
+                ),
+                # Suppose a blueprint named test,
+                # and the endpoint will be test.bvep(endpoint set it)
+                dict(
+                    _blueprint="test",
+                    rule="/vep-on-blueprint",
+                    view_func=bvep,
                 )
             ]
         )

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.1.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-22 16:33+0800\n"
+"POT-Creation-Date: 2020-12-31 17:47+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,16 +35,13 @@ msgid ""
 "Vep is a simple way for plugins to directly add routing functions, "
 "because in previous versions, routing was only allowed through "
 "blueprints."
-msgstr ""
-"视图扩展点是插件直接增加路由函数的简单方式，"
-"因为之前的版本中，要增加路由只能通过蓝图。"
+msgstr "视图扩展点是插件直接增加路由函数的简单方式，因为之前的版本中，要增加路由只能通过蓝图。"
 
 #: ../../tutorial/vep.rst:14
 msgid ""
 "The plugin needs to return the vep field via register. The returned vep "
 "data type can be dict, list, tuple."
-msgstr "插件需要通过register函数返回vep字段，"
-"返回的vep数据类型可以是字典、列表或元组。"
+msgstr "插件需要通过register函数返回vep字段，返回的vep数据类型可以是字典、列表或元组。"
 
 #: ../../tutorial/vep.rst:17
 msgid ""
@@ -53,9 +50,8 @@ msgid ""
 ":meth:`~flask.Flask.add_url_rule`, reference document `add_url_rule`_, a "
 "common example is:"
 msgstr ""
-"字典的话，格式是{rule:, view_func:}，表示增加单个路由，"
-"这个数据内容即 :meth:`~flask.Flask.add_url_rule` 的参数，参考文档"
-" `add_url_rule`_ ，一个常用的示例是："
+"字典的话，格式是{rule:, view_func:}，表示增加单个路由，这个数据内容即 "
+":meth:`~flask.Flask.add_url_rule` 的参数，参考文档 `add_url_rule`_ ，一个常用的示例是："
 
 #: ../../tutorial/vep.rst:29
 msgid ""
@@ -72,19 +68,35 @@ msgstr ""
 "Flask-PluginKit通过 :meth:`~flask_pluginkit.PluginManager._vep_handler` "
 "加载vep，这个方法会检测vep规则和内容。"
 
-#: ../../tutorial/vep.rst:39
+#: ../../tutorial/vep.rst:41
+msgid "vep on blueprint"
+msgstr ""
+
+#: ../../tutorial/vep.rst:43
+msgid ""
+"The vep allows to be set on the blueprint, format: {_blueprint: "
+"blueprint-name, rule:/path, view_func:xx}."
+msgstr "vep允许设置到蓝图上，格式是：{_blueprint: blueprint-name, rule:/path, view_func:xx}。"
+
+#: ../../tutorial/vep.rst:45
+msgid ""
+"Require blueprint to exist, otherwise raise "
+":class:`~flask_pluginkit.exceptions.PEPError`"
+msgstr "要求蓝图真实存在，否则引发 :class:`~flask_pluginkit.exceptions.PEPError`"
+
+#: ../../tutorial/vep.rst:50
 msgid "Example"
 msgstr "示例"
 
-#: ../../tutorial/vep.rst:41
+#: ../../tutorial/vep.rst:52
 msgid "Plugin registration for vep"
 msgstr "注册vep"
 
-#: ../../tutorial/vep.rst:75
+#: ../../tutorial/vep.rst:96
 msgid "User Access"
 msgstr "用户访问"
 
-#: ../../tutorial/vep.rst:77
+#: ../../tutorial/vep.rst:98
 msgid ""
 "Access /upload display form, access the uploaded file via "
 "/uploads/filename."

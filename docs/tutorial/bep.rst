@@ -27,6 +27,9 @@ as long as the prefix is legal.
 The user only needs to ensure that the plugin is harmless and does not
 pollute your original application. Others are plugin developers.
 
+If you just want to add the view to the existing blueprint,
+you can refer to :ref:`vep-on-blueprint`
+
 Example
 -------
 

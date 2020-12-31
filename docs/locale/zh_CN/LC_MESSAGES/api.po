@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-11 10:32+0800\n"
+"POT-Creation-Date: 2020-12-31 17:52+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -279,11 +279,15 @@ msgid "Viewfunc extension point handler."
 msgstr ""
 
 #: flask_pluginkit.PluginManager._vep_handler:3 of
-msgid "look like [{rule=, view_func=, other options}, etc.]"
+msgid "look like [{rule=, view_func=, _blurprint=, opts}, ]"
 msgstr ""
 
 #: flask_pluginkit.PluginManager._vep_handler:5 of
 msgid "if vep rule or content is invalid."
+msgstr ""
+
+#: flask_pluginkit.PluginManager._vep_handler:9 of
+msgid "Allow adding vep on blueprint"
 msgstr ""
 
 #: flask_pluginkit.PluginManager._cvep_handler:1 of
@@ -409,6 +413,10 @@ msgstr ""
 msgid "if True, not to parse automatically, only generate uri. Default False."
 msgstr ""
 
+#: flask_pluginkit.PluginManager.emit_assets:55 of
+msgid "_external parameter passed to url_for"
+msgstr ""
+
 #: flask_pluginkit.JsonResponse.force_type flask_pluginkit.LocalStorage.get
 #: flask_pluginkit.LocalStorage.list flask_pluginkit.LocalStorage.set
 #: flask_pluginkit.PluginInstaller.addPlugin
@@ -426,13 +434,17 @@ msgstr ""
 msgid "Returns"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:55
+#: flask_pluginkit.PluginManager.emit_assets:57
 #: flask_pluginkit.PluginManager.emit_tep:28 of
 msgid "html code with :class:`~flask.Markup`."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:57 of
+#: flask_pluginkit.PluginManager.emit_assets:59 of
 msgid "Add _raw, only generate uri without parse"
+msgstr ""
+
+#: flask_pluginkit.PluginManager.emit_assets:62 of
+msgid "Add _external, pass to :func:`flask.url_for`"
 msgstr ""
 
 #: flask_pluginkit.PluginManager.emit_config:1 of
@@ -767,6 +779,10 @@ msgstr ""
 msgid "Use mongodb stand-alone storage"
 msgstr ""
 
+#: flask_pluginkit.MongoStorage:3 of
+msgid "The next version removed"
+msgstr ""
+
 #: ../../api.rst:72
 msgid "The default index, as the default database, you can override it."
 msgstr ""
@@ -954,7 +970,7 @@ msgid "Bases: :class:`flask_pluginkit.exceptions.PluginError`"
 msgstr ""
 
 #: flask_pluginkit.exceptions.PluginError:1 of
-msgid "Bases: :class:`exceptions.Exception`"
+msgid "Bases: :class:`Exception`"
 msgstr ""
 
 #~ msgid "Static endpoint and url"
@@ -1103,5 +1119,11 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "like [{rule=, view_func=, other options}, etc.]"
+#~ msgstr ""
+
+#~ msgid "look like [{rule=, view_func=, other options}, etc.]"
+#~ msgstr ""
+
+#~ msgid "Add _external, pass to `user_for`"
 #~ msgstr ""
 

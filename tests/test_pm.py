@@ -117,9 +117,10 @@ class PMTest(unittest.TestCase):
             self.assertTrue("/css/style.css" in link)
 
     def test_vep(self):
+        self.assertIn("localdemo.bvep_view", app4.view_functions)
         self.assertIn("view_limit", app4.view_functions)
         view_limit_data = self.app4_pm.get_enabled_veps[0]
-        self.assertEqual(4, len(view_limit_data))
+        self.assertEqual(5, len(view_limit_data))
         with app4.test_request_context('/limit/test'):
             self.assertEqual("view_limit", request.endpoint)
 

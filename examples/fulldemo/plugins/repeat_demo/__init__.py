@@ -9,7 +9,7 @@
     :license: BSD, see LICENSE for more details.
 """
 
-from flask import abort, jsonify
+from flask import abort, jsonify, request
 from flask_classful import FlaskView
 
 __plugin_name__ = "repeatdemo"
@@ -54,12 +54,17 @@ class ClassfulView(FlaskView):
         return "test"
 
 
+def bvep_view():
+    return request.endpoint
+
+
 def register():
     return {
         'cvep': dict(view_class=ClassfulView),
         'vep': [
             dict(rule='/403', view_func=view_abort_403),
-            dict(rule='/api_error', view_func=raise_api_error_view)
+            dict(rule='/api_error', view_func=raise_api_error_view),
+            dict(rule='/bvep', view_func=bvep_view, _blueprint="localdemo"),
         ],
         'filter': dict(repeat_filter=lambda x: 'test-filter-repeat'),
         'errhandler': [

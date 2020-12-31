@@ -15,9 +15,9 @@ from .utils import Flask, LocalStorage, RedisStorage, MongoStorage, \
 from ._installer import PluginInstaller
 from ._web import blueprint
 
-__author__ = "staugur <staugur@saintic.com>"
+__author__ = "staugur <me@tcw.im>"
 
-__version__ = "3.5.1"
+__version__ = "3.6.0"
 
 __all__ = [
     "Flask",

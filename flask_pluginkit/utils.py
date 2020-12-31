@@ -11,7 +11,7 @@
 
 import json
 import shelve
-import semver
+from semver import VersionInfo
 from os.path import join, abspath
 from tempfile import gettempdir
 from collections import deque
@@ -38,12 +38,7 @@ def isValidSemver(version):
     The format is MAJOR.Minor.PATCH, more with https://semver.org
     """
     if version and isinstance(version, string_types):
-        try:
-            semver.parse(version)
-        except (TypeError, ValueError):
-            return False
-        else:
-            return True
+        return VersionInfo.isvalid(version)
     return False
 
 
@@ -51,12 +46,16 @@ def sortedSemver(versions, sort="ASC"):
     """Semantically sort the list of version Numbers"""
     reverse = True if sort.upper() == "DESC" else False
     if versions and isinstance(versions, (list, tuple)):
+        def compare(ver1, ver2):
+            v1 = VersionInfo.parse(ver1)
+            return v1.compare(ver2)
+
         if PY2:
-            return sorted(versions, cmp=semver.compare, reverse=reverse)
+            return sorted(versions, cmp=compare, reverse=reverse)
         else:
             from functools import cmp_to_key
             return sorted(
-                versions, key=cmp_to_key(semver.compare),
+                versions, key=cmp_to_key(compare),
                 reverse=reverse
             )
     else:
@@ -91,7 +90,7 @@ class BaseStorage(object):
     def index(self, _covered_index):
         """Set the covered index
 
-        .. versionadded:: 3.5.1
+        .. versionadded:: 3.6.0
         """
         self.COVERED_INDEX = _covered_index
 
@@ -268,7 +267,7 @@ class RedisStorage(BaseStorage):
 class MongoStorage(BaseStorage):
     """Use mongodb stand-alone storage
 
-    .. deprecated:: 3.5.1
+    .. deprecated:: 3.6.0
         The next version removed
     """
 
