@@ -41,16 +41,16 @@ else:  # pragma: nocover
 
     text_type = str
     string_types = (str,)
-    integer_types = (int, )
+    integer_types = (int,)
 
 __all__ = [
-    'PY2',
-    'urllib2',
-    'urlsplit',
-    'parse_qs',
-    'iteritems',
-    'itervalues',
-    'text_type',
-    'string_types',
-    'integer_types'
+    "PY2",
+    "urllib2",
+    "urlsplit",
+    "parse_qs",
+    "iteritems",
+    "itervalues",
+    "text_type",
+    "string_types",
+    "integer_types",
 ]

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import io
-import os
-import ast
 import unittest
+from os import system
 from re import compile
+from io import open as iopen
+from ast import literal_eval
 from setuptools import setup, Command
 
 
@@ -18,7 +18,7 @@ def _get_version():
     version_re = compile(r'__version__\s+=\s+(.*)')
 
     with open('flask_pluginkit/__init__.py', 'rb') as fh:
-        version = ast.literal_eval(version_re.search(
+        version = literal_eval(version_re.search(
             fh.read().decode('utf-8')).group(1))
 
     return str(version)
@@ -29,14 +29,14 @@ def _get_author():
     mail_re = compile(r'(.*)\s<(.*)>')
 
     with open('flask_pluginkit/__init__.py', 'rb') as fh:
-        author = ast.literal_eval(author_re.search(
+        author = literal_eval(author_re.search(
             fh.read().decode('utf-8')).group(1))
 
     return (mail_re.search(author).group(1), mail_re.search(author).group(2))
 
 
 def _get_readme():
-    with io.open('README.rst', 'rt', encoding='utf8') as f:
+    with iopen('README.rst', 'rt', encoding='utf8') as f:
         return f.read()
 
 
@@ -64,15 +64,15 @@ class PublishCommand(Command):
 
     def run(self):
         """Run command."""
-        os.system("pip install -U setuptools twine wheel")
-        os.system("rm -rf build/ dist/ Flask_PluginKit.egg-info/")
-        os.system("python setup.py sdist bdist_wheel")
+        system("pip install -U setuptools twine wheel")
+        system("rm -rf build/ dist/ Flask_PluginKit.egg-info/")
+        system("python setup.py sdist bdist_wheel")
         if self.test:
-            os.system(
+            system(
                 "twine upload -r testpypi dist/*")
         elif self.release:
-            os.system("twine upload dist/*")
-        os.system("rm -rf build/ dist/ Flask_PluginKit.egg-info/")
+            system("twine upload dist/*")
+        system("rm -rf build/ dist/ Flask_PluginKit.egg-info/")
         if self.test:
             print("V%s publish to the test.pypi.org successfully" % version)
         elif self.release:
@@ -82,15 +82,16 @@ class PublishCommand(Command):
 
 version = _get_version()
 (author, email) = _get_author()
+gh = "https://github.com/staugur/Flask-PluginKit"
 setup(
     name='Flask-PluginKit',
     version=version,
-    url='https://github.com/staugur/Flask-PluginKit',
-    download_url="https://github.com/staugur/Flask-PluginKit/releases/tag/v%s" % version,
+    url=gh,
+    download_url="{gh}/releases/tag/v{v}".format(gh=gh, v=version),
     project_urls={
+        "Code": gh,
+        "Issue tracker": "{gh}/issues".format(gh=gh),
         "Documentation": "https://flask-pluginkit.rtfd.vip",
-        "Code": "https://github.com/staugur/Flask-PluginKit",
-        "Issue tracker": "https://github.com/staugur/Flask-PluginKit/issues",
     },
     license='BSD 3-Clause',
     author=author,
@@ -101,15 +102,14 @@ setup(
     test_suite='setup.test_suite',
     tests_require=[
         'Flask>=0.11',
-        'Werkzeug<1.0',
         'Flask-Classful>=0.14.0'
     ],
     packages=['flask_pluginkit'],
     include_package_data=True,
     zip_safe=False,
-    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*",
+    python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.3.*,!=3.5.*",
     install_requires=[
-        'Flask>=0.9',
+        'Flask>=0.12',
         'semver>=2.10.0'
     ],
     cmdclass={
@@ -123,8 +123,9 @@ setup(
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Programming Language :: Python :: Implementation :: CPython',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',

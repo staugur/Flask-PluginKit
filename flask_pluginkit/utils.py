@@ -26,10 +26,12 @@ def isValidPrefix(prefix, allow_none=False):
     if prefix is None and allow_none is True:
         return True
     if isinstance(prefix, string_types):
-        return prefix.startswith('/') and \
-            not prefix.endswith('/') and \
-            '//' not in prefix and \
-            ' ' not in prefix
+        return (
+            prefix.startswith("/")
+            and not prefix.endswith("/")
+            and "//" not in prefix
+            and " " not in prefix
+        )
     return False
 
 
@@ -46,6 +48,7 @@ def sortedSemver(versions, sort="ASC"):
     """Semantically sort the list of version Numbers"""
     reverse = True if sort.upper() == "DESC" else False
     if versions and isinstance(versions, (list, tuple)):
+
         def compare(ver1, ver2):
             v1 = VersionInfo.parse(ver1)
             return v1.compare(ver2)
@@ -54,10 +57,8 @@ def sortedSemver(versions, sort="ASC"):
             return sorted(versions, cmp=compare, reverse=reverse)
         else:
             from functools import cmp_to_key
-            return sorted(
-                versions, key=cmp_to_key(compare),
-                reverse=reverse
-            )
+
+            return sorted(versions, key=cmp_to_key(compare), reverse=reverse)
     else:
         raise TypeError("Invaild versions, a list or tuple is right.")
 
@@ -114,7 +115,9 @@ class BaseStorage(object):
 
     def __str__(self):
         return "<%s object at %s, index is %s>" % (
-            self.__class__.__name__, hex(id(self)), self.index
+            self.__class__.__name__,
+            hex(id(self)),
+            self.index,
         )
 
     __repr__ = __str__
@@ -131,7 +134,7 @@ class LocalStorage(BaseStorage):
             filename=abspath(self.index),
             flag=flag,
             protocol=2,
-            writeback=False
+            writeback=False,
         )
 
     @property
@@ -143,7 +146,7 @@ class LocalStorage(BaseStorage):
         db = None
         try:
             db = self._open(flag="r")
-        except:
+        except Exception:
             return dict()
         else:
             return dict(db)
@@ -277,6 +280,7 @@ class MongoStorage(BaseStorage):
     def _open(self, mongo_url):
         from pymongo import MongoClient
         from pymongo.errors import ConfigurationError
+
         client = MongoClient(mongo_url)
         try:
             client.get_default_database()
@@ -307,7 +311,6 @@ class JsonResponse(Response):
 
 
 class Flask(_BaseFlask):
-
     @setupmethod
     def before_request_top(self, f):
         """Registers a function to run before each request. Priority First.
@@ -343,7 +346,6 @@ class Attribution(dict):
 
 
 class DcpManager(object):
-
     def __init__(self):
         self._listeners = {}
 
@@ -405,7 +407,7 @@ class DcpManager(object):
                 rv = "".join(rv)
             if rv:
                 if not isinstance(rv, text_type):
-                    rv = rv.decode('utf-8')
+                    rv = rv.decode("utf-8")
                 results.append(rv)
         return Markup("".join(results))
 
@@ -415,7 +417,7 @@ def allowed_uploaded_plugin_suffix(filename):
 
     .. versionadded:: 3.3.0
     """
-    allow_suffix = ['.tar.gz', '.tgz', '.zip']
+    allow_suffix = [".tar.gz", ".tgz", ".zip"]
     if isinstance(filename, string_types):
         for suffix in allow_suffix:
             if filename.endswith(suffix):
@@ -432,13 +434,17 @@ def check_url(addr):
     .. versionadded:: 3.3.0
     """
     from re import compile, IGNORECASE
+
     regex = compile(
-        r'^(?:http)s?://'
-        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'
-        r'localhost|'
-        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'
-        r'(?::\d+)?'
-        r'(?:/?|[/?]\S+)$', IGNORECASE)
+        r"^(?:http)s?://"
+        r"(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+"
+        r"(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|"
+        r"localhost|"
+        r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"
+        r"(?::\d+)?"
+        r"(?:/?|[/?]\S+)$",
+        IGNORECASE,
+    )
     if addr and isinstance(addr, string_types):
         if regex.match(addr):
             return True

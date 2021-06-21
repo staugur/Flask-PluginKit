@@ -37,10 +37,5 @@ def index():
 </html>""")
 
 
-@app.before_request
-def showurl():
-    print(app.url_map)
-
-
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=False)

@@ -10,8 +10,13 @@
 """
 
 from .pluginkit import PluginManager, push_dcp
-from .utils import Flask, LocalStorage, RedisStorage, MongoStorage, \
-    JsonResponse
+from .utils import (
+    Flask,
+    LocalStorage,
+    RedisStorage,
+    MongoStorage,
+    JsonResponse,
+)
 from ._installer import PluginInstaller
 from ._web import blueprint
 

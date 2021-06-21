@@ -53,7 +53,7 @@ class PluginInstaller(object):
     def __isValidFilename(self, filename):
         """Determine whether filename is valid"""
         if filename and isinstance(filename, string_types):
-            if re.match(r'^[\w\d\_\-\.]+$', filename.split('/')[-1], re.I):
+            if re.match(r"^[\w\d\_\-\.]+$", filename.split("/")[-1], re.I):
                 if self.__isValidTGZ(filename) or self.__isValidZIP(filename):
                     return True
         return False
@@ -65,8 +65,14 @@ class PluginInstaller(object):
         filename = None
         try:
             if scene == 1:
-                plugin_filename = [i for i in parse_qs(urlsplit(data).query)
-                                   .get("plugin_filename") or [] if i]
+                plugin_filename = [
+                    i
+                    for i in parse_qs(urlsplit(data).query).get(
+                        "plugin_filename"
+                    )
+                    or []
+                    if i
+                ]
                 if plugin_filename and len(plugin_filename) == 1:
                     filename = plugin_filename[0]
             elif scene == 2:
@@ -83,9 +89,9 @@ class PluginInstaller(object):
                 else:
                     cd = data.info().get_content_subtype()
                 mt = {
-                    'zip': 'zip',
-                    'x-compressed-tar': 'tar.gz',
-                    'x-gzip': 'tar.gz'
+                    "zip": "zip",
+                    "x-compressed-tar": "tar.gz",
+                    "x-gzip": "tar.gz",
                 }
                 subtype = mt.get(cd)
                 if subtype:
@@ -104,10 +110,12 @@ class PluginInstaller(object):
 
     def __unpack_tgz(self, filename):
         """Unpack the `tar.gz`, `tgz` compressed file format"""
-        if isinstance(filename, string_types) and \
-                self.__isValidTGZ(filename) and \
-                tarfile.is_tarfile(filename):
-            with tarfile.open(filename, mode='r:gz') as t:
+        if (
+            isinstance(filename, string_types)
+            and self.__isValidTGZ(filename)
+            and tarfile.is_tarfile(filename)
+        ):
+            with tarfile.open(filename, mode="r:gz") as t:
                 for name in t.getnames():
                     t.extract(name, self.plugin_abspath)
         else:
@@ -115,9 +123,11 @@ class PluginInstaller(object):
 
     def __unpack_zip(self, filename):
         """Unpack the `zip` compressed file format"""
-        if isinstance(filename, string_types) and \
-                self.__isValidZIP(filename) and \
-                zipfile.is_zipfile(filename):
+        if (
+            isinstance(filename, string_types)
+            and self.__isValidZIP(filename)
+            and zipfile.is_zipfile(filename)
+        ):
             with zipfile.ZipFile(filename) as z:
                 for name in z.namelist():
                     z.extract(name, self.plugin_abspath)
@@ -132,7 +142,7 @@ class PluginInstaller(object):
         ultimately unavailable.
 
         1. Add url `plugin_filename` query parameters
-        2. The file name is resolved in the url, eg: http://xx.xx.com/plugin-v0.0.1.tar.gz
+        2. The file name is resolved in the url, eg: http://x.com/p-v0.0.1.tgz
         3. Parse the Content-Disposition in the return header
         4. Parse the Content-Type in the return header
         """
@@ -154,8 +164,9 @@ class PluginInstaller(object):
                         filename = self.__getFilename(f, scene=4)
                 if filename and self.__isValidFilename(filename):
                     suffix = self.__getFilenameSuffix(filename)
-                    with NamedTemporaryFile(mode='w+b', prefix='fpk-',
-                                            suffix=suffix, delete=False) as fp:
+                    with NamedTemporaryFile(
+                        mode="w+b", prefix="fpk-", suffix=suffix, delete=False
+                    ) as fp:
                         fp.write(f.read())
                         filename = fp.name
                     try:
@@ -198,9 +209,11 @@ class PluginInstaller(object):
         .. versionadded:: 3.3.0
         """
         res = dict(code=1, msg=None)
-        if package_or_url and \
-                isinstance(package_or_url, string_types) and \
-                package_or_url not in (".", "-"):
+        if (
+            package_or_url
+            and isinstance(package_or_url, string_types)
+            and package_or_url not in (".", "-")
+        ):
             code = call([executable, "-m", "pip", "install", package_or_url])
             res.update(code=code)
             if code != 0:
@@ -210,7 +223,8 @@ class PluginInstaller(object):
         return res
 
     def addPlugin(self, method="remote", **kwargs):
-        """Add a plugin, support only for `.tar.gz` or `.zip` compression packages.
+        """Add plugin,
+        support only for `.tar.gz` or `.zip` compression packages.
 
         :param method: supported method:
 
@@ -242,8 +256,7 @@ class PluginInstaller(object):
                 self._remote_download(kwargs["url"])
             elif method == "local":
                 self._local_upload(
-                    kwargs["filepath"],
-                    kwargs.get("remove", False)
+                    kwargs["filepath"], kwargs.get("remove", False)
                 )
             elif method == "pip":  # pragma: nocover
                 res = self._pip_install(kwargs["package_or_url"])
