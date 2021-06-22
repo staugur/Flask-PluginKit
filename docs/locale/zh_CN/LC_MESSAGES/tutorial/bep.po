@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-31 17:47+0800\n"
+"POT-Creation-Date: 2021-06-22 16:32+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,13 +40,21 @@ msgstr "这个扩展点非常简单，只需在Web应用程序中添加一个蓝
 msgid ""
 "The plugin needs to return the bep field via register. The bep data type "
 "returned is a dictionary with the format {blueprint: Blueprint Instance, "
-"prefix: /your_blueprint_url_prefix}. Only one blueprint is currently "
-"supported."
+"prefix: /your_blueprint_url_prefix, parent: Name}. Only one blueprint is "
+"currently supported."
 msgstr ""
 "插件需要通过register返回bep字段，返回的bep数据类型是一个格式为{blueprint: Blueprint Instance, "
-"prefix: /your_blueprint_url_prefix}的字典。目前仅支持一个蓝图。"
+"prefix: /your_blueprint_url_prefix, parent: Name}的字典。目前仅支持一个蓝图。"
 
-#: ../../tutorial/bep.rst:19
+#: ../../tutorial/bep.rst:21
+msgid ""
+"Support Flask2.0 nested blueprint with the `parent` param(beta). But only"
+" blueprints of other plugins can be nested."
+msgstr ""
+"支持 Flask 2.0 的嵌套蓝图，用 `parent` 参数指定（beta）。"
+"但是仅支持嵌套其他插件的蓝图。"
+
+#: ../../tutorial/bep.rst:24
 msgid ""
 "The Flask-PluginKit loads bep via "
 ":meth:`~flask_pluginkit.PluginManager._bep_handler`, this method will "
@@ -55,30 +63,30 @@ msgstr ""
 "Flask-PluginKit通过 :meth:`~flask_pluginkit.PluginManager._bep_handler` "
 "加载bep，此方法将检测bep规则和内容。"
 
-#: ../../tutorial/bep.rst:23
+#: ../../tutorial/bep.rst:28
 msgid ""
 "The blueprint can be mounted under None or under other prefixes. Flask-"
 "PluginKit does not detect blueprint routing, as long as the prefix is "
 "legal."
 msgstr "蓝图可以安装在None或其他前缀下，只要前缀合法，Flask-PluginKit不会检测蓝图路由。"
 
-#: ../../tutorial/bep.rst:27
+#: ../../tutorial/bep.rst:32
 msgid ""
 "The user only needs to ensure that the plugin is harmless and does not "
 "pollute your original application. Others are plugin developers."
 msgstr "用户需确保插件无害，并且不会污染原始应用程序，其他则是插件开发人员的事情。"
 
-#: ../../tutorial/bep.rst:30
+#: ../../tutorial/bep.rst:35
 msgid ""
 "If you just want to add the view to the existing blueprint, you can refer"
 " to :ref:`vep-on-blueprint`"
 msgstr "如果你只想把视图添加到已有蓝图中，可以参考 :ref:`vep-on-blueprint`"
 
-#: ../../tutorial/bep.rst:34
+#: ../../tutorial/bep.rst:39
 msgid "Example"
 msgstr "示例"
 
-#: ../../tutorial/bep.rst:36
+#: ../../tutorial/bep.rst:41
 msgid "Plugin registration for bep"
 msgstr "注册bep"
 

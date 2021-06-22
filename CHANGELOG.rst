@@ -1,5 +1,13 @@
 .. currentmodule:: flask-pluginkit
 
+v3.6.2
+------
+
+Released in 2021-06-22
+
+- chore: compatible with flask 2.0 nested blueprints, but only supports blueprints of nested plugins
+- fix ci(deploy pypi) & update docs
+
 v3.6.1
 ------
 

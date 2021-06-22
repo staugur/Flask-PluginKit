@@ -5,20 +5,20 @@ from flask_pluginkit import PluginManager, blueprint
 
 app = Flask(__name__)
 app.config.update(
-    PLUGINKIT_AUTH_AID_METHOD='IP',
-    PLUGINKIT_AUTH_IP_WHITELIST=['127.0.0.1']
+    PLUGINKIT_AUTH_AID_METHOD="IP", PLUGINKIT_AUTH_IP_WHITELIST=["127.0.0.1"]
 )
 pm = PluginManager(
     app,
-    plugin_packages=['flask_pluginkit_demo'],
-    pluginkit_config=dict(whoami='localdemo_config')
+    plugin_packages=["flask_pluginkit_demo"],
+    pluginkit_config=dict(whoami="localdemo_config"),
 )
-app.register_blueprint(blueprint, url_prefix='/pluginmanager')
+app.register_blueprint(blueprint, url_prefix="/pluginmanager")
 
 
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template_string("""\
+    return render_template_string(
+        """\
 <html>
 <head>
     {{ emit_assets('localdemo','css/style.css') }}
@@ -34,7 +34,8 @@ def index():
     {{ emit_config('whoami') }}
 
 </body>
-</html>""")
+</html>"""
+    )
 
 
 if __name__ == "__main__":

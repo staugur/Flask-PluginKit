@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-22 17:15+0800\n"
+"POT-Creation-Date: 2021-06-22 14:21+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,9 +27,10 @@ msgid "Python Version"
 msgstr "Python版本"
 
 #: ../../installation.rst:9
+#, fuzzy
 msgid ""
 "We recommend using the latest version of Python 3, although it is code "
-"written in 2.7. Flask-PluginKit supports Python 3.6 and newer, Python "
+"written in 2.7. Flask-PluginKit supports Python 3.5 and newer, Python "
 "2.7, and PyPy."
 msgstr "推荐使用Python3+，虽然我是在2.7下开发的。Flask-PluginKit支持3.6及新版，2.7和pypy。"
 
@@ -47,9 +48,7 @@ msgstr "依赖的模块在安装Flask-PluginKit时会自动安装。"
 msgid ""
 "`Flask`_ is a Lightweight Web Application Framework Written in Python, "
 "theoretically support 0.9 and later versions."
-msgstr ""
-"`Flask`_ 是一个使用 Python 编写的轻量级 Web 应用框架，"
-"理论上支持0.9及其新版。"
+msgstr "`Flask`_ 是一个使用 Python 编写的轻量级 Web 应用框架，理论上支持0.9及其新版。"
 
 #: ../../installation.rst:21
 msgid "`semver`_ is a Semantic Version Control Specification."

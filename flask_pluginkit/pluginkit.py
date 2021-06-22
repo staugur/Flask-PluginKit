@@ -242,8 +242,31 @@ class PluginManager(object):
             _deco_func(handler)
 
         #: Register the blueprint extension point
+        #:
+        #: .. versionchanged:: 3.6.2
+        #:     flask 2.0 nested blueprints,
+        #:     but only blueprints of other plugins can be nested
+        _plugin_bps = {}  # {name:{blueprint}, }
+        _nested_bps = {}  # {parent:[{blueprint}, ], }
         for bep in self.get_enabled_beps:
-            app.register_blueprint(bep["blueprint"], url_prefix=bep["prefix"])
+            bp = bep["blueprint"]
+            parent = bep.get("parent")
+            if parent:
+                _nested_bps.setdefault(parent, []).append(bep)
+            else:
+                _plugin_bps[bp.name] = bep
+        for parent, beps in iteritems(_nested_bps):
+            if parent not in _plugin_bps:
+                raise PEPError("No parent blueprint found named %s" % parent)
+            pbp = _plugin_bps[parent]["blueprint"]
+            for bep in beps:
+                bp = bep["blueprint"]
+                prefix = bep["prefix"]
+                pbp.register_blueprint(bp, url_prefix=prefix)
+        for bep in _plugin_bps.values():
+            bp = bep["blueprint"]
+            prefix = bep["prefix"]
+            app.register_blueprint(bp, url_prefix=prefix)
 
         #: Register the viewfunc extension point
         #:
@@ -612,7 +635,7 @@ class PluginManager(object):
     def _bep_handler(self, plugin_info, bep_rule):
         """Blueprint extension point handler.
 
-        :param bep_rule: look like {blueprint=, prefix=}
+        :param bep_rule: look like {blueprint=, prefix=, parent=}
 
         :raises PEPError: if bep rule or content is invalid.
         """
@@ -638,7 +661,6 @@ class PluginManager(object):
                     "The bep prefix is invalid for %s"
                     % plugin_info.plugin_name
                 )
-            #: TODO check and fix bp.root_path
             #: result look like {blueprint:Blueprint instance, prefix='/xxx'}
             plugin_info["plugin_bep"] = bep_rule
             self.logger.debug("Register BEP Success")
@@ -1143,7 +1165,7 @@ class PluginManager(object):
         If filename ends with `.js`, then this function will
         return the `script` code, like this::
 
-            <script type="text/javascript" src="/assets/plugin/js/demo.js"></script>
+            <script src="/assets/plugin/js/demo.js"></script>
 
         Other types of files, only return file url path segment, like this::
 
@@ -1200,7 +1222,7 @@ class PluginManager(object):
             if filename.endswith(".css"):
                 uri = '<link rel="stylesheet" href="%s">' % uri
             elif filename.endswith(".js"):
-                uri = '<script type="text/javascript" src="%s"></script>' % uri
+                uri = '<script src="%s"></script>' % uri
         return Markup(uri)
 
     def emit_config(self, conf_name):

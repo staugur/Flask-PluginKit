@@ -13,7 +13,7 @@ $ pip install -r requirements.txt
 2.  Run
 
 ```bash
-$ FLASK_ENV=development FLASK_APP=app.py flask run --no-reload
+FLASK_ENV=development FLASK_APP=app.py flask run --no-reload
 ```
 
 3. The page is probably like this:

@@ -23,8 +23,8 @@ Flask-PluginKit depends on the `Flask`_.
 The plugin based on Flask-PluginKit can be a local directory or a third-party
 package (such as pypi), which is the `official plugin organization`_.
 
-.. image:: https://travis-ci.org/staugur/Flask-PluginKit.svg?branch=master
-    :target: https://travis-ci.org/staugur/Flask-PluginKit
+.. image:: https://github.com/staugur/Flask-PluginKit/actions/workflows/ci.yml/badge.svg
+    :target: https://github.com/staugur/Flask-PluginKit/actions/workflows/ci.yml
 
 .. image:: https://codecov.io/gh/staugur/Flask-PluginKit/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/staugur/Flask-PluginKit

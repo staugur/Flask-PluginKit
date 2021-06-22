@@ -47,7 +47,7 @@ Will generate the html code of `script`, for example:
 
 .. code-block:: html
 
-    <script type="text/javascript" src="/assets/plugin/js/demo.js"></script>
+    <script src="/assets/plugin/js/demo.js"></script>
 
 - Other suffixes
 
@@ -119,6 +119,6 @@ The actual source code for this page is this:
             <b>/assets/plugin_demo/js/demo.js</b>
         </div>
 
-        <script type="text/javascript" src="/assets/plugin_demo/js/demo.js"></script>
+        <script src="/assets/plugin_demo/js/demo.js"></script>
     </body>
     </html>
