@@ -1,5 +1,13 @@
 .. currentmodule:: flask-pluginkit
 
+v3.6.1
+------
+
+Released in 2021-06-22
+
+- ci tests from travis to github action
+- chore: web message api with SSE, page with CDN
+
 v3.6.0
 ------
 

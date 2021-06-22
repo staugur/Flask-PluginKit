@@ -26,7 +26,6 @@ def permission_deny(error):
 
 
 class ApiError(Exception):
-
     def __init__(self, code, message, status_code=200):
         super(ApiError, self).__init__()
         self.code = code
@@ -49,7 +48,6 @@ def raise_api_error_view():
 
 
 class ClassfulView(FlaskView):
-
     def index(self):
         return "test"
 
@@ -60,16 +58,16 @@ def bvep_view():
 
 def register():
     return {
-        'cvep': dict(view_class=ClassfulView),
-        'vep': [
-            dict(rule='/403', view_func=view_abort_403),
-            dict(rule='/api_error', view_func=raise_api_error_view),
-            dict(rule='/bvep', view_func=bvep_view, _blueprint="localdemo"),
+        "cvep": dict(view_class=ClassfulView),
+        "vep": [
+            dict(rule="/403", view_func=view_abort_403),
+            dict(rule="/api_error", view_func=raise_api_error_view),
+            dict(rule="/bvep", view_func=bvep_view, _blueprint="localdemo"),
         ],
-        'filter': dict(repeat_filter=lambda x: 'test-filter-repeat'),
-        'errhandler': [
+        "filter": dict(repeat_filter=lambda x: "test-filter-repeat"),
+        "errhandler": [
             dict(error=403, handler=permission_deny),
-            dict(error=ApiError, handler=handle_api_error)
+            dict(error=ApiError, handler=handle_api_error),
         ],
-        'tcp': dict(change_to_str=str),
+        "tcp": dict(change_to_str=str),
     }

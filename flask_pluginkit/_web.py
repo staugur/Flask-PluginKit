@@ -287,4 +287,13 @@ def msg():
         msg = _queue.popleft()
     except IndexError:
         msg = ""
-    return jsonify(dict(code=0, msg=msg))
+    accept = request.headers.get("Accept")
+    if accept and "application/json" in accept:
+        return jsonify(dict(code=0, msg=msg))
+    else:
+        # SSE（server-sent events）
+        res = make_response("retry: 10000\ndata: %s\n\n" % msg)
+        res.headers["Content-Type"] = "text/event-stream"
+        res.headers["Cache-Control"] = "no-cache"
+        res.headers["Connection"] = "keep-alive"
+        return res

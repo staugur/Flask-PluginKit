@@ -1143,8 +1143,7 @@ class PluginManager(object):
         If filename ends with `.js`, then this function will
         return the `script` code, like this::
 
-            <script type="text/javascript" src="/assets/plugin/js/demo.js">
-            </script>
+            <script type="text/javascript" src="/assets/plugin/js/demo.js"></script>
 
         Other types of files, only return file url path segment, like this::
 
@@ -1152,7 +1151,7 @@ class PluginManager(object):
             /assets/plugin/attachment/test.zip
 
         However, the ``_raw`` parameter has been added in v3.4.0, and if it is
-        True, only uri is generated.
+        True, only path is generated.
 
         The following is a mini example::
 

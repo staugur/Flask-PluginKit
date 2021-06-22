@@ -88,8 +88,8 @@ msgstr "克隆Flask-PluginKit，并设置好个人的 `git config`"
 #: ../../../CONTRIBUTING.rst:36
 msgid ""
 "Install the dependency module of the development environment with command"
-" ``pip install -r dev-requirements.txt``"
-msgstr "使用命令 ``pip install -r dev-requirements.txt`` 安装开发环境依赖的模块"
+" ``make dev``"
+msgstr "使用命令 ``make dev`` 安装开发环境依赖的模块"
 
 #: ../../../CONTRIBUTING.rst:39
 msgid "**Followed by coding**"
@@ -105,9 +105,9 @@ msgstr "编写测试用例和文档。"
 
 #: ../../../CONTRIBUTING.rst:45
 msgid ""
-"Run the test ``make dev && make test`` using the pypy, py2.7, and py3.5+ "
+"Run the test ``make dev && make test`` using the pypy, py2.7, and py3.6+ "
 "environments respectively."
-msgstr "分别使用pypy、py2.7、py3.5+运行测试 ``make dev && make test``"
+msgstr "分别使用pypy、py2.7、py3.6+运行测试 ``make dev && make test``"
 
 #: ../../../CONTRIBUTING.rst:48
 msgid "Generate the documentation ``make dev && make html``."

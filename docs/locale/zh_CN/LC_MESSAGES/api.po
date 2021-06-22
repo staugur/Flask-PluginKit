@@ -394,7 +394,7 @@ msgstr ""
 #: flask_pluginkit.PluginManager.emit_assets:25 of
 msgid ""
 "However, the ``_raw`` parameter has been added in v3.4.0, and if it is "
-"True, only uri is generated."
+"True, only path is generated."
 msgstr ""
 
 #: flask_pluginkit.PluginManager.emit_assets:28 of

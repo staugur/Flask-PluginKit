@@ -172,11 +172,13 @@ class LocalStorage(BaseStorage):
 
         :returns:
         """
-        db = self._open()
+        db = None
         try:
+            db = self._open()
             db[self.__ck(key)] = value
         finally:
-            db.close()
+            if db:
+                db.close()
 
     def setmany(self, **mapping):
         """Set more data
