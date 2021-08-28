@@ -45,6 +45,11 @@ def page_not_found(error):
     return jsonify(dict(status=404, msg="Not Found Page")), 404
 
 
+def update_tcp(repeat_tcp):
+    repeat_tcp["im"] = __plugin_name__
+    return repeat_tcp
+
+
 def register():
     return {
         "tep": dict(
@@ -59,4 +64,5 @@ def register():
         "filter": [("demo_filter2", lambda x: "test-filter")],
         "errhandler": {404: page_not_found},
         "tcp": dict(timestamp=int(time.time())),
+        "p3": dict(repeatdemo=dict(tcp=update_tcp)),
     }

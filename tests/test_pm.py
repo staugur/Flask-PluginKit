@@ -191,6 +191,8 @@ class PMTest(unittest.TestCase):
         self.assertIn("timestamp", context)
         self.assertIn("change_to_str", context)
         self.assertTrue(context["change_to_str"], str)
+        # test p3
+        self.assertIn("im", context)
 
     def test_dcp(self):
         def callback():

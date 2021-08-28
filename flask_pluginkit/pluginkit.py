@@ -10,6 +10,7 @@
 """
 
 import logging
+import warnings
 from os import getcwd, listdir, remove
 from os.path import join, dirname, abspath, isdir, isfile, splitext
 from itertools import chain
@@ -39,7 +40,7 @@ class PluginManager(object):
     maps the metadata to the plugin.
 
     The plugin is a directory or a locally importable module,
-    and the plugin entry file is **__init__.py**,
+    and the plugin entry file is __init__.py,
     including __plugin_name__, __version__, __author__ and other metadata.
 
     A meaningful plugin structure should look like this::
@@ -81,9 +82,8 @@ class PluginManager(object):
 
     :param logger: logging instance, for debug.
 
-    :param stpl: turn on template sorting when the value is True.
-
-    :param stpl_reverse: Collation, True descending, False ascending (Default).
+    :param stpl: turn on template sorting when the value is True, ASC, DESC.
+                 Sorting rules can be used, DESC or ASC(default).
 
     :param plugin_packages: list of third-party plugin packages.
 
@@ -97,9 +97,6 @@ class PluginManager(object):
 
     :param pluginkit_config: additional configuration can be used
                              in the template via :meth:`emit_config`.
-
-    :param try_compatible: Boolean, default True, try to load the registration
-                           method of getPluginClass in 2.x and convert.
 
     .. versionchanged:: 3.1.0
         Add a vep handler
@@ -120,6 +117,14 @@ class PluginManager(object):
 
     .. versionchanged:: 3.5.0
         Add ``cvep`` feature for beta.
+
+    .. deprecated:: 3.7.0
+        Ready to remove ``stpl_reverse`` and ``try_compatible``
+        in the next minor version, if it is still used,
+        a warning will be issued.
+
+    .. versionchanged:: 3.7.0
+        Add ``p3`` feature for beta.
     """
 
     def __init__(
@@ -135,10 +140,15 @@ class PluginManager(object):
         self.stpl = options.get("stpl", False)
 
         #: Template sort order, True descending, False ascending (default).
+        if "stpl_reverse" in options:
+            warnings.warn(
+                "stpl_reverse: will be removed in the next minor version,"
+                " please use `stpl` instead.",
+            )
         self.stpl_reverse = options.get("stpl_reverse", False)
-        if self.stpl in ("asc", "desc"):
+        if self.stpl in ("asc", "desc", "ASC", "DESC"):
             self.stpl = True
-            self.stpl_reverse = False if self.stpl == "asc" else True
+            self.stpl_reverse = False if self.stpl in ("asc", "ASC") else True
 
         #: Third-party plugin package
         self.plugin_packages = options.get("plugin_packages") or []
@@ -160,7 +170,7 @@ class PluginManager(object):
         if not isinstance(self.pluginkit_config, dict):
             raise PluginError("Invalid pluginkit_config")
 
-        #: Plugins Extended Preprocessor
+        #: Plugins Extended Processor
         self.__pet_handlers = {
             "tep": self._tep_handler,
             "hep": self._hep_handler,
@@ -170,6 +180,7 @@ class PluginManager(object):
             "errhandler": self._error_handler,
             "filter": self._filter_handler,
             "tcp": self._context_processor_handler,
+            "p3": self._p3_handler,
         }
 
         #: Hook extension type handlers
@@ -188,6 +199,10 @@ class PluginManager(object):
         #: Compatibility loading
         #:
         #: .. versionadded:: 3.3.1
+        if "try_compatible" in options:
+            warnings.warn(
+                "try_compatible: will be removed in the next minor version"
+            )
         self._try_compatible = options.get("try_compatible", True)
 
         #: All locally stored plugins
@@ -211,6 +226,11 @@ class PluginManager(object):
         )
         self.__scan_third_plugins()
         self.__scan_affiliated_plugins()
+
+        #: Try to update `self.__plugins`
+        #:
+        #: ..versionadded:: 3.7.0
+        self.__preprocess_all_plugins()
 
         #: Analysis and run plugins. First, register template variable
         app.jinja_env.globals.update(
@@ -479,6 +499,9 @@ class PluginManager(object):
 
         .. versionchanged:: 3.5.0
             add plugin_cvep
+
+        .. versionchanged:: 3.7.0
+            add plugin_p3
         """
         if not isValidSemver(p_obj.__version__):
             raise VersionError(
@@ -524,6 +547,7 @@ class PluginManager(object):
                 "plugin_filter": [],
                 "plugin_errhandler": [],
                 "plugin_tcp": {},
+                "plugin_p3": {},
             }
         )
 
@@ -872,6 +896,37 @@ class PluginManager(object):
                 "it should be a dict." % plugin_info.plugin_name
             )
 
+    def _p3_handler(self, plugin_info, p3_rule):
+        """Plugin preprocessor handler.
+
+        :param p3_rule: look like {plugin_name={pet:func}}
+
+        :raises PEPError: if the rule or content is invalid.
+
+        .. versionadded:: 3.7.0
+        """
+        if isinstance(p3_rule, dict):
+            petns = list(self.__pet_handlers.keys())
+            petns.remove("p3")
+            for pname, handlers in iteritems(p3_rule):
+                for pet, func in iteritems(handlers):
+                    if pet not in petns:
+                        raise PEPError(
+                            "The p3 name(%s) is not found for %s"
+                            % (pname, plugin_info.plugin_name)
+                        )
+                    if not callable(func):
+                        raise PEPError(
+                            "The p3 func(%s) is not called for %s"
+                            % (pname, plugin_info.plugin_name)
+                        )
+            plugin_info["plugin_p3"] = p3_rule
+        else:
+            raise PEPError(
+                "The p3 handler rule is invalid for %s, "
+                "it should be a dict." % plugin_info.plugin_name
+            )
+
     def __before_fist_request_hook_handler(self):
         for func in self.get_enabled_heps["before_first_request"]:
             func()
@@ -891,6 +946,51 @@ class PluginManager(object):
     def __teardown_request_hook_handler(self, exception=None):
         for func in self.get_enabled_heps["teardown_request"]:
             func(exception)
+
+    def __preprocess_all_plugins(self):
+        """After the local plug-in and third-party plug-in are loaded,
+        the `p3` parameters of the all plug-in are parsed,
+        and the plug-in data is pre-processed.
+
+        If the plugin is not enabled, skip it.
+
+        .. versionadded:: 3.7.0
+        """
+        # all plugins data
+        oplugins = []
+        # like {plugin_name:[(from_pname,{pet:func, pet:func}), (other,{})],}
+        p3s = {}
+        for p in self.__plugins:
+            oplugins.append(p)
+            if p.plugin_state == "enabled":
+                for pname, handler in iteritems(p.plugin_p3):
+                    p3s.setdefault(pname, []).append((p.plugin_name, handler))
+        nplugins = []
+        petns = list(self.__pet_handlers.keys())
+        petns.remove("p3")
+        for p in oplugins:
+            if p.plugin_state == "enabled" and p.plugin_name in p3s:
+                for handler in p3s[p.plugin_name]:
+                    from_pname = handler[0]
+                    pets_funcs = handler[1]
+                    for pet, func in iteritems(pets_funcs):
+                        if pet in petns:
+                            obj = "plugin_" + pet
+                            try:
+                                ov = p[obj]
+                                nv = func(ov)
+                                if type(ov) != type(nv):
+                                    raise PluginError(
+                                        "Illegal extension point"
+                                        " data type(%s)" % pet
+                                    )
+                            except Exception as e:
+                                self.logger.debug(e)
+                                raise PEPError(from_pname, str(e))
+                            else:
+                                p[obj] = nv
+            nplugins.append(p)
+        self.__plugins = nplugins
 
     @property
     def get_all_plugins(self):

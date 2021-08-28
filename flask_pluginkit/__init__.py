@@ -22,7 +22,7 @@ from ._web import blueprint
 
 __author__ = "staugur <me@tcw.im>"
 
-__version__ = "3.6.2"
+__version__ = "3.7.0"
 
 __all__ = [
     "Flask",
