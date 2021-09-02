@@ -9,14 +9,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-30 17:16+0800\n"
+"POT-Creation-Date: 2021-09-02 21:08+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.6.0\n"
+"Generated-By: Babel 2.8.0\n"
 
 #: ../../tutorial/core.rst:2
 msgid "Plugin Core"
@@ -172,11 +172,19 @@ msgstr ""
 msgid "The plugin Status, enabled (default) or disabled."
 msgstr "插件状态，enabled (默认) 或 disabled。"
 
-#: ../../tutorial/core.rst:132
+#: ../../tutorial/core.rst:127
+msgid "``__app_version__``"
+msgstr ""
+
+#: ../../tutorial/core.rst:129
+msgid "`Flask-PluginKit` version required by the plugin."
+msgstr "插件要求的 `Flask-PluginKit` 版本。"
+
+#: ../../tutorial/core.rst:136
 msgid "register"
 msgstr ""
 
-#: ../../tutorial/core.rst:134
+#: ../../tutorial/core.rst:138
 msgid ""
 "This function is also required, it should be defined or imported in "
 "`__init__.py`. Flask-PluginKit will call this function when loading, "
@@ -185,38 +193,38 @@ msgstr ""
 "这个函数也是必需的，应该在 ``__init__.py`` 被定义或导入。Flask-"
 "PluginKit将在加载插件时调用此函数，返回数据要求是dict，包含各种类型的扩展点，例如："
 
-#: ../../tutorial/core.rst:151
+#: ../../tutorial/core.rst:155
 msgid "For the extension points returned, please see the following sections."
 msgstr "对于返回的扩展点，请参阅后续章节。"
 
-#: ../../tutorial/core.rst:156
+#: ../../tutorial/core.rst:160
 msgid "Enabling and Disabling Plugins"
 msgstr "启用、禁用插件"
 
-#: ../../tutorial/core.rst:158
+#: ../../tutorial/core.rst:162
 msgid "This extension, uses a different approach for handling plugins."
 msgstr "此扩展使用不同的方法来处理插件。"
 
-#: ../../tutorial/core.rst:160
+#: ../../tutorial/core.rst:164
 msgid ""
 "Anyway, local plugins (a subdirectory located in the application, such as"
 " plugins, is a package) or third-party plugins (which can be pypi or from"
 " git, svn, etc.), should be installed in the local environment."
 msgstr "无论如何，本地插件（位于应用程序中的子目录，例如plugins，是一个包）或第三方插件（可以是pypi或来自git，svn等等），都应该安装在本地环境中。"
 
-#: ../../tutorial/core.rst:164
+#: ../../tutorial/core.rst:168
 msgid ""
 "Plugins are enabled by default, and there are two ways to enable or "
 "disable a plugin."
 msgstr "插件默认是启用的，有两种方法禁用或启用一个插件。"
 
-#: ../../tutorial/core.rst:167
+#: ../../tutorial/core.rst:171
 msgid ""
 "The first method is to set the metadata ``__state__`` value to  "
 "**enabled** or **disabled**."
 msgstr "第一种方法是将元数据 ``__state__`` 的值设置为 **enabled** （启用）或 **disabled** （禁用）。"
 
-#: ../../tutorial/core.rst:170
+#: ../../tutorial/core.rst:174
 msgid ""
 "The second method is to add the ``ENABLED`` or ``DISABLED`` file in the "
 "plugin's root directory, without changing the source code. This can "
@@ -228,39 +236,39 @@ msgstr ""
 "PluginKit提供的方法 :meth:`~flask_pluginkit.PluginManager.disable_plugin` 或 "
 ":meth:`~flask_pluginkit.PluginManager.enable_plugin`"
 
-#: ../../tutorial/core.rst:178
+#: ../../tutorial/core.rst:182
 msgid ""
 "The second method has a higher priority than the first one, and the "
 "DISABLED file has a higher priority than the ENABLED file."
 msgstr "第二种方法比第一种优先级高，DISABLED文件比ENABLED文件优先级高。"
 
-#: ../../tutorial/core.rst:181
+#: ../../tutorial/core.rst:185
 msgid "The directory structure of a disabled plugin is shown below."
 msgstr "禁用插件的目录结构如下所示："
 
-#: ../../tutorial/core.rst:191
+#: ../../tutorial/core.rst:195
 msgid ""
 "The server needs to be restarted or reloaded to disable the plugin. This "
 "is a limitation of Flask. However, it is possible, to restart the "
 "application by sending a HUP signal to the application server."
 msgstr "需要重新启动或重新加载WSGI服务器以禁用插件，这是Flask的限制。不过，通过向Web应用程序服务器发送HUP信号，也可以重载应用。"
 
-#: ../../tutorial/core.rst:195
+#: ../../tutorial/core.rst:199
 msgid ""
 "The following code snippets, are showing how this can be done with the "
 "WSGI server gunicorn. Gunicorn has be to started in daemon (``--daemon``)"
 " mode in order for this to work."
 msgstr "以下代码片段展示了如何使用WSGI服务器gunicorn完成此操作。Gunicorn以守护进程（``--daemon``）启动，才能通过HUP信号重载应用。"
 
-#: ../../tutorial/core.rst:199
+#: ../../tutorial/core.rst:203
 msgid "You can use the command to manually reload:"
 msgstr "您可以使用该命令手动重新加载："
 
-#: ../../tutorial/core.rst:205
+#: ../../tutorial/core.rst:209
 msgid "or direct restart (kill, then start)."
 msgstr "或直接重启（杀死进程再启动）。"
 
-#: ../../tutorial/core.rst:207
+#: ../../tutorial/core.rst:211
 msgid ""
 "In web applications, according to previous tests, it should use "
 ":func:`os.getppid` instead of :func:`os.getpid` to get the master pid of "
@@ -269,11 +277,11 @@ msgstr ""
 "在Web应用程序中，根据以前的测试，它应该使用 :func:`os.getppid` 代替 :func:`os.getpid` "
 "来获取gunicorn的master-pid，并向此pid发送SIGHUP信号。"
 
-#: ../../tutorial/core.rst:211
+#: ../../tutorial/core.rst:215
 msgid "For security, the process name should be verified!"
 msgstr "为了安全，应该校验下进程名！"
 
-#: ../../tutorial/core.rst:219
+#: ../../tutorial/core.rst:223
 msgid ""
 "This feature is implemented in v3.3.0, reference document "
 ":doc:`/webmanager`"

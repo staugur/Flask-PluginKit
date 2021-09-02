@@ -899,7 +899,7 @@ class PluginManager(object):
     def _p3_handler(self, plugin_info, p3_rule):
         """Plugin preprocessor handler.
 
-        :param p3_rule: look like {plugin_name={pet:func}}
+        :param p3_rule: look like {plugin_name:{pet:func}}
 
         :raises PEPError: if the rule or content is invalid.
 

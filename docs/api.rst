@@ -24,6 +24,7 @@ PluginManager Object
     .. automethod:: _filter_handler
     .. automethod:: _error_handler
     .. automethod:: _context_processor_handler
+    .. automethod:: _p3_handler
     .. attribute:: _dcp_manager
 
         the instance of :class:`~flask_pluginkit.utils.DcpManager`

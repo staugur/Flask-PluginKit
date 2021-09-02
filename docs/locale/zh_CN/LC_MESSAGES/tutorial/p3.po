@@ -1,0 +1,77 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, staugur
+# This file is distributed under the same license as the Flask-PluginKit
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Flask-PluginKit 3.7.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-02 21:08+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.8.0\n"
+
+#: ../../tutorial/p3.rst:4
+msgid "Plugin PreProcessor Extension Point"
+msgstr "插件预处理器扩展点"
+
+#: ../../tutorial/p3.rst:7
+msgid "Description"
+msgstr "描述"
+
+#: ../../tutorial/p3.rst:9
+msgid "The extension point abbreviation is p3."
+msgstr "这个扩展点缩写为p3。"
+
+#: ../../tutorial/p3.rst:11
+msgid ""
+"Its function is to take the lead in processing one round of plugin data "
+"after loading the plugin."
+msgstr "它的作用是在加载完插件之后，率先对插件数据进行一轮处理。"
+
+#: ../../tutorial/p3.rst:14
+msgid ""
+"The plugin needs to return the p3 field via register. The data type "
+"required for this field is dict, and the format is "
+"{plugin_name:{pet:func}}."
+msgstr ""
+"插件需要通过register返回p3字段，这个字段要求的数据类型是dict，格式是"
+"{plugin_name:{pet:func}}。"
+
+#: ../../tutorial/p3.rst:17
+msgid "The `pet` is plugin extension point, e.g: bep, tep, tcp, but without p3."
+msgstr "上述格式 `pet` 就是各种扩展点缩写，比如：bep、tep、tcp，不过p3除外。"
+
+#: ../../tutorial/p3.rst:19
+msgid ""
+"Need to pay attention to `func`, it receives a parameter, the type varies"
+" with pet, it is either a list or a dict, and the return type is required"
+" to be consistent with the received type."
+msgstr ""
+"另外，需要注意 `func` ，它接收一个参数，类型随着pet的不同而不同，不是list就是dict，"
+"要求返回类型与接收类型一致。"
+
+#: ../../tutorial/p3.rst:23
+msgid ""
+"The Flask-PluginKit loads tcp via "
+":meth:`~flask_pluginkit.PluginManager._p3_handler`, this method will "
+"detect p3 rules and specific content."
+msgstr ""
+"Flask-PluginKit通过 :meth:`~flask_pluginkit.PluginManager._p3_handler` 加载p3，"
+"这个方法会检测p3规则及其内容。"
+
+#: ../../tutorial/p3.rst:28
+msgid "Example"
+msgstr "示例"
+
+#: ../../tutorial/p3.rst:30
+msgid "Plugin registration for p3"
+msgstr "注册p3"
+

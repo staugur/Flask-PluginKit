@@ -1,0 +1,41 @@
+.. _p3:
+
+Plugin PreProcessor Extension Point
+====================================
+
+Description
+-----------
+
+The extension point abbreviation is p3.
+
+Its function is to take the lead in processing one round of plugin data
+after loading the plugin.
+
+The plugin needs to return the p3 field via register. The data type required
+for this field is dict, and the format is {plugin_name:{pet:func}}.
+
+The `pet` is plugin extension point, e.g: bep, tep, tcp, but without p3.
+
+Need to pay attention to `func`, it receives a parameter,
+the type varies with pet, it is either a list or a dict,
+and the return type is required to be consistent with the received type.
+
+The Flask-PluginKit loads tcp via
+:meth:`~flask_pluginkit.PluginManager._p3_handler`,
+this method will detect p3 rules and specific content.
+
+Example
+-------
+
+- Plugin registration for p3
+
+.. code-block:: python
+
+    def update_tcp(param):
+        # your code: operate `param` and the return type must be consistent.
+        print(type(param), param)
+        return param
+
+    def register():
+        # p3 format: {"Target plugin_name": {"pet": "processing_function"}, }
+        return dict(p3=dict(a_plugin_name=dict(tcp=update_tcp)))

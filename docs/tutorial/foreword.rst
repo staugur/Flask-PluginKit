@@ -46,6 +46,9 @@ filter
 errhandler
     错误处理器扩展点
 
+p3
+    插件预处理器
+
 Developer / developer
     插件开发者
 

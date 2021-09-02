@@ -9,14 +9,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-22 14:21+0800\n"
+"POT-Creation-Date: 2021-09-02 21:08+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.6.0\n"
+"Generated-By: Babel 2.8.0\n"
 
 #: ../../api.rst:4
 msgid "API"
@@ -41,7 +41,7 @@ msgstr ""
 #: flask_pluginkit.PluginManager:4 of
 msgid ""
 "The plugin is a directory or a locally importable module, and the plugin "
-"entry file is **__init__.py**, including __plugin_name__, __version__, "
+"entry file is __init__.py, including __plugin_name__, __version__, "
 "__author__ and other metadata."
 msgstr ""
 
@@ -65,6 +65,7 @@ msgstr ""
 #: flask_pluginkit.PluginManager._error_handler
 #: flask_pluginkit.PluginManager._filter_handler
 #: flask_pluginkit.PluginManager._hep_handler
+#: flask_pluginkit.PluginManager._p3_handler
 #: flask_pluginkit.PluginManager._tep_handler
 #: flask_pluginkit.PluginManager._vep_handler
 #: flask_pluginkit.PluginManager.emit_assets
@@ -92,66 +93,68 @@ msgid "logging instance, for debug."
 msgstr ""
 
 #: flask_pluginkit.PluginManager:47 of
-msgid "turn on template sorting when the value is True."
+msgid ""
+"turn on template sorting when the value is True, ASC, DESC. Sorting rules"
+" can be used, DESC or ASC(default)."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:49 of
-msgid "Collation, True descending, False ascending (Default)."
-msgstr ""
-
-#: flask_pluginkit.PluginManager:51 of
+#: flask_pluginkit.PluginManager:50 of
 msgid "list of third-party plugin packages."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:53 of
+#: flask_pluginkit.PluginManager:52 of
 msgid ""
 "can be used to specify a different path for the static files on the "
 "plugins. Defaults to the name of the `static_endpoint` folder."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:57 of
+#: flask_pluginkit.PluginManager:56 of
 msgid ""
 "the endpoint name of plugins static files that should be served at "
 "`static_url_path`. Defaults to the ``'assets'``"
 msgstr ""
 
-#: flask_pluginkit.PluginManager:61 of
+#: flask_pluginkit.PluginManager:60 of
 msgid ""
 "additional configuration can be used in the template via "
 ":meth:`emit_config`."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:64 of
-msgid ""
-"Boolean, default True, try to load the registration method of "
-"getPluginClass in 2.x and convert."
-msgstr ""
-
-#: flask_pluginkit.PluginManager:67 of
+#: flask_pluginkit.PluginManager:63 of
 msgid "Add a vep handler"
 msgstr ""
 
-#: flask_pluginkit.PluginManager:70 of
+#: flask_pluginkit.PluginManager:66 of
 msgid "Add filter handler, error handler, template context processor"
 msgstr ""
 
-#: flask_pluginkit.PluginManager:73 of
+#: flask_pluginkit.PluginManager:69 of
 msgid "Add try_compatible, if True, it will try to load old version"
 msgstr ""
 
-#: flask_pluginkit.PluginManager:76 of
+#: flask_pluginkit.PluginManager:72 of
 msgid "Add hep named before_first_request."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:79 of
+#: flask_pluginkit.PluginManager:75 of
 msgid ""
 "The param ``stpl`` allows to be set to `asc` or `desc`, respectively, "
 "ascending, descending, which will also open the template sorting. So, the"
 " param ``stpl_reverse`` will be deprecated."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:84 of
+#: flask_pluginkit.PluginManager:80 of
 msgid "Add ``cvep`` feature for beta."
+msgstr ""
+
+#: flask_pluginkit.PluginManager:83 of
+msgid ""
+"Ready to remove ``stpl_reverse`` and ``try_compatible`` in the next minor"
+" version, if it is still used, a warning will be issued."
+msgstr ""
+
+#: flask_pluginkit.PluginManager:88 of
+msgid "Add ``p3`` feature for beta."
 msgstr ""
 
 #: flask_pluginkit.PluginManager.__init__:1 of
@@ -206,6 +209,7 @@ msgstr ""
 #: flask_pluginkit.PluginManager._error_handler
 #: flask_pluginkit.PluginManager._filter_handler
 #: flask_pluginkit.PluginManager._hep_handler
+#: flask_pluginkit.PluginManager._p3_handler
 #: flask_pluginkit.PluginManager._tep_handler
 #: flask_pluginkit.PluginManager._vep_handler
 #: flask_pluginkit.utils.DcpManager.push of
@@ -267,7 +271,7 @@ msgid "Blueprint extension point handler."
 msgstr ""
 
 #: flask_pluginkit.PluginManager._bep_handler:3 of
-msgid "look like {blueprint=, prefix=}"
+msgid "look like {blueprint=, prefix=, parent=}"
 msgstr ""
 
 #: flask_pluginkit.PluginManager._bep_handler:5 of
@@ -279,11 +283,15 @@ msgid "Viewfunc extension point handler."
 msgstr ""
 
 #: flask_pluginkit.PluginManager._vep_handler:3 of
-msgid "look like [{rule=, view_func=, other options}, etc.]"
+msgid "look like [{rule=, view_func=, _blurprint=, opts}, ]"
 msgstr ""
 
 #: flask_pluginkit.PluginManager._vep_handler:5 of
 msgid "if vep rule or content is invalid."
+msgstr ""
+
+#: flask_pluginkit.PluginManager._vep_handler:9 of
+msgid "Allow adding vep on blueprint"
 msgstr ""
 
 #: flask_pluginkit.PluginManager._cvep_handler:1 of
@@ -344,7 +352,19 @@ msgstr ""
 msgid "if tcp rule or content is invalid."
 msgstr ""
 
-#: ../../api.rst:29
+#: flask_pluginkit.PluginManager._p3_handler:1 of
+msgid "Plugin preprocessor handler."
+msgstr ""
+
+#: flask_pluginkit.PluginManager._p3_handler:3 of
+msgid "look like {plugin_name={pet:func}}"
+msgstr ""
+
+#: flask_pluginkit.PluginManager._p3_handler:5 of
+msgid "if the rule or content is invalid."
+msgstr ""
+
+#: ../../api.rst:30
 msgid "the instance of :class:`~flask_pluginkit.utils.DcpManager`"
 msgstr ""
 
@@ -390,7 +410,7 @@ msgstr ""
 #: flask_pluginkit.PluginManager.emit_assets:25 of
 msgid ""
 "However, the ``_raw`` parameter has been added in v3.4.0, and if it is "
-"True, only uri is generated."
+"True, only path is generated."
 msgstr ""
 
 #: flask_pluginkit.PluginManager.emit_assets:28 of
@@ -407,6 +427,10 @@ msgstr ""
 
 #: flask_pluginkit.PluginManager.emit_assets:52 of
 msgid "if True, not to parse automatically, only generate uri. Default False."
+msgstr ""
+
+#: flask_pluginkit.PluginManager.emit_assets:55 of
+msgid "_external parameter passed to url_for"
 msgstr ""
 
 #: flask_pluginkit.JsonResponse.force_type flask_pluginkit.LocalStorage.get
@@ -426,13 +450,17 @@ msgstr ""
 msgid "Returns"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:55
+#: flask_pluginkit.PluginManager.emit_assets:57
 #: flask_pluginkit.PluginManager.emit_tep:28 of
 msgid "html code with :class:`~flask.Markup`."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:57 of
+#: flask_pluginkit.PluginManager.emit_assets:59 of
 msgid "Add _raw, only generate uri without parse"
+msgstr ""
+
+#: flask_pluginkit.PluginManager.emit_assets:62 of
+msgid "Add _external, pass to :func:`flask.url_for`"
 msgstr ""
 
 #: flask_pluginkit.PluginManager.emit_config:1 of
@@ -600,10 +628,6 @@ msgstr ""
 msgid "Template sorting"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.stpl_reverse:1 of
-msgid "Template sort order, True descending, False ascending (default)."
-msgstr ""
-
 #: flask_pluginkit.push_dcp:1 of
 msgid "Push a callable for with :meth:`~flask_pluginkit.utils.DcpManager.push`."
 msgstr ""
@@ -612,11 +636,11 @@ msgstr ""
 msgid "Example usage::"
 msgstr ""
 
-#: ../../api.rst:37
+#: ../../api.rst:38
 msgid "The :class:`~flask.blueprints.Blueprint` instance for managing plugins."
 msgstr ""
 
-#: ../../api.rst:42
+#: ../../api.rst:43
 msgid "Inherited Application Objects"
 msgstr ""
 
@@ -688,7 +712,7 @@ msgstr ""
 msgid "a response object."
 msgstr ""
 
-#: ../../api.rst:51
+#: ../../api.rst:52
 msgid "Storage Objects"
 msgstr ""
 
@@ -696,7 +720,7 @@ msgstr ""
 msgid "Local file system storage based on the shelve module."
 msgstr ""
 
-#: ../../api.rst:58 ../../api.rst:65
+#: ../../api.rst:59 ../../api.rst:66
 #: flask_pluginkit.utils.BaseStorage.DEFAULT_INDEX:1 of
 msgid "The default index, as the only key, you can override it."
 msgstr ""
@@ -767,7 +791,11 @@ msgstr ""
 msgid "Use mongodb stand-alone storage"
 msgstr ""
 
-#: ../../api.rst:72
+#: flask_pluginkit.MongoStorage:3 of
+msgid "The next version removed"
+msgstr ""
+
+#: ../../api.rst:73
 msgid "The default index, as the default database, you can override it."
 msgstr ""
 
@@ -775,7 +803,7 @@ msgstr ""
 msgid "Return the mongo connection"
 msgstr ""
 
-#: ../../api.rst:75
+#: ../../api.rst:76
 msgid "Useful Functions and Classes"
 msgstr ""
 
@@ -854,57 +882,57 @@ msgid "plugin installer for installing a compressed local/remote plugin"
 msgstr ""
 
 #: flask_pluginkit.PluginInstaller.addPlugin:1 of
-msgid "Add a plugin, support only for `.tar.gz` or `.zip` compression packages."
+msgid "Add plugin, support only for `.tar.gz` or `.zip` compression packages."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:3 of
+#: flask_pluginkit.PluginInstaller.addPlugin:4 of
 msgid ""
 "supported method:  ``remote``, download and unpack a remote plugin "
 "package;  ``local``, unzip a local plugin package.  ``pip``, install "
 "package with pip command."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:3 of
+#: flask_pluginkit.PluginInstaller.addPlugin:4 of
 msgid "supported method:"
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:5 of
+#: flask_pluginkit.PluginInstaller.addPlugin:6 of
 msgid "``remote``, download and unpack a remote plugin package;"
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:7 of
+#: flask_pluginkit.PluginInstaller.addPlugin:8 of
 msgid "``local``, unzip a local plugin package."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:9 of
+#: flask_pluginkit.PluginInstaller.addPlugin:10 of
 msgid "``pip``, install package with pip command."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:11 of
+#: flask_pluginkit.PluginInstaller.addPlugin:12 of
 msgid "for method is remote, plugin can be downloaded from the address."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:14 of
+#: flask_pluginkit.PluginInstaller.addPlugin:15 of
 msgid "for method is local, plugin local absolute path"
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:16 of
+#: flask_pluginkit.PluginInstaller.addPlugin:17 of
 msgid ""
 "for method is local, remove the plugin source code package, default is "
 "False."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:19 of
+#: flask_pluginkit.PluginInstaller.addPlugin:20 of
 msgid "for method is pip, pypi's package or VCS url."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:21 of
+#: flask_pluginkit.PluginInstaller.addPlugin:22 of
 msgid ""
 "the result of adding the plugin, like {msg:str, code:int}, code=0 is "
 "successful."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:24 of
+#: flask_pluginkit.PluginInstaller.addPlugin:25 of
 msgid "Add pip method, with package_or_url param."
 msgstr ""
 
@@ -916,7 +944,7 @@ msgstr ""
 msgid "The plugin package name, not __plugin_name."
 msgstr ""
 
-#: ../../api.rst:95
+#: ../../api.rst:96
 msgid "Custom Exceptions"
 msgstr ""
 
@@ -954,7 +982,7 @@ msgid "Bases: :class:`flask_pluginkit.exceptions.PluginError`"
 msgstr ""
 
 #: flask_pluginkit.exceptions.PluginError:1 of
-msgid "Bases: :class:`exceptions.Exception`"
+msgid "Bases: :class:`Exception`"
 msgstr ""
 
 #~ msgid "Static endpoint and url"
@@ -1130,5 +1158,42 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "The next version removed"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The plugin is a directory or a "
+#~ "locally importable module, and the "
+#~ "plugin entry file is **__init__.py**, "
+#~ "including __plugin_name__, __version__, __author__"
+#~ " and other metadata."
+#~ msgstr ""
+
+#~ msgid "turn on template sorting when the value is True."
+#~ msgstr ""
+
+#~ msgid "Collation, True descending, False ascending (Default)."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Boolean, default True, try to load "
+#~ "the registration method of getPluginClass "
+#~ "in 2.x and convert."
+#~ msgstr ""
+
+#~ msgid "look like {blueprint=, prefix=}"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "However, the ``_raw`` parameter has been"
+#~ " added in v3.4.0, and if it is"
+#~ " True, only uri is generated."
+#~ msgstr ""
+
+#~ msgid "Template sort order, True descending, False ascending (default)."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Add a plugin, support only for "
+#~ "`.tar.gz` or `.zip` compression packages."
 #~ msgstr ""
 

@@ -1,5 +1,15 @@
 .. currentmodule:: flask-pluginkit
 
+v3.7.0
+------
+
+Released in 2021-09-02
+
+- feat: add :ref:`p3`, is beta
+- chore: the stpl_reverse falls into stpl
+- deprecated: will remove the try_compatible and stpl_reverse in :class:`~flask_pluginkit.PluginManager`
+- misc: remove web static files(change to CDN)
+
 v3.6.2
 ------
 

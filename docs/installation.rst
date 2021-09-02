@@ -6,8 +6,8 @@ Installation
 Python Version
 --------------
 
-We recommend using the latest version of Python 3, although it is code written
-in 2.7. Flask-PluginKit supports Python 3.5 and newer, Python 2.7, and PyPy.
+We recommend using the latest version of Python 3.
+Flask-PluginKit supports Python 3.6 and newer, Python 2.7, and PyPy.
 
 Dependencies
 ------------

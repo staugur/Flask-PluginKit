@@ -24,6 +24,7 @@ and cover as much as possible of all the features of Flask-PluginKit.
     filter
     tcp
     dcp
+    p3
     third-party-plugin
     afterword
 
