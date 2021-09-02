@@ -172,14 +172,6 @@ msgstr ""
 msgid "The plugin Status, enabled (default) or disabled."
 msgstr "插件状态，enabled (默认) 或 disabled。"
 
-#: ../../tutorial/core.rst:127
-msgid "``__app_version__``"
-msgstr ""
-
-#: ../../tutorial/core.rst:129
-msgid "`Flask-PluginKit` version required by the plugin."
-msgstr "插件要求的 `Flask-PluginKit` 版本。"
-
 #: ../../tutorial/core.rst:136
 msgid "register"
 msgstr ""

@@ -124,10 +124,6 @@ the first three are required:
 
     The plugin Status, enabled (default) or disabled.
 
-- ``__app_version__``
-
-    `Flask-PluginKit` version required by the plugin.
-
 .. _Semantic Version 2.0: https://semver.org
 
 .. _core-register:

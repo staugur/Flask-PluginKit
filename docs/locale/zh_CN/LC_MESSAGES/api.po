@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-02 21:08+0800\n"
+"POT-Creation-Date: 2021-09-02 22:02+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -357,7 +357,7 @@ msgid "Plugin preprocessor handler."
 msgstr ""
 
 #: flask_pluginkit.PluginManager._p3_handler:3 of
-msgid "look like {plugin_name={pet:func}}"
+msgid "look like {plugin_name:{pet:func}}"
 msgstr ""
 
 #: flask_pluginkit.PluginManager._p3_handler:5 of
@@ -1195,5 +1195,8 @@ msgstr ""
 #~ msgid ""
 #~ "Add a plugin, support only for "
 #~ "`.tar.gz` or `.zip` compression packages."
+#~ msgstr ""
+
+#~ msgid "look like {plugin_name={pet:func}}"
 #~ msgstr ""
 
