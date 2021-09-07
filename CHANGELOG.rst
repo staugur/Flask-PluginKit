@@ -1,5 +1,12 @@
 .. currentmodule:: flask-pluginkit
 
+v3.7.1
+------
+
+Released in 2021-09-07
+
+Restore translations.ini
+
 v3.7.0
 ------
 

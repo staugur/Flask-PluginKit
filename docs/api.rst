@@ -65,13 +65,6 @@ Storage Objects
 
         The default index, as the only key, you can override it.
 
-.. autoclass:: MongoStorage
-    :members:
-
-    .. attribute:: index
-
-        The default index, as the default database, you can override it.
-
 Useful Functions and Classes
 ----------------------------
 

@@ -1,7 +1,7 @@
 Flask-PluginKit
 ===============
 
-Web program plugin development kit based on flask.
+Web program plugin development kit based on Flask.
 
 |Build Status| |Documentation Status| |codecov| |PyPI|
 

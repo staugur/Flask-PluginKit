@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-02 22:02+0800\n"
+"POT-Creation-Date: 2021-09-07 21:20+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -787,23 +787,7 @@ msgstr ""
 msgid "set key data"
 msgstr ""
 
-#: flask_pluginkit.MongoStorage:1 of
-msgid "Use mongodb stand-alone storage"
-msgstr ""
-
-#: flask_pluginkit.MongoStorage:3 of
-msgid "The next version removed"
-msgstr ""
-
-#: ../../api.rst:73
-msgid "The default index, as the default database, you can override it."
-msgstr ""
-
-#: flask_pluginkit.MongoStorage.db:1 of
-msgid "Return the mongo connection"
-msgstr ""
-
-#: ../../api.rst:76
+#: ../../api.rst:69
 msgid "Useful Functions and Classes"
 msgstr ""
 
@@ -944,7 +928,7 @@ msgstr ""
 msgid "The plugin package name, not __plugin_name."
 msgstr ""
 
-#: ../../api.rst:96
+#: ../../api.rst:89
 msgid "Custom Exceptions"
 msgstr ""
 
@@ -1198,5 +1182,14 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "look like {plugin_name={pet:func}}"
+#~ msgstr ""
+
+#~ msgid "Use mongodb stand-alone storage"
+#~ msgstr ""
+
+#~ msgid "The default index, as the default database, you can override it."
+#~ msgstr ""
+
+#~ msgid "Return the mongo connection"
 #~ msgstr ""
 

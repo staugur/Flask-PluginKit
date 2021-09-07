@@ -269,35 +269,6 @@ class RedisStorage(BaseStorage):
         return self._db.hlen(self.index)
 
 
-class MongoStorage(BaseStorage):
-    """Use mongodb stand-alone storage
-
-    .. deprecated:: 3.6.0
-        The next version removed
-    """
-
-    def __init__(self, mongo_url=None, mongo_connection=None):
-        self._db = self._open(mongo_url) if mongo_url else mongo_connection
-
-    def _open(self, mongo_url):
-        from pymongo import MongoClient
-        from pymongo.errors import ConfigurationError
-
-        client = MongoClient(mongo_url)
-        try:
-            client.get_default_database()
-        except ConfigurationError:
-            #: Now, self.index is a database name
-            self._db = client[self.index]
-        else:
-            self._db = client
-
-    @property
-    def db(self):
-        """Return the mongo connection"""
-        return self._db
-
-
 class JsonResponse(Response):
     """In response to a return type that cannot be processed.
     If it is a dict, return json.

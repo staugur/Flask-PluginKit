@@ -1332,9 +1332,6 @@ class PluginManager(object):
         except KeyError:
             return current_app.config.get(conf_name)
 
-    def _build_test(self):
-        pass
-
 
 def push_dcp(event, callback, position="right"):
     """Push a callable for with :meth:`~flask_pluginkit.utils.DcpManager.push`.
