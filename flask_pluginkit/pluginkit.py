@@ -125,6 +125,9 @@ class PluginManager(object):
 
     .. versionchanged:: 3.7.0
         Add ``p3`` feature for beta.
+
+    .. deprecated:: 3.7.2
+        Remove `before_first_request` hep
     """
 
     def __init__(
@@ -188,7 +191,6 @@ class PluginManager(object):
             "before_request": self.__before_request_hook_handler,
             "after_request": self.__after_request_hook_handler,
             "teardown_request": self.__teardown_request_hook_handler,
-            "before_first_request": self.__before_fist_request_hook_handler,
         }
 
         #: Dynamic Connection Point
@@ -625,10 +627,6 @@ class PluginManager(object):
                         3. teardown_request, After request
                         (before return, with or without exception)
 
-                        4. before_first_request, Before first request
-                        (Registers a function to be run before the first
-                        request to this instance of the application.)
-
         :raises PEPError: if hep rule or content is invalid.
         """
         if isinstance(hep_rule, dict):
@@ -926,10 +924,6 @@ class PluginManager(object):
                 "The p3 handler rule is invalid for %s, "
                 "it should be a dict." % plugin_info.plugin_name
             )
-
-    def __before_fist_request_hook_handler(self):
-        for func in self.get_enabled_heps["before_first_request"]:
-            func()
 
     def __before_request_hook_handler(self):
         for func in self.get_enabled_heps["before_request"]:

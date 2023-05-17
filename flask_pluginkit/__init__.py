@@ -21,7 +21,7 @@ from ._web import blueprint
 
 __author__ = "Hiroshi.tao <me@tcw.im>"
 
-__version__ = "3.7.1"
+__version__ = "3.7.2"
 
 __all__ = [
     "Flask",
