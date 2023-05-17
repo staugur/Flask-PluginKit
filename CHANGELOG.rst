@@ -1,5 +1,13 @@
 .. currentmodule:: flask-pluginkit
 
+v3.7.2
+------
+
+Released in 2023-05-17
+
+- Fixed semver version
+- Drop hep `before_first_request`
+
 v3.7.1
 ------
 
