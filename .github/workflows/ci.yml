@@ -16,10 +16,10 @@ jobs:
         python-version: ["3.8", "3.10"]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
 
@@ -28,16 +28,16 @@ jobs:
         python -m pip install --upgrade pip
         pip install codecov redis
         pip install Flask==${{ matrix.flask-version }}
-        pip install git+https://github.com/saintic/flask-pluginkit-demo@master#egg=flask-pluginkit-demo
+        pip install -r examples/fulldemo/requirements.txt
 
     - name: Start Redis
-      uses: supercharge/redis-github-action@1.2.0
+      uses: supercharge/redis-github-action@1.7.0
       with:
-        redis-version: 4
+        redis-version: 5
   
     - name: Test & upload report to coverage
       run: |
-        coverage run setup.py test && codecov -t ${{ secrets.CODECOV_TOKEN }}
+        coverage run -m unittest && codecov -t ${{ secrets.CODECOV_TOKEN }}
 
     - name: Prepare publish packge
       if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags') && matrix.flask-version == '3.0.0' && matrix.python-version == '3.8'

@@ -8,7 +8,7 @@
     <link href="https://static.saintic.com/cdn/flask-pluginkit/favicon.ico" rel="icon" type="image/x-icon" />
     <link href="https://static.saintic.com/cdn/flask-pluginkit/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="prefetch" type="application/l10n" href="{{ url_for('.static', filename='translations.ini') }}" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
     <link rel="stylesheet" type="text/css" href="https://static.saintic.com/cdn/iconfont/iconfont.css">
     <style type="text/css">
         .notification>button.delete {
@@ -39,7 +39,8 @@
                 {% endfor %}
                 <div class="control">
                     <div class="select is-success is-small">
-                        <select onchange="document.webL10n.setLanguage(this.value || this.options[this.selectedIndex].text);">
+                        <select
+                            onchange="document.webL10n.setLanguage(this.value || this.options[this.selectedIndex].text);">
                             <option disabled selected>Language</option>
                             <option>en</option>
                             <option>zh-cn</option>
@@ -127,8 +128,8 @@
                         <th>{{ p.plugin_description or '' }}</th>
                         <th>{{ p.plugin_version }}</th>
                         <th>{{ p.plugin_author }}</th>
-                        <th>{% if p.plugin_url %}<a href="{{ p.plugin_url }}"
-                                target="_blank">{{ p.plugin_url }}</a>{% else %}{{ p.plugin_url or '' }}{% endif %}</th>
+                        <th>{% if p.plugin_url %}<a href="{{ p.plugin_url }}" target="_blank">{{ p.plugin_url }}</a>{%
+                            else %}{{ p.plugin_url or '' }}{% endif %}</th>
                         <th>{{ p.plugin_license or '' }}</th>
                         <th>
                             <scan
@@ -154,7 +155,7 @@
             </div>
         </div>
     </section>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/webl10n@1.0.0/l10n.min.js"></script>
     <script type="text/javascript">
         function showNotification() {
@@ -195,7 +196,7 @@
                 method: options.method || 'post',
                 dataType: options.dataType || 'json',
                 data: options.data || {},
-                beforeSend: options.beforeSend ? options.beforeSend : function () {},
+                beforeSend: options.beforeSend ? options.beforeSend : function () { },
                 success: function (res) {
                     if (res.code === 0 || res.success === true) {
                         success && success(res);
@@ -212,7 +213,7 @@
                         "<scan class='has-text-danger'>System exception, please try again later</scan>. Status code:" +
                         XMLHttpRequest.status + "," + textStatus);
                 },
-                complete: options.complete ? options.complete : function () {}
+                complete: options.complete ? options.complete : function () { }
             });
         }
 
@@ -255,7 +256,7 @@
             }
             isLoop = 1;
             let sse = new EventSource("{{ url_for('.msg') }}");
-            sse.onmessage = function(e) {
+            sse.onmessage = function (e) {
                 if (e.data !== "") {
                     setMessage("<scan>" + e.data + "</scan>");
                 }
