@@ -3,7 +3,7 @@
 v3.8.0
 ------
 
-Released in 2024-05-22
+Released in 2024-05-23
 
 Only support python 3.8+ and flask 3.0+
 
