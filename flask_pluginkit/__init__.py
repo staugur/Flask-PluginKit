@@ -11,7 +11,6 @@
 
 from .pluginkit import PluginManager, push_dcp
 from .utils import (
-    Flask,
     LocalStorage,
     RedisStorage,
     JsonResponse,
@@ -21,10 +20,9 @@ from ._web import blueprint
 
 __author__ = "Hiroshi.tao <me@tcw.im>"
 
-__version__ = "3.7.2"
+__version__ = "3.8.0"
 
 __all__ = [
-    "Flask",
     "PluginManager",
     "LocalStorage",
     "RedisStorage",

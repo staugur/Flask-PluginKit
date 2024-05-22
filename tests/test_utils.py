@@ -2,7 +2,6 @@
 
 import unittest
 from os import getenv
-from sys import version_info
 from flask_pluginkit.utils import (
     isValidSemver,
     sortedSemver,
@@ -15,9 +14,7 @@ from flask_pluginkit.utils import (
     check_url,
     DcpManager,
 )
-from flask import Markup
-
-PY35 = (version_info.major, version_info.minor) == (3, 5)
+from markupsafe import Markup
 
 
 class UtilsTest(unittest.TestCase):
@@ -75,7 +72,6 @@ class UtilsTest(unittest.TestCase):
         self.assertEqual(1, storage.get("_non_existent_key_", 1))
         self.assertEqual(0, len(storage))
 
-    @unittest.skipIf(PY35, "Damn py3.5 anomaly.")
     def test_redisstorage(self):
         """Run this test when it detects that the environment variable
         FLASK_PLUGINKIT_TEST_REDISURL is valid
@@ -136,8 +132,7 @@ class UtilsTest(unittest.TestCase):
         dcp = DcpManager()
         self.assertIsInstance(dcp.list, dict)
 
-        def f():
-            return "test"
+        f = lambda: "test"
 
         dcp.push("f", f)
         self.assertEqual(len(dcp.list), 1)

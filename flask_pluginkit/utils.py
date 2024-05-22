@@ -11,17 +11,19 @@
 
 import json
 import shelve
-from semver import VersionInfo
+from semver import Version
+from functools import cmp_to_key
 from os.path import join, abspath
 from tempfile import gettempdir
 from collections import deque
-from flask import Markup, Response, jsonify
-from flask.app import setupmethod, Flask as _BaseFlask
-from ._compat import PY2, string_types, text_type, iteritems
+from markupsafe import Markup
+from flask import Response, jsonify
+from ._compat import string_types, text_type, iteritems
 from .exceptions import PluginError, NotCallableError
+from typing import List, Any, Optional, Dict
 
 
-def isValidPrefix(prefix, allow_none=False):
+def isValidPrefix(prefix: str, allow_none: bool = False) -> bool:
     """Check if it can be used for blueprint prefix"""
     if prefix is None and allow_none is True:
         return True
@@ -35,30 +37,24 @@ def isValidPrefix(prefix, allow_none=False):
     return False
 
 
-def isValidSemver(version):
+def isValidSemver(version: str) -> bool:
     """Semantic version number - determines whether the version is qualified.
     The format is MAJOR.Minor.PATCH, more with https://semver.org
     """
     if version and isinstance(version, string_types):
-        return VersionInfo.isvalid(version)
+        return Version.is_valid(version)
     return False
 
 
-def sortedSemver(versions, sort="ASC"):
+def sortedSemver(versions: List[str], sort: str = "ASC") -> List[str]:
     """Semantically sort the list of version Numbers"""
     reverse = True if sort.upper() == "DESC" else False
     if versions and isinstance(versions, (list, tuple)):
-
-        def compare(ver1, ver2):
-            v1 = VersionInfo.parse(ver1)
-            return v1.compare(ver2)
-
-        if PY2:
-            return sorted(versions, cmp=compare, reverse=reverse)
-        else:
-            from functools import cmp_to_key
-
-            return sorted(versions, key=cmp_to_key(compare), reverse=reverse)
+        return sorted(
+            versions,
+            key=cmp_to_key(lambda v1, v2: Version.parse(v1).compare(v2)),
+            reverse=reverse,
+        )
     else:
         raise TypeError("Invaild versions, a list or tuple is right.")
 
@@ -77,7 +73,7 @@ class BaseStorage(object):
     """
 
     #: The default index, as the only key, you can override it.
-    DEFAULT_INDEX = "flask_pluginkit_dat"
+    DEFAULT_INDEX: str = "flask_pluginkit_dat"
 
     @property
     def index(self):
@@ -88,26 +84,26 @@ class BaseStorage(object):
         return getattr(self, "COVERED_INDEX", None) or self.DEFAULT_INDEX
 
     @index.setter
-    def index(self, _covered_index):
+    def index(self, _covered_index: str):
         """Set the covered index
 
         .. versionadded:: 3.6.0
         """
         self.COVERED_INDEX = _covered_index
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: str):
         if hasattr(self, "get"):
             return self.get(key)
         else:
             raise AttributeError("Please override the get method")
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key: str, value: Any):
         if hasattr(self, "set"):
             return self.set(key, value)
         else:
             raise AttributeError("Please override the set method")
 
-    def __delitem__(self, key):
+    def __delitem__(self, key: str):
         if hasattr(self, "remove"):
             return self.remove(key)
         else:
@@ -126,10 +122,10 @@ class BaseStorage(object):
 class LocalStorage(BaseStorage):
     """Local file system storage based on the shelve module."""
 
-    def __init__(self, path=None):
+    def __init__(self, path: Optional[str] = None):
         self.COVERED_INDEX = path or join(gettempdir(), self.DEFAULT_INDEX)
 
-    def _open(self, flag="c"):
+    def _open(self, flag: str = "c") -> shelve.Shelf:
         return shelve.open(
             filename=abspath(self.index),
             flag=flag,
@@ -138,7 +134,7 @@ class LocalStorage(BaseStorage):
         )
 
     @property
-    def list(self):
+    def list(self) -> Dict[str, Any]:
         """list all data
 
         :returns: dict
@@ -154,14 +150,12 @@ class LocalStorage(BaseStorage):
             if db:
                 db.close()
 
-    def __ck(self, key):
-        if PY2 and isinstance(key, text_type):
-            key = key.encode("utf-8")
-        if not PY2 and not isinstance(key, text_type):
+    def __ck(self, key: str) -> str:
+        if not isinstance(key, text_type):
             key = key.decode("utf-8")
         return key
 
-    def set(self, key, value):
+    def set(self, key: str, value: Any):
         """Set persistent data with shelve.
 
         :param key: str: Index key
@@ -180,7 +174,7 @@ class LocalStorage(BaseStorage):
             if db:
                 db.close()
 
-    def setmany(self, **mapping):
+    def setmany(self, **mapping: Dict[str, Any]):
         """Set more data
 
         :param mapping: the more k=v
@@ -193,7 +187,7 @@ class LocalStorage(BaseStorage):
                 db[self.__ck(k)] = v
             db.close()
 
-    def get(self, key, default=None):
+    def get(self, key: str, default: Any = None):
         """Get persistent data from shelve.
 
         :returns: data
@@ -205,7 +199,7 @@ class LocalStorage(BaseStorage):
         else:
             return value
 
-    def remove(self, key):
+    def remove(self, key: str):
         db = self._open()
         del db[key]
 
@@ -223,25 +217,20 @@ class RedisStorage(BaseStorage):
         try:
             from redis import from_url
         except ImportError:
-            raise ImportError(
-                "Please install the redis module, eg: pip install redis"
-            )
+            raise ImportError("Please install the redis module, eg: pip install redis")
         else:
             return from_url(redis_url)
 
     @property
-    def list(self):
+    def list(self) -> Dict[str, Any]:
         """list redis hash data"""
-        return {
-            k: json.loads(v)
-            for k, v in iteritems(self._db.hgetall(self.index))
-        }
+        return {k: json.loads(v) for k, v in iteritems(self._db.hgetall(self.index))}
 
-    def set(self, key, value):
+    def set(self, key: str, value: Any):
         """set key data"""
         return self._db.hset(self.index, key, json.dumps(value))
 
-    def setmany(self, **mapping):
+    def setmany(self, **mapping: Dict[str, Any]):
         """Set more data
 
         :param mapping: the more k=v
@@ -252,16 +241,16 @@ class RedisStorage(BaseStorage):
             mapping = {k: json.dumps(v) for k, v in iteritems(mapping)}
             return self._db.hmset(self.index, mapping)
 
-    def get(self, key, default=None):
+    def get(self, key: str, default: Any = None) -> Any:
         """get key original data from redis"""
         v = self._db.hget(self.index, key)
         if v:
-            if not PY2 and not isinstance(v, text_type):
+            if not isinstance(v, text_type):
                 v = v.decode("utf-8")
             return json.loads(v)
         return default
 
-    def remove(self, key):
+    def remove(self, key: str):
         """delete key from redis"""
         return self._db.hdel(self.index, key)
 
@@ -281,31 +270,6 @@ class JsonResponse(Response):
         if isinstance(rv, dict):
             rv = jsonify(rv)
         return super(JsonResponse, cls).force_type(rv, environ)
-
-
-class Flask(_BaseFlask):
-    @setupmethod
-    def before_request_top(self, f):
-        """Registers a function to run before each request. Priority First.
-
-        The usage is equivalent to the :meth:`flask.Flask.before_request`
-        decorator, and before_request registers the function at the end of
-        the before_request_funcs, while this decorator registers the function
-        at the top of the before_request_funcs (index 0).
-
-        Because flask-pluginkit has registered all cep into the app
-        at load time, if your web application uses before_request and plugins
-        depend on one of them (like g), the plugin will not run properly,
-        so your web application should use this decorator at this time.
-        """
-        self.before_request_funcs.setdefault(None, []).insert(0, f)
-        return f
-
-    @setupmethod
-    def before_request_second(self, f):
-        """Registers a function to run before each request. Priority Second."""
-        self.before_request_funcs.setdefault(None, []).insert(1, f)
-        return f
 
 
 class Attribution(dict):
@@ -385,7 +349,7 @@ class DcpManager(object):
         return Markup("".join(results))
 
 
-def allowed_uploaded_plugin_suffix(filename):
+def allowed_uploaded_plugin_suffix(filename: str) -> bool:
     """Check suffix for uploaded filename
 
     .. versionadded:: 3.3.0
@@ -398,7 +362,7 @@ def allowed_uploaded_plugin_suffix(filename):
     return False
 
 
-def check_url(addr):
+def check_url(addr: str) -> bool:
     """Check whether UrlAddr is in a valid format, for example::
 
         http://ip:port

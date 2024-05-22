@@ -12,11 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        flask-version: ["0.12.5","1.0.4", "1.1.4","2.0.0"]
-        python-version: ["2.7", "3.7", "3.8", "3.9"]
-        exclude:
-          - flask-version: "2.0.0"
-            python-version: "2.7"
+        flask-version: ["3.0.0"]
+        python-version: ["3.8", "3.10"]
+
     steps:
     - uses: actions/checkout@v2
 
@@ -28,9 +26,8 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install codecov 'semver>=2.10.0,<3.0.0' redis
-        pip install Flask==${{ matrix.flask-version }} 'markupsafe<=2.0.1' 'jinja2<3.0'
-        test "${{ matrix.flask-version }}" = "1.0.4" && pip install 'werkzeug<1.0'
+        pip install codecov redis
+        pip install Flask==${{ matrix.flask-version }}
         pip install git+https://github.com/saintic/flask-pluginkit-demo@master#egg=flask-pluginkit-demo
 
     - name: Start Redis
@@ -43,11 +40,11 @@ jobs:
         coverage run setup.py test && codecov -t ${{ secrets.CODECOV_TOKEN }}
 
     - name: Prepare publish packge
-      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags') && matrix.flask-version == '2.0.0' && matrix.python-version == '3.8'
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags') && matrix.flask-version == '3.0.0' && matrix.python-version == '3.8'
       run: pip install -U setuptools twine wheel && python setup.py sdist bdist_wheel
 
     - name: Publish package
-      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags') && matrix.flask-version == '2.0.0' && matrix.python-version == '3.8'
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags') && matrix.flask-version == '3.0.0' && matrix.python-version == '3.8'
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         user: __token__

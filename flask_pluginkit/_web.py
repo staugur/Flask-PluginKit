@@ -9,6 +9,7 @@
     :license: BSD 3-Clause, see LICENSE for more details.
 """
 
+import _thread as thread
 from time import sleep
 from collections import OrderedDict, deque
 from werkzeug.utils import secure_filename
@@ -23,13 +24,9 @@ from flask import (
     make_response,
     Response,
 )
-from .utils import PY2, allowed_uploaded_plugin_suffix, check_url
+from .utils import allowed_uploaded_plugin_suffix, check_url
 from ._installer import PluginInstaller
 
-if PY2:
-    import thread
-else:
-    import _thread as thread
 
 #: Blueprint instance for managing plugins
 #:
@@ -76,8 +73,7 @@ def pluginkit_webmanager_auth():
         #: it's used by the authentication schemes to indicate a scope of
         #: protection.
         AUTHREALM = (
-            _get_conf("PLUGINKIT_AUTH_REALM")
-            or "Flask-PluginKit Login Required"
+            _get_conf("PLUGINKIT_AUTH_REALM") or "Flask-PluginKit Login Required"
         )
 
         #: User and password configuration, format {user:pass, user:pass},
@@ -130,10 +126,7 @@ def pluginkit_webmanager_auth():
             if ip in WHITELIST and ip not in BLACKLIST:
                 authResult.update(code=0)
 
-    if (
-        hasattr(current_app, "extensions")
-        and "pluginkit" in current_app.extensions
-    ):
+    if hasattr(current_app, "extensions") and "pluginkit" in current_app.extensions:
         from flask_pluginkit import __version__ as version
 
         g.pluginkit = current_app.extensions["pluginkit"]
@@ -196,9 +189,7 @@ def api():
                 import signal
                 import psutil
             except ImportError:
-                res.update(
-                    code=20000, msg="No dependent modules(psutil) installed"
-                )
+                res.update(code=20000, msg="No dependent modules(psutil) installed")
             else:
                 ENV = _get_conf("ENV")
                 PROCESSNAME = _get_conf("PLUGINKIT_PROCESSNAME")
@@ -247,9 +238,7 @@ def api():
                     fp.write(f.stream.read())
                     filename = fp.name
                 pi = PluginInstaller(pm.plugins_abspath)
-                res = pi.addPlugin(
-                    method="local", filepath=filename, remove=True
-                )
+                res = pi.addPlugin(method="local", filepath=filename, remove=True)
             else:
                 msg = "Unsuccessfully obtained file or format is not allowed"
                 res.update(code=50000, msg=msg)
@@ -265,9 +254,7 @@ def api():
 
             def _install(package_or_url):
                 pi = PluginInstaller(pm.plugins_abspath)
-                resp = pi.addPlugin(
-                    method="pip", package_or_url=package_or_url
-                )
+                resp = pi.addPlugin(method="pip", package_or_url=package_or_url)
                 if resp["code"] == 0:
                     _queue.append("Install is successful")
                 else:

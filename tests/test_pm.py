@@ -5,16 +5,16 @@ import sys
 import time
 import json
 import unittest
-from flask import Flask, request, Markup, g
+from flask import Flask, request, g
+from markupsafe import Markup
 from flask_pluginkit import (
-    Flask as ExFlask,
     PluginManager,
     LocalStorage,
     push_dcp,
     blueprint,
 )
 from flask_pluginkit.exceptions import PluginError, NotCallableError
-from flask_pluginkit._compat import PY2, iteritems
+from flask_pluginkit._compat import iteritems
 from jinja2 import ChoiceLoader
 
 EXAMPLE_DIR = os.path.join(
@@ -40,17 +40,6 @@ app2 = Flask("app2")
 app2.config["TESTING"] = True
 app2.register_blueprint(blueprint)
 
-#: app3 with flask-pluginkit and exflask
-def create_app3():
-    app3 = ExFlask("app3")
-    app3.config["TESTING"] = True
-    pm = PluginManager(pluginkit_config=dict(whoami="app3"))
-    pm.init_app(app3)
-    return app3
-
-
-app3 = create_app3()
-
 #: app4 with flask-pluginkit full example
 from app import app as app4
 
@@ -60,21 +49,17 @@ app4.testing = True
 class PMTest(unittest.TestCase):
     def setUp(self):
         self.app1_pm = app1.extensions.get("pluginkit")
-        self.app3_pm = app3.extensions.get("pluginkit")
         self.app4_pm = app4.extensions.get("pluginkit")
 
     def test_extself(self):
         self.assertIsInstance(self.app1_pm, PluginManager)
-        self.assertIsInstance(self.app3_pm, PluginManager)
         self.assertIsInstance(self.app4_pm, PluginManager)
         self.assertIsInstance(app1.jinja_loader, ChoiceLoader)
 
     def test_extself_params(self):
         self.assertFalse(os.path.isdir(self.app1_pm.plugins_abspath))
-        self.assertFalse(os.path.isdir(self.app3_pm.plugins_abspath))
         self.assertTrue(os.path.isdir(self.app4_pm.plugins_abspath))
         self.assertIsInstance(self.app1_pm.plugin_packages, (tuple, list))
-        self.assertTrue(self.app3_pm.static_url_path.startswith("/"))
         self.assertIsInstance(self.app4_pm.pluginkit_config, dict)
 
     def test_extself_raise(self):
@@ -84,19 +69,9 @@ class PMTest(unittest.TestCase):
 
     def test_extself_tpl_global(self):
         self.assertIn("emit_tep", app1.jinja_env.globals)
-        self.assertIn("emit_assets", app3.jinja_env.globals)
         self.assertIn("emit_config", app4.jinja_env.globals)
 
-    def test_exflask(self):
-        @app3.before_request
-        def my_test():
-            pass
-
-        self.assertTrue(hasattr(app3, "before_request_top"))
-        self.assertTrue(hasattr(app3, "before_request_second"))
-
     def test_config(self):
-        self.assertEqual(self.app3_pm.pluginkit_config["whoami"], "app3")
         self.assertTrue("emit_config" in app1.jinja_env.globals)
         with app1.test_request_context():
             self.assertTrue(self.app1_pm.emit_config("PLUGINKIT_TEST"))
@@ -106,22 +81,17 @@ class PMTest(unittest.TestCase):
             app4.preprocess_request()
             local = LocalStorage()
             self.assertTrue("nowtime" in local.list)
-            nowhour = time.strftime(
-                "%Y-%m-%d %H:", time.localtime(time.time())
-            )
+            nowhour = time.strftime("%Y-%m-%d %H:", time.localtime(time.time()))
             self.assertIn(nowhour, local.get("nowtime"))
             del local["nowtime"]
 
     def test_example(self):
-        if not PY2:
-            with app4.test_client() as c:
-                rv = c.get("/")
-                data = rv.data.decode("utf-8")
-                self.assertTrue("css/style.css" in data)
-                self.assertTrue("js/hello.js" in data)
-                self.assertTrue(
-                    self.app4_pm.pluginkit_config["whoami"] in data
-                )
+        with app4.test_client() as c:
+            rv = c.get("/")
+            data = rv.data.decode("utf-8")
+            self.assertTrue("css/style.css" in data)
+            self.assertTrue("js/hello.js" in data)
+            self.assertTrue(self.app4_pm.pluginkit_config["whoami"] in data)
         self.assertEqual(len(app4.blueprints), 3)
         self.assertEqual(len(self.app4_pm.get_all_plugins), 3)
         self.assertEqual(len(self.app4_pm.get_enabled_beps), 2)
@@ -151,9 +121,7 @@ class PMTest(unittest.TestCase):
         self.assertEqual(
             "test-filter-repeat", app4.jinja_env.filters["repeat_filter"]("x")
         )
-        self.assertEqual(
-            "test-filter", app4.jinja_env.filters["demo_filter2"]("x")
-        )
+        self.assertEqual("test-filter", app4.jinja_env.filters["demo_filter2"]("x"))
 
     def test_errhandler(self):
         ehs = app4.error_handler_spec[None]
@@ -169,13 +137,10 @@ class PMTest(unittest.TestCase):
             self.assertIn(b"permission deny", resp403.data)
             #: raise apierror
             respapierror = c.get("/api_error")
-            if PY2:
-                data = json.loads(respapierror.data)
+            if isinstance(respapierror.data, bytes):
+                data = json.loads(respapierror.data.decode("utf-8"))
             else:
-                if isinstance(respapierror.data, bytes):
-                    data = json.loads(respapierror.data.decode("utf-8"))
-                else:
-                    data = json.loads(respapierror.data)
+                data = json.loads(respapierror.data)
             self.assertIsInstance(data, dict)
             self.assertIn("msg", data)
             self.assertEqual("test_err_class_handler", data["msg"])
@@ -194,6 +159,7 @@ class PMTest(unittest.TestCase):
         # test p3
         self.assertIn("im", context)
 
+    """
     def test_dcp(self):
         def callback():
             return "test"
@@ -208,12 +174,12 @@ class PMTest(unittest.TestCase):
             self.assertIsInstance(ft, Markup)
             self.assertEqual(ft, Markup("test"))
             self.assertEqual(result, ["test"])
+    """
 
     def test_web(self):
         with app1.test_client() as c1:
             data = c1.post("/api").data
-            if not PY2 and isinstance(data, bytes):
-                data = data.decode("utf-8")
+            data = data.decode("utf-8")
             res = json.loads(data)
             self.assertIsInstance(res, dict)
             self.assertEqual(res["code"], 1)

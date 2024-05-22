@@ -21,7 +21,7 @@ from cgi import parse_header
 from posixpath import basename as posixbasename
 from tempfile import NamedTemporaryFile
 from .exceptions import PluginError, TarError, ZipError, InstallError
-from ._compat import PY2, string_types, urllib2, urlsplit, parse_qs
+from ._compat import string_types, urllib2, urlsplit, parse_qs
 from .utils import check_url
 
 
@@ -67,10 +67,7 @@ class PluginInstaller(object):
             if scene == 1:
                 plugin_filename = [
                     i
-                    for i in parse_qs(urlsplit(data).query).get(
-                        "plugin_filename"
-                    )
-                    or []
+                    for i in parse_qs(urlsplit(data).query).get("plugin_filename") or []
                     if i
                 ]
                 if plugin_filename and len(plugin_filename) == 1:
@@ -78,16 +75,10 @@ class PluginInstaller(object):
             elif scene == 2:
                 filename = posixbasename(urlsplit(data).path)
             elif scene == 3:
-                if PY2:
-                    cd = data.headers.getheader("Content-Disposition", "")
-                else:
-                    cd = data.getheader("Content-Disposition", "")
+                cd = data.getheader("Content-Disposition", "")
                 filename = parse_header(cd)[-1].get("filename")
             elif scene == 4:
-                if PY2:
-                    cd = data.info().subtype
-                else:
-                    cd = data.info().get_content_subtype()
+                cd = data.info().get_content_subtype()
                 mt = {
                     "zip": "zip",
                     "x-compressed-tar": "tar.gz",
@@ -255,9 +246,7 @@ class PluginInstaller(object):
             if method == "remote":
                 self._remote_download(kwargs["url"])
             elif method == "local":
-                self._local_upload(
-                    kwargs["filepath"], kwargs.get("remove", False)
-                )
+                self._local_upload(kwargs["filepath"], kwargs.get("remove", False))
             elif method == "pip":  # pragma: nocover
                 res = self._pip_install(kwargs["package_or_url"])
             else:
