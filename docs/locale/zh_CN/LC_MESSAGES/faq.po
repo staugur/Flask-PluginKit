@@ -9,69 +9,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.3.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-17 16:19+0800\n"
+"POT-Creation-Date: 2024-05-22 21:39+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.6.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 #: ../../faq.rst:2
 msgid "FAQ"
 msgstr ""
 
-#: ../../faq.rst:7
-msgid "Compatible with older versions"
-msgstr "兼容旧版本"
-
-#: ../../faq.rst:9
-msgid ""
-"When the original v3.x was refactored, it was not compatible with the old"
-" version, namely v2.x, so the old plugins need to be updated one by one."
-msgstr "原本v3.x重构时，没有兼容旧版本，即v2.x，所以旧版插件需要一一更新才行。"
-
-#: ../../faq.rst:12
-msgid ""
-"The old version requires the plugin to return a class through the "
-"``getPluginClass`` function, and write the method to register tep, bep, "
-"hep, etc in the class, so you only need to return the above method "
-"through the ``register`` function when updating the plugin, for example:"
+#: ../../faq.rst:6
+msgid "Nothing."
 msgstr ""
-"旧版要求插件通过 ``getPluginClass`` "
-"函数返回一个类，在类中写方法注册tep、bep、hep等，所以更新插件时只需要将上述方法通过 ``register`` "
-"函数重新返回即可，比如："
-
-#: ../../faq.rst:17
-msgid "Legacy plugin code:"
-msgstr "旧版插件代码："
-
-#: ../../faq.rst:50
-msgid "Compatibility modification (add the following code):"
-msgstr "兼容性修改（添加以下代码）："
-
-#: ../../faq.rst:63
-msgid "The new version does not support yep, dfp, but instead of other methods."
-msgstr "新版不支持yep、dfp，而是改为其他方式。"
-
-#: ../../faq.rst:65
-msgid "hep removed the suffix ``_hook`` in the new version."
-msgstr "hep在新版中去掉了 ``_hook`` 的后缀。"
-
-#: ../../faq.rst:67
-msgid ""
-"The after_request and teardown_request in hep, pay attention to the "
-"parameter changes of the function."
-msgstr "hep中after_request和teardown_request，要注意函数的参数变化。"
-
-#: ../../faq.rst:70
-msgid ""
-"However, in v3.3.1, the auto-compatible code has been added. Flask-"
-"PluginKit tries to load and convert the old version of tep, bep, and hep "
-"according to the parameters during loading, so the plugin can be modified"
-" without compatibility."
-msgstr ""
-"不过，在v3.3.1中，添加了自动兼容的代码，Flask-"
-"PluginKit在加载时根据参数会尝试加载并转化旧版的tep、bep、hep，所以插件就可以不用进行兼容性修改了。"
-

@@ -9,14 +9,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-07 21:20+0800\n"
+"POT-Creation-Date: 2024-05-22 21:40+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.8.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 #: ../../api.rst:4
 msgid "API"
@@ -32,146 +32,157 @@ msgstr "这部分文档涵盖了Flask-PluginKit几乎所有的公开接口"
 msgid "PluginManager Object"
 msgstr ""
 
-#: flask_pluginkit.PluginManager:1 of
+#: flask_pluginkit.pluginkit.PluginManager:1 of
 msgid ""
 "Flask Plugin Manager Extension, collects all plugins and maps the "
 "metadata to the plugin."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:4 of
+#: flask_pluginkit.pluginkit.PluginManager:4 of
 msgid ""
 "The plugin is a directory or a locally importable module, and the plugin "
 "entry file is __init__.py, including __plugin_name__, __version__, "
 "__author__ and other metadata."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:8 of
+#: flask_pluginkit.pluginkit.PluginManager:8 of
 msgid "A meaningful plugin structure should look like this::"
 msgstr ""
 
-#: flask_pluginkit.PluginManager:30 of
+#: flask_pluginkit.pluginkit.PluginManager:30 of
 msgid ""
 "Initializes the PluginManager. It is also possible to initialize the "
 "PluginManager via a factory::"
 msgstr ""
 
-#: flask_pluginkit.JsonResponse.force_type flask_pluginkit.LocalStorage.set
-#: flask_pluginkit.LocalStorage.setmany
-#: flask_pluginkit.PluginInstaller.addPlugin
-#: flask_pluginkit.PluginInstaller.removePlugin flask_pluginkit.PluginManager
-#: flask_pluginkit.PluginManager._bep_handler
-#: flask_pluginkit.PluginManager._context_processor_handler
-#: flask_pluginkit.PluginManager._cvep_handler
-#: flask_pluginkit.PluginManager._error_handler
-#: flask_pluginkit.PluginManager._filter_handler
-#: flask_pluginkit.PluginManager._hep_handler
-#: flask_pluginkit.PluginManager._p3_handler
-#: flask_pluginkit.PluginManager._tep_handler
-#: flask_pluginkit.PluginManager._vep_handler
-#: flask_pluginkit.PluginManager.emit_assets
-#: flask_pluginkit.PluginManager.emit_tep flask_pluginkit.RedisStorage.setmany
-#: flask_pluginkit.utils.DcpManager.push of
+#: flask_pluginkit._installer.PluginInstaller.addPlugin
+#: flask_pluginkit._installer.PluginInstaller.removePlugin
+#: flask_pluginkit.pluginkit.PluginManager
+#: flask_pluginkit.pluginkit.PluginManager._bep_handler
+#: flask_pluginkit.pluginkit.PluginManager._context_processor_handler
+#: flask_pluginkit.pluginkit.PluginManager._cvep_handler
+#: flask_pluginkit.pluginkit.PluginManager._error_handler
+#: flask_pluginkit.pluginkit.PluginManager._filter_handler
+#: flask_pluginkit.pluginkit.PluginManager._hep_handler
+#: flask_pluginkit.pluginkit.PluginManager._p3_handler
+#: flask_pluginkit.pluginkit.PluginManager._tep_handler
+#: flask_pluginkit.pluginkit.PluginManager._vep_handler
+#: flask_pluginkit.pluginkit.PluginManager.emit_assets
+#: flask_pluginkit.pluginkit.PluginManager.emit_tep
+#: flask_pluginkit.utils.DcpManager.push
+#: flask_pluginkit.utils.JsonResponse.force_type
+#: flask_pluginkit.utils.LocalStorage.set
+#: flask_pluginkit.utils.LocalStorage.setmany
+#: flask_pluginkit.utils.RedisStorage.setmany of
 msgid "Parameters"
 msgstr ""
 
-#: flask_pluginkit.PluginManager:38 of
+#: flask_pluginkit.pluginkit.PluginManager:38 of
 msgid "flask application."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:40 of
+#: flask_pluginkit.pluginkit.PluginManager:40 of
 msgid "plugin folder where the plugins resides."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:42 of
+#: flask_pluginkit.pluginkit.PluginManager:42 of
 msgid ""
 "base folder for the application. It is used to build the plugins package "
 "name."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:45 of
+#: flask_pluginkit.pluginkit.PluginManager:45 of
 msgid "logging instance, for debug."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:47 of
+#: flask_pluginkit.pluginkit.PluginManager:47 of
 msgid ""
 "turn on template sorting when the value is True, ASC, DESC. Sorting rules"
 " can be used, DESC or ASC(default)."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:50 of
+#: flask_pluginkit.pluginkit.PluginManager:50 of
 msgid "list of third-party plugin packages."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:52 of
+#: flask_pluginkit.pluginkit.PluginManager:52 of
 msgid ""
 "can be used to specify a different path for the static files on the "
 "plugins. Defaults to the name of the `static_endpoint` folder."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:56 of
+#: flask_pluginkit.pluginkit.PluginManager:56 of
 msgid ""
 "the endpoint name of plugins static files that should be served at "
 "`static_url_path`. Defaults to the ``'assets'``"
 msgstr ""
 
-#: flask_pluginkit.PluginManager:60 of
+#: flask_pluginkit.pluginkit.PluginManager:60 of
 msgid ""
 "additional configuration can be used in the template via "
 ":meth:`emit_config`."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:63 of
+#: flask_pluginkit.pluginkit.PluginManager:63 of
 msgid "Add a vep handler"
 msgstr ""
 
-#: flask_pluginkit.PluginManager:66 of
+#: flask_pluginkit.pluginkit.PluginManager:66 of
 msgid "Add filter handler, error handler, template context processor"
 msgstr ""
 
-#: flask_pluginkit.PluginManager:69 of
+#: flask_pluginkit.pluginkit.PluginManager:69 of
 msgid "Add try_compatible, if True, it will try to load old version"
 msgstr ""
 
-#: flask_pluginkit.PluginManager:72 of
+#: flask_pluginkit.pluginkit.PluginManager:72 of
 msgid "Add hep named before_first_request."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:75 of
+#: flask_pluginkit.pluginkit.PluginManager:75 of
 msgid ""
 "The param ``stpl`` allows to be set to `asc` or `desc`, respectively, "
 "ascending, descending, which will also open the template sorting. So, the"
 " param ``stpl_reverse`` will be deprecated."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:80 of
+#: flask_pluginkit.pluginkit.PluginManager:80 of
 msgid "Add ``cvep`` feature for beta."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:83 of
+#: flask_pluginkit.pluginkit.PluginManager:83 of
 msgid ""
 "Ready to remove ``stpl_reverse`` and ``try_compatible`` in the next minor"
 " version, if it is still used, a warning will be issued."
 msgstr ""
 
-#: flask_pluginkit.PluginManager:88 of
+#: flask_pluginkit.pluginkit.PluginManager:88 of
 msgid "Add ``p3`` feature for beta."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.__init__:1 of
+#: flask_pluginkit.pluginkit.PluginManager:91 of
+msgid "Remove `before_first_request` hep"
+msgstr ""
+
+#: flask_pluginkit.pluginkit.PluginManager:94 of
+msgid "Remove `stpl_reverse` and `try_compatible` param."
+msgstr ""
+
+#: flask_pluginkit.pluginkit.PluginManager.__init__:1 of
 msgid ""
 "Receive initialization parameters and pass options to :meth:`init_app` "
 "method."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._tep_handler:1 of
+#: flask_pluginkit.pluginkit.PluginManager._tep_handler:1 of
 msgid "Template extension point handler."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._tep_handler:3 of
+#: flask_pluginkit.pluginkit.PluginManager._tep_handler:3 of
 msgid "if tep is valid, will update it."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._tep_handler:5 of
+#: flask_pluginkit.pluginkit.PluginManager._tep_handler:5 of
 msgid ""
 "look like {tep_name: your_html_file_or_code}  1. This must be dict, where"
 " key means that tep is the extension point identifier, and each extension"
@@ -183,11 +194,11 @@ msgid ""
 "additional data."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._tep_handler:5 of
+#: flask_pluginkit.pluginkit.PluginManager._tep_handler:5 of
 msgid "look like {tep_name: your_html_file_or_code}"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._tep_handler:7 of
+#: flask_pluginkit.pluginkit.PluginManager._tep_handler:7 of
 msgid ""
 "1. This must be dict, where key means that tep is the extension point "
 "identifier, and each extension point can contain only one template type, "
@@ -195,7 +206,7 @@ msgid ""
 "exceptions."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._tep_handler:13 of
+#: flask_pluginkit.pluginkit.PluginManager._tep_handler:13 of
 msgid ""
 "2. HTML template type suffix for `html` or `htm` as template file (the "
 "other as pure HTML code), to be real, will adopt a `render_template` way "
@@ -203,164 +214,156 @@ msgid ""
 "introduced to additional data."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._bep_handler
-#: flask_pluginkit.PluginManager._context_processor_handler
-#: flask_pluginkit.PluginManager._cvep_handler
-#: flask_pluginkit.PluginManager._error_handler
-#: flask_pluginkit.PluginManager._filter_handler
-#: flask_pluginkit.PluginManager._hep_handler
-#: flask_pluginkit.PluginManager._p3_handler
-#: flask_pluginkit.PluginManager._tep_handler
-#: flask_pluginkit.PluginManager._vep_handler
+#: flask_pluginkit.pluginkit.PluginManager._bep_handler
+#: flask_pluginkit.pluginkit.PluginManager._context_processor_handler
+#: flask_pluginkit.pluginkit.PluginManager._cvep_handler
+#: flask_pluginkit.pluginkit.PluginManager._error_handler
+#: flask_pluginkit.pluginkit.PluginManager._filter_handler
+#: flask_pluginkit.pluginkit.PluginManager._hep_handler
+#: flask_pluginkit.pluginkit.PluginManager._p3_handler
+#: flask_pluginkit.pluginkit.PluginManager._tep_handler
+#: flask_pluginkit.pluginkit.PluginManager._vep_handler
 #: flask_pluginkit.utils.DcpManager.push of
 msgid "Raises"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._tep_handler:19 of
+#: flask_pluginkit.pluginkit.PluginManager._tep_handler:19 of
 msgid "if no template file is found."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._tep_handler:21 of
+#: flask_pluginkit.pluginkit.PluginManager._tep_handler:21 of
 msgid "if tep rule or content is invalid."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._hep_handler:1 of
+#: flask_pluginkit.pluginkit.PluginManager._hep_handler:1 of
 msgid "Hook extension point handler."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._hep_handler:3 of
+#: flask_pluginkit.pluginkit.PluginManager._hep_handler:3 of
 msgid ""
 "look like {hook: func}, the supporting hooks:  1. before_request, Before "
 "request (intercept requests are allowed)  2. after_request, After request"
 " (no exception before return)  3. teardown_request, After request (before"
-" return, with or without exception)  4. before_first_request, Before "
-"first request (Registers a function to be run before the first request to"
-" this instance of the application.)"
+" return, with or without exception)"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._hep_handler:3 of
+#: flask_pluginkit.pluginkit.PluginManager._hep_handler:3 of
 msgid "look like {hook: func}, the supporting hooks:"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._hep_handler:5 of
+#: flask_pluginkit.pluginkit.PluginManager._hep_handler:5 of
 msgid "1. before_request, Before request (intercept requests are allowed)"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._hep_handler:8 of
+#: flask_pluginkit.pluginkit.PluginManager._hep_handler:8 of
 msgid "2. after_request, After request (no exception before return)"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._hep_handler:11 of
+#: flask_pluginkit.pluginkit.PluginManager._hep_handler:11 of
 msgid ""
 "3. teardown_request, After request (before return, with or without "
 "exception)"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._hep_handler:14 of
-msgid ""
-"4. before_first_request, Before first request (Registers a function to be"
-" run before the first request to this instance of the application.)"
-msgstr ""
-
-#: flask_pluginkit.PluginManager._hep_handler:18 of
+#: flask_pluginkit.pluginkit.PluginManager._hep_handler:14 of
 msgid "if hep rule or content is invalid."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._bep_handler:1 of
+#: flask_pluginkit.pluginkit.PluginManager._bep_handler:1 of
 msgid "Blueprint extension point handler."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._bep_handler:3 of
+#: flask_pluginkit.pluginkit.PluginManager._bep_handler:3 of
 msgid "look like {blueprint=, prefix=, parent=}"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._bep_handler:5 of
+#: flask_pluginkit.pluginkit.PluginManager._bep_handler:5 of
 msgid "if bep rule or content is invalid."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._vep_handler:1 of
+#: flask_pluginkit.pluginkit.PluginManager._vep_handler:1 of
 msgid "Viewfunc extension point handler."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._vep_handler:3 of
+#: flask_pluginkit.pluginkit.PluginManager._vep_handler:3 of
 msgid "look like [{rule=, view_func=, _blurprint=, opts}, ]"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._vep_handler:5 of
+#: flask_pluginkit.pluginkit.PluginManager._vep_handler:5 of
 msgid "if vep rule or content is invalid."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._vep_handler:9 of
+#: flask_pluginkit.pluginkit.PluginManager._vep_handler:9 of
 msgid "Allow adding vep on blueprint"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._cvep_handler:1 of
+#: flask_pluginkit.pluginkit.PluginManager._cvep_handler:1 of
 msgid "Class-based views extension point handler."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._cvep_handler:3 of
+#: flask_pluginkit.pluginkit.PluginManager._cvep_handler:3 of
 msgid "look like [{view_class=, other options}, etc.]"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._cvep_handler:5 of
+#: flask_pluginkit.pluginkit.PluginManager._cvep_handler:5 of
 msgid "if cvep rule or content is invalid."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._filter_handler:1 of
+#: flask_pluginkit.pluginkit.PluginManager._filter_handler:1 of
 msgid "Template filter handler."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._filter_handler:3 of
+#: flask_pluginkit.pluginkit.PluginManager._filter_handler:3 of
 msgid "e.g. {filter_name=func,} or [func, (name,func)]"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._filter_handler:5 of
+#: flask_pluginkit.pluginkit.PluginManager._filter_handler:5 of
 msgid "if filter rule or content is invalid."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._filter_handler:9 of
+#: flask_pluginkit.pluginkit.PluginManager._filter_handler:9 of
 msgid "If filter_rule is list or tuple, allow nested tuple to set name"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._error_handler:1 of
+#: flask_pluginkit.pluginkit.PluginManager._error_handler:1 of
 msgid "Error code handler."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._error_handler:3 of
+#: flask_pluginkit.pluginkit.PluginManager._error_handler:3 of
 msgid ""
 "eg: {err_code=func} or [{error=exception_class, handler=func}, "
 "{error=err_code, handler=func}]"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._error_handler:6 of
+#: flask_pluginkit.pluginkit.PluginManager._error_handler:6 of
 msgid "if error handler rule or content is invalid."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._error_handler:10 of
+#: flask_pluginkit.pluginkit.PluginManager._error_handler:10 of
 msgid "Allow registration of class-based exception handlers"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._context_processor_handler:1 of
+#: flask_pluginkit.pluginkit.PluginManager._context_processor_handler:1 of
 msgid "Template context processor(tcp) handler."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._context_processor_handler:3 of
+#: flask_pluginkit.pluginkit.PluginManager._context_processor_handler:3 of
 msgid "look like {var_name=var, func_name=func,}"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._context_processor_handler:5 of
+#: flask_pluginkit.pluginkit.PluginManager._context_processor_handler:5 of
 msgid "if tcp rule or content is invalid."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._p3_handler:1 of
+#: flask_pluginkit.pluginkit.PluginManager._p3_handler:1 of
 msgid "Plugin preprocessor handler."
 msgstr ""
 
-#: flask_pluginkit.PluginManager._p3_handler:3 of
+#: flask_pluginkit.pluginkit.PluginManager._p3_handler:3 of
 msgid "look like {plugin_name:{pet:func}}"
 msgstr ""
 
-#: flask_pluginkit.PluginManager._p3_handler:5 of
+#: flask_pluginkit.pluginkit.PluginManager._p3_handler:5 of
 msgid "if the rule or content is invalid."
 msgstr ""
 
@@ -368,76 +371,72 @@ msgstr ""
 msgid "the instance of :class:`~flask_pluginkit.utils.DcpManager`"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.disable_plugin:1 of
+#: flask_pluginkit.pluginkit.PluginManager.disable_plugin:1 of
 msgid ""
 "Disable a plugin (that is, create a DISABLED empty file) and restart the "
 "application to take effect."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:1 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_assets:1 of
 msgid ""
 "Get the static file in template context. This global function, which can "
 "be used directly in the template, is used to quickly reference the static"
 " resources of the plugin."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:5 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_assets:5 of
 msgid ""
 "In addition, static resources can still pass through the blueprint, but "
 "`emit_assets` can be used if there is no blueprint."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:8 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_assets:8 of
 msgid "Of course, you can also use :func:`flask.url_for` instead."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:10 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_assets:10 of
 msgid ""
 "If filename ends with `.css`, then this function will return the `link` "
 "code, like this::"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:15 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_assets:15 of
 msgid ""
 "If filename ends with `.js`, then this function will return the `script` "
 "code, like this::"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:20 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_assets:20 of
 msgid "Other types of files, only return file url path segment, like this::"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:25 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_assets:25 of
 msgid ""
 "However, the ``_raw`` parameter has been added in v3.4.0, and if it is "
 "True, only path is generated."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:28 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_assets:28 of
 msgid "The following is a mini example::"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:48 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_assets:48 of
 msgid "name of the plugin, which is `__plugin_name__`"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:50 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_assets:50 of
 msgid "filename in the static directory of the plugin package"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:52 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_assets:52 of
 msgid "if True, not to parse automatically, only generate uri. Default False."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:55 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_assets:55 of
 msgid "_external parameter passed to url_for"
 msgstr ""
 
-#: flask_pluginkit.JsonResponse.force_type flask_pluginkit.LocalStorage.get
-#: flask_pluginkit.LocalStorage.list flask_pluginkit.LocalStorage.set
-#: flask_pluginkit.PluginInstaller.addPlugin
-#: flask_pluginkit.PluginManager.emit_assets
-#: flask_pluginkit.PluginManager.emit_tep
+#: flask_pluginkit.LocalStorage.list
 #: flask_pluginkit.PluginManager.get_enabled_beps
 #: flask_pluginkit.PluginManager.get_enabled_cveps
 #: flask_pluginkit.PluginManager.get_enabled_errhandlers
@@ -446,79 +445,85 @@ msgstr ""
 #: flask_pluginkit.PluginManager.get_enabled_tcps
 #: flask_pluginkit.PluginManager.get_enabled_teps
 #: flask_pluginkit.PluginManager.get_enabled_veps
-#: flask_pluginkit.utils.DcpManager.emit of
+#: flask_pluginkit._installer.PluginInstaller.addPlugin
+#: flask_pluginkit.pluginkit.PluginManager.emit_assets
+#: flask_pluginkit.pluginkit.PluginManager.emit_tep
+#: flask_pluginkit.utils.DcpManager.emit
+#: flask_pluginkit.utils.JsonResponse.force_type
+#: flask_pluginkit.utils.LocalStorage.get
+#: flask_pluginkit.utils.LocalStorage.set of
 msgid "Returns"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:57
-#: flask_pluginkit.PluginManager.emit_tep:28 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_assets:57
+#: flask_pluginkit.pluginkit.PluginManager.emit_tep:28 of
 msgid "html code with :class:`~flask.Markup`."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:59 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_assets:59 of
 msgid "Add _raw, only generate uri without parse"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_assets:62 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_assets:62 of
 msgid "Add _external, pass to :func:`flask.url_for`"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_config:1 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_config:1 of
 msgid "Get configuration information in the template context."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_tep:1 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_tep:1 of
 msgid ""
 "Emit a tep and get the tep data(html code) with "
 ":func:`flask.render_template` or :func:`flask.render_template_string`"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_tep:4 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_tep:4 of
 msgid ""
 "Please use this function in the template file or code. The emit_tep needs"
 " to be defined by yourself. It can render HTML code and files for a tep, "
 "or even pass in extra data at render time."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_tep:9 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_tep:9 of
 msgid ""
 "Suppose you have a tep named `hello`, only need to enable custom "
 "extension points in the template context, eg::"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_tep:14 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_tep:14 of
 msgid ""
 "Template extension point name, it is the only one. A tep parsing result "
 "is list, within which can be HTML code and files, or one of them."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_tep:18 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_tep:18 of
 msgid ""
 "Render type, default is all.  all - render HTML file and code;  fil - "
 "render HTML file only;  cod - render HTML code only."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_tep:18 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_tep:18 of
 msgid "Render type, default is all."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_tep:20 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_tep:20 of
 msgid "all - render HTML file and code;"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_tep:22 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_tep:22 of
 msgid "fil - render HTML file only;"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_tep:24 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_tep:24 of
 msgid "cod - render HTML code only."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.emit_tep:26 of
+#: flask_pluginkit.pluginkit.PluginManager.emit_tep:26 of
 msgid "Keyword params, additional data passed to the template"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.enable_plugin:1 of
+#: flask_pluginkit.pluginkit.PluginManager.enable_plugin:1 of
 msgid ""
 "Enable a plugin (that is, create a ENABLED empty file) and restart the "
 "application to take effect."
@@ -600,39 +605,39 @@ msgstr ""
 msgid "List of nested tuples, like [(path, view_func),]"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_plugin_info:1 of
+#: flask_pluginkit.pluginkit.PluginManager.get_plugin_info:1 of
 msgid "Get plugin information from all plugins"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.logger:1 of
+#: ../../docstring flask_pluginkit.PluginManager.logger:1 of
 msgid "logging Logger instance"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.plugin_packages:1 of
+#: ../../docstring flask_pluginkit.PluginManager.plugin_packages:1 of
 msgid "Third-party plugin package"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.pluginkit_config:1 of
+#: ../../docstring flask_pluginkit.PluginManager.pluginkit_config:1 of
 msgid "Configuration Dictionary of Flask-PLuginKit in Project"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.static_endpoint:1 of
+#: ../../docstring flask_pluginkit.PluginManager.static_endpoint:1 of
 msgid "Static endpoint"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.static_url_path:1 of
+#: ../../docstring flask_pluginkit.PluginManager.static_url_path:1 of
 msgid "Static url prefix"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.stpl:1 of
+#: ../../docstring flask_pluginkit.PluginManager.stpl:1 of
 msgid "Template sorting"
 msgstr ""
 
-#: flask_pluginkit.push_dcp:1 of
+#: flask_pluginkit.pluginkit.push_dcp:1 of
 msgid "Push a callable for with :meth:`~flask_pluginkit.utils.DcpManager.push`."
 msgstr ""
 
-#: flask_pluginkit.push_dcp:3 of
+#: flask_pluginkit.pluginkit.push_dcp:3 of
 msgid "Example usage::"
 msgstr ""
 
@@ -644,92 +649,68 @@ msgstr ""
 msgid "Inherited Application Objects"
 msgstr ""
 
-#: flask_pluginkit.Flask.before_request_second:1 of
-msgid "Registers a function to run before each request. Priority Second."
-msgstr ""
-
-#: flask_pluginkit.Flask.before_request_top:1 of
-msgid "Registers a function to run before each request. Priority First."
-msgstr ""
-
-#: flask_pluginkit.Flask.before_request_top:3 of
-msgid ""
-"The usage is equivalent to the :meth:`flask.Flask.before_request` "
-"decorator, and before_request registers the function at the end of the "
-"before_request_funcs, while this decorator registers the function at the "
-"top of the before_request_funcs (index 0)."
-msgstr ""
-
-#: flask_pluginkit.Flask.before_request_top:8 of
-msgid ""
-"Because flask-pluginkit has registered all cep into the app at load time,"
-" if your web application uses before_request and plugins depend on one of"
-" them (like g), the plugin will not run properly, so your web application"
-" should use this decorator at this time."
-msgstr ""
-
-#: flask_pluginkit.JsonResponse:1 of
+#: flask_pluginkit.utils.JsonResponse:1 of
 msgid ""
 "In response to a return type that cannot be processed. If it is a dict, "
 "return json."
 msgstr ""
 
-#: flask_pluginkit.JsonResponse.force_type:1 of
+#: flask_pluginkit.utils.JsonResponse.force_type:1 of
 msgid ""
 "Enforce that the WSGI response is a response object of the current type."
-"  Werkzeug will use the :class:`BaseResponse` internally in many "
-"situations like the exceptions.  If you call :meth:`get_response` on an "
-"exception you will get back a regular :class:`BaseResponse` object, even "
-"if you are using a custom subclass."
+"  Werkzeug will use the :class:`Response` internally in many situations "
+"like the exceptions.  If you call :meth:`get_response` on an exception "
+"you will get back a regular :class:`Response` object, even if you are "
+"using a custom subclass."
 msgstr ""
 
-#: flask_pluginkit.JsonResponse.force_type:7 of
+#: flask_pluginkit.utils.JsonResponse.force_type:7 of
 msgid ""
 "This method can enforce a given response type, and it will also convert "
 "arbitrary WSGI callables into response objects if an environ is "
 "provided::"
 msgstr ""
 
-#: flask_pluginkit.JsonResponse.force_type:18 of
+#: flask_pluginkit.utils.JsonResponse.force_type:18 of
 msgid ""
 "This is especially useful if you want to post-process responses in the "
 "main dispatcher and use functionality provided by your subclass."
 msgstr ""
 
-#: flask_pluginkit.JsonResponse.force_type:21 of
+#: flask_pluginkit.utils.JsonResponse.force_type:21 of
 msgid "Keep in mind that this will modify response objects in place if possible!"
 msgstr ""
 
-#: flask_pluginkit.JsonResponse.force_type:24 of
+#: flask_pluginkit.utils.JsonResponse.force_type:24 of
 msgid "a response object or wsgi application."
 msgstr ""
 
-#: flask_pluginkit.JsonResponse.force_type:25 of
+#: flask_pluginkit.utils.JsonResponse.force_type:25 of
 msgid "a WSGI environment object."
 msgstr ""
 
-#: flask_pluginkit.JsonResponse.force_type:26 of
+#: flask_pluginkit.utils.JsonResponse.force_type:26 of
 msgid "a response object."
 msgstr ""
 
-#: ../../api.rst:52
+#: ../../api.rst:49
 msgid "Storage Objects"
 msgstr ""
 
-#: flask_pluginkit.LocalStorage:1 of
+#: flask_pluginkit.utils.LocalStorage:1 of
 msgid "Local file system storage based on the shelve module."
 msgstr ""
 
-#: ../../api.rst:59 ../../api.rst:66
+#: ../../api.rst:56 ../../api.rst:63 ../../docstring
 #: flask_pluginkit.utils.BaseStorage.DEFAULT_INDEX:1 of
 msgid "The default index, as the only key, you can override it."
 msgstr ""
 
-#: flask_pluginkit.LocalStorage.get:1 of
+#: flask_pluginkit.utils.LocalStorage.get:1 of
 msgid "Get persistent data from shelve."
 msgstr ""
 
-#: flask_pluginkit.LocalStorage.get:3 of
+#: flask_pluginkit.utils.LocalStorage.get:3 of
 msgid "data"
 msgstr ""
 
@@ -741,37 +722,37 @@ msgstr ""
 msgid "dict"
 msgstr ""
 
-#: flask_pluginkit.LocalStorage.set:1 of
+#: flask_pluginkit.utils.LocalStorage.set:1 of
 msgid "Set persistent data with shelve."
 msgstr ""
 
-#: flask_pluginkit.LocalStorage.set:3 of
+#: flask_pluginkit.utils.LocalStorage.set:3 of
 msgid "str: Index key"
 msgstr ""
 
-#: flask_pluginkit.LocalStorage.set:5 of
+#: flask_pluginkit.utils.LocalStorage.set:5 of
 msgid "All supported data types in python"
 msgstr ""
 
-#: flask_pluginkit.LocalStorage.set of
+#: flask_pluginkit.utils.LocalStorage.set of
 msgid "raises"
 msgstr ""
 
-#: flask_pluginkit.LocalStorage.setmany:1
-#: flask_pluginkit.RedisStorage.setmany:1 of
+#: flask_pluginkit.utils.LocalStorage.setmany:1
+#: flask_pluginkit.utils.RedisStorage.setmany:1 of
 msgid "Set more data"
 msgstr ""
 
-#: flask_pluginkit.LocalStorage.setmany:3
-#: flask_pluginkit.RedisStorage.setmany:3 of
+#: flask_pluginkit.utils.LocalStorage.setmany:3
+#: flask_pluginkit.utils.RedisStorage.setmany:3 of
 msgid "the more k=v"
 msgstr ""
 
-#: flask_pluginkit.RedisStorage:1 of
+#: flask_pluginkit.utils.RedisStorage:1 of
 msgid "Use redis stand-alone storage"
 msgstr ""
 
-#: flask_pluginkit.RedisStorage.get:1 of
+#: flask_pluginkit.utils.RedisStorage.get:1 of
 msgid "get key original data from redis"
 msgstr ""
 
@@ -779,15 +760,15 @@ msgstr ""
 msgid "list redis hash data"
 msgstr ""
 
-#: flask_pluginkit.RedisStorage.remove:1 of
+#: flask_pluginkit.utils.RedisStorage.remove:1 of
 msgid "delete key from redis"
 msgstr ""
 
-#: flask_pluginkit.RedisStorage.set:1 of
+#: flask_pluginkit.utils.RedisStorage.set:1 of
 msgid "set key data"
 msgstr ""
 
-#: ../../api.rst:69
+#: ../../api.rst:66
 msgid "Useful Functions and Classes"
 msgstr ""
 
@@ -861,74 +842,74 @@ msgstr ""
 msgid "Remove a callback again."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller:1 of
+#: flask_pluginkit._installer.PluginInstaller:1 of
 msgid "plugin installer for installing a compressed local/remote plugin"
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:1 of
+#: flask_pluginkit._installer.PluginInstaller.addPlugin:1 of
 msgid "Add plugin, support only for `.tar.gz` or `.zip` compression packages."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:4 of
+#: flask_pluginkit._installer.PluginInstaller.addPlugin:4 of
 msgid ""
 "supported method:  ``remote``, download and unpack a remote plugin "
 "package;  ``local``, unzip a local plugin package.  ``pip``, install "
 "package with pip command."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:4 of
+#: flask_pluginkit._installer.PluginInstaller.addPlugin:4 of
 msgid "supported method:"
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:6 of
+#: flask_pluginkit._installer.PluginInstaller.addPlugin:6 of
 msgid "``remote``, download and unpack a remote plugin package;"
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:8 of
+#: flask_pluginkit._installer.PluginInstaller.addPlugin:8 of
 msgid "``local``, unzip a local plugin package."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:10 of
+#: flask_pluginkit._installer.PluginInstaller.addPlugin:10 of
 msgid "``pip``, install package with pip command."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:12 of
+#: flask_pluginkit._installer.PluginInstaller.addPlugin:12 of
 msgid "for method is remote, plugin can be downloaded from the address."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:15 of
+#: flask_pluginkit._installer.PluginInstaller.addPlugin:15 of
 msgid "for method is local, plugin local absolute path"
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:17 of
+#: flask_pluginkit._installer.PluginInstaller.addPlugin:17 of
 msgid ""
 "for method is local, remove the plugin source code package, default is "
 "False."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:20 of
+#: flask_pluginkit._installer.PluginInstaller.addPlugin:20 of
 msgid "for method is pip, pypi's package or VCS url."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:22 of
+#: flask_pluginkit._installer.PluginInstaller.addPlugin:22 of
 msgid ""
 "the result of adding the plugin, like {msg:str, code:int}, code=0 is "
 "successful."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.addPlugin:25 of
+#: flask_pluginkit._installer.PluginInstaller.addPlugin:25 of
 msgid "Add pip method, with package_or_url param."
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.removePlugin:1 of
+#: flask_pluginkit._installer.PluginInstaller.removePlugin:1 of
 msgid "Remove a local plugin"
 msgstr ""
 
-#: flask_pluginkit.PluginInstaller.removePlugin:3 of
+#: flask_pluginkit._installer.PluginInstaller.removePlugin:3 of
 msgid "The plugin package name, not __plugin_name."
 msgstr ""
 
-#: ../../api.rst:89
+#: ../../api.rst:86
 msgid "Custom Exceptions"
 msgstr ""
 
@@ -962,11 +943,11 @@ msgstr ""
 #: flask_pluginkit.exceptions.TemplateNotFound:1
 #: flask_pluginkit.exceptions.VersionError:1
 #: flask_pluginkit.exceptions.ZipError:1 of
-msgid "Bases: :class:`flask_pluginkit.exceptions.PluginError`"
+msgid "Bases: :py:class:`~flask_pluginkit.exceptions.PluginError`"
 msgstr ""
 
 #: flask_pluginkit.exceptions.PluginError:1 of
-msgid "Bases: :class:`Exception`"
+msgid "Bases: :py:class:`Exception`"
 msgstr ""
 
 #~ msgid "Static endpoint and url"
@@ -1191,5 +1172,67 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Return the mongo connection"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "look like {hook: func}, the supporting"
+#~ " hooks:  1. before_request, Before request"
+#~ " (intercept requests are allowed)  2. "
+#~ "after_request, After request (no exception "
+#~ "before return)  3. teardown_request, After "
+#~ "request (before return, with or without"
+#~ " exception)  4. before_first_request, Before "
+#~ "first request (Registers a function to"
+#~ " be run before the first request "
+#~ "to this instance of the application.)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "4. before_first_request, Before first request"
+#~ " (Registers a function to be run "
+#~ "before the first request to this "
+#~ "instance of the application.)"
+#~ msgstr ""
+
+#~ msgid "Registers a function to run before each request. Priority Second."
+#~ msgstr ""
+
+#~ msgid "Registers a function to run before each request. Priority First."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The usage is equivalent to the "
+#~ ":meth:`flask.Flask.before_request` decorator, and "
+#~ "before_request registers the function at "
+#~ "the end of the before_request_funcs, "
+#~ "while this decorator registers the "
+#~ "function at the top of the "
+#~ "before_request_funcs (index 0)."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Because flask-pluginkit has registered "
+#~ "all cep into the app at load "
+#~ "time, if your web application uses "
+#~ "before_request and plugins depend on one"
+#~ " of them (like g), the plugin "
+#~ "will not run properly, so your web"
+#~ " application should use this decorator "
+#~ "at this time."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enforce that the WSGI response is "
+#~ "a response object of the current "
+#~ "type.  Werkzeug will use the "
+#~ ":class:`BaseResponse` internally in many "
+#~ "situations like the exceptions.  If you"
+#~ " call :meth:`get_response` on an exception"
+#~ " you will get back a regular "
+#~ ":class:`BaseResponse` object, even if you "
+#~ "are using a custom subclass."
+#~ msgstr ""
+
+#~ msgid "Bases: :class:`flask_pluginkit.exceptions.PluginError`"
 #~ msgstr ""
 

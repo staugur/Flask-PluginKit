@@ -32,9 +32,6 @@ package (such as pypi), which is the `official plugin organization`_.
 .. image:: https://img.shields.io/pypi/v/Flask-PluginKit.svg?style=popout
     :target: https://pypi.org/project/Flask-PluginKit/
 
-.. note::
-
-    V3.3.1 or later is compatible with some data in v2.x, refer :ref:`faq-cov`
 
 User Guide
 ----------

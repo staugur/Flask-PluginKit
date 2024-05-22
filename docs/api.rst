@@ -42,9 +42,6 @@ PluginManager Object
 Inherited Application Objects
 -----------------------------
 
-.. autoclass:: Flask
-    :members:
-
 .. autoclass:: JsonResponse
     :members:
 

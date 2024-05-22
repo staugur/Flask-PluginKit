@@ -9,16 +9,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-31 22:35+0800\n"
+"POT-Creation-Date: 2024-05-22 21:39+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.8.0\n"
+"Generated-By: Babel 2.15.0\n"
 
-#: ../../index.rst:71
+#: ../../index.rst:68
 msgid "Pocoo Styleguide"
 msgstr ""
 
@@ -70,32 +70,28 @@ msgstr ""
 "organization`_"
 
 #: ../../index.rst:37
-msgid "V3.3.1 or later is compatible with some data in v2.x, refer :ref:`faq-cov`"
-msgstr "v3.3.1及后续版本可以自动兼容v2.x中部分数据，参考 :ref:`faq-cov`"
-
-#: ../../index.rst:40
 msgid "User Guide"
 msgstr "用户指南"
 
-#: ../../index.rst:42
+#: ../../index.rst:39
 msgid "Describe in detail how to develop a plugin using Flask-PluginKit."
 msgstr "详细描述了如何使用Flask-PluginKit开发一个插件。"
 
-#: ../../index.rst:54
+#: ../../index.rst:51
 msgid "API Reference"
 msgstr "API参考"
 
-#: ../../index.rst:56
+#: ../../index.rst:53
 msgid ""
 "If you are looking for information on a specific function, class or "
 "method, this part of the documentation is for you."
 msgstr "如果你正在寻找特定功能，这部分文档也许有帮助。"
 
-#: ../../index.rst:66
+#: ../../index.rst:63
 msgid "Additional Notes"
 msgstr "附加说明"
 
-#: ../../index.rst:68
+#: ../../index.rst:65
 msgid ""
 "Some additional instructions, styleguide, changelog, contributing, will "
 "be supplemented by others."
@@ -117,4 +113,10 @@ msgstr "一些额外的说明，样式指南、更新日志、如何贡献等。
 #~ " return the registered method with "
 #~ "``register``."
 #~ msgstr "当前版本v3.x，完全不兼容旧版本！但是插件可以很容易兼容新版本，只需要将注册的方法用 ``register`` 重新返回即可。"
+
+#~ msgid ""
+#~ "V3.3.1 or later is compatible with "
+#~ "some data in v2.x, refer :ref:`faq-"
+#~ "cov`"
+#~ msgstr "v3.3.1及后续版本可以自动兼容v2.x中部分数据，参考 :ref:`faq-cov`"
 

@@ -6,8 +6,7 @@ Installation
 Python Version
 --------------
 
-We recommend using the latest version of Python 3.
-Flask-PluginKit supports Python 3.6 and newer, Python 2.7, and PyPy.
+Flask-PluginKit only supports Python 3.8+.
 
 Dependencies
 ------------
@@ -16,7 +15,7 @@ These distributions will be installed automatically
 when installing Flask-PluginKit.
 
 * `Flask`_ is a Lightweight Web Application Framework Written in Python,
-  theoretically support 0.9 and later versions.
+  theoretically support 3.0.0+.
 
 * `semver`_ is a Semantic Version Control Specification.
 
@@ -33,9 +32,6 @@ Of course, this requires you to understand it yourself.
 
 Python 3 comes bundled with the :mod:`venv` module to
 create virtual environments.
-
-If you are using Python 2, the venv module is not available.
-Instead, install `virtualenv`_.
 
 Install Flask-PluginKit
 -----------------------

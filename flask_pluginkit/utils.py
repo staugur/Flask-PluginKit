@@ -11,7 +11,7 @@
 
 import json
 import shelve
-from semver import Version
+from semver.version import Version
 from functools import cmp_to_key
 from os.path import join, abspath
 from tempfile import gettempdir

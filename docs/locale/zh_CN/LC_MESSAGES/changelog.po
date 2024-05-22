@@ -9,352 +9,380 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-07 21:20+0800\n"
+"POT-Creation-Date: 2024-05-22 21:39+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.8.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 #: ../../changelog.rst:2
 msgid "Changelog"
 msgstr "更新日志"
 
 #: ../../../CHANGELOG.rst:4
-msgid "v3.7.1"
+msgid "v3.8.0"
 msgstr ""
 
 #: ../../../CHANGELOG.rst:6
-msgid "Released in 2021-09-07"
+msgid "Released in 2024-05-22"
 msgstr ""
 
 #: ../../../CHANGELOG.rst:8
-msgid "Restore translations.ini"
+msgid "Only support python 3.8+ and flask 3.0+"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:11
-msgid "v3.7.0"
+#: ../../../CHANGELOG.rst:12
+msgid "v3.7.2"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:13
-msgid "Released in 2021-09-02"
-msgstr ""
-
-#: ../../../CHANGELOG.rst:15
-msgid "feat: add :ref:`p3`, is beta"
+#: ../../../CHANGELOG.rst:14
+msgid "Released in 2023-05-17"
 msgstr ""
 
 #: ../../../CHANGELOG.rst:16
-msgid "chore: the stpl_reverse falls into stpl"
+msgid "Fixed semver version"
 msgstr ""
 
 #: ../../../CHANGELOG.rst:17
+msgid "Drop hep `before_first_request`"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:20
+msgid "v3.7.1"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:22
+msgid "Released in 2021-09-07"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:24
+msgid "Restore translations.ini"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:27
+msgid "v3.7.0"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:29
+msgid "Released in 2021-09-02"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:31
+msgid "feat: add :ref:`p3`, is beta"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:32
+msgid "chore: the stpl_reverse falls into stpl"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:33
 msgid ""
 "deprecated: will remove the try_compatible and stpl_reverse in "
 ":class:`~flask_pluginkit.PluginManager`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:18
+#: ../../../CHANGELOG.rst:34
 msgid "misc: remove web static files(change to CDN)"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:21
+#: ../../../CHANGELOG.rst:37
 msgid "v3.6.2"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:23 ../../../CHANGELOG.rst:31
+#: ../../../CHANGELOG.rst:39 ../../../CHANGELOG.rst:47
 msgid "Released in 2021-06-22"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:25
+#: ../../../CHANGELOG.rst:41
 msgid ""
 "chore: compatible with flask 2.0 nested blueprints, but only supports "
 "blueprints of nested plugins"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:26
+#: ../../../CHANGELOG.rst:42
 msgid "fix ci(deploy pypi) & update docs"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:29
+#: ../../../CHANGELOG.rst:45
 msgid "v3.6.1"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:33
+#: ../../../CHANGELOG.rst:49
 msgid "ci tests from travis to github action"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:34
+#: ../../../CHANGELOG.rst:50
 msgid "chore: web message api with SSE, page with CDN"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:37
+#: ../../../CHANGELOG.rst:53
 msgid "v3.6.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:39
+#: ../../../CHANGELOG.rst:55
 msgid "Released in 2020-12-31"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:41
+#: ../../../CHANGELOG.rst:57
 msgid "feat: add :ref:`vep-on-blueprint`, is beta"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:42
+#: ../../../CHANGELOG.rst:58
 msgid "feat: the :meth:`~flask_pluginkit.PluginManager.emit_assets` add _external"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:43
+#: ../../../CHANGELOG.rst:59
 msgid "fix: semver.compare and semver.parse"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:44 ../../../CHANGELOG.rst:54
+#: ../../../CHANGELOG.rst:60 ../../../CHANGELOG.rst:70
 msgid "update docs & test case, example"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:45
+#: ../../../CHANGELOG.rst:61
 msgid "deprecated: MongoStorage"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:48
+#: ../../../CHANGELOG.rst:64
 msgid "v3.5.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:50
+#: ../../../CHANGELOG.rst:66
 msgid "Released in 2020-04-08"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:52
+#: ../../../CHANGELOG.rst:68
 msgid "feat: add class-based view extension point (beta, use Flask-Classful)"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:53
+#: ../../../CHANGELOG.rst:69
 msgid "chore: web plugin manager page setInterval (called as needed)"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:57
+#: ../../../CHANGELOG.rst:73
 msgid "v3.4.1"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:59
+#: ../../../CHANGELOG.rst:75
 msgid "Released in 2020-03-25"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:61
+#: ../../../CHANGELOG.rst:77
 msgid "feat: add :meth:`~flask_pluginkit.LocalStorage.setmany`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:62
+#: ../../../CHANGELOG.rst:78
 msgid "feat: add :meth:`~flask_pluginkit.RedisStorage.setmany`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:63
+#: ../../../CHANGELOG.rst:79
 msgid "fix: update result(original) :meth:`~flask_pluginkit.RedisStorage.get`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:66
+#: ../../../CHANGELOG.rst:82
 msgid "v3.4.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:68
+#: ../../../CHANGELOG.rst:84
 msgid "Released in 2019-09-27"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:70
+#: ../../../CHANGELOG.rst:86
 msgid "feat: add before_first_request hook to hep"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:71
+#: ../../../CHANGELOG.rst:87
 msgid "feat: errhandler allow exception"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:72
+#: ../../../CHANGELOG.rst:88
 msgid "feat: emit_assets add _raw param"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:73
+#: ../../../CHANGELOG.rst:89
 msgid "feat: filter allow [f1, f2, (name, f3)]"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:74
+#: ../../../CHANGELOG.rst:90
 msgid "feat: web manager add a button, select language"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:75
+#: ../../../CHANGELOG.rst:91
 msgid "feat: stpl alow asc or desc, open the template sorting"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:76
+#: ../../../CHANGELOG.rst:92
 msgid "fix: check getPluginClass"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:77
+#: ../../../CHANGELOG.rst:93
 msgid "fix: check url prefix"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:78
+#: ../../../CHANGELOG.rst:94
 msgid "chore: update docs, example and test case"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:81
+#: ../../../CHANGELOG.rst:97
 msgid "v3.3.1"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:83
+#: ../../../CHANGELOG.rst:99
 msgid "Released in 2019-09-17"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:85
+#: ../../../CHANGELOG.rst:101
 msgid "feat: automatically compatible 2.x partial registration method"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:86
+#: ../../../CHANGELOG.rst:102
 msgid "fix: update shelve set key type"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:87
+#: ../../../CHANGELOG.rst:103
 msgid "fix: remove the number of tests `/`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:88
+#: ../../../CHANGELOG.rst:104
 msgid "test: add docs"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:89
+#: ../../../CHANGELOG.rst:105
 msgid "chore: update travis.yml"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:90
+#: ../../../CHANGELOG.rst:106
 msgid "chore: formatting code and optimizing import"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:93
+#: ../../../CHANGELOG.rst:109
 msgid "v3.3.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:95
+#: ../../../CHANGELOG.rst:111
 msgid "Released in 2019-07-31"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:97
+#: ../../../CHANGELOG.rst:113
 msgid "feat: update :class:`~flask_pluginkit.PluginInstaller`."
 msgstr ""
 
-#: ../../../CHANGELOG.rst:98
+#: ../../../CHANGELOG.rst:114
 msgid "feat: add a blueprint to manage plugins"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:99
+#: ../../../CHANGELOG.rst:115
 msgid "fix: close shelve connection"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:100 ../../../CHANGELOG.rst:116
-#: ../../../CHANGELOG.rst:128
+#: ../../../CHANGELOG.rst:116 ../../../CHANGELOG.rst:132
+#: ../../../CHANGELOG.rst:144
 msgid "test: add test case"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:101 ../../../CHANGELOG.rst:117
+#: ../../../CHANGELOG.rst:117 ../../../CHANGELOG.rst:133
 msgid "docs: update docs and translation"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:102 ../../../CHANGELOG.rst:118
-#: ../../../CHANGELOG.rst:130
+#: ../../../CHANGELOG.rst:118 ../../../CHANGELOG.rst:134
+#: ../../../CHANGELOG.rst:146
 msgid "chore: update example"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:103
+#: ../../../CHANGELOG.rst:119
 msgid "chore: update travis.yml, add deploy"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:106
+#: ../../../CHANGELOG.rst:122
 msgid "v3.2.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:108
+#: ../../../CHANGELOG.rst:124
 msgid "Released in 2019-07-25"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:111
+#: ../../../CHANGELOG.rst:126
 msgid "feat: dcp, be similar to flask-plugins event system,"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:111
+#: ../../../CHANGELOG.rst:127
 msgid ""
 "add :class:`~flask_pluginkit.utils.DcpManager` and "
 ":func:`~flask_pluginkit.push_dcp`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:113
+#: ../../../CHANGELOG.rst:129
 msgid "feat: add error handler"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:114
+#: ../../../CHANGELOG.rst:130
 msgid "feat: add template filter"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:115
+#: ../../../CHANGELOG.rst:131
 msgid "feat: add template context processor"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:119
+#: ../../../CHANGELOG.rst:135
 msgid "chore: make some of the code more elegant"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:122
+#: ../../../CHANGELOG.rst:138
 msgid "v3.1.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:124
+#: ../../../CHANGELOG.rst:140
 msgid "Released in 2019-07-22"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:126
+#: ../../../CHANGELOG.rst:142
 msgid "feat: add :class:`~flask_pluginkit.PluginInstaller`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:127
+#: ../../../CHANGELOG.rst:143
 msgid "feat: add vep :ref:`vep`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:129
+#: ../../../CHANGELOG.rst:145
 msgid "docs: update docs"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:133
+#: ../../../CHANGELOG.rst:149
 msgid "v3.0.1"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:135
+#: ../../../CHANGELOG.rst:151
 msgid "Released in 2019-07-21"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:137
+#: ../../../CHANGELOG.rst:153
 msgid "The register functin can return empty dict, not necessarily meaningless."
 msgstr ""
 
-#: ../../../CHANGELOG.rst:138
+#: ../../../CHANGELOG.rst:154
 msgid "Update docs, translation and add test."
 msgstr ""
 
-#: ../../../CHANGELOG.rst:141
+#: ../../../CHANGELOG.rst:157
 msgid "v3.0.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:143
+#: ../../../CHANGELOG.rst:159
 msgid "Released in 2019-07-20"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:145
+#: ../../../CHANGELOG.rst:161
 msgid "Refactoring everyting"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:148
+#: ../../../CHANGELOG.rst:164
 msgid "Previous Versions"
 msgstr "旧版本"
 
-#: ../../../CHANGELOG.rst:150
+#: ../../../CHANGELOG.rst:166
 msgid ""
 "Prior to 3.3.1, the new version of the refactoring was not compatible "
 "with the old version, and the update history is no longer recorded here."

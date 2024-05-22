@@ -9,14 +9,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-02 21:16+0800\n"
+"POT-Creation-Date: 2024-05-22 21:39+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.8.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 #: ../../installation.rst:4
 msgid "Installation"
@@ -27,68 +27,60 @@ msgid "Python Version"
 msgstr "Python版本"
 
 #: ../../installation.rst:9
-msgid ""
-"We recommend using the latest version of Python 3. Flask-PluginKit "
-"supports Python 3.6 and newer, Python 2.7, and PyPy."
-msgstr "推荐使用Python3+。Flask-PluginKit支持3.6及新版，2.7和pypy。"
+msgid "Flask-PluginKit only supports Python 3.8+."
+msgstr "Flask-PluginKit 仅支持 Python 3.8+"
 
-#: ../../installation.rst:13
+#: ../../installation.rst:12
 msgid "Dependencies"
 msgstr "依赖"
 
-#: ../../installation.rst:15
+#: ../../installation.rst:14
 msgid ""
 "These distributions will be installed automatically when installing "
 "Flask-PluginKit."
 msgstr "依赖的模块在安装Flask-PluginKit时会自动安装。"
 
-#: ../../installation.rst:18
+#: ../../installation.rst:17
 msgid ""
 "`Flask`_ is a Lightweight Web Application Framework Written in Python, "
-"theoretically support 0.9 and later versions."
-msgstr "`Flask`_ 是一个使用 Python 编写的轻量级 Web 应用框架，理论上支持0.9及其新版。"
+"theoretically support 3.0.0+."
+msgstr "`Flask`_ 是一个使用 Python 编写的轻量级 Web 应用框架，理论上支持 3.0.0+"
 
-#: ../../installation.rst:21
+#: ../../installation.rst:20
 msgid "`semver`_ is a Semantic Version Control Specification."
 msgstr "`semver`_ 是语义版本控制规范。"
 
-#: ../../installation.rst:27
+#: ../../installation.rst:26
 msgid "Virtual environments"
 msgstr "虚拟环境"
 
-#: ../../installation.rst:29
+#: ../../installation.rst:28
 msgid ""
 "We recommend using a virtual environment to manage the dependencies for "
 "your project, both in development and in production."
 msgstr "我们推荐您在项目中使用虚拟环境管理依赖，不论是开发还是正式。"
 
-#: ../../installation.rst:32
+#: ../../installation.rst:31
 msgid "Of course, this requires you to understand it yourself."
 msgstr "当然，这取决于您自己。"
 
-#: ../../installation.rst:34
+#: ../../installation.rst:33
 msgid ""
 "Python 3 comes bundled with the :mod:`venv` module to create virtual "
 "environments."
 msgstr "Python3使用内置 :mod:`venv` 创建虚拟环境。"
 
 #: ../../installation.rst:37
-msgid ""
-"If you are using Python 2, the venv module is not available. Instead, "
-"install `virtualenv`_."
-msgstr "如果你使用Python2，venv无效，需要安装 `virtualenv`_ 代替。"
-
-#: ../../installation.rst:41
 msgid "Install Flask-PluginKit"
 msgstr "安装Flask-PluginKit"
 
-#: ../../installation.rst:43
+#: ../../installation.rst:39
 msgid ""
 "Within the activated virtual environment or global environment, use the "
 "following command to install Flask-PluginKit:"
 msgstr "在激活的虚拟环境或全局环境中，使用以下命令安装Flask-PluginKit："
 
-#: ../../installation.rst:50
+#: ../../installation.rst:46
 msgid ""
 "Flask-PluginKit is now installed. Check out the :doc:`/quickstart` or go "
 "to the :doc:`Documentation Overview </index>`."
@@ -96,11 +88,11 @@ msgstr ""
 "Flask-PluginKit已经安装了。那么可以看看 :doc:`/quickstart` 或返回 :doc:`Documentation "
 "Overview </index>`"
 
-#: ../../installation.rst:54
+#: ../../installation.rst:50
 msgid "Install development version"
 msgstr "安装开发版本"
 
-#: ../../installation.rst:56
+#: ../../installation.rst:52
 msgid ""
 "If you want to work with the latest Flask-PluginKit code before it's "
 "released, install or update the code from the master branch:"

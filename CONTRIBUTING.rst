@@ -7,7 +7,6 @@ Feedback
 --------
 
 * The `issues <https://github.com/staugur/Flask-PluginKit/issues>`_ on GitHub.
-* The email for staugur@saintic.com
 
 Report a problem
 ----------------
