@@ -45,6 +45,10 @@ jobs:
       run: |
         coverage run -m unittest && codecov -t ${{ secrets.CODECOV_TOKEN }}
 
+    - name: Prepare publish packge
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags') && matrix.flask-version == '3.0.0' && matrix.python-version == '3.12'
+      run: pip install -U setuptools twine wheel && python setup.py sdist bdist_wheel
+
     - name: Publish package
       if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags') && matrix.flask-version == '3.0.0' && matrix.python-version == '3.12'
       uses: pypa/gh-action-pypi-publish@release/v1
