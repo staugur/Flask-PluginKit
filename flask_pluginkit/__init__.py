@@ -14,13 +14,14 @@ from .utils import (
     LocalStorage,
     RedisStorage,
     JsonResponse,
+    ExpiredLocalStorage,
 )
 from ._installer import PluginInstaller
 from ._web import blueprint
 
 __author__ = "Hiroshi.tao <me@tcw.im>"
 
-__version__ = "3.8.0"
+__version__ = "3.9.0"
 
 __all__ = [
     "PluginManager",
@@ -30,4 +31,5 @@ __all__ = [
     "PluginInstaller",
     "push_dcp",
     "blueprint",
+    "ExpiredLocalStorage",
 ]

@@ -14,6 +14,10 @@ class PluginError(Exception):
     pass
 
 
+class ParamError(Exception):
+    pass
+
+
 class VersionError(PluginError):
     pass
 

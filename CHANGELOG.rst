@@ -1,5 +1,13 @@
 .. currentmodule:: flask-pluginkit
 
+v3.9.0
+------
+
+Released in 2025-05-21
+
+- feat: add :class:`~flask_pluginkit.ExpiredLocalStorage`
+- feat: plugin_info return `__proxy__` of plugin object
+
 v3.8.0
 ------
 

@@ -62,6 +62,13 @@ Storage Objects
 
         The default index, as the only key, you can override it.
 
+.. autoclass:: ExpiredLocalStorage
+    :members:
+
+    .. attribute:: index
+
+        The default index, as the only key, you can override it.
+
 Useful Functions and Classes
 ----------------------------
 
