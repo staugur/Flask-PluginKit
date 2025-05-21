@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-    flask_pluginkit.utils
-    ~~~~~~~~~~~~~~~~~~~~~
+flask_pluginkit.utils
+~~~~~~~~~~~~~~~~~~~~~
 
-    Some tool classes and functions.
+Some tool classes and functions.
 
-    :copyright: (c) 2019 by staugur.
-    :license: BSD 3-Clause, see LICENSE for more details.
+:copyright: (c) 2019 by staugur.
+:license: BSD 3-Clause, see LICENSE for more details.
 """
 
 import json
@@ -17,9 +17,10 @@ from os.path import join, abspath
 from tempfile import gettempdir
 from collections import deque
 from markupsafe import Markup
+from time import time
 from flask import Response, jsonify
 from ._compat import string_types, text_type, iteritems
-from .exceptions import PluginError, NotCallableError
+from .exceptions import PluginError, NotCallableError, ParamError
 from typing import List, Any, Optional, Dict
 
 
@@ -205,6 +206,58 @@ class LocalStorage(BaseStorage):
 
     def __len__(self):
         return len(self.list)
+
+
+class ExpiredLocalStorage(BaseStorage):
+    """Local file system storage based on the shelve module, support exire time."""
+
+    def __init__(self, path: Optional[str] = None):
+        self.COVERED_INDEX = path or join(gettempdir(), self.DEFAULT_INDEX)
+
+    def set(self, key: str, value: Any, ttl: int = 0):
+        """Set persistent data with expired time.
+        :param key: str: Index key
+        :param value: All supported data types in python
+        :param ttl: int: expired time in seconds, default is 0(no expired)
+        :raises:
+        """
+        if not key or not value or ttl < 0:
+            raise ParamError("Invalid key or value or ttl")
+        with shelve.open(self.COVERED_INDEX) as db:
+            etime = int(time()) + ttl if ttl > 0 else 0
+            db[key] = {"value": value, "etime": etime}
+
+    def get(self, key: str) -> Any:
+        """获取键值，若已过期则自动删除并返回 None"""
+        with shelve.open(self.COVERED_INDEX) as db:
+            entry = db.get(key)
+            if not entry:
+                return None
+
+            etime = entry["etime"]
+            if etime == 0:
+                return entry["value"]
+            elif time() > etime:
+                del db[key]  # 删除过期条目
+                return None
+            return entry["value"]
+
+    def remove(self, key):
+        """主动删除键"""
+        with shelve.open(self.COVERED_INDEX) as db:
+            if key in db:
+                del db[key]
+
+    @property
+    def list(self) -> Dict[str, Any]:
+        """list all data"""
+        with shelve.open(self.COVERED_INDEX) as db:
+            now = int(time())
+            # 过滤掉过期的键值对
+            valid_data = {
+                k: v for k, v in db.items() if v["etime"] > now or v["etime"] == 0
+            }
+            return {k: v["value"] for k, v in valid_data.items()}
 
 
 class RedisStorage(BaseStorage):

@@ -443,6 +443,9 @@ class PluginManager(object):
 
         .. versionchanged:: 3.7.0
             add plugin_p3
+
+        .. versionchanged:: 3.9.0
+            add proxy
         """
         if not isValidSemver(p_obj.__version__):
             raise VersionError(
@@ -487,6 +490,7 @@ class PluginManager(object):
                 "plugin_errhandler": [],
                 "plugin_tcp": {},
                 "plugin_p3": {},
+                "__proxy__": p_obj,
             }
         )
 
