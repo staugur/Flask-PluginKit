@@ -228,7 +228,7 @@ class ExpiredLocalStorage(BaseStorage):
             db[key] = {"value": value, "etime": etime}
 
     def get(self, key: str) -> Any:
-        """获取键值，若已过期则自动删除并返回 None"""
+        """Gets the key value and automatically deletes and returns None if it has expired"""
         with shelve.open(self.COVERED_INDEX) as db:
             entry = db.get(key)
             if not entry:
@@ -243,7 +243,7 @@ class ExpiredLocalStorage(BaseStorage):
             return entry["value"]
 
     def remove(self, key):
-        """主动删除键"""
+        """Remove the key from the storage"""
         with shelve.open(self.COVERED_INDEX) as db:
             if key in db:
                 del db[key]
