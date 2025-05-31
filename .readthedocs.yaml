@@ -2,9 +2,9 @@
 version: 2
 
 build:
-  os: ubuntu-22.04
+  os: 'ubuntu-22.04'
   tools:
-    python: '3.10' # 指定 Python 版本
+    python: '3.8' # 指定 Python 版本
 
 # 设置 Python 环境
 sphinx:
@@ -27,13 +27,3 @@ python:
 # build:
 #   commands:
 #     - make -C docs clean html  # 手动调用构建命令
-
-# 其他可选配置
-formats: # 输出格式（默认已包含html）
-  - html
-  # - pdf   # 如需生成 PDF
-  # - epub
-# 环境变量（可选）
-# build:
-#   environment:
-#     YOUR_ENV_VAR: "value"
