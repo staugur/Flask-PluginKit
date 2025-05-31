@@ -11,6 +11,8 @@ This part of the documentation covers all the interfaces of Flask-PluginKit.
 PluginManager Object
 --------------------
 
+.. currentmodule:: flask_pluginkit
+
 .. autoclass:: PluginManager
     :members:
 
@@ -42,11 +44,15 @@ PluginManager Object
 Inherited Application Objects
 -----------------------------
 
+.. currentmodule:: flask_pluginkit
+
 .. autoclass:: JsonResponse
     :members:
 
 Storage Objects
 ----------------
+
+.. currentmodule:: flask_pluginkit
 
 .. autoclass:: LocalStorage
     :members:
