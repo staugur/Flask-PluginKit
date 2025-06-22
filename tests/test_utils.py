@@ -2,6 +2,8 @@
 
 import unittest
 from os import getenv
+from os.path import dirname, abspath, join
+from shutil import rmtree
 from flask_pluginkit.utils import (
     isValidSemver,
     sortedSemver,
@@ -13,6 +15,9 @@ from flask_pluginkit.utils import (
     Attribution,
     check_url,
     DcpManager,
+    pip_install,
+    pip_list,
+    pip_show,
 )
 from markupsafe import Markup
 
@@ -139,6 +144,22 @@ class UtilsTest(unittest.TestCase):
         self.assertEqual(dcp.emit("f"), Markup("test"))
         self.assertTrue(dcp.remove("f", f))
         self.assertEqual(len(dcp.list), 1)
+
+    def test_pip(self):
+        testpkg = "semver"
+        testpkgver = "3.0.1"
+        tgt = join(dirname(abspath(__file__)), "tgt")
+        ret = pip_install(
+            "{}=={}".format(testpkg, testpkgver), target_dir=tgt, quiet=False
+        )
+        self.assertTrue(ret)
+        pkgs = pip_list(target_dir=tgt)
+        self.assertIn(testpkg, pkgs)
+        pkgver = pip_show(testpkg, target_dir=tgt)
+        self.assertTrue(isValidSemver(pkgver))  # type: ignore
+        self.assertEqual(pkgver, testpkgver)
+        # cleanup
+        rmtree(tgt, ignore_errors=True)
 
 
 if __name__ == "__main__":

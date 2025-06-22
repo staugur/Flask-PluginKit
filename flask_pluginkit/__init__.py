@@ -21,7 +21,7 @@ from ._web import blueprint
 
 __author__ = "Hiroshi.tao <me@tcw.im>"
 
-__version__ = "3.9.0"
+__version__ = "3.10.0"
 
 __all__ = [
     "PluginManager",

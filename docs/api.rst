@@ -90,6 +90,14 @@ Useful Functions and Classes
 .. autoclass:: DcpManager
     :members:
 
+.. autofunction:: is_venv
+
+.. autofunction:: pip_install
+
+.. autofunction:: pip_list
+
+.. autofunction:: pip_show
+
 .. currentmodule:: flask_pluginkit._installer
 
 .. autoclass:: PluginInstaller

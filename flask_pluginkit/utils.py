@@ -9,19 +9,21 @@ Some tool classes and functions.
 :license: BSD 3-Clause, see LICENSE for more details.
 """
 
+import sys
 import json
 import shelve
 from semver.version import Version
 from functools import cmp_to_key
-from os.path import join, abspath
+from os.path import join, abspath, isdir
 from tempfile import gettempdir
 from collections import deque
 from markupsafe import Markup
 from time import time
+from subprocess import call, check_output
 from flask import Response, jsonify
 from ._compat import string_types, text_type, iteritems
-from .exceptions import PluginError, NotCallableError, ParamError
-from typing import List, Any, Optional, Dict
+from .exceptions import PluginError, NotCallableError, ParamError, RunError
+from typing import List, Any, Optional, Dict, Union
 
 
 def isValidPrefix(prefix: str, allow_none: bool = False) -> bool:
@@ -439,3 +441,114 @@ def check_url(addr: str) -> bool:
         if regex.match(addr):
             return True
     return False
+
+
+def is_venv() -> bool:
+    """Determine whether the current environment is under Virtualenv or Venv"""
+    return hasattr(sys, "real_prefix") or (
+        hasattr(sys, "base_prefix") and sys.base_prefix != sys.prefix
+    )
+
+
+def pip_install(
+    pkg: str,
+    target_dir: str = "",
+    index: str = "",
+    upgrade: bool = False,
+    quiet: bool = True,
+) -> bool:
+    """Use pip to install modules to the specified directory or default user home.
+
+    :param str pkg: Package name, such as `flask`.
+    :param str target_dir: Install to specified directory.
+    :param str index: The index URL of the package repository, such as `https://pypi.org/simple`.
+    :param bool upgrade: Whether to upgrade the package if it is already installed.
+    :param bool quiet: Whether to suppress output.
+    :raises ParamError: If the package name is invalid.
+    :returns: True if the installation was successful, False otherwise.
+    :rtype: bool
+    """
+    if not pkg or not isinstance(pkg, string_types):
+        raise ParamError("Invalid package name")
+    cmd = [
+        sys.executable,
+        "-m",
+        "pip",
+        "install",
+        "--progress-bar",
+        "off",
+        "--timeout",
+        "10",
+        "--retries",
+        "2",
+        "--no-input",
+        "--no-color",
+        "--no-cache-dir",
+        "--disable-pip-version-check",
+        "--no-python-version-warning",
+        "--no-warn-conflicts",
+        "--no-warn-script-location",
+    ]
+    if target_dir:
+        cmd.extend(("--target", target_dir))
+    else:
+        if not is_venv():
+            cmd.append("--user")
+    if check_url(index):
+        cmd.extend(("-i", index))
+    if upgrade is True:
+        cmd.append("--upgrade")
+    if quiet is True:
+        cmd.append("--quiet")
+    cmd.append(pkg)
+    retcode = call(cmd)
+    return retcode == 0
+
+
+def pip_list(target_dir: str = "") -> Dict[str, str]:
+    """Get the result of pip list.
+
+    :param str target_dir: Install to specified directory.
+    :raises RunError: If the pip command fails to execute.
+    :returns: {package_name:version}
+    :rtype: Dict[str, str]
+    """
+    cmd = [
+        sys.executable,
+        "-m",
+        "pip",
+        "list",
+        "--format",
+        "json",
+        "--disable-pip-version-check",
+        "--no-python-version-warning",
+        "--no-color",
+    ]
+    try:
+        data: List[Dict[str, str]] = json.loads(check_output(cmd))
+    except Exception as e:
+        raise RunError("Failed to get pip list: %s" % str(e))
+    if target_dir and isdir(target_dir):
+        cmd.extend(("--path", target_dir))
+    try:
+        data.extend(json.loads(check_output(cmd)))
+    except Exception as e:
+        raise RunError("Failed to get pip list with target dir: %s" % str(e))
+    return {n["name"]: n["version"] for n in data}
+
+
+def pip_show(pkg: str, target_dir: str = "") -> Optional[str]:
+    """Query package version.
+
+    :param str pkg: Package name, such as `flask`.
+    :param str target_dir: Install to specified directory.
+    :raises ParamError: If the package name is invalid.
+    :raises RunError: If the pip command fails to execute.
+    :returns: The version of the package if found, otherwise None.
+    :rtype: Optional[str]
+    """
+    if not pkg or not isinstance(pkg, string_types):
+        raise ParamError("Invalid package name")
+    ret = pip_list(target_dir=target_dir)
+    if pkg in ret:
+        return ret[pkg]

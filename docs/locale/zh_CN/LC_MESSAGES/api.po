@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-22 21:40+0800\n"
+"POT-Creation-Date: 2025-06-22 19:15+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,7 +73,8 @@ msgstr ""
 #: flask_pluginkit.utils.JsonResponse.force_type
 #: flask_pluginkit.utils.LocalStorage.set
 #: flask_pluginkit.utils.LocalStorage.setmany
-#: flask_pluginkit.utils.RedisStorage.setmany of
+#: flask_pluginkit.utils.RedisStorage.setmany flask_pluginkit.utils.pip_install
+#: flask_pluginkit.utils.pip_list flask_pluginkit.utils.pip_show of
 msgid "Parameters"
 msgstr ""
 
@@ -223,7 +224,8 @@ msgstr ""
 #: flask_pluginkit.pluginkit.PluginManager._p3_handler
 #: flask_pluginkit.pluginkit.PluginManager._tep_handler
 #: flask_pluginkit.pluginkit.PluginManager._vep_handler
-#: flask_pluginkit.utils.DcpManager.push of
+#: flask_pluginkit.utils.DcpManager.push flask_pluginkit.utils.pip_install
+#: flask_pluginkit.utils.pip_list flask_pluginkit.utils.pip_show of
 msgid "Raises"
 msgstr ""
 
@@ -367,7 +369,7 @@ msgstr ""
 msgid "if the rule or content is invalid."
 msgstr ""
 
-#: ../../api.rst:30
+#: ../../api.rst:32
 msgid "the instance of :class:`~flask_pluginkit.utils.DcpManager`"
 msgstr ""
 
@@ -436,22 +438,23 @@ msgstr ""
 msgid "_external parameter passed to url_for"
 msgstr ""
 
-#: flask_pluginkit.LocalStorage.list
-#: flask_pluginkit.PluginManager.get_enabled_beps
-#: flask_pluginkit.PluginManager.get_enabled_cveps
-#: flask_pluginkit.PluginManager.get_enabled_errhandlers
-#: flask_pluginkit.PluginManager.get_enabled_filters
-#: flask_pluginkit.PluginManager.get_enabled_heps
-#: flask_pluginkit.PluginManager.get_enabled_tcps
-#: flask_pluginkit.PluginManager.get_enabled_teps
-#: flask_pluginkit.PluginManager.get_enabled_veps
 #: flask_pluginkit._installer.PluginInstaller.addPlugin
 #: flask_pluginkit.pluginkit.PluginManager.emit_assets
 #: flask_pluginkit.pluginkit.PluginManager.emit_tep
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_beps
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_cveps
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_errhandlers
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_filters
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_heps
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_tcps
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_teps
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_veps
 #: flask_pluginkit.utils.DcpManager.emit
 #: flask_pluginkit.utils.JsonResponse.force_type
 #: flask_pluginkit.utils.LocalStorage.get
-#: flask_pluginkit.utils.LocalStorage.set of
+#: flask_pluginkit.utils.LocalStorage.list
+#: flask_pluginkit.utils.LocalStorage.set flask_pluginkit.utils.pip_install
+#: flask_pluginkit.utils.pip_list flask_pluginkit.utils.pip_show of
 msgid "Returns"
 msgstr ""
 
@@ -529,79 +532,79 @@ msgid ""
 "application to take effect."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_all_plugins:1 of
+#: flask_pluginkit.pluginkit.PluginManager.get_all_plugins:1 of
 msgid "Get all plugins, enabled and disabled"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_enabled_beps:1 of
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_beps:1 of
 msgid "Get all bep of the enabled plugins."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_enabled_beps:3 of
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_beps:3 of
 msgid "List of nested dictionaries, like [{blueprint=,prefix=},]"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_enabled_cveps:1 of
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_cveps:1 of
 msgid "Get all cvep for the enabled plugins."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_enabled_cveps:3 of
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_cveps:3 of
 msgid "List of nested tuples, like [(view_class, other options),]"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_enabled_errhandlers:1 of
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_errhandlers:1 of
 msgid "Get all error handlers for the enabled plugins."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_enabled_errhandlers:3 of
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_errhandlers:3 of
 msgid "list, like [(err_code_class, func_handler), ...]"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_enabled_errhandlers:7 of
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_errhandlers:7 of
 msgid "Return type changed from dict to list"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_enabled_filters:1 of
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_filters:1 of
 msgid "Get all template filters for the enabled plugins."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_enabled_filters:3 of
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_filters:3 of
 msgid "List of nested tuples, like [(filter_name, filter_func),]"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_enabled_heps:1 of
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_heps:1 of
 msgid "Get all hep of the enabled plugins."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_enabled_heps:3 of
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_heps:3 of
 msgid "dictionary with nested tuples, look like {hook:[]}"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_enabled_plugins:1 of
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_plugins:1 of
 msgid "Get all enabled plugins"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_enabled_tcps:1 of
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_tcps:1 of
 msgid "Get all template context processors for the enabled plugins."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_enabled_tcps:3 of
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_tcps:3 of
 msgid "List of Nested Dictionaries, like [{name:var_or_func},]"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_enabled_teps:1 of
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_teps:1 of
 msgid "Get all tep of the enabled plugins."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_enabled_teps:3 of
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_teps:3 of
 msgid "dict, look like {tep_1: dict(fil=[], cod=[]), tep_n...}"
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_enabled_veps:1 of
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_veps:1 of
 msgid "Get all vep for the enabled plugins."
 msgstr ""
 
-#: flask_pluginkit.PluginManager.get_enabled_veps:3 of
+#: flask_pluginkit.pluginkit.PluginManager.get_enabled_veps:3 of
 msgid "List of nested tuples, like [(path, view_func),]"
 msgstr ""
 
@@ -609,27 +612,28 @@ msgstr ""
 msgid "Get plugin information from all plugins"
 msgstr ""
 
-#: ../../docstring flask_pluginkit.PluginManager.logger:1 of
+#: ../../docstring flask_pluginkit.pluginkit.PluginManager.logger:1 of
 msgid "logging Logger instance"
 msgstr ""
 
-#: ../../docstring flask_pluginkit.PluginManager.plugin_packages:1 of
+#: ../../docstring flask_pluginkit.pluginkit.PluginManager.plugin_packages:1 of
 msgid "Third-party plugin package"
 msgstr ""
 
-#: ../../docstring flask_pluginkit.PluginManager.pluginkit_config:1 of
+#: ../../docstring flask_pluginkit.pluginkit.PluginManager.pluginkit_config:1
+#: of
 msgid "Configuration Dictionary of Flask-PLuginKit in Project"
 msgstr ""
 
-#: ../../docstring flask_pluginkit.PluginManager.static_endpoint:1 of
+#: ../../docstring flask_pluginkit.pluginkit.PluginManager.static_endpoint:1 of
 msgid "Static endpoint"
 msgstr ""
 
-#: ../../docstring flask_pluginkit.PluginManager.static_url_path:1 of
+#: ../../docstring flask_pluginkit.pluginkit.PluginManager.static_url_path:1 of
 msgid "Static url prefix"
 msgstr ""
 
-#: ../../docstring flask_pluginkit.PluginManager.stpl:1 of
+#: ../../docstring flask_pluginkit.pluginkit.PluginManager.stpl:1 of
 msgid "Template sorting"
 msgstr ""
 
@@ -641,11 +645,11 @@ msgstr ""
 msgid "Example usage::"
 msgstr ""
 
-#: ../../api.rst:38
+#: ../../api.rst:40
 msgid "The :class:`~flask.blueprints.Blueprint` instance for managing plugins."
 msgstr ""
 
-#: ../../api.rst:43
+#: ../../api.rst:45
 msgid "Inherited Application Objects"
 msgstr ""
 
@@ -693,7 +697,7 @@ msgstr ""
 msgid "a response object."
 msgstr ""
 
-#: ../../api.rst:49
+#: ../../api.rst:53
 msgid "Storage Objects"
 msgstr ""
 
@@ -701,7 +705,7 @@ msgstr ""
 msgid "Local file system storage based on the shelve module."
 msgstr ""
 
-#: ../../api.rst:56 ../../api.rst:63 ../../docstring
+#: ../../api.rst:62 ../../api.rst:69 ../../api.rst:76 ../../docstring
 #: flask_pluginkit.utils.BaseStorage.DEFAULT_INDEX:1 of
 msgid "The default index, as the only key, you can override it."
 msgstr ""
@@ -714,11 +718,12 @@ msgstr ""
 msgid "data"
 msgstr ""
 
-#: flask_pluginkit.LocalStorage.list:1 of
+#: flask_pluginkit.utils.ExpiredLocalStorage.list:1
+#: flask_pluginkit.utils.LocalStorage.list:1 of
 msgid "list all data"
 msgstr ""
 
-#: flask_pluginkit.LocalStorage.list:3 of
+#: flask_pluginkit.utils.LocalStorage.list:3 of
 msgid "dict"
 msgstr ""
 
@@ -756,7 +761,7 @@ msgstr ""
 msgid "get key original data from redis"
 msgstr ""
 
-#: flask_pluginkit.RedisStorage.list:1 of
+#: flask_pluginkit.utils.RedisStorage.list:1 of
 msgid "list redis hash data"
 msgstr ""
 
@@ -768,7 +773,28 @@ msgstr ""
 msgid "set key data"
 msgstr ""
 
-#: ../../api.rst:66
+#: flask_pluginkit.utils.ExpiredLocalStorage:1 of
+msgid "Local file system storage based on the shelve module, support exire time."
+msgstr ""
+
+#: flask_pluginkit.utils.ExpiredLocalStorage.get:1 of
+msgid ""
+"Gets the key value and automatically deletes and returns None if it has "
+"expired"
+msgstr ""
+
+#: flask_pluginkit.utils.ExpiredLocalStorage.remove:1 of
+msgid "Remove the key from the storage"
+msgstr ""
+
+#: flask_pluginkit.utils.ExpiredLocalStorage.set:1 of
+msgid ""
+"Set persistent data with expired time. :param key: str: Index key :param "
+"value: All supported data types in python :param ttl: int: expired time "
+"in seconds, default is 0(no expired) :raises:"
+msgstr ""
+
+#: ../../api.rst:79
 msgid "Useful Functions and Classes"
 msgstr ""
 
@@ -842,6 +868,70 @@ msgstr ""
 msgid "Remove a callback again."
 msgstr ""
 
+#: flask_pluginkit.utils.is_venv:1 of
+msgid "Determine whether the current environment is under Virtualenv or Venv"
+msgstr ""
+
+#: flask_pluginkit.utils.pip_install:1 of
+msgid "Use pip to install modules to the specified target or default user home."
+msgstr ""
+
+#: flask_pluginkit.utils.pip_install:3 flask_pluginkit.utils.pip_show:3 of
+msgid "Package name, such as `flask`."
+msgstr ""
+
+#: flask_pluginkit.utils.pip_install:4 flask_pluginkit.utils.pip_list:3
+#: flask_pluginkit.utils.pip_show:4 of
+msgid "Install to specified directory."
+msgstr ""
+
+#: flask_pluginkit.utils.pip_install:5 of
+msgid ""
+"The index URL of the package repository, such as "
+"`https://pypi.org/simple`."
+msgstr ""
+
+#: flask_pluginkit.utils.pip_install:6 of
+msgid "Whether to upgrade the package if it is already installed."
+msgstr ""
+
+#: flask_pluginkit.utils.pip_install:7 of
+msgid "Whether to suppress output."
+msgstr ""
+
+#: flask_pluginkit.utils.pip_install:8 flask_pluginkit.utils.pip_show:5 of
+msgid "If the package name is invalid."
+msgstr ""
+
+#: flask_pluginkit.utils.pip_install:9 of
+msgid "True if the installation was successful, False otherwise."
+msgstr ""
+
+#: flask_pluginkit.utils.pip_install flask_pluginkit.utils.pip_list
+#: flask_pluginkit.utils.pip_show of
+msgid "Return type"
+msgstr ""
+
+#: flask_pluginkit.utils.pip_list:1 of
+msgid "Get the result of pip list."
+msgstr ""
+
+#: flask_pluginkit.utils.pip_list:4 of
+msgid "{package_name:version}"
+msgstr ""
+
+#: flask_pluginkit.utils.pip_list:6 flask_pluginkit.utils.pip_show:6 of
+msgid "If the pip command fails to execute."
+msgstr ""
+
+#: flask_pluginkit.utils.pip_show:1 of
+msgid "Query package version."
+msgstr ""
+
+#: flask_pluginkit.utils.pip_show:7 of
+msgid "The version of the package if found, otherwise None."
+msgstr ""
+
 #: flask_pluginkit._installer.PluginInstaller:1 of
 msgid "plugin installer for installing a compressed local/remote plugin"
 msgstr ""
@@ -909,7 +999,7 @@ msgstr ""
 msgid "The plugin package name, not __plugin_name."
 msgstr ""
 
-#: ../../api.rst:86
+#: ../../api.rst:107
 msgid "Custom Exceptions"
 msgstr ""
 
@@ -939,7 +1029,9 @@ msgstr ""
 
 #: flask_pluginkit.exceptions.InstallError:1
 #: flask_pluginkit.exceptions.NotCallableError:1
-#: flask_pluginkit.exceptions.PEPError:1 flask_pluginkit.exceptions.TarError:1
+#: flask_pluginkit.exceptions.PEPError:1
+#: flask_pluginkit.exceptions.ParamError:1
+#: flask_pluginkit.exceptions.RunError:1 flask_pluginkit.exceptions.TarError:1
 #: flask_pluginkit.exceptions.TemplateNotFound:1
 #: flask_pluginkit.exceptions.VersionError:1
 #: flask_pluginkit.exceptions.ZipError:1 of

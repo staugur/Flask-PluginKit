@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-22 21:39+0800\n"
+"POT-Creation-Date: 2025-06-22 19:15+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,127 +36,126 @@ msgid ""
 "GitHub."
 msgstr ""
 
-#: ../../../CONTRIBUTING.rst:10
-msgid "The email for staugur@saintic.com"
-msgstr ""
-
-#: ../../../CONTRIBUTING.rst:13
+#: ../../../CONTRIBUTING.rst:12
 msgid "Report a problem"
 msgstr "报告问题"
 
-#: ../../../CONTRIBUTING.rst:15
+#: ../../../CONTRIBUTING.rst:14
 msgid "Describe what you expect to happen."
 msgstr "描述您期望发生的事情。"
 
-#: ../../../CONTRIBUTING.rst:17
+#: ../../../CONTRIBUTING.rst:16
 msgid ""
 "If possible, include a minimal, complete, verifiable example to help us "
 "identify the problem. This also helps to check if the issue is not "
 "related to your own code."
 msgstr "如果可能，请提供一个最小、完整、可验证的示例来帮助我们找出问题所在。这也有助于检查问题是否与你自己的代码有关。"
 
-#: ../../../CONTRIBUTING.rst:21
+#: ../../../CONTRIBUTING.rst:20
 msgid ""
 "Describe what actually happened. If there is an exception, include the "
 "complete exception stack."
 msgstr "描述实际发生的事情。如果有可能，请提供完整的异常堆栈。"
 
-#: ../../../CONTRIBUTING.rst:24
+#: ../../../CONTRIBUTING.rst:23
 msgid ""
 "List your Python, Flask, Flask-PluginKit versions. If possible, check if "
 "the new version has fixed this issue."
 msgstr "列出你的Python、Flask、Flask-PluginKit版本，如果可能，检查新版本是否解决。"
 
-#: ../../../CONTRIBUTING.rst:28
+#: ../../../CONTRIBUTING.rst:27
 msgid "Submit pull request"
 msgstr "提交pull request"
 
-#: ../../../CONTRIBUTING.rst:30
+#: ../../../CONTRIBUTING.rst:29
 msgid "**First is the environment**"
 msgstr "**首先是环境**"
 
-#: ../../../CONTRIBUTING.rst:32
+#: ../../../CONTRIBUTING.rst:31
 msgid ""
 "fork repository `Flask-PluginKit <https://github.com/staugur/Flask-"
 "PluginKit>`_"
 msgstr ""
 
-#: ../../../CONTRIBUTING.rst:34
+#: ../../../CONTRIBUTING.rst:33
 msgid "git clone Flask-PluginKit under your account and set your `git config`"
 msgstr "克隆Flask-PluginKit，并设置好个人的 `git config`"
 
-#: ../../../CONTRIBUTING.rst:36
+#: ../../../CONTRIBUTING.rst:35
 msgid ""
 "Install the dependency module of the development environment with command"
 " ``make dev``"
 msgstr "使用命令 ``make dev`` 安装开发环境依赖的模块"
 
-#: ../../../CONTRIBUTING.rst:39
+#: ../../../CONTRIBUTING.rst:38
 msgid "**Followed by coding**"
 msgstr "**接着是编码**"
 
-#: ../../../CONTRIBUTING.rst:41
+#: ../../../CONTRIBUTING.rst:40
 msgid "Write code, please try to comply with the PEP8 specification."
 msgstr "编写代码，请尽量遵守PEP8规范。"
 
-#: ../../../CONTRIBUTING.rst:43
+#: ../../../CONTRIBUTING.rst:42
 msgid "Write test cases and documentation."
 msgstr "编写测试用例和文档。"
 
-#: ../../../CONTRIBUTING.rst:45
+#: ../../../CONTRIBUTING.rst:44
 #, fuzzy
 msgid ""
 "Run the test ``make dev && make test`` using the py3.8+ environments "
 "respectively."
 msgstr "分别使用pypy、py2.7、py3.6+运行测试 ``make dev && make test``"
 
-#: ../../../CONTRIBUTING.rst:47
+#: ../../../CONTRIBUTING.rst:46
 msgid "Generate the documentation ``make dev && make html``."
 msgstr "使用 ``make dev && make html`` 生成文档"
 
-#: ../../../CONTRIBUTING.rst:49
+#: ../../../CONTRIBUTING.rst:48
 msgid "If you contribute a translation document, proceed as follows:"
 msgstr "如果您想翻译文档，步骤如下："
 
-#: ../../../CONTRIBUTING.rst:51
+#: ../../../CONTRIBUTING.rst:50
 msgid "execute the command ``make gettext``"
 msgstr "执行命令 ``make gettext``"
 
-#: ../../../CONTRIBUTING.rst:53
+#: ../../../CONTRIBUTING.rst:52
 msgid ""
 "Extract translatable messages into pot files. The generated pot file will"
 " be placed in the docs/_build/gettext directory."
 msgstr "这个操作会将可翻译的消息提取到pot文件中，生成的pot文件将放在 docs/_build/gettext 目录中。"
 
-#: ../../../CONTRIBUTING.rst:56
+#: ../../../CONTRIBUTING.rst:55
 msgid "execute the command ``make cn``"
 msgstr "执行命令 ``make cn``"
 
-#: ../../../CONTRIBUTING.rst:58
+#: ../../../CONTRIBUTING.rst:57
 msgid ""
 "Generate or update the po file and place it in "
 "``docs/locale/zh_CN/LC_MESSAGES/`` directory, then translate the po file."
 msgstr "在 ``docs/locale/<LANG>/LC_MESSAGES/`` 目录生成或更新po文件，然后就可以翻译不同语言下的po文件了。"
 
-#: ../../../CONTRIBUTING.rst:61
+#: ../../../CONTRIBUTING.rst:60
 msgid "execute the command ``make html-cn``"
 msgstr "执行命令 ``make html-cn``"
 
-#: ../../../CONTRIBUTING.rst:63
+#: ../../../CONTRIBUTING.rst:62
 msgid ""
 "Constructing Translation Documents, at the same time, it will generate or"
 " update mo file."
 msgstr "构建生成翻译文档"
 
-#: ../../../CONTRIBUTING.rst:66
+#: ../../../CONTRIBUTING.rst:65
 msgid "**Last request for merger**"
 msgstr "**最后合并请求**"
 
-#: ../../../CONTRIBUTING.rst:68
+#: ../../../CONTRIBUTING.rst:67
 msgid "Submit your code"
 msgstr "提交代码"
 
-#: ../../../CONTRIBUTING.rst:70
+#: ../../../CONTRIBUTING.rst:69
 msgid "Initiate ``pull request`` on GitHub"
 msgstr "在GitHub上发起 ``pull request``"
+
+#~ msgid "The email for staugur@saintic.com"
+#~ msgstr ""
 

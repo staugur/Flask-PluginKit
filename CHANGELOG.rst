@@ -1,5 +1,12 @@
 .. currentmodule:: flask-pluginkit
 
+v3.10.0
+-------
+
+Released in 2025-06-22
+
+- feat: add pip command(install/list/show)
+
 v3.9.0
 ------
 

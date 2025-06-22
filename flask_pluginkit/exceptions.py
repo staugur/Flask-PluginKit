@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-    flask_pluginkit.exceptions
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+flask_pluginkit.exceptions
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Exception Classes
+Exception Classes
 
-    :copyright: (c) 2019 by staugur.
-    :license: BSD 3-Clause, see LICENSE for more details.
+:copyright: (c) 2019 by staugur.
+:license: BSD 3-Clause, see LICENSE for more details.
 """
 
 
@@ -14,7 +14,11 @@ class PluginError(Exception):
     pass
 
 
-class ParamError(Exception):
+class ParamError(PluginError):
+    pass
+
+
+class RunError(PluginError):
     pass
 
 
