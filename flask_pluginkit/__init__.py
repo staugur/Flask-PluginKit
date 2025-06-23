@@ -16,12 +16,12 @@ from .utils import (
     JsonResponse,
     ExpiredLocalStorage,
 )
+from .version import __version__
 from ._installer import PluginInstaller
 from ._web import blueprint
 
-__author__ = "Hiroshi.tao <me@tcw.im>"
 
-__version__ = "3.10.0"
+__author__ = "Hiroshi.tao <me@tcw.im>"
 
 __all__ = [
     "PluginManager",

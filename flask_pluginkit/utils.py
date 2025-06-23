@@ -23,8 +23,11 @@ from subprocess import call, check_output
 from flask import Response, jsonify
 from ._compat import string_types, text_type, iteritems
 from .exceptions import PluginError, NotCallableError, ParamError, RunError
+from version import __version__
 from typing import List, Any, Optional, Dict, Union
+from re import compile
 
+comma_pat = re.compile(r"\s*,\s*")
 
 def isValidPrefix(prefix: str, allow_none: bool = False) -> bool:
     """Check if it can be used for blueprint prefix"""
@@ -60,6 +63,33 @@ def sortedSemver(versions: List[str], sort: str = "ASC") -> List[str]:
         )
     else:
         raise TypeError("Invaild versions, a list or tuple is right.")
+
+
+def is_match_version_req(appversion:Optional[str]=None):
+    """Check if the version of flask-pluginkit meets the plugin's version requirement.
+
+    :param str appversion: Match program versions using operators and grouping symbols.
+    """
+    #: If None, it is assumed to be compatible with all versions by default.
+    if not appversion:
+        return True
+    if not isinstance(appversion, string_types):
+        appversion = appversion.decode("utf-8")
+
+    def vermatch(check_ver):
+        if isValidSemver(check_ver):
+            check_ver = ">={}".format(check_ver)
+        try:
+            return Version.parse(__version__).match(check_ver)
+        except ValueError:
+            return False
+
+    avs = comma_pat.split(appversion)
+    for v in avs:
+        if not vermatch(v):
+            return False
+    else:
+        return True
 
 
 class BaseStorage(object):

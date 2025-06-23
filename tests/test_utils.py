@@ -18,7 +18,9 @@ from flask_pluginkit.utils import (
     pip_install,
     pip_list,
     pip_show,
+    is_match_version_req,
 )
+from flask_pluginkit.version import __version__ as ver
 from markupsafe import Markup
 
 
@@ -160,6 +162,11 @@ class UtilsTest(unittest.TestCase):
         self.assertEqual(pkgver, testpkgver)
         # cleanup
         rmtree(tgt, ignore_errors=True)
+
+    def test_match_version(self):
+        self.assertTrue(is_match_version_req(ver))
+        self.assertFalse(is_match_version_req(f">{ver}"))
+        self.assertFalse(is_match_version_req(f"<{ver}"))
 
 
 if __name__ == "__main__":
