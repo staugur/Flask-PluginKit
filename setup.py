@@ -9,7 +9,7 @@ from setuptools import setup
 def _get_version():
     version_re = compile(r"__version__\s+=\s+(.*)")
 
-    with open("flask_pluginkit/__init__.py", "rb") as fh:
+    with open("flask_pluginkit/version.py", "rb") as fh:
         version = literal_eval(version_re.search(fh.read().decode("utf-8")).group(1))
 
     return str(version)

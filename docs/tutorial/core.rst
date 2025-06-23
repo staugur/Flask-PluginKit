@@ -124,6 +124,10 @@ the first three are required:
 
     The plugin Status, enabled (default) or disabled.
 
+- ``__app_verion__``
+
+    The plugin requires the version of Flask-PluginKit.
+
 .. _Semantic Version 2.0: https://semver.org
 
 .. _core-register:

@@ -18,6 +18,16 @@ the user writes **requirements.txt** and installs the dependent plugin,
 which is called in the initialization, and almost no need to worry about
 subsequent third-party plugin upgrades.
 
+.. versionadded:: 3.10.0
+    In this version, you can automatically install third-party packages
+    in the :attr:`~flask_pluginkit.PluginManager.install_packages` parameter.
+
+    Format reference:
+
+    .. code-block:: json
+
+        {"pkgs": ["third-package-from-pypi", "third-package-from-git", "required"], "index":"pypi or mirror(optional)"}
+
 Local Plugin
 ------------
 

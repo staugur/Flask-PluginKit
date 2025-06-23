@@ -48,3 +48,7 @@ class InstallError(PluginError):
 
 class NotCallableError(PluginError):
     pass
+
+
+class NotImplementedError(PluginError):
+    pass

@@ -10,6 +10,10 @@ app.config.update(
 pm = PluginManager(
     app,
     plugin_packages=["flask_pluginkit_demo"],
+    install_packages=dict(
+        pkgs=["git+https://github.com/saintic/flask-pluginkit-demo@master"],
+        upgrade=True,
+    ),
     pluginkit_config=dict(whoami="localdemo_config"),
 )
 app.register_blueprint(blueprint, url_prefix="/pluginmanager")

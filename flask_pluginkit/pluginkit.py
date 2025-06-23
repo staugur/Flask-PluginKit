@@ -1,20 +1,23 @@
 # -*- coding: utf-8 -*-
 """
-    flask_pluginkit.pluginkit
-    ~~~~~~~~~~~~~~~~~~~~~~~~~
+flask_pluginkit.pluginkit
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Load and run plugins.
+Load and run plugins.
 
-    :copyright: (c) 2019 by staugur.
-    :license: BSD 3-Clause, see LICENSE for more details.
+:copyright: (c) 2019 by staugur.
+:license: BSD 3-Clause, see LICENSE for more details.
 """
 
 import logging
+from time import time
+from itertools import chain
 from os import getcwd, listdir, remove
 from os.path import join, dirname, abspath, isdir, isfile, splitext
-from itertools import chain
-from jinja2 import ChoiceLoader, FileSystemLoader
+from typing import Optional, Dict, Union, Any, Sequence, List, Callable
+
 from flask import (
+    Flask,
     Blueprint,
     render_template,
     render_template_string,
@@ -24,13 +27,19 @@ from flask import (
     current_app,
 )
 from markupsafe import Markup
-from .utils import isValidPrefix, isValidSemver, Attribution, DcpManager
+from jinja2 import ChoiceLoader, FileSystemLoader
+
+from .utils import (
+    isValidPrefix,
+    isValidSemver,
+    Attribution,
+    DcpManager,
+    pip_install,
+    is_match_version_req,
+)
 from ._compat import string_types, iteritems, text_type
 from .exceptions import PluginError, VersionError, PEPError, TemplateNotFound
 
-from typing import Optional, Dict, Union, Any, Sequence, List, Callable
-from flask import Flask
-from logging import Logger
 
 META = Attribution[Dict[str, Union[None, str, list, dict]]]
 
@@ -85,7 +94,13 @@ class PluginManager(object):
     :param str stpl: turn on template sorting when the value is True, ASC, DESC.
                      Sorting rules can be used, DESC or ASC(default).
 
-    :param str plugin_packages: list of third-party plugin packages.
+    :param List[str] plugin_packages: load the third-party plugin packages.
+
+    :param Dict[str, Union[str, bool, List[str]]] install_packages: auto install the list of third-party plugin packages.
+            Format: {pkgs: ["pkg-from-pypi", "pkg-from-git", ...]}
+            Other params refer to :func:`flask_pluginkit.utils.pip_install`.
+
+    :param bool try_compatible: if True, it will try to load old version plugins.
 
     :param static_url_path: can be used to specify a different path for the
                             static files on the plugins. Defaults to the name
@@ -131,41 +146,54 @@ class PluginManager(object):
 
     .. deprecated:: 3.8.0
         Remove `stpl_reverse` and `try_compatible` param.
+
+    .. versionadded:: 3.10.0
+        Add `install_packages` parameter, install third-party package from PyPI or Git.
     """
 
     def __init__(
         self,
         app: Optional[Flask] = None,
         plugins_base: Optional[str] = None,
-        plugins_folder: Optional[str] = "plugins",
+        plugins_folder: str = "plugins",
         **options: Dict[str, Any],
     ):
         """Receive initialization parameters and
         pass options to :meth:`init_app` method.
         """
         #: logging Logger instance
-        self.logger: Logger = options.get("logger", logging.getLogger(__name__))
+        self.logger: logging.Logger = options.get("logger", logging.getLogger(__name__))
 
         #: Template sorting
         self.stpl: Union[str, bool] = options.get("stpl", False)
 
         #: Template sort order, True descending, False ascending (default).
         if self.stpl in ("asc", "desc", "ASC", "DESC"):
-            self.stpl = True
             self.stpl_reverse: bool = False if self.stpl in ("asc", "ASC") else True
+            self.stpl = True
 
         #: Third-party plugin package
-        self.plugin_packages = options.get("plugin_packages") or []
+        self.plugin_packages: List[str] = options.get("plugin_packages") or []
         if not isinstance(self.plugin_packages, (tuple, list)):
             raise PluginError("Invalid plugin_packages")
+        ipkgs = options.get("install_packages") or {}
+        if ipkgs:
+            if (
+                not isinstance(ipkgs, dict)
+                or "pkgs" not in ipkgs
+                or not isinstance(ipkgs.get("pkgs"), (list, tuple))
+            ):
+                raise PluginError("Invalid install_packages")
+        self.install_packages: List[str] = ipkgs.pop("pkgs", None) or []
+        self.install_packages_meta: Dict[str, Union[str, bool]] = ipkgs
 
         #: Static endpoint
-        self.static_endpoint: str = options.get("static_endpoint") or "assets"
+        self.static_endpoint: str = options.get("static_endpoint") or "assets"  # type: ignore
 
         #: Static url prefix
         self.static_url_path: str = (
             options.get("static_url_path") or f"/{self.static_endpoint}"
-        )
+        )  # type: ignore
         if not isValidPrefix(self.static_url_path):
             raise PluginError("Invalid static_url_path")
 
@@ -210,7 +238,7 @@ class PluginManager(object):
         self,
         app: Flask,
         plugins_base: Optional[str] = None,
-        plugins_folder: Optional[str] = "plugins",
+        plugins_folder: str = "plugins",
     ):
         self.plugins_folder: str = plugins_folder
         self.plugins_abspath: str = join(
@@ -223,6 +251,9 @@ class PluginManager(object):
             "Start plugins initialization, local plugins path: %s, third party"
             "-plugins: %s" % (self.plugins_abspath, self.plugin_packages)
         )
+        for pkg in self.install_packages:
+            pip_install(pkg, **self.install_packages_meta)  # type: ignore
+
         self.__scan_third_plugins()
         self.__scan_affiliated_plugins()
 
@@ -246,7 +277,7 @@ class PluginManager(object):
                 app.jinja_loader,
                 FileSystemLoader(self.__get_valid_tpl),
             ]
-        )
+        )  # type: ignore
 
         #: Add a static rule for plugins
         app.add_url_rule(
@@ -446,11 +477,19 @@ class PluginManager(object):
 
         .. versionchanged:: 3.9.0
             add proxy
+
+        .. versionchanged:: 3.10.0
+            add load_time and appversion checking
         """
         if not isValidSemver(p_obj.__version__):
             raise VersionError(
                 "The version number of %s is not compliant, "
                 "please refer to https://semver.org" % package_name
+            )
+        appver = getattr(p_obj, "__appversion__", None)
+        if not is_match_version_req(appver):
+            raise VersionError(
+                "%s: app version number does not match for %s" % (package_name, appver)
             )
 
         try:
@@ -491,6 +530,7 @@ class PluginManager(object):
                 "plugin_tcp": {},
                 "plugin_p3": {},
                 "__proxy__": p_obj,
+                "__load_time__": time(),
             }
         )
 

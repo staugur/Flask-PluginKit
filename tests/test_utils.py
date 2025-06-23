@@ -20,6 +20,7 @@ from flask_pluginkit.utils import (
     pip_show,
     is_match_version_req,
 )
+from flask_pluginkit.exceptions import NotImplementedError
 from flask_pluginkit.version import __version__ as ver
 from markupsafe import Markup
 
@@ -103,7 +104,7 @@ class UtilsTest(unittest.TestCase):
             pass
 
         ms = MyStorage()
-        with self.assertRaises(AttributeError):
+        with self.assertRaises(NotImplementedError):
             ms.get("test")
 
     def test_checkurl(self):

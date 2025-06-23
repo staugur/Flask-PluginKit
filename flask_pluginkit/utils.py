@@ -12,22 +12,31 @@ Some tool classes and functions.
 import sys
 import json
 import shelve
-from semver.version import Version
+from re import compile
 from functools import cmp_to_key
 from os.path import join, abspath, isdir
 from tempfile import gettempdir
 from collections import deque
-from markupsafe import Markup
 from time import time
 from subprocess import call, check_output
-from flask import Response, jsonify
-from ._compat import string_types, text_type, iteritems
-from .exceptions import PluginError, NotCallableError, ParamError, RunError
-from version import __version__
-from typing import List, Any, Optional, Dict, Union
-from re import compile
+from typing import List, Any, Optional, Dict
 
-comma_pat = re.compile(r"\s*,\s*")
+from flask import Response, jsonify
+from markupsafe import Markup
+from semver.version import Version
+
+from ._compat import string_types, text_type, iteritems
+from .exceptions import (
+    PluginError,
+    NotCallableError,
+    ParamError,
+    RunError,
+    NotImplementedError,
+)
+from .version import __version__
+
+comma_pat = compile(r"\s*,\s*")
+
 
 def isValidPrefix(prefix: str, allow_none: bool = False) -> bool:
     """Check if it can be used for blueprint prefix"""
@@ -65,7 +74,7 @@ def sortedSemver(versions: List[str], sort: str = "ASC") -> List[str]:
         raise TypeError("Invaild versions, a list or tuple is right.")
 
 
-def is_match_version_req(appversion:Optional[str]=None):
+def is_match_version_req(appversion: Optional[str] = None):
     """Check if the version of flask-pluginkit meets the plugin's version requirement.
 
     :param str appversion: Match program versions using operators and grouping symbols.
@@ -103,6 +112,9 @@ class BaseStorage(object):
 
     .. versionchanged:: 3.4.1
         Change :attr:`index` to :attr:`DEFAULT_INDEX`
+
+    .. versionchanged:: 3.4.1
+        Add empty :attr:`list`, `get`, `set` method, which must be overridden.
     """
 
     #: The default index, as the only key, you can override it.
@@ -123,6 +135,19 @@ class BaseStorage(object):
         .. versionadded:: 3.6.0
         """
         self.COVERED_INDEX = _covered_index
+
+    @property
+    def list(self) -> Dict[str, Any]:
+        raise NotImplementedError("Please override the list method")
+
+    def set(self, key: str, value: Any):
+        raise NotImplementedError("Please override the list method")
+
+    def get(self, key: str) -> Any:
+        raise NotImplementedError("Please override the list method")
+
+    def remove(self, key: str) -> Any:
+        raise NotImplementedError("Please override the list method")
 
     def __getitem__(self, key: str):
         if hasattr(self, "get"):
@@ -485,7 +510,7 @@ def pip_install(
     target_dir: str = "",
     index: str = "",
     upgrade: bool = False,
-    quiet: bool = True,
+    quiet: bool = False,
 ) -> bool:
     """Use pip to install modules to the specified directory or default user home.
 

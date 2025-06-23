@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-22 19:15+0800\n"
+"POT-Creation-Date: 2025-06-23 23:36+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -103,70 +103,87 @@ msgid ""
 msgstr ""
 
 #: flask_pluginkit.pluginkit.PluginManager:50 of
-msgid "list of third-party plugin packages."
+msgid "load the third-party plugin packages."
 msgstr ""
 
 #: flask_pluginkit.pluginkit.PluginManager:52 of
+msgid ""
+"auto install the list of third-party plugin packages. Format: {pkgs: "
+"[\"pkg-from-pypi\", \"pkg-from-git\", ...]} Other params refer to "
+":func:`flask_pluginkit.utils.pip_install`."
+msgstr ""
+
+#: flask_pluginkit.pluginkit.PluginManager:56 of
+msgid "if True, it will try to load old version plugins."
+msgstr ""
+
+#: flask_pluginkit.pluginkit.PluginManager:58 of
 msgid ""
 "can be used to specify a different path for the static files on the "
 "plugins. Defaults to the name of the `static_endpoint` folder."
 msgstr ""
 
-#: flask_pluginkit.pluginkit.PluginManager:56 of
+#: flask_pluginkit.pluginkit.PluginManager:62 of
 msgid ""
 "the endpoint name of plugins static files that should be served at "
 "`static_url_path`. Defaults to the ``'assets'``"
 msgstr ""
 
-#: flask_pluginkit.pluginkit.PluginManager:60 of
+#: flask_pluginkit.pluginkit.PluginManager:66 of
 msgid ""
 "additional configuration can be used in the template via "
 ":meth:`emit_config`."
 msgstr ""
 
-#: flask_pluginkit.pluginkit.PluginManager:63 of
+#: flask_pluginkit.pluginkit.PluginManager:69 of
 msgid "Add a vep handler"
 msgstr ""
 
-#: flask_pluginkit.pluginkit.PluginManager:66 of
+#: flask_pluginkit.pluginkit.PluginManager:72 of
 msgid "Add filter handler, error handler, template context processor"
 msgstr ""
 
-#: flask_pluginkit.pluginkit.PluginManager:69 of
+#: flask_pluginkit.pluginkit.PluginManager:75 of
 msgid "Add try_compatible, if True, it will try to load old version"
 msgstr ""
 
-#: flask_pluginkit.pluginkit.PluginManager:72 of
+#: flask_pluginkit.pluginkit.PluginManager:78 of
 msgid "Add hep named before_first_request."
 msgstr ""
 
-#: flask_pluginkit.pluginkit.PluginManager:75 of
+#: flask_pluginkit.pluginkit.PluginManager:81 of
 msgid ""
 "The param ``stpl`` allows to be set to `asc` or `desc`, respectively, "
 "ascending, descending, which will also open the template sorting. So, the"
 " param ``stpl_reverse`` will be deprecated."
 msgstr ""
 
-#: flask_pluginkit.pluginkit.PluginManager:80 of
+#: flask_pluginkit.pluginkit.PluginManager:86 of
 msgid "Add ``cvep`` feature for beta."
 msgstr ""
 
-#: flask_pluginkit.pluginkit.PluginManager:83 of
+#: flask_pluginkit.pluginkit.PluginManager:89 of
 msgid ""
 "Ready to remove ``stpl_reverse`` and ``try_compatible`` in the next minor"
 " version, if it is still used, a warning will be issued."
 msgstr ""
 
-#: flask_pluginkit.pluginkit.PluginManager:88 of
+#: flask_pluginkit.pluginkit.PluginManager:94 of
 msgid "Add ``p3`` feature for beta."
 msgstr ""
 
-#: flask_pluginkit.pluginkit.PluginManager:91 of
+#: flask_pluginkit.pluginkit.PluginManager:97 of
 msgid "Remove `before_first_request` hep"
 msgstr ""
 
-#: flask_pluginkit.pluginkit.PluginManager:94 of
+#: flask_pluginkit.pluginkit.PluginManager:100 of
 msgid "Remove `stpl_reverse` and `try_compatible` param."
+msgstr ""
+
+#: flask_pluginkit.pluginkit.PluginManager:103 of
+msgid ""
+"Add `install_packages` parameter, install third-party package from PyPI "
+"or Git."
 msgstr ""
 
 #: flask_pluginkit.pluginkit.PluginManager.__init__:1 of
@@ -825,6 +842,10 @@ msgstr ""
 msgid "Change :attr:`index` to :attr:`DEFAULT_INDEX`"
 msgstr ""
 
+#: flask_pluginkit.utils.BaseStorage:12 of
+msgid "Add empty :attr:`list`, `get`, `set` method, which must be overridden."
+msgstr ""
+
 #: flask_pluginkit.utils.BaseStorage.index:1 of
 msgid "Get the final index"
 msgstr ""
@@ -873,7 +894,9 @@ msgid "Determine whether the current environment is under Virtualenv or Venv"
 msgstr ""
 
 #: flask_pluginkit.utils.pip_install:1 of
-msgid "Use pip to install modules to the specified target or default user home."
+msgid ""
+"Use pip to install modules to the specified directory or default user "
+"home."
 msgstr ""
 
 #: flask_pluginkit.utils.pip_install:3 flask_pluginkit.utils.pip_show:3 of
@@ -916,12 +939,12 @@ msgstr ""
 msgid "Get the result of pip list."
 msgstr ""
 
-#: flask_pluginkit.utils.pip_list:4 of
-msgid "{package_name:version}"
+#: flask_pluginkit.utils.pip_list:4 flask_pluginkit.utils.pip_show:6 of
+msgid "If the pip command fails to execute."
 msgstr ""
 
-#: flask_pluginkit.utils.pip_list:6 flask_pluginkit.utils.pip_show:6 of
-msgid "If the pip command fails to execute."
+#: flask_pluginkit.utils.pip_list:5 of
+msgid "{package_name:version}"
 msgstr ""
 
 #: flask_pluginkit.utils.pip_show:1 of
@@ -1029,6 +1052,7 @@ msgstr ""
 
 #: flask_pluginkit.exceptions.InstallError:1
 #: flask_pluginkit.exceptions.NotCallableError:1
+#: flask_pluginkit.exceptions.NotImplementedError:1
 #: flask_pluginkit.exceptions.PEPError:1
 #: flask_pluginkit.exceptions.ParamError:1
 #: flask_pluginkit.exceptions.RunError:1 flask_pluginkit.exceptions.TarError:1
@@ -1326,5 +1350,14 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Bases: :class:`flask_pluginkit.exceptions.PluginError`"
+#~ msgstr ""
+
+#~ msgid "list of third-party plugin packages."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Use pip to install modules to the"
+#~ " specified target or default user "
+#~ "home."
 #~ msgstr ""
 
