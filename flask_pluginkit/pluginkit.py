@@ -35,7 +35,9 @@ from .utils import (
     Attribution,
     DcpManager,
     pip_install,
+    pip_list,
     is_match_version_req,
+    egg_pat,
 )
 from ._compat import string_types, iteritems, text_type
 from .exceptions import PluginError, VersionError, PEPError, TemplateNotFound
@@ -251,7 +253,13 @@ class PluginManager(object):
             "Start plugins initialization, local plugins path: %s, third party"
             "-plugins: %s" % (self.plugins_abspath, self.plugin_packages)
         )
+        installed_pkgs = pip_list()
         for pkg in self.install_packages:
+            egg = egg_pat.search(pkg)
+            if egg:
+                name = egg.group(1)
+                if name in installed_pkgs:
+                    continue
             pip_install(pkg, **self.install_packages_meta)  # type: ignore
 
         self.__scan_third_plugins()

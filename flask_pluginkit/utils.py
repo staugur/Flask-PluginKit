@@ -36,6 +36,7 @@ from .exceptions import (
 from .version import __version__
 
 comma_pat = compile(r"\s*,\s*")
+egg_pat = compile(r"egg=([\w-]+)")
 
 
 def isValidPrefix(prefix: str, allow_none: bool = False) -> bool:

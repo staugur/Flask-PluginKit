@@ -11,7 +11,7 @@ pm = PluginManager(
     app,
     plugin_packages=["flask_pluginkit_demo"],
     install_packages=dict(
-        pkgs=["git+https://github.com/saintic/flask-pluginkit-demo@master"],
+        pkgs=["git+https://github.com/saintic/flask-pluginkit-demo@master#egg=flask-pluginkit-demo"],
         upgrade=True,
     ),
     pluginkit_config=dict(whoami="localdemo_config"),
