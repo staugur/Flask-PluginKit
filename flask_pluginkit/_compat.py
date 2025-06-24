@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-    flask_pluginkit._compat
-    ~~~~~~~~~~~~~~~~~~~~~~~
+flask_pluginkit._compat
+~~~~~~~~~~~~~~~~~~~~~~~
 
-    A module providing tools for cross-version compatibility.
+A module providing tools for cross-version compatibility.
 
-    :copyright: (c) 2019 by staugur.
-    :license: BSD 3-Clause, see LICENSE for more details.
+:copyright: (c) 2019 by staugur.
+:license: BSD 3-Clause, see LICENSE for more details.
 """
 
 import urllib.request as urllib2

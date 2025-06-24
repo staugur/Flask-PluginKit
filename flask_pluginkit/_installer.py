@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-    flask_pluginkit._installer
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+flask_pluginkit._installer
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    installer: install or remove plugin.
+installer: install or remove plugin.
 
-    :copyright: (c) 2019 by staugur.
-    :license: BSD 3-Clause, see LICENSE for more details.
+:copyright: (c) 2019 by staugur.
+:license: BSD 3-Clause, see LICENSE for more details.
 """
 
 import re
@@ -20,6 +20,7 @@ from subprocess import call
 from cgi import parse_header
 from posixpath import basename as posixbasename
 from tempfile import NamedTemporaryFile
+
 from .exceptions import PluginError, TarError, ZipError, InstallError
 from ._compat import string_types, urllib2, urlsplit, parse_qs
 from .utils import check_url

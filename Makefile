@@ -21,11 +21,9 @@ clean:
 
 dev:
 	pip install -e .
-	$(MAKE) clean
 
 test:
 	python -m unittest
-	$(MAKE) clean
 
 html:
 	cd docs && sphinx-build -E -T -b html . _build/html

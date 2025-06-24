@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-    flask_pluginkit
-    ~~~~~~~~~~~~~~~
+flask_pluginkit
+~~~~~~~~~~~~~~~
 
-    Load and run plugins for your Flask application
+Load and run plugins for your Flask application
 
-    :copyright: (c) 2019 by staugur.
-    :license: BSD 3-Clause, see LICENSE for more details.
+:copyright: (c) 2019 by staugur.
+:license: BSD 3-Clause, see LICENSE for more details.
 """
 
 from .pluginkit import PluginManager, push_dcp

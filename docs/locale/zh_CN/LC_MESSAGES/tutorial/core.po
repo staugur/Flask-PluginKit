@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-23 23:48+0800\n"
+"POT-Creation-Date: 2025-06-24 22:55+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -173,18 +173,92 @@ msgid "The plugin Status, enabled (default) or disabled."
 msgstr "插件状态，enabled (默认) 或 disabled。"
 
 #: ../../tutorial/core.rst:127
-msgid "``__app_verion__``"
+msgid "``__appverion__``"
 msgstr ""
 
 #: ../../tutorial/core.rst:129
 msgid "The plugin requires the version of Flask-PluginKit."
 msgstr "插件要求 Flask-PluginKit 的版本"
 
+#: ../../tutorial/core.rst:133
+msgid ""
+"This is optional for defining compatible Flask-PluginKit program versions"
+" for third-party plugins, The format is ``<op>version``, leaving it blank "
+"means all versions are allowed."
+msgstr ""
+"这是可选的，用于第三方插件定义兼容的 Flask-PluginKit 程序版本，"
+"其格式是：``<op>version``，留空则表示允许所有版本。"
+
 #: ../../tutorial/core.rst:136
+msgid ""
+"<op> is an operator (optional) that allows the use of ``< <= > >= == !=`` six"
+" symbols represent: Less than, less than or equal to, greater than, "
+"greater than or equal to, equal to, not equal to, default is **>=**"
+msgstr ""
+"<op>是操作符（可选），允许使用 ``< <= > >= == !=`` 这六种符号，分别表示："
+"小于、小于等于、大于、大于等于、等于、不等于，默认是 **>=**"
+
+#: ../../tutorial/core.rst:139
+msgid "The `version` represents the version number of Flask-PluginKit."
+msgstr "version 表示 Flask-PluginKit 的版本号。"
+
+#: ../../tutorial/core.rst:141
+msgid ""
+"In addition, it is allowed to use half width commas to group, indicating "
+"that loading is only allowed if all groups match."
+msgstr ""
+"另外，允许用半角逗号分组，表示匹配所有分组才允许加载。"
+
+#: ../../tutorial/core.rst:143
+msgid "For example (__appupdate__=↓):"
+msgstr "举例说明（__appversion__ = ↓）："
+
+#: ../../tutorial/core.rst:145
+msgid "``3.10.0``"
+msgstr ""
+
+#: ../../tutorial/core.rst:147
+msgid ""
+"This plugin requires a minimum Flask-PluginKit version of 3.10.0, which "
+"supports later versions. If the requirement is not met, "
+":class:`~flask_pluginkit.exceptions.VersionError` will be thrown."
+msgstr ""
+"说明此插件要求的 Flask-PluginKit 版本最低是3.10.0，支持之后版本，"
+"不满足要求则会抛出 :class:`~flask_pluginkit.exceptions.VersionError` 异常。
+
+#: ../../tutorial/core.rst:152
+msgid "``>3.10.0``"
+msgstr ""
+
+#: ../../tutorial/core.rst:154
+msgid ""
+"Request Flask-PluginKit version 3.10.0 onwards (not included), such as "
+"3.10.1, 3.11.0"
+msgstr "要求 Flask-PluginKit 版本 3.10.0 之后（不包含），如3.10.1、3.11.0"
+
+#: ../../tutorial/core.rst:156
+msgid "``<3.10.0``"
+msgstr ""
+
+#: ../../tutorial/core.rst:158
+msgid "Contrary to the previous one, before 3.10.0 (excluding), such as 3.9.9"
+msgstr "跟上一条相反，3.10.0之前（不包含），如 3.9.9"
+
+#: ../../tutorial/core.rst:160
+msgid "``>3.10.0,<3.11.0,! =3.10.1``"
+msgstr ""
+
+#: ../../tutorial/core.rst:162
+msgid ""
+"Require Flask-PluginKit version to be greater than 3.10.0, less than "
+"3.11.0, and not equal to 3.10.1"
+msgstr "要求 Flask-PluginKit 版本大于 3.10.0 小于 3.11.0 且不等于 3.10.1"
+
+#: ../../tutorial/core.rst:169
 msgid "register"
 msgstr ""
 
-#: ../../tutorial/core.rst:138
+#: ../../tutorial/core.rst:171
 msgid ""
 "This function is also required, it should be defined or imported in "
 "`__init__.py`. Flask-PluginKit will call this function when loading, "
@@ -193,38 +267,38 @@ msgstr ""
 "这个函数也是必需的，应该在 ``__init__.py`` 被定义或导入。Flask-"
 "PluginKit将在加载插件时调用此函数，返回数据要求是dict，包含各种类型的扩展点，例如："
 
-#: ../../tutorial/core.rst:155
+#: ../../tutorial/core.rst:188
 msgid "For the extension points returned, please see the following sections."
 msgstr "对于返回的扩展点，请参阅后续章节。"
 
-#: ../../tutorial/core.rst:160
+#: ../../tutorial/core.rst:193
 msgid "Enabling and Disabling Plugins"
 msgstr "启用、禁用插件"
 
-#: ../../tutorial/core.rst:162
+#: ../../tutorial/core.rst:195
 msgid "This extension, uses a different approach for handling plugins."
 msgstr "此扩展使用不同的方法来处理插件。"
 
-#: ../../tutorial/core.rst:164
+#: ../../tutorial/core.rst:197
 msgid ""
 "Anyway, local plugins (a subdirectory located in the application, such as"
 " plugins, is a package) or third-party plugins (which can be pypi or from"
 " git, svn, etc.), should be installed in the local environment."
 msgstr "无论如何，本地插件（位于应用程序中的子目录，例如plugins，是一个包）或第三方插件（可以是pypi或来自git，svn等等），都应该安装在本地环境中。"
 
-#: ../../tutorial/core.rst:168
+#: ../../tutorial/core.rst:201
 msgid ""
 "Plugins are enabled by default, and there are two ways to enable or "
 "disable a plugin."
 msgstr "插件默认是启用的，有两种方法禁用或启用一个插件。"
 
-#: ../../tutorial/core.rst:171
+#: ../../tutorial/core.rst:204
 msgid ""
 "The first method is to set the metadata ``__state__`` value to  "
 "**enabled** or **disabled**."
 msgstr "第一种方法是将元数据 ``__state__`` 的值设置为 **enabled** （启用）或 **disabled** （禁用）。"
 
-#: ../../tutorial/core.rst:174
+#: ../../tutorial/core.rst:207
 msgid ""
 "The second method is to add the ``ENABLED`` or ``DISABLED`` file in the "
 "plugin's root directory, without changing the source code. This can "
@@ -236,39 +310,39 @@ msgstr ""
 "PluginKit提供的方法 :meth:`~flask_pluginkit.PluginManager.disable_plugin` 或 "
 ":meth:`~flask_pluginkit.PluginManager.enable_plugin`"
 
-#: ../../tutorial/core.rst:182
+#: ../../tutorial/core.rst:215
 msgid ""
 "The second method has a higher priority than the first one, and the "
 "DISABLED file has a higher priority than the ENABLED file."
 msgstr "第二种方法比第一种优先级高，DISABLED文件比ENABLED文件优先级高。"
 
-#: ../../tutorial/core.rst:185
+#: ../../tutorial/core.rst:218
 msgid "The directory structure of a disabled plugin is shown below."
 msgstr "禁用插件的目录结构如下所示："
 
-#: ../../tutorial/core.rst:195
+#: ../../tutorial/core.rst:228
 msgid ""
 "The server needs to be restarted or reloaded to disable the plugin. This "
 "is a limitation of Flask. However, it is possible, to restart the "
 "application by sending a HUP signal to the application server."
 msgstr "需要重新启动或重新加载WSGI服务器以禁用插件，这是Flask的限制。不过，通过向Web应用程序服务器发送HUP信号，也可以重载应用。"
 
-#: ../../tutorial/core.rst:199
+#: ../../tutorial/core.rst:232
 msgid ""
 "The following code snippets, are showing how this can be done with the "
 "WSGI server gunicorn. Gunicorn has be to started in daemon (``--daemon``)"
 " mode in order for this to work."
 msgstr "以下代码片段展示了如何使用WSGI服务器gunicorn完成此操作。Gunicorn以守护进程（``--daemon``）启动，才能通过HUP信号重载应用。"
 
-#: ../../tutorial/core.rst:203
+#: ../../tutorial/core.rst:236
 msgid "You can use the command to manually reload:"
 msgstr "您可以使用该命令手动重新加载："
 
-#: ../../tutorial/core.rst:209
+#: ../../tutorial/core.rst:242
 msgid "or direct restart (kill, then start)."
 msgstr "或直接重启（杀死进程再启动）。"
 
-#: ../../tutorial/core.rst:211
+#: ../../tutorial/core.rst:244
 msgid ""
 "In web applications, according to previous tests, it should use "
 ":func:`os.getppid` instead of :func:`os.getpid` to get the master pid of "
@@ -277,11 +351,11 @@ msgstr ""
 "在Web应用程序中，根据以前的测试，它应该使用 :func:`os.getppid` 代替 :func:`os.getpid` "
 "来获取gunicorn的master-pid，并向此pid发送SIGHUP信号。"
 
-#: ../../tutorial/core.rst:215
+#: ../../tutorial/core.rst:248
 msgid "For security, the process name should be verified!"
 msgstr "为了安全，应该校验下进程名！"
 
-#: ../../tutorial/core.rst:223
+#: ../../tutorial/core.rst:256
 msgid ""
 "This feature is implemented in v3.3.0, reference document "
 ":doc:`/webmanager`"
@@ -289,4 +363,7 @@ msgstr "此功能在v3.3.0中实现，参考文档 :doc:`/webmanager`"
 
 #~ msgid "Subsequent versions will add this feature."
 #~ msgstr "后续版本将添加此功能。"
+
+#~ msgid "``__app_verion__``"
+#~ msgstr ""
 

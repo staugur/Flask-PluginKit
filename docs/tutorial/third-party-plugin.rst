@@ -26,7 +26,18 @@ subsequent third-party plugin upgrades.
 
     .. code-block:: json
 
-        {"pkgs": ["third-package-from-pypi", "third-package-from-git", "required"], "index":"pypi or mirror(optional)"}
+        {"pkgs": ["PyPi-Project", "VCS-URL@branch#egg=package-name", "required"], "index":"pypi or mirror(optional)"}
+
+    .. tip::
+
+        The ``pkgs`` field is a list of packages, which can be PyPi packages,
+        VCS URLs, or other package formats supported by pip.
+
+        If install with VCS URL, recommend carrying ``#egg=package-name`` to check
+        if it has been installed and avoid duplicate installations.
+
+        If you want to install from a specific index, you can specify the
+        ``index`` field, which defaults to empty.
 
 Local Plugin
 ------------

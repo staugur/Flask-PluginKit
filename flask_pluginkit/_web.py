@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -*-
 """
-    flask_pluginkit._web
-    ~~~~~~~~~~~~~~~~~~~~
+flask_pluginkit._web
+~~~~~~~~~~~~~~~~~~~~
 
-    The server-side plugin management blueprint.
+The server-side plugin management blueprint.
 
-    :copyright: (c) 2019 by staugur.
-    :license: BSD 3-Clause, see LICENSE for more details.
+:copyright: (c) 2019 by staugur.
+:license: BSD 3-Clause, see LICENSE for more details.
 """
 
 import _thread as thread
 from time import sleep
 from collections import OrderedDict, deque
-from werkzeug.utils import secure_filename
 from tempfile import NamedTemporaryFile
+
+from werkzeug.utils import secure_filename
 from flask import (
     Blueprint,
     current_app,
@@ -24,6 +25,7 @@ from flask import (
     make_response,
     Response,
 )
+
 from .utils import allowed_uploaded_plugin_suffix, check_url
 from ._installer import PluginInstaller
 

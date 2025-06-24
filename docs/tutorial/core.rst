@@ -124,9 +124,42 @@ the first three are required:
 
     The plugin Status, enabled (default) or disabled.
 
-- ``__app_verion__``
+- ``__appverion__``
 
     The plugin requires the version of Flask-PluginKit.
+
+    .. note::
+
+        This is optional for defining compatible Flask-PluginKit program versions for third-party plugins,
+        The format is ``<op>version``, leaving it blank means all versions are allowed.
+                
+        <op> is an operator (optional) that allows the use of ``< <= > >= == !=`` six symbols represent:
+        Less than, less than or equal to, greater than, greater than or equal to, equal to, not equal to, default is **>=**
+
+        The `version` represents the version number of Flask-PluginKit.
+
+        In addition, it is allowed to use half width commas to group, indicating that loading is only allowed if all groups match.
+
+        For example (__appupdate__=↓):
+
+        - ``3.10.0``
+
+            This plugin requires a minimum Flask-PluginKit version of 3.10.0,
+            which supports later versions.
+            If the requirement is not met,
+            :class:`~flask_pluginkit.exceptions.VersionError` will be thrown.
+
+        - ``>3.10.0``
+
+            Request Flask-PluginKit version 3.10.0 onwards (not included), such as 3.10.1, 3.11.0
+
+        - ``<3.10.0``
+
+            Contrary to the previous one, before 3.10.0 (excluding), such as 3.9.9
+
+        - ``>3.10.0,<3.11.0,! =3.10.1``
+
+            Require Flask-PluginKit version to be greater than 3.10.0, less than 3.11.0, and not equal to 3.10.1
 
 .. _Semantic Version 2.0: https://semver.org
 

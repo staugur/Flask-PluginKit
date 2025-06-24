@@ -43,7 +43,7 @@ from ._compat import string_types, iteritems, text_type
 from .exceptions import PluginError, VersionError, PEPError, TemplateNotFound
 
 
-META = Attribution[Dict[str, Union[None, str, list, dict]]]
+META = Dict[str, Union[None, str, list, dict]]
 
 
 class PluginManager(object):
@@ -1308,4 +1308,6 @@ def push_dcp(event, callback, position="right"):
 
     .. versionadded:: 3.2.0
     """
-    current_app.extensions.get("pluginkit")._dcp_manager.push(event, callback, position)
+    obj = current_app.extensions.get("pluginkit")
+    if isinstance(obj, PluginManager):
+        obj._dcp_manager.push(event, callback, position)

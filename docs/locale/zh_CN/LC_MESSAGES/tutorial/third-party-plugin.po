@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-23 23:39+0800\n"
+"POT-Creation-Date: 2025-06-24 22:31+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,11 +66,34 @@ msgstr ""
 msgid "Format reference:"
 msgstr "格式参考："
 
-#: ../../tutorial/third-party-plugin.rst:32
+#: ../../tutorial/third-party-plugin.rst:33
+msgid ""
+"The ``pkgs`` field is a list of packages, which can be PyPi packages, VCS"
+" URLs, or other package formats supported by pip."
+msgstr ""
+"示例中 ``pkgs`` 字段是必需的， list 类型，可以是 PyPi 包、 VCS 地址（如github、svn），"
+"或其他 pip install 支持的包类型。"
+
+#: ../../tutorial/third-party-plugin.rst:36
+msgid ""
+"If install with VCS URL, recommend carrying ``#egg=package-name`` to "
+"check if it has been installed and avoid duplicate installations."
+msgstr ""
+"如果安装 VCS URL 类型，推荐携带 ``#egg=package-name`` 以便检查是否已经安装，"
+"避免重复安装。"
+
+#: ../../tutorial/third-party-plugin.rst:39
+msgid ""
+"If you want to install from a specific index, you can specify the "
+"``index`` field, which defaults to empty."
+msgstr ""
+"如果你想在安装时指定 pip 软件源，可以用 ``index`` 字段，默认是空。"
+
+#: ../../tutorial/third-party-plugin.rst:43
 msgid "Local Plugin"
 msgstr "本地插件"
 
-#: ../../tutorial/third-party-plugin.rst:34
+#: ../../tutorial/third-party-plugin.rst:45
 msgid ""
 "It's a package under the web application, which is part of the web "
 "application, and the plugin developer is the user, more see :ref:`core-"
@@ -79,17 +102,17 @@ msgstr ""
 "它是Web应用程序下的一个包，是Web的一部分，对于本地插件来说，插件开发人员就是用户本人，要了解更多参考 :ref:`core-plugin-"
 "structure`"
 
-#: ../../tutorial/third-party-plugin.rst:38
+#: ../../tutorial/third-party-plugin.rst:49
 msgid "How to develop plugins?"
 msgstr "如何开发插件？"
 
-#: ../../tutorial/third-party-plugin.rst:40
+#: ../../tutorial/third-party-plugin.rst:51
 msgid ""
 "The local plugin only needs the first step, and the third party plugin "
 "needs to write ``setup.py``, which requires the next few steps."
 msgstr "本地插件只需要第一步，第三方插件需要编写 ``setup.py`` ，需要后面几步。"
 
-#: ../../tutorial/third-party-plugin.rst:43
+#: ../../tutorial/third-party-plugin.rst:54
 msgid ""
 "First create a package, the metadata and register functions should be "
 "written in ``__init__.py``, the core code can also be written in this "
@@ -98,41 +121,41 @@ msgstr ""
 "首先创建一个包，应该在包的 ``__init__.py`` "
 "中编写元数据和register函数返回扩展点，其他核心代码也可以写在这个文件中，当然，推荐做法是独立模块。"
 
-#: ../../tutorial/third-party-plugin.rst:47
+#: ../../tutorial/third-party-plugin.rst:58
 msgid ""
 "The first step is actually the process of writing local plugins. In this "
 "step, you need to write `setup.py`, so that local plugins can be "
 "(published in pypi, optionally) used by others through pip:"
 msgstr "第一步实际上是编写本地插件的过程。这一步，你需要编写 `setup.py` ，以便本地插件可以（发布到pypi，可选）让其他人通过pip使用："
 
-#: ../../tutorial/third-party-plugin.rst:61
+#: ../../tutorial/third-party-plugin.rst:72
 msgid ""
 "If your plugin contains template directory or static directory, you need "
 "to write an additional manifest file ``MANIFEST.in``:"
 msgstr "如果你的插件包含模板文件或静态文件，还需要编写 ``MANIFEST.in`` 清单文件。"
 
-#: ../../tutorial/third-party-plugin.rst:69
+#: ../../tutorial/third-party-plugin.rst:80
 msgid "Testing, Release"
 msgstr "测试，发布"
 
-#: ../../tutorial/third-party-plugin.rst:71
+#: ../../tutorial/third-party-plugin.rst:82
 msgid "The modules required by the following commands can be installed like this:"
 msgstr "以下命令所需的模块可以这样安装："
 
-#: ../../tutorial/third-party-plugin.rst:77
+#: ../../tutorial/third-party-plugin.rst:88
 msgid ""
 "4.1 Use ``pip install .`` to install to the local environment and test "
 "the plugin functionality."
 msgstr "4.1 使用 ``pip install .`` 安装到本地虚拟环境或全局，并测试插件功能。"
 
-#: ../../tutorial/third-party-plugin.rst:80
+#: ../../tutorial/third-party-plugin.rst:91
 msgid ""
 "4.2 If the plugin is as expected, it can be packaged and the command is: "
 "``python setup.py sdist bdist_wheel``, more parameters to adjust "
 "themselves."
 msgstr "4.2 如果插件功能符合预期，可以使用命令打包： ``python setup.py sdist bdist_wheel`` ，更多参数自行调整。"
 
-#: ../../tutorial/third-party-plugin.rst:83
+#: ../../tutorial/third-party-plugin.rst:94
 msgid ""
 "4.3 Before the official release, you can post to test.pypi.org, which is "
 "the official pypi test site. The package inside will not be used easily. "
@@ -142,7 +165,7 @@ msgstr ""
 "4.3 在发布到pypi.org前，你可以发布到test.pypi.org，这是官方的pypi测试网站，里面的包不会轻易使用，命令是： "
 "``twine upload --repository-url https://test.pypi.org/legacy/ dist/*`` "
 
-#: ../../tutorial/third-party-plugin.rst:88
+#: ../../tutorial/third-party-plugin.rst:99
 msgid ""
 "4.4 The test station can look at the interface description and so on "
 "whether it meets the requirements of the heart, and publish it to the "
@@ -150,7 +173,7 @@ msgid ""
 "upload dist/*``"
 msgstr "4.4 你可以在这个测试站查看描述等有没有问题，无误后发布到正式站pypi.org，命令是： ``twine upload dist/*`` "
 
-#: ../../tutorial/third-party-plugin.rst:93
+#: ../../tutorial/third-party-plugin.rst:104
 msgid "`Third-party example <https://github.com/saintic/flask-pluginkit-demo>`_"
 msgstr "`第三方插件示例 <https://github.com/saintic/flask-pluginkit-demo>`_"
 
