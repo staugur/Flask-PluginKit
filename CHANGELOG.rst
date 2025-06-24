@@ -3,7 +3,7 @@
 v3.10.0
 -------
 
-Released in 2025-06-22
+Released in 2025-06-24
 
 - feat: add pip command(install/list/show)
 - feat: :class:`~flask_pluginkit.PluginManager` add `install_package` param, automatically install the plugin package from PyPi or VCS.
