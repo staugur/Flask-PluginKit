@@ -1,9 +1,9 @@
 .. currentmodule:: flask-pluginkit
 
-v3.10.0
+v3.10.1
 -------
 
-Released in 2025-06-24
+Released in 2025-06-25
 
 - feat: add pip command(install/list/show)
 - feat: :class:`~flask_pluginkit.PluginManager` add `install_package` param, automatically install the plugin package from PyPi or VCS.

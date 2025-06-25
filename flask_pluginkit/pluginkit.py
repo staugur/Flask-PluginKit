@@ -93,16 +93,14 @@ class PluginManager(object):
 
     :param Logger logger: logging instance, for debug.
 
-    :param str stpl: turn on template sorting when the value is True, ASC, DESC.
+    :param str stpl: turn on template sorting when the value is ASC, DESC.
                      Sorting rules can be used, DESC or ASC(default).
 
     :param List[str] plugin_packages: load the third-party plugin packages.
 
     :param Dict[str, Union[str, bool, List[str]]] install_packages: auto install the list of third-party plugin packages.
-            Format: {pkgs: ["pkg-from-pypi", "pkg-from-git", ...]}
+            Format: {pkgs: ["PyPi-pkg", "VSC@branch#egg=pkg", ...]}
             Other params refer to :func:`flask_pluginkit.utils.pip_install`.
-
-    :param bool try_compatible: if True, it will try to load old version plugins.
 
     :param static_url_path: can be used to specify a different path for the
                             static files on the plugins. Defaults to the name
