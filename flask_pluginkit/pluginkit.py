@@ -38,6 +38,7 @@ from .utils import (
     pip_list,
     is_match_version_req,
     egg_pat,
+    get_module_path
 )
 from ._compat import string_types, iteritems, text_type
 from .exceptions import PluginError, VersionError, PEPError, TemplateNotFound
@@ -384,7 +385,7 @@ class PluginManager(object):
                 except ImportError as e:
                     raise PluginError(e)
                 else:
-                    plugin_abspath = dirname(abspath(plugin.__file__))
+                    plugin_abspath = dirname(get_module_path(package_name))
                     self.__load_plugin(plugin, plugin_abspath, package_name)
 
     def __scan_affiliated_plugins(self):
