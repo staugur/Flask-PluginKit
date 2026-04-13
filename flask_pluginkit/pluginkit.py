@@ -10,6 +10,7 @@ Load and run plugins.
 """
 
 import logging
+import importlib
 from time import time
 from itertools import chain
 from os import getcwd, listdir, remove
@@ -381,7 +382,7 @@ class PluginManager(object):
             for package_name in self.plugin_packages:
                 self.logger.debug("find third plugin package: %s" % package_name)
                 try:
-                    plugin = __import__(package_name)
+                    plugin = importlib.import_module(package_name)
                 except ImportError as e:
                     raise PluginError(e)
                 else:
@@ -398,16 +399,20 @@ class PluginManager(object):
                     join(package_abspath, "__init__.py")
                 ):
                     self.logger.debug("find local plugin package: %s" % package_name)
-                    #: Dynamic load module (plugins.package):
-                    #: you can query custom information and get the plugin's
-                    #: class definition through `register` function.
-                    plugin = __import__(
-                        "%s.%s" % (self.plugins_folder, package_name),
-                        fromlist=[
-                            self.plugins_folder,
-                        ],
-                    )
-                    self.__load_plugin(plugin, package_abspath, package_name)
+                    try:
+                        # 验证 package_name 是否为有效标识符
+                        if not package_name.isidentifier():
+                            self.logger.warning("Invalid plugin package name: %s" % package_name)
+                            continue
+
+                        # 使用 importlib.import_module 替代 __import__
+                        module_name = f"{self.plugins_folder}.{package_name}"
+                        plugin = importlib.import_module(module_name)
+
+                        self.__load_plugin(plugin, package_abspath, package_name)
+                    except ImportError as e:
+                        self.logger.error("Failed to import plugin %s: %s" % (package_name, str(e)))
+                        continue  # 跳过失败的插件，继续加载其他插件
 
     def __load_plugin(self, p_obj, package_abspath, package_name):
         """Try to load the plugin.
