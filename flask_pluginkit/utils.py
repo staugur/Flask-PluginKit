@@ -12,6 +12,8 @@ Some tool classes and functions.
 import sys
 import json
 import shelve
+import importlib
+
 from re import compile
 from functools import cmp_to_key
 from os.path import join, abspath, isdir
@@ -608,3 +610,20 @@ def pip_show(pkg: str, target_dir: str = "") -> Optional[str]:
     ret = pip_list(target_dir=target_dir)
     if pkg in ret:
         return ret[pkg]
+
+def get_module_path(module_name:str)-> Optional[str]:
+    """获取指定模块的路径"""
+    try:
+        # 导入模块
+        module = importlib.import_module(module_name)
+        
+        # 检查是否有 __file__ 属性
+        if hasattr(module, "__file__") and module.__file__:
+            return abspath(module.__file__)
+        # 检查是否有 __path__ 属性（包）
+        elif hasattr(module, "__path__") and module.__path__:
+            return abspath(module.__path__[0])
+        else:
+            return None
+    except ImportError:
+        return None
