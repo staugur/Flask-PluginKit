@@ -14,7 +14,7 @@ import importlib
 from time import time
 from itertools import chain
 from os import getcwd, listdir, remove
-from os.path import join, dirname, abspath, isdir, isfile, splitext
+from os.path import join, dirname, isdir, isfile, splitext
 from typing import Optional, Dict, Union, Any, Sequence, List, Callable
 
 from flask import (

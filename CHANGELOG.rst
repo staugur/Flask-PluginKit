@@ -1,5 +1,13 @@
 .. currentmodule:: flask-pluginkit
 
+v3.10.2
+-------
+
+Released in 2026-04-14
+
+- Use importlib to import dynamically.
+- Optimize obtaining module path
+
 v3.10.1
 -------
 
