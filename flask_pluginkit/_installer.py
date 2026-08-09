@@ -17,13 +17,38 @@ from os import remove
 from os.path import join, abspath, isdir, isfile, basename
 from sys import executable
 from subprocess import call
-from cgi import parse_header
 from posixpath import basename as posixbasename
 from tempfile import NamedTemporaryFile
-
 from .exceptions import PluginError, TarError, ZipError, InstallError
 from ._compat import string_types, urllib2, urlsplit, parse_qs
 from .utils import check_url
+try:
+    from cgi import parse_header
+except ImportError:
+    from urllib.parse import unquote
+
+    def parse_header(line):
+        """Compat shim for cgi.parse_header on Python 3.13+."""
+        if not line:
+            return "", {}
+
+        parts = [part.strip() for part in line.split(";")]
+        value = parts[0].strip()
+        params = {}
+        for part in parts[1:]:
+            if "=" not in part:
+                continue
+            key, raw_value = part.split("=", 1)
+            key = key.strip().lower()
+            raw_value = raw_value.strip()
+            if raw_value.startswith('"') and raw_value.endswith('"') and len(raw_value) >= 2:
+                raw_value = raw_value[1:-1]
+            elif raw_value.startswith("'") and raw_value.endswith("'") and len(raw_value) >= 2:
+                raw_value = raw_value[1:-1]
+            if key.endswith("*"):
+                raw_value = unquote(raw_value)
+            params[key] = raw_value
+        return value, params
 
 
 class PluginInstaller(object):
@@ -109,7 +134,7 @@ class PluginInstaller(object):
         ):
             with tarfile.open(filename, mode="r:gz") as t:
                 for name in t.getnames():
-                    t.extract(name, self.plugin_abspath)
+                    t.extract(name, self.plugin_abspath, filter="data")
         else:
             raise TarError("Invalid Plugin Compressed File")
 

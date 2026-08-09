@@ -1,5 +1,14 @@
 .. currentmodule:: flask-pluginkit
 
+v3.11.0
+-------
+
+Released in 2026-08-09
+
+- feat: add application-level lifecycle hook ``on_app_ready(app)`` for plugins that participate in the normal ``register()``-based extension flow.
+- fix: make the plugin installer compatible with Python 3.13/3.14 by handling ``Content-Disposition`` parsing without ``cgi.parse_header`` and by using safe tar extraction filters.
+- docs: update lifecycle examples and quickstart documentation.
+
 v3.10.2
 -------
 

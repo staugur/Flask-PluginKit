@@ -543,7 +543,6 @@ def pip_install(
         "--no-color",
         "--no-cache-dir",
         "--disable-pip-version-check",
-        "--no-python-version-warning",
         "--no-warn-conflicts",
         "--no-warn-script-location",
     ]
@@ -579,7 +578,6 @@ def pip_list(target_dir: str = "") -> Dict[str, str]:
         "--format",
         "json",
         "--disable-pip-version-check",
-        "--no-python-version-warning",
         "--no-color",
     ]
     try:

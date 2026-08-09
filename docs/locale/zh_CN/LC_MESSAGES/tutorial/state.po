@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Flask-PluginKit 3.11.0\n"
+"Language: zh_CN\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "State Points"
+msgstr "状态点"
+
+msgid "State points are application-level lifecycle hooks that let a plugin run logic after the plugin has been accepted as a normal extension plugin."
+msgstr "状态点是应用级生命周期钩子，允许插件在被视为正常扩展插件后执行初始化逻辑。"
+
+msgid "Unlike extension points such as ``tep``, ``hep`` or ``vep``, a state point is not used to register new plugin capabilities. Instead, it is used to execute application-level initialization once the Flask application is ready."
+msgstr "与 ``tep``、``hep`` 或 ``vep`` 这类扩展点不同，状态点并不用于注册新的插件能力，而是用于在 Flask 应用准备就绪后执行应用级初始化。"
+
+msgid "What is a state point?"
+msgstr "什么是状态点？"
+
+msgid "A state point is a special function that the framework detects by name. Currently, the supported state point is ``on_app_ready(app)``."
+msgstr "状态点是框架按函数名识别的特殊入口。目前支持的状态点是 ``on_app_ready(app)``。"
+
+msgid "It is called after the plugin manager has scanned, loaded and registered the plugin into the Flask application. The hook receives the current Flask app instance as its only parameter."
+msgstr "它会在插件管理器扫描、加载并注册插件到 Flask 应用之后调用。这个钩子只接收当前 Flask 应用实例作为参数。"
+
+msgid "How to define it"
+msgstr "如何定义"
+
+msgid "A plugin can define a state point together with ``register()``:"
+msgstr "插件可以同时定义 ``register()`` 和状态点："
+
+msgid "How it works"
+msgstr "工作方式"
+
+msgid "The framework will call ``on_app_ready(app)`` only for plugins that provide a regular ``register()`` entry point. A plugin that defines only ``on_app_ready`` without ``register()`` is treated as an invalid extension and will be rejected during loading."
+msgstr "框架只会为提供常规 ``register()`` 入口的插件调用 ``on_app_ready(app)``。仅定义 ``on_app_ready`` 而没有 ``register()`` 的插件会被视为非法扩展，并在加载阶段被拒绝。"
+
+msgid "Typical use cases"
+msgstr "典型使用场景"
+
+msgid "Use a state point when you need to:"
+msgstr "在以下场景中可以使用状态点："
+
+msgid "initialize shared services or clients"
+msgstr "初始化共享服务或客户端"
+
+msgid "inject configuration into the application"
+msgstr "向应用注入配置"
+
+msgid "register application-wide globals or template helpers"
+msgstr "注册应用级全局变量或模板辅助函数"
+
+msgid "attach objects to ``app.extensions`` for later reuse"
+msgstr "把对象挂到 ``app.extensions`` 供后续复用"
+
+msgid "Example"
+msgstr "示例"

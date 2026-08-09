@@ -26,5 +26,6 @@ and cover as much as possible of all the features of Flask-PluginKit.
     dcp
     p3
     third-party-plugin
+    state
     afterword
 

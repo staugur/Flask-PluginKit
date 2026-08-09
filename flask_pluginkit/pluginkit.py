@@ -39,11 +39,10 @@ from .utils import (
     pip_list,
     is_match_version_req,
     egg_pat,
-    get_module_path
+    get_module_path,
 )
 from ._compat import string_types, iteritems, text_type
 from .exceptions import PluginError, VersionError, PEPError, TemplateNotFound
-
 
 META = Dict[str, Union[None, str, list, dict]]
 
@@ -151,6 +150,9 @@ class PluginManager(object):
 
     .. versionadded:: 3.10.0
         Add `install_packages` parameter, install third-party package from PyPI or Git.
+
+    .. versionadded:: 3.11.0
+        Add `on_app_ready` feature, run hook after app is ready.
     """
 
     def __init__(
@@ -269,6 +271,9 @@ class PluginManager(object):
         #:
         #: ..versionadded:: 3.7.0
         self.__preprocess_all_plugins()
+
+        #: .. versionadded:: 3.11.0
+        self.__run_app_ready_hooks(app)
 
         #: Analysis and run plugins. First, register template variable
         app.jinja_env.globals.update(
@@ -402,7 +407,9 @@ class PluginManager(object):
                     try:
                         # 验证 package_name 是否为有效标识符
                         if not package_name.isidentifier():
-                            self.logger.warning("Invalid plugin package name: %s" % package_name)
+                            self.logger.warning(
+                                "Invalid plugin package name: %s" % package_name
+                            )
                             continue
 
                         # 使用 importlib.import_module 替代 __import__
@@ -411,7 +418,9 @@ class PluginManager(object):
 
                         self.__load_plugin(plugin, package_abspath, package_name)
                     except ImportError as e:
-                        self.logger.error("Failed to import plugin %s: %s" % (package_name, str(e)))
+                        self.logger.error(
+                            "Failed to import plugin %s: %s" % (package_name, str(e))
+                        )
                         continue  # 跳过失败的插件，继续加载其他插件
 
     def __load_plugin(self, p_obj, package_abspath, package_name):
@@ -974,6 +983,27 @@ class PluginManager(object):
                                 p[obj] = nv
             nplugins.append(p)
         self.__plugins = nplugins
+
+    def __run_app_ready_hooks(self, app):
+        """Run lifecycle hooks after all plugins are loaded and registered."""
+        for plugin in self.get_enabled_plugins:
+            proxy = plugin.get("__proxy__")
+            if proxy is None or not hasattr(proxy, "register"):
+                continue
+            if hasattr(proxy, "on_app_ready"):
+                try:
+                    getattr(proxy, "on_app_ready")(app)
+                except TypeError:
+                    getattr(proxy, "on_app_ready")()
+                except Exception as e:
+                    self.logger.exception(
+                        "Failed to execute on_app_ready for %s: %s",
+                        plugin.plugin_name,
+                        str(e),
+                    )
+                    raise PEPError(
+                        "The plugin %s failed on_app_ready" % plugin.plugin_name
+                    )
 
     @property
     def get_all_plugins(self):

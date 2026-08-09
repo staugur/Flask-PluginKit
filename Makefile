@@ -23,6 +23,7 @@ dev:
 	pip install -e .
 
 test:
+	pip install -r examples/fulldemo/requirements.txt
 	python -m unittest
 
 html:

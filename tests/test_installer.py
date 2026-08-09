@@ -3,12 +3,18 @@
 import os
 import unittest
 from flask_pluginkit import PluginInstaller
+from flask_pluginkit._installer import parse_header
 from flask_pluginkit.utils import check_url
 
 
 class PITest(unittest.TestCase):
     def setUp(self):
         self.pi = PluginInstaller(".")
+
+    def test_parse_header_compat(self):
+        value, params = parse_header('attachment; filename="demo.zip"')
+        self.assertEqual(value, "attachment")
+        self.assertEqual(params["filename"], "demo.zip")
 
     def test_addPlugin(self):
         urls = [

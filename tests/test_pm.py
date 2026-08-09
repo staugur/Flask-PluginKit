@@ -4,6 +4,7 @@ import os
 import sys
 import time
 import json
+import tempfile
 import unittest
 from flask import Flask, request, g
 from markupsafe import Markup
@@ -13,7 +14,7 @@ from flask_pluginkit import (
     push_dcp,
     blueprint,
 )
-from flask_pluginkit.exceptions import PluginError, NotCallableError
+from flask_pluginkit.exceptions import PluginError, NotCallableError, PEPError
 from flask_pluginkit._compat import iteritems
 from jinja2 import ChoiceLoader
 
@@ -194,6 +195,74 @@ class PMTest(unittest.TestCase):
         with app2.test_request_context("/"):
             app2.preprocess_request()
             self.assertFalse(hasattr(g, "pluginkit"))
+
+    def test_lifecycle_hooks(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            plugins_root = os.path.join(tmpdir, "plugins")
+            plugin_dir = os.path.join(plugins_root, "lifecycle_demo")
+            os.makedirs(plugin_dir)
+            with open(os.path.join(plugins_root, "__init__.py"), "w") as fp:
+                fp.write("")
+            with open(os.path.join(plugin_dir, "__init__.py"), "w") as fp:
+                fp.write(
+                    "calls = []\n"
+                    "def on_app_ready(app):\n"
+                    "    calls.append(app.name)\n"
+                    "def register():\n"
+                    "    return {}\n"
+                    "__plugin_name__ = 'lifecycle_demo'\n"
+                    "__version__ = '0.1.0'\n"
+                    "__author__ = 'test'\n"
+                )
+
+            for name in list(sys.modules):
+                if name == "plugins" or name.startswith("plugins."):
+                    sys.modules.pop(name, None)
+
+            sys.path.insert(0, tmpdir)
+            try:
+                app = Flask("lifecycle_test")
+                PluginManager(app, plugins_base=tmpdir)
+                module = sys.modules.get("plugins.lifecycle_demo")
+                self.assertIsNotNone(module)
+                self.assertEqual(module.calls, ["lifecycle_test"])
+            finally:
+                sys.path.remove(tmpdir)
+                for name in list(sys.modules):
+                    if name == "plugins" or name.startswith("plugins."):
+                        sys.modules.pop(name, None)
+
+    def test_lifecycle_hooks_without_register(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            plugins_root = os.path.join(tmpdir, "plugins")
+            plugin_dir = os.path.join(plugins_root, "lifecycle_noreg")
+            os.makedirs(plugin_dir)
+            with open(os.path.join(plugins_root, "__init__.py"), "w") as fp:
+                fp.write("")
+            with open(os.path.join(plugin_dir, "__init__.py"), "w") as fp:
+                fp.write(
+                    "calls = []\n"
+                    "def on_app_ready(app):\n"
+                    "    calls.append(app.name)\n"
+                    "__plugin_name__ = 'lifecycle_noreg'\n"
+                    "__version__ = '0.1.0'\n"
+                    "__author__ = 'test'\n"
+                )
+
+            for name in list(sys.modules):
+                if name == "plugins" or name.startswith("plugins."):
+                    sys.modules.pop(name, None)
+
+            sys.path.insert(0, tmpdir)
+            try:
+                app = Flask("lifecycle_noreg_test")
+                with self.assertRaises(PEPError):
+                    PluginManager(app, plugins_base=tmpdir)
+            finally:
+                sys.path.remove(tmpdir)
+                for name in list(sys.modules):
+                    if name == "plugins" or name.startswith("plugins."):
+                        sys.modules.pop(name, None)
 
 
 if __name__ == "__main__" and not os.getenv("TRAVIS"):
