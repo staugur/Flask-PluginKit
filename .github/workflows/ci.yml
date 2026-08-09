@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         flask-version: ["3.0.0"]
-        python-version: ["3.10", "3.12"]
+        python-version: ["3.10", "3.12", "3.13"]
     permissions:
       id-token: write
 
@@ -39,7 +39,7 @@ jobs:
     - name: Start Redis
       uses: supercharge/redis-github-action@1.7.0
       with:
-        redis-version: 5
+        redis-version: 7
   
     - name: Test & upload report to coverage
       run: |
