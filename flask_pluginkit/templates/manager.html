@@ -50,8 +50,13 @@
             </div>
             <div class="columns">
                 <div class="column is-narrow">
-                    <a class="button is-danger is-small" title="No interaction directly overloading your web app!"
+                    <a class="button is-danger is-small"
+                        title="No extra dependency (e.g. psutil) required; the master process is detected via /proc on Linux."
                         href="javascript:reloadApp()" data-l10n-id='reload'>Reload Application</a>
+                </div>
+                <div class="column is-narrow">
+                    <a class="button is-primary is-small" data-l10n-id="discover" id="discover-plugins-submit"
+                        href="javascript:void(0)">Discover Plugins</a>
                 </div>
                 <div class="column is-narrow">
                     <div class="field">
@@ -149,6 +154,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            <div id="github-plugins" class="columns is-multiline is-hidden"></div>
             <div class="notification" id="notification" style="display: none;">
                 <button class="delete"></button>
                 <div id="message"></div>
@@ -326,6 +332,111 @@
                     }
                 });
             }
+        });
+
+        function renderGithubPlugins(data) {
+            let box = $("#github-plugins");
+            box.empty();
+            if (!data || !data.plugins || data.plugins.length === 0) {
+                setMessage("<scan class='has-text-warning'>No plugins found in the GitHub topic.</scan>");
+                return;
+            }
+            let tip = $("<div class='column is-full'></div>");
+            $("<p class='has-text-grey is-size-7'></p>")
+                .text("Plugins with topic '" + data.topic + "' from GitHub, total " + data.total_count +
+                    (data.cached ? " (cached)" : ""))
+                .appendTo(tip);
+            box.append(tip);
+            $.each(data.plugins, function (i, p) {
+                let col = $("<div class='column is-half-tablet is-one-third-desktop'></div>");
+                let card = $("<div class='card'></div>");
+                if (p.archived) {
+                    card.css('opacity', '0.6');
+                }
+                let content = $("<div class='card-content'></div>");
+                let title = $("<p class='title is-6'></p>").text(p.name);
+                if (p.archived) {
+                    title.append(" ");
+                    $("<span class='tag is-danger is-small' title='Archived repository'></span>")
+                        .text('Archived')
+                        .appendTo(title);
+                }
+                title.appendTo(content);
+                $("<p class='subtitle is-7 has-text-grey'></p>").text(p.full_name).appendTo(content);
+                $("<div class='content is-small'></div>").text(p.description || '').appendTo(content);
+                let tags = $("<div class='tags'></div>");
+                $.each(["★ " + p.stars, "⑂ " + p.forks, p.language, p.license,
+                    p.updated_at ? p.updated_at.split('T')[0] : ''
+                ], function (j, t) {
+                    if (t && t !== '') {
+                        $("<span class='tag is-light is-small'></span>").text(t).appendTo(tags);
+                    }
+                });
+                content.append(tags);
+                card.append(content);
+                let footer = $("<footer class='card-footer'></footer>");
+                $("<a class='card-footer-item' target='_blank'></a>")
+                    .attr('href', p.url)
+                    .text('View')
+                    .appendTo(footer);
+                if (p.archived) {
+                    $("<span class='card-footer-item has-text-grey is-size-7'></span>")
+                        .text('No longer maintained')
+                        .appendTo(footer);
+                } else {
+                    $("<a class='card-footer-item github-plugin-install'></a>")
+                        .attr('data-full-name', p.full_name)
+                        .attr('data-default-branch', p.default_branch)
+                        .text('Install')
+                        .appendTo(footer);
+                }
+                card.append(footer);
+                col.append(card);
+                box.append(col);
+            });
+            box.removeClass('is-hidden');
+        }
+
+        function installPluginFromGithub(full_name, default_branch) {
+            if (!full_name || !default_branch) {
+                return false;
+            }
+            ajax("{{ url_for('.api', Action='installPlugin') }}", function (res) {
+                setMessage("<scan class='has-text-primary'>Download and install is successful</scan>");
+            }, {
+                data: {
+                    full_name: full_name,
+                    default_branch: default_branch
+                },
+                fail: function (res) {
+                    setMessage("<scan class='has-text-warning'>" + res.msg + "</scan>");
+                }
+            });
+        }
+
+        $('#discover-plugins-submit').click(function () {
+            let $btn = $(this);
+            $btn.addClass('is-loading').attr('disabled', 'disabled');
+            setMessage(
+                "<scan class='has-text-info'>Loading plugins from GitHub, this may take a while on the first visit...</scan>"
+            );
+            ajax("{{ url_for('.api', Action='listPlugins') }}", function (res) {
+                //: hide the loading hint as soon as the request returns
+                hideNotification();
+                //: renderGithubPlugins re-shows a warning if nothing was found
+                renderGithubPlugins(res.data);
+            }, {
+                fail: function (res) {
+                    setMessage("<scan class='has-text-warning'>" + res.msg + "</scan>");
+                },
+                complete: function () {
+                    $btn.removeClass('is-loading').removeAttr('disabled');
+                }
+            });
+        });
+
+        $(document).on('click', '.github-plugin-install', function () {
+            installPluginFromGithub($(this).data('full-name'), $(this).data('default-branch'));
         });
 
     </script>

@@ -74,11 +74,12 @@ msgstr "禁用、启用插件都需要重载应用程序才会生效，为了安
 msgid ""
 "It can only be used in a formal environment that uses Gunicorn or uWSGI "
 "background startup, and requires that the value of **ENV** in the "
-"application's configuration item be **production**, and you also need to "
-"manually install the psutil module, eg: ``pip install psutil``."
+"application's configuration item be **production**. The master process is "
+"inspected via ``/proc`` on Linux, so there is no extra dependency like "
+"psutil."
 msgstr ""
 "只能在使用Gunicorn或uWSGI后台启动的正式环境中有效，而且要求应用程序的配置项中的 **ENV** 的值是 **production**"
-" ，另外还需要您手动安装psutil模块，例如： ``pip install psutil``。"
+" 。master进程通过Linux的 ``/proc`` 来探测，因此无需额外安装psutil之类的依赖。"
 
 #: ../../webmanager.rst:56
 msgid ""

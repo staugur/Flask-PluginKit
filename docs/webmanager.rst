@@ -50,8 +50,9 @@ This blueprint has only one page. This page contains three main features:
 
     It can only be used in a formal environment that uses Gunicorn or uWSGI
     background startup, and requires that the value of **ENV** in the
-    application's configuration item be **production**, and you also need to
-    manually install the psutil module, eg: ``pip install psutil``.
+    application's configuration item be **production**. The master process is
+    inspected via ``/proc`` on Linux, so there is no extra dependency like
+    psutil.
 
     If you use Gunicorn, you need the value of **PLUGINKIT_GUNICORN_ENABLED**
     in the application's configuration item to be True, and the value of
@@ -72,8 +73,6 @@ This blueprint has only one page. This page contains three main features:
     Here is an example:
 
     .. code-block:: bash
-
-        $ pip install psutil
 
         $ cat app.py
 

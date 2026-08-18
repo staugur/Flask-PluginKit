@@ -5,7 +5,8 @@ from flask_pluginkit import PluginManager, blueprint
 
 app = Flask(__name__)
 app.config.update(
-    PLUGINKIT_AUTH_AID_METHOD="IP", PLUGINKIT_AUTH_IP_WHITELIST=["127.0.0.1"]
+    PLUGINKIT_AUTH_FUNC=lambda :True,
+    PLUGINKIT_AUTH_METHOD="FUNC",
 )
 pm = PluginManager(
     app,

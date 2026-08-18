@@ -1,5 +1,16 @@
 .. currentmodule:: flask-pluginkit
 
+v3.12.0
+-------
+
+Released in 2026-08-18
+
+- feat: web manager adds "Discover Plugins", listing GitHub topic ``flask-pluginkit`` repositories (name prefix ``flask-pluginkit-``/``flask_pluginkit_``, sorted by stars, archived marker, one-click install), cached in memory (8h) and redis (7d, when available).
+- change: "Reload Application" no longer requires ``psutil``; the Gunicorn/uWSGI master is detected via ``/proc`` on Linux.
+- fix: uWSGI master detection now uses token-exact command-line matching to avoid false positives.
+- tests: add ``tests/test_web.py`` covering the new ``listPlugins``/``installPlugin`` actions and redis caching.
+- UI: "Discover Plugins" button gets a loading state/hint; "Reload Application" tooltip and docs note no extra dependency needed.
+
 v3.11.0
 -------
 

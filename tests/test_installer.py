@@ -20,10 +20,10 @@ class PITest(unittest.TestCase):
         urls = [
             "https://static.saintic.com/download/thirdApp/JQueryAvatarPreviewCut.zip",
             "https://static.saintic.com/download/thirdApp/syncthing-linux-amd64-v0.14.45.tar.gz",
-            "https://codeload.github.com/saintic/jwt/zip/master",
+            "https://codeload.github.com/saintic/flask-pluginkit-demo/zip/master",
             "https://codeload.github.com/staugur/Flask-PluginKit/tar.gz/v3.0.0",
         ]
-        pkg = os.path.join(self.pi.plugin_abspath, "jwt-master")
+        pkg = os.path.join(self.pi.plugin_abspath, "flask-pluginkit-demo-master")
         # local
         res = self.pi.addPlugin(
             method="local", filepath="/tmp/1.tar", remove=True
