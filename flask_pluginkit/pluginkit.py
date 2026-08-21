@@ -568,11 +568,12 @@ class PluginManager(object):
                         or string, which requires string,
                         and other types trigger exceptions.
 
-                        2. HTML template type suffix for `html` or `htm`
-                        as template file (the other as pure HTML code), to be
-                        real, will adopt a `render_template` way rendering,
-                        using template type can be specified when rendering
-                        and introduced to additional data.
+                        2. HTML template type suffix for `html`, `htm`,
+                        `xhtml`, `j2`, `jinja` or `jinja2` as template
+                        file (the other as pure HTML code), to be real,
+                        will adopt a `render_template` way rendering, using
+                        template type can be specified when rendering and
+                        introduced to additional data.
 
         :raises TemplateNotFound: if no template file is found.
 
@@ -582,7 +583,14 @@ class PluginManager(object):
             plugin_tep = {}
             for event, tpl in iteritems(tep_rule):
                 if isinstance(tpl, string_types):
-                    if splitext(tpl)[-1] in (".html", ".htm", ".xhtml"):
+                    if splitext(tpl)[-1] in (
+                        ".html",
+                        ".htm",
+                        ".xhtml",
+                        ".j2",
+                        ".jinja",
+                        ".jinja2",
+                    ):
                         if isfile(
                             join(
                                 plugin_info.plugin_tpl_path,

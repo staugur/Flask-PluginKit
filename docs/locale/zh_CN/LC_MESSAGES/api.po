@@ -206,10 +206,10 @@ msgid ""
 " key means that tep is the extension point identifier, and each extension"
 " point can contain only one template type, either HTML or string, which "
 "requires string, and other types trigger exceptions.  2. HTML template "
-"type suffix for `html` or `htm` as template file (the other as pure HTML "
-"code), to be real, will adopt a `render_template` way rendering, using "
-"template type can be specified when rendering and introduced to "
-"additional data."
+"type suffix for `html`, `htm`, `xhtml`, `j2`, `jinja` or `jinja2` as "
+"template file (the other as pure HTML code), to be real, will adopt a "
+"`render_template` way rendering, using template type can be specified "
+"when rendering and introduced to additional data."
 msgstr ""
 
 #: flask_pluginkit.pluginkit.PluginManager._tep_handler:5 of
@@ -226,10 +226,10 @@ msgstr ""
 
 #: flask_pluginkit.pluginkit.PluginManager._tep_handler:13 of
 msgid ""
-"2. HTML template type suffix for `html` or `htm` as template file (the "
-"other as pure HTML code), to be real, will adopt a `render_template` way "
-"rendering, using template type can be specified when rendering and "
-"introduced to additional data."
+"2. HTML template type suffix for `html`, `htm`, `xhtml`, `j2`, `jinja` "
+"or `jinja2` as template file (the other as pure HTML code), to be real, "
+"will adopt a `render_template` way rendering, using template type can be "
+"specified when rendering and introduced to additional data."
 msgstr ""
 
 #: flask_pluginkit.pluginkit.PluginManager._bep_handler

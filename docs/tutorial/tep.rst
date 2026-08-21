@@ -21,7 +21,7 @@ The Flask-PluginKit loads tep via
 :meth:`~flask_pluginkit.PluginManager._tep_handler`, this method will
 detect tep rules and specific content. The value corresponding to tep_name is
 recognized as a template file if it ends with **.html**, **.htm**, **.xhtml**,
-otherwise it is a simple html code.
+**.j2**, **.jinja** or **.jinja2**, otherwise it is a simple html code.
 
 Although the tep_name in the tep returned by each plugin is unique, since a
 web application can have multiple plugins, the tep_name can contain not only

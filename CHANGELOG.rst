@@ -10,6 +10,7 @@ Released in 2026-08-18
 - fix: uWSGI master detection now uses token-exact command-line matching to avoid false positives.
 - tests: add ``tests/test_web.py`` covering the new ``listPlugins``/``installPlugin`` actions and redis caching.
 - UI: "Discover Plugins" button gets a loading state/hint; "Reload Application" tooltip and docs note no extra dependency needed.
+- feat: TEP now also recognizes ``.j2``, ``.jinja`` and ``.jinja2`` template files in addition to ``.html``/``.htm``/``.xhtml``.
 
 v3.11.0
 -------
