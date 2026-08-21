@@ -111,3 +111,4 @@ ENABLED
 DISABLED
 .vscode/
 docs/locale/**.mo
+.codebuddy/

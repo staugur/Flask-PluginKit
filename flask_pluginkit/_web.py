@@ -10,6 +10,7 @@ The server-side plugin management blueprint.
 """
 
 import _thread as thread
+import base64
 import json
 import os
 import signal
@@ -80,6 +81,42 @@ _GITHUB_TOPIC_REDIS_KEY = "flask_pluginkit_github_topic"
 #: Attribute names on flask.g that may hold a redis client
 _GITHUB_TOPIC_REDIS_G_ATTRS = ("redis", "redis_client")
 
+#: Official plugins hub API URL
+#:
+#: The web manager reads the official plugins list from this URL and
+#: enriches each plugin with metadata from the PyPI JSON API. It can be
+#: overridden by the ``PLUGINKIT_HUB_API`` config item. When this API is
+#: unreachable, the raw plugin list on the official repository is used as
+#: a fallback (see :data:`_HUB_FALLBACK_URL`).
+#:
+#: .. versionadded:: 3.12.0
+_HUB_API_URL = "https://hub.saintic.com/openservice/flask-pluginkit"
+
+#: Fallback official plugins list, the GitHub Contents API
+#:
+#: Used when the hub API (see :data:`_HUB_API_URL`) is unreachable. The
+#: GitHub Contents API returns the file metadata with a base64-encoded
+#: ``content`` field, which is decoded and parsed as the plugins list.
+#:
+#: .. versionadded:: 3.12.0
+_HUB_FALLBACK_URL = (
+    "https://api.github.com/repos/staugur/Flask-PluginKit/contents/awesome/list.json"
+)
+
+#: Official plugins in-memory cache, cleared every 8 hours
+#:
+#: .. versionadded:: 3.12.0
+_official_plugins_cache = {"ts": 0, "data": None}
+
+#: In-memory cache TTL (seconds), 8 hours
+_OFFICIAL_CACHE_TTL = 8 * 60 * 60
+
+#: Redis cache TTL (seconds), 7 days
+_OFFICIAL_REDIS_TTL = 7 * 24 * 60 * 60
+
+#: Redis cache key
+_OFFICIAL_REDIS_KEY = "flask_pluginkit_official_plugins"
+
 
 def _get_redis_client():
     """Detect a redis client attached to flask.g.
@@ -94,10 +131,10 @@ def _get_redis_client():
     return None
 
 
-def _redis_get(client):
-    """Read the topic plugins result from redis, return None on miss/failure."""
+def _redis_get(client, key=_GITHUB_TOPIC_REDIS_KEY):
+    """Read a cached plugins result from redis, return None on miss/failure."""
     try:
-        value = client.get(_GITHUB_TOPIC_REDIS_KEY)
+        value = client.get(key)
     except Exception:
         return None
     if value is None:
@@ -110,16 +147,16 @@ def _redis_get(client):
         return None
 
 
-def _redis_set(client, result):
-    """Write the topic plugins result to redis with a 7-day TTL.
+def _redis_set(client, result, key=_GITHUB_TOPIC_REDIS_KEY, ttl=_GITHUB_TOPIC_REDIS_TTL):
+    """Write a cached plugins result to redis with a TTL.
 
     Redis is best-effort: failures are silently ignored.
     """
     try:
         if hasattr(client, "setex"):
-            client.setex(_GITHUB_TOPIC_REDIS_KEY, _GITHUB_TOPIC_REDIS_TTL, json.dumps(result))
+            client.setex(key, ttl, json.dumps(result))
         elif hasattr(client, "set"):
-            client.set(_GITHUB_TOPIC_REDIS_KEY, json.dumps(result), ex=_GITHUB_TOPIC_REDIS_TTL)
+            client.set(key, json.dumps(result), ex=ttl)
     except Exception:
         pass
 
@@ -206,6 +243,228 @@ def _list_github_topic_plugins():
     _github_topic_cache.update(ts=now, data=result)
     if redis_client is not None:
         _redis_set(redis_client, result)
+    return result, False
+
+
+def _normalize_github_url(url):
+    """Normalize a GitHub URL/identifier from the hub data.
+
+    The hub API may return a full URL (``https://github.com/owner/repo``) or
+    a bare ``owner/repo`` string. Accepts both and returns a full
+    ``https://github.com/...`` URL, or an empty string when ``url`` is empty.
+
+    .. versionadded:: 3.12.0
+    """
+    if not url:
+        return ""
+    url = str(url).strip()
+    if url.startswith(("https://github.com/", "http://github.com/")):
+        return url
+    if url.startswith("github.com/"):
+        return "https://" + url
+    if "/" in url:
+        return "https://github.com/" + url
+    return url
+
+
+def _github_full_name(url):
+    """Extract the ``owner/repo`` identifier from a GitHub URL.
+
+    The hub data may carry the github field as a full URL
+    (``https://github.com/owner/repo``) or a bare ``owner/repo`` string.
+    The normalized URL (see :func:`_normalize_github_url`) always points at
+    a repository, so its last two path segments are the identifier used for
+    installation via ``git+https://github.com/<full_name>``.
+
+    .. versionadded:: 3.12.0
+    """
+    url = _normalize_github_url(url)
+    if not url:
+        return ""
+    parts = url.rstrip("/").split("/")
+    if len(parts) >= 2:
+        return "/".join(parts[-2:])
+    return ""
+
+
+def _get_pypi_package_info(package_name):
+    """Query the PyPI JSON API for the latest version metadata.
+
+    Returns the ``info`` dict (name, version, summary, home_page, author,
+    license, docs_url, requires_python, project_urls, ...) or None when the
+    package does not exist on PyPI.
+
+    .. versionadded:: 3.12.0
+    """
+    url = "https://pypi.org/pypi/{0}/json".format(package_name)
+    req = urllib2.Request(
+        url,
+        headers={
+            "Accept": "application/json",
+            "User-Agent": "flask-pluginkit-webmanager",
+        },
+    )
+    try:
+        with urllib2.urlopen(req, timeout=10) as f:
+            resp = json.loads(f.read().decode("utf-8"))
+    except urllib2.HTTPError as e:
+        if e.code == 404:
+            return None
+        raise RuntimeError("Fetch PyPI package failed: %s" % e)
+    except Exception as e:
+        raise RuntimeError("Fetch PyPI package failed: %s" % e)
+    return resp.get("info") or {}
+
+
+def _fetch_official_plugins(url):
+    """Fetch the raw official plugins list from a hub URL.
+
+    Returns a list of plugin dicts (each carrying ``name`` / ``github`` /
+    ``ctime`` / ``tag``), or None when the URL is unreachable (HTTP 4xx /
+    5xx, timeout, network error) or returns an invalid payload. Accepted
+    payload shapes:
+
+    - ``{"success": true, "data": [...]}`` (hub API),
+    - ``{"data": [...]}``,
+    - a plain JSON array,
+    - the GitHub Contents API response (base64-encoded ``content`` field),
+      whose decoded payload is one of the shapes above.
+
+    .. versionadded:: 3.12.0
+    """
+    req = urllib2.Request(url, headers={"User-Agent": "flask-pluginkit-webmanager"})
+    try:
+        with urllib2.urlopen(req, timeout=10) as f:
+            resp = json.loads(f.read().decode("utf-8"))
+    except Exception:
+        return None
+    if isinstance(resp, dict) and resp.get("encoding") == "base64" and resp.get("content"):
+        #: GitHub Contents API: decode the base64 file content first
+        try:
+            decoded = base64.b64decode(resp["content"]).decode("utf-8")
+        except Exception:
+            return None
+        try:
+            resp = json.loads(decoded)
+        except (TypeError, ValueError):
+            return None
+    if isinstance(resp, (list, tuple)):
+        return resp
+    if isinstance(resp, dict) and isinstance(resp.get("data"), (list, tuple)):
+        return resp["data"]
+    return None
+
+
+def _list_official_plugins():
+    """List plugins collected on the official hub API.
+
+    Returns ``(result, cached)``, where ``result`` is a dict containing the
+    total count and a list of plugins fetched from the hub API
+    (``https://hub.saintic.com/openservice/flask-pluginkit``). The hub API
+    responds with ``{"success": true, "data": [...]}`` and each item carries
+    the plugin name plus an optional PyPI package name (``pypi``) and
+    github URL / ctime / tag.
+
+    Only plugins with a non-empty ``pypi`` field are queried against the
+    PyPI JSON API (``https://pypi.org/pypi/<pypi>/json``) to enrich the
+    plugin card with home_page, license, version, docs_url, author, summary
+    and requires_python; an empty ``pypi`` field means the plugin is not
+    published on PyPI and no request is made. A failing PyPI lookup for a
+    single plugin does not abort the whole listing.
+
+    A non-empty ``github`` field is normalized to a full
+    ``https://github.com/owner/repo`` URL and also exposed as ``full_name``
+    (``owner/repo``), so the web manager can install the plugin from the
+    GitHub URL via ``git+https://github.com/<full_name>`` (pip VCS install)
+    when it is not published on PyPI. Entries with neither a ``pypi`` nor a
+    ``github`` field are skipped: such a plugin cannot be installed at all.
+
+    When the hub API is unreachable or returns an invalid payload, the
+    ``awesome/list.json`` file on the official repository via the GitHub
+    Contents API
+    (``https://api.github.com/repos/staugur/Flask-PluginKit/contents/awesome/list.json``)
+    is used as a fallback. When both sources fail, a RuntimeError is raised
+    so the caller can report the service as unavailable.
+
+    The result is served from the in-memory cache (8 hours) first, then from
+    redis (7 days) when a redis client is detected on ``flask.g``, and only
+    falls back to the hub API on a full cache miss. When the API is queried,
+    both caches are refreshed.
+
+    Configuration:
+        - ``PLUGINKIT_HUB_API``: official plugins hub API URL, default
+          ``https://hub.saintic.com/openservice/flask-pluginkit``.
+
+    .. versionadded:: 3.12.0
+    """
+    api = _get_conf("PLUGINKIT_HUB_API") or _HUB_API_URL
+    now = int(time())
+    data = _official_plugins_cache.get("data")
+    if data and now - _official_plugins_cache["ts"] < _OFFICIAL_CACHE_TTL:
+        return data, True
+    redis_client = _get_redis_client()
+    if redis_client is not None:
+        data = _redis_get(redis_client, _OFFICIAL_REDIS_KEY)
+        if data:
+            _official_plugins_cache.update(ts=now, data=data)
+            return data, True
+    plugins_data = _fetch_official_plugins(api)
+    if plugins_data is None:
+        #: hub API unreachable, fall back to the raw list on the repository
+        plugins_data = _fetch_official_plugins(_HUB_FALLBACK_URL)
+    if plugins_data is None:
+        raise RuntimeError("Official plugins service is unavailable")
+    plugins = []
+    for item in plugins_data:
+        if not isinstance(item, dict):
+            continue
+        name = (item.get("name") or "").strip()
+        if not name:
+            continue
+        pypi = (item.get("pypi") or "").strip()
+        github = _normalize_github_url(item.get("github"))
+        if not pypi and not github:
+            #: no installable source (PyPI package or GitHub repo), skip
+            continue
+        plugin = {
+            "name": name,
+            "pypi": pypi,
+            "github": github,
+            "full_name": _github_full_name(github),
+            "ctime": item.get("ctime") or "",
+            "tag": item.get("tag") or "",
+            "version": "",
+            "summary": "",
+            "home_page": "",
+            "author": "",
+            "license": "",
+            "docs_url": "",
+            "requires_python": "",
+            "project_urls": {},
+        }
+        if pypi:
+            #: only plugins published on PyPI carry versioned metadata
+            try:
+                info = _get_pypi_package_info(pypi)
+            except Exception:
+                info = None
+            if info:
+                for field in (
+                    "version",
+                    "summary",
+                    "home_page",
+                    "author",
+                    "license",
+                    "docs_url",
+                    "requires_python",
+                ):
+                    plugin[field] = info.get(field) or ""
+                plugin["project_urls"] = info.get("project_urls") or {}
+        plugins.append(plugin)
+    result = {"total_count": len(plugins), "plugins": plugins}
+    _official_plugins_cache.update(ts=now, data=result)
+    if redis_client is not None:
+        _redis_set(redis_client, result, _OFFICIAL_REDIS_KEY, _OFFICIAL_REDIS_TTL)
     return result, False
 
 
@@ -472,6 +731,15 @@ def api():
                 data, cached = _list_github_topic_plugins()
             except Exception as e:
                 res.update(code=70000, msg=str(e))
+            else:
+                data["cached"] = cached
+                res.update(code=0, data=data)
+        elif Action == "listOfficialPlugins":
+            #: List plugins collected on the official hub API
+            try:
+                data, cached = _list_official_plugins()
+            except Exception as e:
+                res.update(code=71000, msg=str(e))
             else:
                 data["cached"] = cached
                 res.update(code=0, data=data)

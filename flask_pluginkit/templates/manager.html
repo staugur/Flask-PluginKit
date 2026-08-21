@@ -56,7 +56,11 @@
                 </div>
                 <div class="column is-narrow">
                     <a class="button is-primary is-small" data-l10n-id="discover" id="discover-plugins-submit"
-                        href="javascript:void(0)">Discover Plugins</a>
+                        href="javascript:void(0)">Discover Community Plugins</a>
+                </div>
+                <div class="column is-narrow">
+                    <a class="button is-warning is-small" data-l10n-id="discoverOfficial"
+                        id="discover-official-submit" href="javascript:void(0)">Discover Official Plugins</a>
                 </div>
                 <div class="column is-narrow">
                     <div class="field">
@@ -155,6 +159,7 @@
                 </tbody>
             </table>
             <div id="github-plugins" class="columns is-multiline is-hidden"></div>
+            <div id="official-plugins" class="columns is-multiline is-hidden"></div>
             <div class="notification" id="notification" style="display: none;">
                 <button class="delete"></button>
                 <div id="message"></div>
@@ -437,6 +442,125 @@
 
         $(document).on('click', '.github-plugin-install', function () {
             installPluginFromGithub($(this).data('full-name'), $(this).data('default-branch'));
+        });
+
+        function renderOfficialPlugins(data) {
+            let box = $("#official-plugins");
+            box.empty();
+            if (!data || !data.plugins || data.plugins.length === 0) {
+                setMessage("<scan class='has-text-warning'>No official plugins found.</scan>");
+                return;
+            }
+            let tip = $("<div class='column is-full'></div>");
+            $("<p class='has-text-grey is-size-7'></p>")
+                .text("Official plugins from the Flask-PluginKit hub, total " + data.total_count +
+                    (data.cached ? " (cached)" : ""))
+                .appendTo(tip);
+            box.append(tip);
+            $.each(data.plugins, function (i, p) {
+                let col = $("<div class='column is-half-tablet is-one-third-desktop'></div>");
+                let card = $("<div class='card'></div>");
+                let content = $("<div class='card-content'></div>");
+                let title = $("<p class='title is-6'></p>").text(p.name);
+                if (p.tag) {
+                    title.append(" ");
+                    $("<span class='tag is-info is-small'></span>").text(p.tag).appendTo(title);
+                }
+                title.appendTo(content);
+                $("<p class='subtitle is-7 has-text-grey'></p>").text(p.github || p.name).appendTo(content);
+                if (p.summary) {
+                    $("<div class='content is-small'></div>").text(p.summary).appendTo(content);
+                }
+                let tags = $("<div class='tags'></div>");
+                $.each(["v" + p.version, p.license, p.requires_python,
+                    p.ctime ? 'Collected: ' + p.ctime : ''
+                ], function (j, t) {
+                    if (t && t !== '' && t !== 'v') {
+                        $("<span class='tag is-light is-small'></span>").text(t).appendTo(tags);
+                    }
+                });
+                content.append(tags);
+                if (p.author) {
+                    $("<p class='is-size-7 has-text-grey'></p>").text("Author: " + p.author).appendTo(content);
+                }
+                card.append(content);
+                let footer = $("<footer class='card-footer'></footer>");
+                if (p.home_page) {
+                    $("<a class='card-footer-item' target='_blank'></a>")
+                        .attr('href', p.home_page)
+                        .text('Home')
+                        .appendTo(footer);
+                }
+                if (p.docs_url) {
+                    $("<a class='card-footer-item' target='_blank'></a>")
+                        .attr('href', p.docs_url)
+                        .text('Docs')
+                        .appendTo(footer);
+                }
+                if (p.github) {
+                    $("<a class='card-footer-item' target='_blank'></a>")
+                        .attr('href', p.github)
+                        .text('Source')
+                        .appendTo(footer);
+                }
+                if (p.pypi) {
+                    $("<a class='card-footer-item official-plugin-install'></a>")
+                        .attr('data-package', p.pypi)
+                        .text('Install')
+                        .appendTo(footer);
+                } else if (p.full_name) {
+                    //: install from the GitHub URL via pip VCS support
+                    $("<a class='card-footer-item official-plugin-install'></a>")
+                        .attr('data-package', 'git+https://github.com/' + p.full_name)
+                        .text('Install')
+                        .appendTo(footer);
+                } else {
+                    $("<span class='card-footer-item has-text-grey is-size-7'></span>")
+                        .text('Not on PyPI')
+                        .appendTo(footer);
+                }
+                card.append(footer);
+                col.append(card);
+                box.append(col);
+            });
+            box.removeClass('is-hidden');
+        }
+
+        $('#discover-official-submit').click(function () {
+            let $btn = $(this);
+            $btn.addClass('is-loading').attr('disabled', 'disabled');
+            setMessage(
+                "<scan class='has-text-info'>Loading official plugins, this may take a while on the first visit...</scan>"
+            );
+            ajax("{{ url_for('.api', Action='listOfficialPlugins') }}", function (res) {
+                hideNotification();
+                renderOfficialPlugins(res.data);
+            }, {
+                fail: function (res) {
+                    setMessage("<scan class='has-text-warning'>" + res.msg + "</scan>");
+                },
+                complete: function () {
+                    $btn.removeClass('is-loading').removeAttr('disabled');
+                }
+            });
+        });
+
+        $(document).on('click', '.official-plugin-install', function () {
+            let pkg = $(this).data('package');
+            if (!pkg) {
+                return false;
+            }
+            ajax("{{ url_for('.api', Action='installPackage') }}", function (res) {
+                setMessage("<scan class='has-text-primary'>Already submitted installation task.</scan>");
+                getLoopMsg();
+            }, {
+                data: {
+                    package_or_url: pkg
+                },
+                fail: function (res) {
+                    setMessage("<scan class='has-text-warning'>" + res.msg + "</scan>");
+                }
+            });
         });
 
     </script>
