@@ -5,13 +5,10 @@ v3.12.0
 
 Released in 2026-08-21
 
-- feat: web manager adds "Discover Plugins", listing GitHub topic ``flask-pluginkit`` repositories (name prefix ``flask-pluginkit-``/``flask_pluginkit_``, sorted by stars, archived marker, one-click install), cached in memory (8h) and redis (7d, when available); "Discover Plugins" is renamed to "Discover Community Plugins".
-- feat: web manager adds "Discover Official Plugins", reading the official hub API (default ``https://hub.saintic.com/openservice/flask-pluginkit``, overridable via ``PLUGINKIT_HUB_API``, fallback to the repository's ``awesome/list.json`` via the GitHub Contents API when unreachable) and enriching each plugin (name, optional ``pypi`` package name, github/ctime/tag) with metadata from the PyPI JSON API (version, license, author, home_page, docs_url, summary, requires_python); only plugins with a non-empty ``pypi`` field are queried against PyPI, others are marked as not published on PyPI; a non-empty ``github`` field allows installing from the GitHub URL via pip VCS install (``git+https://github.com/<full_name>``); entries with neither are skipped; results are cached in memory (8h) and redis (7d, when available).
-- change: "Reload Application" no longer requires ``psutil``; the Gunicorn/uWSGI master is detected via ``/proc`` on Linux.
-- fix: uWSGI master detection now uses token-exact command-line matching to avoid false positives.
-- tests: add ``tests/test_web.py`` covering the ``listPlugins``/``installPlugin``/``listOfficialPlugins`` actions and redis caching.
-- UI: "Discover Plugins" button gets a loading state/hint; "Reload Application" tooltip and docs note no extra dependency needed.
-- feat: TEP now also recognizes ``.j2``, ``.jinja`` and ``.jinja2`` template files in addition to ``.html``/``.htm``/``.xhtml``.
+- feat: web manager adds "Discover Plugins", listing community (GitHub topic ``flask-pluginkit`` repositories) and official (hub API) plugins with installed-version/latest-release detection, upgrade hints and install/upgrade confirmation dialogs; results are cached in memory (8h) and redis (7d).
+- change: the official hub API and the GitHub API base URLs are now fixed (``PLUGINKIT_GITHUB_API`` is removed so a compromised mirror cannot serve a malicious plugin list); a new ``PLUGINKIT_PROXY`` config item routes GitHub API requests through an HTTP(S) proxy; pip installs uniformly use ``flask_pluginkit.utils.pip_install`` with the ``PLUGINKIT_PIP_TARGET_DIR`` target directory.
+- fix: "Reload Application" no longer requires ``psutil``; the TEP engine recognizes ``.j2``/``.jinja``/``.jinja2`` templates.
+- refactor: the web manager compares versions with ``semver`` and uses a unified user-agent for all outbound requests; docs updated.
 
 v3.11.0
 -------

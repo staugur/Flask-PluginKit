@@ -255,14 +255,19 @@ class PluginManager(object):
             "Start plugins initialization, local plugins path: %s, third party"
             "-plugins: %s" % (self.plugins_abspath, self.plugin_packages)
         )
-        installed_pkgs = pip_list()
+        #: pip target directory for persistent third-party plugin installs
+        pip_target_dir = app.config.get("PLUGINKIT_PIP_TARGET_DIR") or ""
+        installed_pkgs = pip_list(target_dir=pip_target_dir)
         for pkg in self.install_packages:
             egg = egg_pat.search(pkg)
             if egg:
                 name = egg.group(1)
                 if name in installed_pkgs:
                     continue
-            pip_install(pkg, **self.install_packages_meta)  # type: ignore
+            pip_meta = dict(self.install_packages_meta)
+            if pip_target_dir:
+                pip_meta["target_dir"] = pip_target_dir
+            pip_install(pkg, **pip_meta)  # type: ignore
 
         self.__scan_third_plugins()
         self.__scan_affiliated_plugins()

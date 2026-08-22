@@ -6,6 +6,7 @@ import time
 import json
 import tempfile
 import unittest
+from unittest import mock
 from flask import Flask, request, g
 from markupsafe import Markup
 from flask_pluginkit import (
@@ -263,6 +264,30 @@ class PMTest(unittest.TestCase):
                 for name in list(sys.modules):
                     if name == "plugins" or name.startswith("plugins."):
                         sys.modules.pop(name, None)
+
+    def test_install_packages_target_dir(self):
+        """PLUGINKIT_PIP_TARGET_DIR is forwarded to pip_install/pip_list.
+
+        When the config key is set, both the installed-package detection
+        (pip_list) and the actual install (pip_install) use the same target
+        directory so third-party plugins persist in a dedicated folder.
+        """
+        target_dir = os.path.join(tempfile.gettempdir(), "pluginkit-target")
+        with mock.patch("flask_pluginkit.pluginkit.pip_install") as m_pip_install, mock.patch(
+            "flask_pluginkit.pluginkit.pip_list"
+        ) as m_pip_list:
+            m_pip_list.return_value = {}
+            app = Flask("pip_target_test")
+            app.config["PLUGINKIT_PIP_TARGET_DIR"] = target_dir
+            pm = PluginManager(
+                app,
+                install_packages={"pkgs": ["flask-pluginkit-demo"]},
+            )
+            m_pip_list.assert_called_once_with(target_dir=target_dir)
+            m_pip_install.assert_called_once_with(
+                "flask-pluginkit-demo", target_dir=target_dir
+            )
+            self.assertIsInstance(pm, PluginManager)
 
 
 if __name__ == "__main__" and not os.getenv("TRAVIS"):

@@ -1,0 +1,670 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, staugur
+# This file is distributed under the same license as the Flask-PluginKit
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Flask-PluginKit 3.12.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-22 14:39+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh_CN\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../../ARCH.rst:2
+msgid "Flask-PluginKit 架构说明"
+msgstr "Flask-PluginKit 架构说明"
+
+#: ../../../ARCH.rst:5
+msgid "1. 项目定位"
+msgstr "1. 项目定位"
+
+#: ../../../ARCH.rst:7
+msgid "Flask-PluginKit 是一个面向 Flask 应用的插件化扩展框架。它的核心目标是："
+msgstr "Flask-PluginKit 是一个面向 Flask 应用的插件化扩展框架。它的核心目标是："
+
+#: ../../../ARCH.rst:9
+msgid "让应用能够动态发现并加载插件；"
+msgstr "让应用能够动态发现并加载插件；"
+
+#: ../../../ARCH.rst:10
+msgid "为插件提供统一的扩展点（模板、路由、蓝图、钩子、过滤器等）；"
+msgstr "为插件提供统一的扩展点（模板、路由、蓝图、钩子、过滤器等）；"
+
+#: ../../../ARCH.rst:11
+msgid "支持本地插件目录、第三方包插件以及通过 Web 管理界面进行安装、启用/禁用、上传/下载。"
+msgstr "支持本地插件目录、第三方包插件以及通过 Web 管理界面进行安装、启用/禁用、上传/下载。"
+
+#: ../../../ARCH.rst:13
+msgid "项目实现主要集中在以下几个模块："
+msgstr "项目实现主要集中在以下几个模块："
+
+#: ../../../ARCH.rst:15
+msgid "``flask_pluginkit/pluginkit.py``：插件管理器核心，负责扫描、解析、注册和运行插件。"
+msgstr "``flask_pluginkit/pluginkit.py``：插件管理器核心，负责扫描、解析、注册和运行插件。"
+
+#: ../../../ARCH.rst:16
+msgid "``flask_pluginkit/_installer.py``：插件安装与卸载逻辑。"
+msgstr "``flask_pluginkit/_installer.py``：插件安装与卸载逻辑。"
+
+#: ../../../ARCH.rst:17
+msgid "``flask_pluginkit/_web.py``：Web 管理界面与 API。"
+msgstr "``flask_pluginkit/_web.py``：Web 管理界面与 API。"
+
+#: ../../../ARCH.rst:18
+msgid "``flask_pluginkit/utils.py``：工具函数、存储抽象和辅助能力。"
+msgstr "``flask_pluginkit/utils.py``：工具函数、存储抽象和辅助能力。"
+
+#: ../../../ARCH.rst:19
+msgid "``examples/``：示例插件，说明插件编写方式。"
+msgstr "``examples/``：示例插件，说明插件编写方式。"
+
+#: ../../../ARCH.rst:23
+msgid "2. 典型插件模型"
+msgstr "2. 典型插件模型"
+
+#: ../../../ARCH.rst:25
+msgid "一个插件通常是一个 Python 包目录，包含："
+msgstr "一个插件通常是一个 Python 包目录，包含："
+
+#: ../../../ARCH.rst:35
+msgid "插件包中至少要暴露："
+msgstr "插件包中至少要暴露："
+
+#: ../../../ARCH.rst:37
+msgid "``__plugin_name__``：插件名字"
+msgstr "``__plugin_name__``：插件名字"
+
+#: ../../../ARCH.rst:38
+msgid "``__version__``：版本号"
+msgstr "``__version__``：版本号"
+
+#: ../../../ARCH.rst:39
+msgid "``__author__``：作者"
+msgstr "``__author__``：作者"
+
+#: ../../../ARCH.rst:40
+msgid "``register()``：注册扩展点的入口函数"
+msgstr "``register()``：注册扩展点的入口函数"
+
+#: ../../../ARCH.rst:42
+msgid "这也是插件作为“合法扩展”参与框架的前提；``on_app_ready(app)`` 只会在这类插件上生效。"
+msgstr "这也是插件作为“合法扩展”参与框架的前提；``on_app_ready(app)`` 只会在这类插件上生效。"
+
+#: ../../../ARCH.rst:44
+msgid "示例插件会返回一个字典，里面包含不同的“扩展点”定义，例如："
+msgstr "示例插件会返回一个字典，里面包含不同的“扩展点”定义，例如："
+
+#: ../../../ARCH.rst:56
+msgid "3. 核心组件"
+msgstr "3. 核心组件"
+
+#: ../../../ARCH.rst:59
+msgid "3.1 PluginManager"
+msgstr "3.1 PluginManager"
+
+#: ../../../ARCH.rst:61
+msgid "``PluginManager`` 是整个框架的主控制器，负责："
+msgstr "``PluginManager`` 是整个框架的主控制器，负责："
+
+#: ../../../ARCH.rst:63
+msgid "接收 Flask app 并初始化；"
+msgstr "接收 Flask app 并初始化；"
+
+#: ../../../ARCH.rst:64
+msgid "扫描本地插件目录和第三方插件包；"
+msgstr "扫描本地插件目录和第三方插件包；"
+
+#: ../../../ARCH.rst:65
+msgid "解析插件元数据；"
+msgstr "解析插件元数据；"
+
+#: ../../../ARCH.rst:66
+msgid "处理插件扩展点；"
+msgstr "处理插件扩展点；"
+
+#: ../../../ARCH.rst:67
+msgid "将插件挂载到 Flask 应用中；"
+msgstr "将插件挂载到 Flask 应用中；"
+
+#: ../../../ARCH.rst:68
+msgid "提供模板上下文函数（如 ``emit_tep``、``emit_assets``、``emit_config``）。"
+msgstr "提供模板上下文函数（如 ``emit_tep``、``emit_assets``、``emit_config``）。"
+
+#: ../../../ARCH.rst:70
+msgid "它是通过 ``PluginManager(app)`` 或 ``PluginManager().init_app(app)`` 初始化的。"
+msgstr "它是通过 ``PluginManager(app)`` 或 ``PluginManager().init_app(app)`` 初始化的。"
+
+#: ../../../ARCH.rst:73
+msgid "3.2 PluginInstaller"
+msgstr "3.2 PluginInstaller"
+
+#: ../../../ARCH.rst:75
+msgid "``PluginInstaller`` 负责“插件包”的安装与移除："
+msgstr "``PluginInstaller`` 负责“插件包”的安装与移除："
+
+#: ../../../ARCH.rst:77
+msgid "支持本地压缩包安装（``.zip``、``.tar.gz``、``.tgz``）；"
+msgstr "支持本地压缩包安装（``.zip``、``.tar.gz``、``.tgz``）；"
+
+#: ../../../ARCH.rst:78
+msgid "支持远程 URL 下载并解包；"
+msgstr "支持远程 URL 下载并解包；"
+
+#: ../../../ARCH.rst:79
+msgid "支持通过 ``pip`` 安装第三方插件包；"
+msgstr "支持通过 ``pip`` 安装第三方插件包；"
+
+#: ../../../ARCH.rst:80
+msgid "支持删除本地已安装插件目录。"
+msgstr "支持删除本地已安装插件目录。"
+
+#: ../../../ARCH.rst:83
+msgid "3.3 Web 管理器"
+msgstr "3.3 Web 管理器"
+
+#: ../../../ARCH.rst:85
+msgid "``blueprint`` 是一个 Flask Blueprint，提供："
+msgstr "``blueprint`` 是一个 Flask Blueprint，提供："
+
+#: ../../../ARCH.rst:87
+msgid "插件启用/禁用接口；"
+msgstr "插件启用/禁用接口；"
+
+#: ../../../ARCH.rst:88
+msgid "上传/下载插件包接口；"
+msgstr "上传/下载插件包接口；"
+
+#: ../../../ARCH.rst:89
+msgid "安装第三方包接口；"
+msgstr "安装第三方包接口；"
+
+#: ../../../ARCH.rst:90
+msgid "插件管理页面。"
+msgstr "插件管理页面。"
+
+#: ../../../ARCH.rst:92
+msgid "它通过 ``/api`` 和 ``/msg`` 与前端交互。"
+msgstr "它通过 ``/api`` 和 ``/msg`` 与前端交互。"
+
+#: ../../../ARCH.rst:96
+msgid "4. 插件生命周期"
+msgstr "4. 插件生命周期"
+
+#: ../../../ARCH.rst:99
+msgid "4.1 初始化阶段"
+msgstr "4.1 初始化阶段"
+
+#: ../../../ARCH.rst:101
+msgid "当 ``PluginManager`` 初始化时，流程如下："
+msgstr "当 ``PluginManager`` 初始化时，流程如下："
+
+#: ../../../ARCH.rst:103
+msgid "确定插件根目录："
+msgstr "确定插件根目录："
+
+#: ../../../ARCH.rst:105
+msgid "本地插件目录默认位于应用根目录下的 ``plugins/``。"
+msgstr "本地插件目录默认位于应用根目录下的 ``plugins/``。"
+
+#: ../../../ARCH.rst:107
+msgid "扫描第三方插件包："
+msgstr "扫描第三方插件包："
+
+#: ../../../ARCH.rst:109
+msgid "读取 ``plugin_packages`` 配置；"
+msgstr "读取 ``plugin_packages`` 配置；"
+
+#: ../../../ARCH.rst:110
+msgid "通过 ``importlib.import_module()`` 导入插件模块。"
+msgstr "通过 ``importlib.import_module()`` 导入插件模块。"
+
+#: ../../../ARCH.rst:112
+msgid "扫描本地插件目录："
+msgstr "扫描本地插件目录："
+
+#: ../../../ARCH.rst:114
+msgid "遍历 ``plugins/<plugin_name>/__init__.py`` 形式的目录插件。"
+msgstr "遍历 ``plugins/<plugin_name>/__init__.py`` 形式的目录插件。"
+
+#: ../../../ARCH.rst:116
+msgid "加载插件模块："
+msgstr "加载插件模块："
+
+#: ../../../ARCH.rst:118
+msgid "检查插件是否具备标准元数据，并确认它是否具备 ``register()`` 入口；这决定了它是否被视为合法扩展插件。"
+msgstr "检查插件是否具备标准元数据，并确认它是否具备 ``register()`` 入口；这决定了它是否被视为合法扩展插件。"
+
+#: ../../../ARCH.rst:120
+msgid "解析扩展点："
+msgstr "解析扩展点："
+
+#: ../../../ARCH.rst:122
+msgid "将插件的扩展点收集为内部结构，形成插件信息对象。"
+msgstr "将插件的扩展点收集为内部结构，形成插件信息对象。"
+
+#: ../../../ARCH.rst:124
+msgid "进行预处理："
+msgstr "进行预处理："
+
+#: ../../../ARCH.rst:126
+msgid "处理 ``p3`` 这种跨插件预处理扩展点。"
+msgstr "处理 ``p3`` 这种跨插件预处理扩展点。"
+
+#: ../../../ARCH.rst:128
+msgid "挂载到 Flask："
+msgstr "挂载到 Flask："
+
+#: ../../../ARCH.rst:130
+msgid "注册模板加载器、静态资源路由、蓝图、视图、过滤器、错误处理器与上下文处理器。"
+msgstr "注册模板加载器、静态资源路由、蓝图、视图、过滤器、错误处理器与上下文处理器。"
+
+#: ../../../ARCH.rst:133
+msgid "4.2 运行阶段"
+msgstr "4.2 运行阶段"
+
+#: ../../../ARCH.rst:135
+msgid "插件在应用运行期不会被“动态执行”脚本，而是以“挂载后的扩展能力”参与 Flask 请求处理："
+msgstr "插件在应用运行期不会被“动态执行”脚本，而是以“挂载后的扩展能力”参与 Flask 请求处理："
+
+#: ../../../ARCH.rst:137
+msgid "``hep`` 会挂载到 Flask 请求钩子中；"
+msgstr "``hep`` 会挂载到 Flask 请求钩子中；"
+
+#: ../../../ARCH.rst:138
+msgid "``bep`` 会注册蓝图；"
+msgstr "``bep`` 会注册蓝图；"
+
+#: ../../../ARCH.rst:139
+msgid "``vep`` 会注册路由；"
+msgstr "``vep`` 会注册路由；"
+
+#: ../../../ARCH.rst:140
+msgid "``filter`` 会注入 Jinja 过滤器；"
+msgstr "``filter`` 会注入 Jinja 过滤器；"
+
+#: ../../../ARCH.rst:141
+msgid "``errhandler`` 会注册错误处理器；"
+msgstr "``errhandler`` 会注册错误处理器；"
+
+#: ../../../ARCH.rst:142
+msgid "``tcp`` 会参与模板上下文构造；"
+msgstr "``tcp`` 会参与模板上下文构造；"
+
+#: ../../../ARCH.rst:143
+msgid "``tep`` 会在模板渲染时被 ``emit_tep()`` 取出并渲染。"
+msgstr "``tep`` 会在模板渲染时被 ``emit_tep()`` 取出并渲染。"
+
+#: ../../../ARCH.rst:147
+msgid "5. 扩展点设计"
+msgstr "5. 扩展点设计"
+
+#: ../../../ARCH.rst:149
+msgid "除了通过 ``register()`` 注册的扩展点之外，框架还引入了“状态点”机制："
+msgstr "除了通过 ``register()`` 注册的扩展点之外，框架还引入了“状态点”机制："
+
+#: ../../../ARCH.rst:151
+msgid "``on_app_ready(app)``：当所有插件都被扫描、注册并挂载到 Flask 应用后执行；适合做应用级别的就绪初始化。"
+msgstr "``on_app_ready(app)``：当所有插件都被扫描、注册并挂载到 Flask 应用后执行；适合做应用级别的就绪初始化。"
+
+#: ../../../ARCH.rst:153
+msgid ""
+"它不是通过 ``register()`` "
+"声明，而是直接以函数名为识别点；但只有在插件已经作为“合法扩展插件”参与正常注册流程时，才会在应用初始化完成后自动执行，并将当前 Flask "
+"应用实例作为唯一参数传入。也就是说，单独只有 ``on_app_ready`` 而没有 ``register()`` "
+"的插件会被视为非法扩展而拒绝加载。"
+msgstr ""
+"它不是通过 ``register()`` "
+"声明，而是直接以函数名为识别点；但只有在插件已经作为“合法扩展插件”参与正常注册流程时，才会在应用初始化完成后自动执行，并将当前 Flask "
+"应用实例作为唯一参数传入。也就是说，单独只有 ``on_app_ready`` 而没有 ``register()`` "
+"的插件会被视为非法扩展而拒绝加载。"
+
+#: ../../../ARCH.rst:155
+msgid "插件系统提供了以下扩展点："
+msgstr "插件系统提供了以下扩展点："
+
+#: ../../../ARCH.rst:157
+msgid "``tep``：模板扩展点，用于向页面注入片段或模板内容。"
+msgstr "``tep``：模板扩展点，用于向页面注入片段或模板内容。"
+
+#: ../../../ARCH.rst:158
+msgid "``hep``：Hook 扩展点，用于拦截请求生命周期，如 before_request。"
+msgstr "``hep``：Hook 扩展点，用于拦截请求生命周期，如 before_request。"
+
+#: ../../../ARCH.rst:159
+msgid "``bep``：Blueprint 扩展点，用于注册子蓝图。"
+msgstr "``bep``：Blueprint 扩展点，用于注册子蓝图。"
+
+#: ../../../ARCH.rst:160
+msgid "``vep``：View 扩展点，用于注册额外路由。"
+msgstr "``vep``：View 扩展点，用于注册额外路由。"
+
+#: ../../../ARCH.rst:161
+msgid "``cvep``：Class-based view 扩展点，用于注册类视图。"
+msgstr "``cvep``：Class-based view 扩展点，用于注册类视图。"
+
+#: ../../../ARCH.rst:162
+msgid "``filter``：模板过滤器，用于注入 Jinja 过滤器。"
+msgstr "``filter``：模板过滤器，用于注入 Jinja 过滤器。"
+
+#: ../../../ARCH.rst:163
+msgid "``errhandler``：错误处理，用于定制 404/403/500 等行为。"
+msgstr "``errhandler``：错误处理，用于定制 404/403/500 等行为。"
+
+#: ../../../ARCH.rst:164
+msgid "``tcp``：模板上下文处理器，用于注入模板变量。"
+msgstr "``tcp``：模板上下文处理器，用于注入模板变量。"
+
+#: ../../../ARCH.rst:165
+msgid "``p3``：预处理扩展点，用于在插件加载后统一修改或增强其他扩展点。"
+msgstr "``p3``：预处理扩展点，用于在插件加载后统一修改或增强其他扩展点。"
+
+#: ../../../ARCH.rst:167
+msgid "其中，``tep`` 与 ``emit_tep()`` 是最典型的“插件内容注入”机制。"
+msgstr "其中，``tep`` 与 ``emit_tep()`` 是最典型的“插件内容注入”机制。"
+
+#: ../../../ARCH.rst:170
+msgid "5.1 应用上下文场景：插件如何作用到整个 Flask 应用"
+msgstr "5.1 应用上下文场景：插件如何作用到整个 Flask 应用"
+
+#: ../../../ARCH.rst:172
+msgid "除了请求上下文，插件也可以在“应用上下文”层面工作。这里的关键点是：插件不需要依赖某一次具体请求，就能在应用启动完成后为整个应用注入状态、配置或共享资源。"
+msgstr "除了请求上下文，插件也可以在“应用上下文”层面工作。这里的关键点是：插件不需要依赖某一次具体请求，就能在应用启动完成后为整个应用注入状态、配置或共享资源。"
+
+#: ../../../ARCH.rst:174
+msgid "最典型的做法是利用 ``on_app_ready(app)`` 这一状态点，在应用初始化收尾阶段执行一次性逻辑。例如，插件可以："
+msgstr "最典型的做法是利用 ``on_app_ready(app)`` 这一状态点，在应用初始化收尾阶段执行一次性逻辑。例如，插件可以："
+
+#: ../../../ARCH.rst:176
+msgid "把自己的对象挂到 ``app.extensions`` 中，供后续模块复用；"
+msgstr "把自己的对象挂到 ``app.extensions`` 中，供后续模块复用；"
+
+#: ../../../ARCH.rst:177
+msgid "向 ``app.config`` 写入默认配置；"
+msgstr "向 ``app.config`` 写入默认配置；"
+
+#: ../../../ARCH.rst:178
+msgid "在应用上下文中初始化一个共享客户端、缓存对象或连接池；"
+msgstr "在应用上下文中初始化一个共享客户端、缓存对象或连接池；"
+
+#: ../../../ARCH.rst:179
+msgid "注册应用级别的全局变量或模板全局函数；"
+msgstr "注册应用级别的全局变量或模板全局函数；"
+
+#: ../../../ARCH.rst:180
+msgid "绑定应用级别的生命周期行为（如 teardown、日志、监控等）。"
+msgstr "绑定应用级别的生命周期行为（如 teardown、日志、监控等）。"
+
+#: ../../../ARCH.rst:182
+msgid "示例："
+msgstr "示例："
+
+#: ../../../ARCH.rst:207
+msgid "如果应用在启动后需要读取这些配置，可以直接在任意地方使用："
+msgstr "如果应用在启动后需要读取这些配置，可以直接在任意地方使用："
+
+#: ../../../ARCH.rst:217
+msgid "这类场景的特点是："
+msgstr "这类场景的特点是："
+
+#: ../../../ARCH.rst:219
+msgid "它们发生在应用已经“准备好”的阶段，而不是某次请求执行时；"
+msgstr "它们发生在应用已经“准备好”的阶段，而不是某次请求执行时；"
+
+#: ../../../ARCH.rst:220
+msgid "插件逻辑可以影响整个应用，而不是只影响单次请求；"
+msgstr "插件逻辑可以影响整个应用，而不是只影响单次请求；"
+
+#: ../../../ARCH.rst:221
+msgid "适合做应用级初始化、共享服务绑定和全局配置注入。"
+msgstr "适合做应用级初始化、共享服务绑定和全局配置注入。"
+
+#: ../../../ARCH.rst:223
+msgid "如果插件要在请求之外访问当前应用状态，最常见的方式就是："
+msgstr "如果插件要在请求之外访问当前应用状态，最常见的方式就是："
+
+#: ../../../ARCH.rst:232
+msgid "这类写法说明，插件已经进入了“应用上下文”，可以安全地访问整个应用的配置和状态。"
+msgstr "这类写法说明，插件已经进入了“应用上下文”，可以安全地访问整个应用的配置和状态。"
+
+#: ../../../ARCH.rst:236
+msgid "6. 请求执行流程"
+msgstr "6. 请求执行流程"
+
+#: ../../../ARCH.rst:238
+msgid "下面是一个简化请求处理流："
+msgstr "下面是一个简化请求处理流："
+
+#: ../../../ARCH.rst:252
+msgid "6.1 钩子执行"
+msgstr "6.1 钩子执行"
+
+#: ../../../ARCH.rst:254
+msgid ""
+"``hep`` 以 ``before_request``、``after_request``、``teardown_request`` "
+"三类钩子形式工作："
+msgstr ""
+"``hep`` 以 ``before_request``、``after_request``、``teardown_request`` "
+"三类钩子形式工作："
+
+#: ../../../ARCH.rst:256
+msgid "``before_request`` 可以直接拦截请求；"
+msgstr "``before_request`` 可以直接拦截请求；"
+
+#: ../../../ARCH.rst:257
+msgid "``after_request`` 可以修改 response；"
+msgstr "``after_request`` 可以修改 response；"
+
+#: ../../../ARCH.rst:258
+msgid "``teardown_request`` 用于清理或收尾工作。"
+msgstr "``teardown_request`` 用于清理或收尾工作。"
+
+#: ../../../ARCH.rst:261
+msgid "6.2 模板注入"
+msgstr "6.2 模板注入"
+
+#: ../../../ARCH.rst:263
+msgid "插件通过 ``tep`` 声明模板扩展点，应用在模板中调用："
+msgstr "插件通过 ``tep`` 声明模板扩展点，应用在模板中调用："
+
+#: ../../../ARCH.rst:269
+msgid "``emit_tep()`` 会收集所有启用插件的对应模板内容并渲染输出。"
+msgstr "``emit_tep()`` 会收集所有启用插件的对应模板内容并渲染输出。"
+
+#: ../../../ARCH.rst:272
+msgid "6.3 静态资源"
+msgstr "6.3 静态资源"
+
+#: ../../../ARCH.rst:274
+msgid "插件静态文件通过 ``emit_assets()`` 生成资源 URL，最终由统一静态路由提供服务："
+msgstr "插件静态文件通过 ``emit_assets()`` 生成资源 URL，最终由统一静态路由提供服务："
+
+#: ../../../ARCH.rst:282
+msgid "7. 插件启用/禁用机制"
+msgstr "7. 插件启用/禁用机制"
+
+#: ../../../ARCH.rst:284
+msgid "插件的启用状态并不是只存在于内存中，而是通过目录文件标记："
+msgstr "插件的启用状态并不是只存在于内存中，而是通过目录文件标记："
+
+#: ../../../ARCH.rst:286
+msgid "``ENABLED``：表示启用"
+msgstr "``ENABLED``：表示启用"
+
+#: ../../../ARCH.rst:287
+msgid "``DISABLED``：表示禁用"
+msgstr "``DISABLED``：表示禁用"
+
+#: ../../../ARCH.rst:289
+msgid ""
+"``enable_plugin()`` 和 ``disable_plugin()`` "
+"会在插件目录中创建/删除空文件，从而影响下次加载时的状态。这样设计的好处是："
+msgstr ""
+"``enable_plugin()`` 和 ``disable_plugin()`` "
+"会在插件目录中创建/删除空文件，从而影响下次加载时的状态。这样设计的好处是："
+
+#: ../../../ARCH.rst:291
+msgid "状态可以在应用重启后保留；"
+msgstr "状态可以在应用重启后保留；"
+
+#: ../../../ARCH.rst:292
+msgid "便于通过文件系统进行人工管理；"
+msgstr "便于通过文件系统进行人工管理；"
+
+#: ../../../ARCH.rst:293
+msgid "与 Web 管理界面天然兼容。"
+msgstr "与 Web 管理界面天然兼容。"
+
+#: ../../../ARCH.rst:297
+msgid "8. Web 管理流程"
+msgstr "8. Web 管理流程"
+
+#: ../../../ARCH.rst:299
+msgid "Web 管理入口由 Blueprint 提供，流程如下："
+msgstr "Web 管理入口由 Blueprint 提供，流程如下："
+
+#: ../../../ARCH.rst:301
+msgid "用户访问插件管理页面；"
+msgstr "用户访问插件管理页面；"
+
+#: ../../../ARCH.rst:302
+msgid "Web API 接受动作："
+msgstr "Web API 接受动作："
+
+#: ../../../ARCH.rst:304
+msgid "``enablePlugin``"
+msgstr "``enablePlugin``"
+
+#: ../../../ARCH.rst:305
+msgid "``disablePlugin``"
+msgstr "``disablePlugin``"
+
+#: ../../../ARCH.rst:306
+msgid "``reloadApp``"
+msgstr "``reloadApp``"
+
+#: ../../../ARCH.rst:307
+msgid "``uploadPlugin``"
+msgstr "``uploadPlugin``"
+
+#: ../../../ARCH.rst:308
+msgid "``downloadPlugin``"
+msgstr "``downloadPlugin``"
+
+#: ../../../ARCH.rst:309
+msgid "``installPackage``"
+msgstr "``installPackage``"
+
+#: ../../../ARCH.rst:311
+msgid "对应动作调用 ``PluginManager`` 或 ``PluginInstaller``；"
+msgstr "对应动作调用 ``PluginManager`` 或 ``PluginInstaller``；"
+
+#: ../../../ARCH.rst:312
+msgid "结果以 JSON 返回给前端。"
+msgstr "结果以 JSON 返回给前端。"
+
+#: ../../../ARCH.rst:314
+msgid "其中："
+msgstr "其中："
+
+#: ../../../ARCH.rst:316
+msgid "``uploadPlugin``：上传本地插件包并解压；"
+msgstr "``uploadPlugin``：上传本地插件包并解压；"
+
+#: ../../../ARCH.rst:317
+msgid "``downloadPlugin``：从远程 URL 下载插件包；"
+msgstr "``downloadPlugin``：从远程 URL 下载插件包；"
+
+#: ../../../ARCH.rst:318
+msgid "``installPackage``：通过 ``pip`` 安装第三方包插件。"
+msgstr "``installPackage``：通过 ``pip`` 安装第三方包插件。"
+
+#: ../../../ARCH.rst:322
+msgid "9. 设计特点"
+msgstr "9. 设计特点"
+
+#: ../../../ARCH.rst:325
+msgid "9.1 以“扩展点 + 注册”驱动"
+msgstr "9.1 以“扩展点 + 注册”驱动"
+
+#: ../../../ARCH.rst:327
+msgid "插件不是直接修改核心逻辑，而是通过注册扩展点把自身能力挂接到应用中。"
+msgstr "插件不是直接修改核心逻辑，而是通过注册扩展点把自身能力挂接到应用中。"
+
+#: ../../../ARCH.rst:330
+msgid "9.2 兼容本地与第三方插件"
+msgstr "9.2 兼容本地与第三方插件"
+
+#: ../../../ARCH.rst:332
+msgid "框架同时支持："
+msgstr "框架同时支持："
+
+#: ../../../ARCH.rst:334
+msgid "本地目录插件；"
+msgstr "本地目录插件；"
+
+#: ../../../ARCH.rst:335
+msgid "作为 Python 包发布的第三方插件。"
+msgstr "作为 Python 包发布的第三方插件。"
+
+#: ../../../ARCH.rst:338
+msgid "9.3 以 Flask 原生机制为基础"
+msgstr "9.3 以 Flask 原生机制为基础"
+
+#: ../../../ARCH.rst:340
+msgid "它没有重新发明一套完整的 Web 框架，而是借助 Flask 的："
+msgstr "它没有重新发明一套完整的 Web 框架，而是借助 Flask 的："
+
+#: ../../../ARCH.rst:342
+msgid "蓝图注册；"
+msgstr "蓝图注册；"
+
+#: ../../../ARCH.rst:343
+msgid "请求钩子；"
+msgstr "请求钩子；"
+
+#: ../../../ARCH.rst:344
+msgid "模板渲染；"
+msgstr "模板渲染；"
+
+#: ../../../ARCH.rst:345
+msgid "错误处理；"
+msgstr "错误处理；"
+
+#: ../../../ARCH.rst:346
+msgid "静态文件服务。"
+msgstr "静态文件服务。"
+
+#: ../../../ARCH.rst:349
+msgid "9.4 适合“轻量插件化”场景"
+msgstr "9.4 适合“轻量插件化”场景"
+
+#: ../../../ARCH.rst:351
+msgid "它适合需要快速扩展页面、路由和拦截逻辑的场景，但并不是一个提供复杂插件隔离、沙箱和热更新的完整插件平台。"
+msgstr "它适合需要快速扩展页面、路由和拦截逻辑的场景，但并不是一个提供复杂插件隔离、沙箱和热更新的完整插件平台。"
+
+#: ../../../ARCH.rst:355
+msgid "10. 一句话总结"
+msgstr "10. 一句话总结"
+
+#: ../../../ARCH.rst:357
+msgid "Flask-PluginKit 的核心流程可以概括为："
+msgstr "Flask-PluginKit 的核心流程可以概括为："
+
+#: ../../../ARCH.rst:359
+msgid "“插件被发现 -> 解析扩展点 -> 绑定到 Flask 生命周期 -> 在请求和模板渲染阶段被调用”。"
+msgstr "“插件被发现 -> 解析扩展点 -> 绑定到 Flask 生命周期 -> 在请求和模板渲染阶段被调用”。"
+
+#: ../../../ARCH.rst:361
+msgid "这也是它最核心的架构骨架。"
+msgstr "这也是它最核心的架构骨架。"
+

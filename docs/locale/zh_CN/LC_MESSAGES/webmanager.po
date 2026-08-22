@@ -9,14 +9,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.3.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-08 13:37+0800\n"
+"POT-Creation-Date: 2026-08-22 14:39+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.6.0\n"
+"Generated-By: Babel 2.18.0\n"
 
 #: ../../webmanager.rst:4
 msgid "Web Manager"
@@ -74,14 +74,14 @@ msgstr "禁用、启用插件都需要重载应用程序才会生效，为了安
 msgid ""
 "It can only be used in a formal environment that uses Gunicorn or uWSGI "
 "background startup, and requires that the value of **ENV** in the "
-"application's configuration item be **production**. The master process is "
-"inspected via ``/proc`` on Linux, so there is no extra dependency like "
+"application's configuration item be **production**. The master process is"
+" inspected via ``/proc`` on Linux, so there is no extra dependency like "
 "psutil."
 msgstr ""
 "只能在使用Gunicorn或uWSGI后台启动的正式环境中有效，而且要求应用程序的配置项中的 **ENV** 的值是 **production**"
 " 。master进程通过Linux的 ``/proc`` 来探测，因此无需额外安装psutil之类的依赖。"
 
-#: ../../webmanager.rst:56
+#: ../../webmanager.rst:57
 msgid ""
 "If you use Gunicorn, you need the value of **PLUGINKIT_GUNICORN_ENABLED**"
 " in the application's configuration item to be True, and the value of "
@@ -90,7 +90,7 @@ msgstr ""
 "如果您使用Gunicorn，需要应用程序的配置项中 **PLUGINKIT_GUNICORN_ENABLED** 的值为True，并且 "
 "**PLUGINKIT_PROCESSNAME** 的值为具体的程序进程名。"
 
-#: ../../webmanager.rst:62
+#: ../../webmanager.rst:63
 msgid ""
 "Gunicorn starts in master-worker mode in the background. The required "
 "**PLUGINKIT_PROCESSNAME** is the name of the master process. It does not "
@@ -100,7 +100,7 @@ msgstr ""
 "Gunicorn后台启动一般是master-worker模式，这里要求的 **PLUGINKIT_PROCESSNAME** "
 "是master进程名，不包含 **gunicorn: master []** ，是 **[]** 里的进程名，没有默认值。"
 
-#: ../../webmanager.rst:67
+#: ../../webmanager.rst:68
 msgid ""
 "If you use uWSGI, you need the value of the application configuration "
 "item **PLUGINKIT_UWSGI_ENABLED** to be True, **PLUGINKIT_PROCESSNAME** is"
@@ -109,37 +109,37 @@ msgstr ""
 "如果您使用uWSGI，需要应用程序配置项 **PLUGINKIT_UWSGI_ENABLED** 的值为True， "
 "**PLUGINKIT_PROCESSNAME** 默认是uwsgi，一般可以不用修改。"
 
-#: ../../webmanager.rst:71
+#: ../../webmanager.rst:72
 msgid ""
 "The application can be reloaded normally after the appeal is met. Here is"
 " an example:"
 msgstr "上诉情况满足后才能正常重载应用，以下是示例："
 
-#: ../../webmanager.rst:99
+#: ../../webmanager.rst:98
 msgid ""
 "Flask v1.0 has an ENV configuration added. The default value is "
 "production."
 msgstr "Flask v1.0 新增了ENV配置，默认值是production。"
 
-#: ../../webmanager.rst:104
+#: ../../webmanager.rst:103
 msgid "Install Plugins"
 msgstr "安装插件"
 
-#: ../../webmanager.rst:106
+#: ../../webmanager.rst:105
 msgid ""
 "The first two operations are simple, and the third feature requires "
 "detailed instructions."
 msgstr "前两个操作很简单，第三个功能需要详细说明下。"
 
-#: ../../webmanager.rst:109
+#: ../../webmanager.rst:108
 msgid "There are three situations for installing plugins:"
 msgstr "安装插件有三种情况："
 
-#: ../../webmanager.rst:113
+#: ../../webmanager.rst:112
 msgid "Upload Local Plugin"
 msgstr "上传本地插件"
 
-#: ../../webmanager.rst:115
+#: ../../webmanager.rst:114
 msgid ""
 "This will upload a compressed file to your server's temp directory and "
 "extract it to the web application's plugin directory (controlled by "
@@ -149,18 +149,18 @@ msgstr ""
 "这个操作会上传一个压缩文件到您的服务器的临时目录中，然后解压到web应用程序的插件目录（由 "
 ":meth:`~flask_pluginkit.PluginManager.__init__` 控制），重复上传一个压缩包会覆盖已经解压的文件。"
 
-#: ../../webmanager.rst:122
+#: ../../webmanager.rst:121
 msgid "Download Remote Plugin"
 msgstr "下载远程插件"
 
-#: ../../webmanager.rst:124
+#: ../../webmanager.rst:123
 msgid ""
 "Similar to the above situation, instead of uploading the local compressed"
 " file, download the remote compressed file to the temporary directory of "
 "your server. The subsequent steps are the same as above."
 msgstr "类似于上面一种情况，只不过不是上传本地的压缩文件了，而是下载远程的压缩文件到您的服务器的临时目录中，后续步骤跟上面一样。"
 
-#: ../../webmanager.rst:128
+#: ../../webmanager.rst:127
 msgid ""
 "The remote url here is very strict. It must be a valid download address "
 "for compressed file and can resolve valid file names(That is, the file "
@@ -172,31 +172,31 @@ msgstr ""
 "这里的远程url要求很严格，它必须是一个有效的压缩文件下载地址，且能解析出有效的文件名（即文件后缀是.tar.gz、.tgz或.zip）。值得一提的是"
 "，Flask-PluginKit提供了四种方法自动获取远程url的文件名，基本能满足要求（数字表示优先级）："
 
-#: ../../webmanager.rst:135
+#: ../../webmanager.rst:134
 msgid "Add url **plugin_filename** query parameters"
 msgstr "url添加 **plugin_filename** 查询参数"
 
-#: ../../webmanager.rst:137
+#: ../../webmanager.rst:136
 msgid "The file name is resolved in the url"
 msgstr "直接从url中解析出文件名"
 
-#: ../../webmanager.rst:139
+#: ../../webmanager.rst:138
 msgid "Parse the **Content-Disposition** in the return header"
 msgstr "解析返回头 **Content-Disposition**"
 
-#: ../../webmanager.rst:141
+#: ../../webmanager.rst:140
 msgid "Parse the **Content-Type** in the return header"
 msgstr "解析返回头 **Content-Type**"
 
-#: ../../webmanager.rst:143
+#: ../../webmanager.rst:142
 msgid "Examples of valid URL parameters in the input box:"
 msgstr "输入框中有效的url示例："
 
-#: ../../webmanager.rst:153
+#: ../../webmanager.rst:152
 msgid "Install Package"
 msgstr "安装模块"
 
-#: ../../webmanager.rst:155
+#: ../../webmanager.rst:154
 msgid ""
 "This situation is new. It relies on the interface of the pip module to "
 "directly install the remote compression package. It can be a pypi package"
@@ -207,11 +207,11 @@ msgstr ""
 "这种情况是新增的，它是依靠pip模块的接口直接安装远程压缩包，可以是pypi的包，也可以是VCS的项目URL，直接安装到python全局环境中，您需要手动通过"
 " :attr:`~flask_pluginkit.PluginManager.plugin_packages` 调用。"
 
-#: ../../webmanager.rst:161
+#: ../../webmanager.rst:160
 msgid "Example of input box parameters:"
 msgstr "输入框参数示例："
 
-#: ../../webmanager.rst:170
+#: ../../webmanager.rst:169
 msgid ""
 "Since it takes time to install the module, this will turn on thread "
 "processing. After the installation is successful, it will be handed over "
@@ -220,10 +220,75 @@ msgid ""
 msgstr "由于安装模块需要时间，所以这种情况会开启线程处理，安装成功后交给一个消息队列，页面中会每隔5秒查询下消息并显示。"
 
 #: ../../webmanager.rst:176
+msgid "Discover Plugins"
+msgstr "发现插件"
+
+#: ../../webmanager.rst:178
+msgid ""
+"The Discover page lists official and community plugins and marks which "
+"ones are installed, along with the installed and latest available "
+"versions (a newer latest version shows an upgrade hint). The official "
+"plugins list is read from the fixed hub URL "
+"(``https://hub.saintic.com/openservice/flask-pluginkit``) provided by the"
+" author; when this API is unreachable, the raw plugin list on the "
+"official repository is used as a fallback. The following configurations "
+"are used:"
+msgstr ""
+"发现页面列出官方与社区插件，并标记哪些已安装，同时显示已安装版本与最新可用版本"
+"（存在更新的最新版本时会显示升级提示）。官方插件列表从作者提供的固定 hub 地址"
+"（``https://hub.saintic.com/openservice/flask-pluginkit``）读取；当该 API 不可达时，"
+"回退使用官方仓库上的原始插件列表。使用以下配置："
+
+#: ../../webmanager.rst:194
+msgid "**PLUGINKIT_PIP_TARGET_DIR**"
+msgstr "**PLUGINKIT_PIP_TARGET_DIR**"
+
+#: ../../webmanager.rst:196
+msgid ""
+"When plugins are installed into a custom pip target directory (see "
+":attr:`~flask_pluginkit.PluginManager.plugin_packages`), set this to that"
+" directory so the installed state and version are detected correctly."
+msgstr ""
+"当插件安装到自定义 pip 目标目录时（参见 "
+":attr:`~flask_pluginkit.PluginManager.plugin_packages`），请将其设置为该目录，"
+"以便正确检测已安装状态与版本。"
+
+#: ../../webmanager.rst:201
+msgid "**PLUGINKIT_PROXY**"
+msgstr "**PLUGINKIT_PROXY**"
+
+#: ../../webmanager.rst:203
+msgid ""
+"Optional HTTP(S) proxy used for GitHub API requests (community plugin "
+"search, latest release lookup and the fallback official list), e.g. "
+"``http://127.0.0.1:7890``. Useful in networks where the GitHub API is "
+"blocked or slow. The GitHub API base URL is fixed to the official "
+"``https://api.github.com`` and is not configurable, so a compromised "
+"mirror cannot serve a malicious plugin list. The official hub API and "
+"PyPI requests are not routed through this proxy."
+msgstr ""
+"可选的 HTTP(S) 代理，用于 GitHub API 请求（社区插件搜索、最新 release 查询和"
+"官方列表回退），例如 ``http://127.0.0.1:7890``。适用于 GitHub API 被屏蔽或缓慢的"
+"网络。GitHub API 基础地址固定为官方 ``https://api.github.com``，不可配置，"
+"防止被篡改的镜像返回恶意插件列表。官方 hub API 与 PyPI 请求不经过此代理。"
+
+#: ../../webmanager.rst:209
+msgid ""
+"The plugin list exposes the importable ``module`` name, whether each "
+"plugin is installed and its installed version, the latest version from "
+"PyPI / the GitHub Releases API, and an upgrade hint when a newer version "
+"exists. Installing now goes through a confirmation dialog showing the "
+"version and source first."
+msgstr ""
+"插件列表会展示可导入的 ``module`` 名称、每个插件是否已安装及其已安装版本、"
+"来自 PyPI / GitHub Releases API 的最新版本，以及存在更新时的升级提示。"
+"现在安装会先经过确认对话框，显示版本与来源。"
+
+#: ../../webmanager.rst:217
 msgid "Authentication"
 msgstr "认证"
 
-#: ../../webmanager.rst:178
+#: ../../webmanager.rst:219
 msgid ""
 "The web management page is actually dangerous for administrators. If "
 "others are free to access, it may be harmful to the system. Therefore, "
@@ -231,7 +296,7 @@ msgid ""
 "the visitor."
 msgstr "Web管理页面对于管理员来说其实是危险的，如果其他人随意访问，那么可能会对系统造成危害，因此，访问这个蓝图前，运行了一个钩子函数以验证访问者。"
 
-#: ../../webmanager.rst:183
+#: ../../webmanager.rst:224
 msgid ""
 "Verify that the visitor currently supports four main methods and one "
 "helper method. The former is defined by the application configuration "
@@ -241,15 +306,15 @@ msgstr ""
 "验证访问者目前支持四种主要方法和一种辅助方法，前者通过应用程序配置项 ``PLUGINKIT_AUTH_METHOD`` 定义，后者通过 "
 "``PLUGINKIT_AUTH_AID_METHOD`` 定义。"
 
-#: ../../webmanager.rst:189
+#: ../../webmanager.rst:230
 msgid "**PLUGINKIT_AUTH_METHOD**, supports four types of values."
 msgstr "**PLUGINKIT_AUTH_METHOD** ，支持四种类型的值。"
 
-#: ../../webmanager.rst:191
+#: ../../webmanager.rst:232
 msgid "BOOL"
 msgstr ""
 
-#: ../../webmanager.rst:193
+#: ../../webmanager.rst:234
 msgid ""
 "This method will get the value of the **PLUGINKIT_AUTH_BOOLFIELD** field "
 "in the configuration via :data:`flask.g` (the default value is signin). "
@@ -258,16 +323,16 @@ msgstr ""
 "这种方法会通过 :data:`flask.g` 获取配置里 **PLUGINKIT_AUTH_BOOLFIELD** "
 "字段的值（默认值是signin），为True时，通过验证。"
 
-#: ../../webmanager.rst:197 ../../webmanager.rst:224 ../../webmanager.rst:247
-#: ../../webmanager.rst:273 ../../webmanager.rst:298
+#: ../../webmanager.rst:238 ../../webmanager.rst:265 ../../webmanager.rst:288
+#: ../../webmanager.rst:314 ../../webmanager.rst:339
 msgid "Example:"
 msgstr "示例："
 
-#: ../../webmanager.rst:215
+#: ../../webmanager.rst:256
 msgid "BASIC"
 msgstr ""
 
-#: ../../webmanager.rst:217
+#: ../../webmanager.rst:258
 msgid ""
 "HTTP Basic Auth, a simple but unsafe method, this method requires "
 "username and password, so the application configuration item "
@@ -281,11 +346,11 @@ msgstr ""
 "，是一个dict，key是username，value是password，支持多个key、value；可选配置 "
 "**PLUGINKIT_AUTH_REALM** 以设置提示信息。"
 
-#: ../../webmanager.rst:237
+#: ../../webmanager.rst:278
 msgid "TOKEN"
 msgstr ""
 
-#: ../../webmanager.rst:239
+#: ../../webmanager.rst:280
 msgid ""
 "This requires the browser to carry an authentication header. The header "
 "field is defined by the application configuration item "
@@ -299,11 +364,11 @@ msgstr ""
 "定义，默认值是AccessToken，同时要求配置一个名叫 **PLUGINKIT_AUTH_CHECKTOKEN** "
 "的函数或类方法，这个函数要接收一个token参数，Flask-PluginKit会执行此函数，结果非0非空时通过验证。"
 
-#: ../../webmanager.rst:266
+#: ../../webmanager.rst:307
 msgid "FUNC"
 msgstr ""
 
-#: ../../webmanager.rst:268
+#: ../../webmanager.rst:309
 msgid ""
 "This should be the easiest, defined by the application configuration item"
 " **PLUGINKIT_AUTH_FUNC**, a function or class method, etc, no parameters,"
@@ -311,15 +376,15 @@ msgid ""
 "passed."
 msgstr "这应该是最简单的了，由应用程序配置项 **PLUGINKIT_AUTH_FUNC** 定义一个函数或类方法，没有参数，执行结果非0非空时验证通过。"
 
-#: ../../webmanager.rst:288
+#: ../../webmanager.rst:329
 msgid "**PLUGINKIT_AUTH_AID_METHOD**, supports one type of value."
 msgstr "**PLUGINKIT_AUTH_AID_METHOD** ，支持一种类型的值。"
 
-#: ../../webmanager.rst:290
+#: ../../webmanager.rst:331
 msgid "IP"
 msgstr ""
 
-#: ../../webmanager.rst:292
+#: ../../webmanager.rst:333
 msgid ""
 "Flask-pluginkit will get the client IP, requires application "
 "configuration item **PLUGINKIT_AUTH_IP_WHITELIST** to define IP "
@@ -331,7 +396,7 @@ msgstr ""
 "定义ip白名单，配置 **PLUGINKIT_AUTH_IP_BLACKLIST** "
 "定义ip黑名单，两个数据类型都是list，只有ip在白名单且不在黑名单时，验证通过。"
 
-#: ../../webmanager.rst:313
+#: ../../webmanager.rst:354
 msgid ""
 "In an application, the four types of the main method can only be used one"
 " or not; the auxiliary method can be used with the main method at the "

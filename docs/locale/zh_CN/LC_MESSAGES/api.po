@@ -4,7 +4,6 @@
 # package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
@@ -26,7 +25,7 @@ msgstr ""
 msgid ""
 "This part of the documentation covers all the interfaces of Flask-"
 "PluginKit."
-msgstr "这部分文档涵盖了Flask-PluginKit几乎所有的公开接口"
+msgstr ""
 
 #: ../../api.rst:12
 msgid "PluginManager Object"

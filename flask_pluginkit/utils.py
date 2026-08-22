@@ -117,7 +117,7 @@ class BaseStorage(object):
         Change :attr:`index` to :attr:`DEFAULT_INDEX`
 
     .. versionchanged:: 3.4.1
-        Add empty :attr:`list`, `get`, `set` method, which must be overridden.
+        Add empty `list`, `get`, `set` method, which must be overridden.
     """
 
     #: The default index, as the only key, you can override it.
@@ -586,10 +586,10 @@ def pip_list(target_dir: str = "") -> Dict[str, str]:
         raise RunError("Failed to get pip list: %s" % str(e))
     if target_dir and isdir(target_dir):
         cmd.extend(("--path", target_dir))
-    try:
-        data.extend(json.loads(check_output(cmd)))
-    except Exception as e:
-        raise RunError("Failed to get pip list with target dir: %s" % str(e))
+        try:
+            data.extend(json.loads(check_output(cmd)))
+        except Exception as e:
+            raise RunError("Failed to get pip list with target dir: %s" % str(e))
     return {n["name"]: n["version"] for n in data}
 
 

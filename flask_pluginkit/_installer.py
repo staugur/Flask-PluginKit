@@ -15,13 +15,11 @@ import tarfile
 import zipfile
 from os import remove
 from os.path import join, abspath, isdir, isfile, basename
-from sys import executable
-from subprocess import call
 from posixpath import basename as posixbasename
 from tempfile import NamedTemporaryFile
 from .exceptions import PluginError, TarError, ZipError, InstallError
 from ._compat import string_types, urllib2, urlsplit, parse_qs
-from .utils import check_url
+from .utils import check_url, pip_install
 try:
     from cgi import parse_header
 except ImportError:
@@ -220,10 +218,17 @@ class PluginInstaller(object):
         else:
             raise InstallError("Invalid Filepath")
 
-    def _pip_install(self, package_or_url):
+    def _pip_install(self, package_or_url, **options):
         """Use the pip command to install third-party modules.
 
+        The actual pip invocation is delegated to
+        :func:`flask_pluginkit.utils.pip_install`, which supports extra
+        options (``target_dir``, ``index``, ``upgrade``, ``quiet``) that are
+        passed through as-is.
+
         .. versionadded:: 3.3.0
+        .. versionchanged:: 3.12.0
+            Unified to use :func:`flask_pluginkit.utils.pip_install`.
         """
         res = dict(code=1, msg=None)
         if (
@@ -231,9 +236,9 @@ class PluginInstaller(object):
             and isinstance(package_or_url, string_types)
             and package_or_url not in (".", "-")
         ):
-            code = call([executable, "-m", "pip", "install", package_or_url])
-            res.update(code=code)
-            if code != 0:
+            if pip_install(package_or_url, **options):
+                res.update(code=0)
+            else:
                 res.update(msg="Installation failed with pip command")
         else:
             res.update(msg="Invalid parameter package_or_url", code=1)
@@ -261,11 +266,22 @@ class PluginInstaller(object):
 
         :param package_or_url: for method is pip, pypi's package or VCS url.
 
+        :param target_dir: for method is pip, install to the specified
+                           directory, defaults to empty string.
+        :param index: for method is pip, the index URL of the package
+                      repository, defaults to empty string.
+        :param upgrade: for method is pip, whether to upgrade the package
+                        if it is already installed, defaults to False.
+        :param quiet: for method is pip, whether to suppress output,
+                      defaults to False.
+
         :returns: the result of adding the plugin, like {msg:str, code:int},
                   code=0 is successful.
 
         .. versionchanged:: 3.3.0
             Add pip method, with package_or_url param.
+        .. versionchanged:: 3.12.0
+            Support target_dir/index/upgrade/quiet pip options.
         """
         res = dict(code=1, msg=None)
         try:
@@ -274,7 +290,14 @@ class PluginInstaller(object):
             elif method == "local":
                 self._local_upload(kwargs["filepath"], kwargs.get("remove", False))
             elif method == "pip":  # pragma: nocover
-                res = self._pip_install(kwargs["package_or_url"])
+                pip_options = {
+                    k: kwargs[k]
+                    for k in ("target_dir", "index", "upgrade", "quiet")
+                    if k in kwargs
+                }
+                res = self._pip_install(
+                    kwargs["package_or_url"], **pip_options
+                )
             else:
                 res.update(msg="Invalid method")
         except Exception as e:

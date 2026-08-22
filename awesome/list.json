@@ -1,6 +1,7 @@
 [
     {
         "name": "flask-pluginkit-demo",
+        "module": "flask_pluginkit_demo",
         "github": "saintic/flask-pluginkit-demo"
     }
 ]

@@ -262,7 +262,7 @@ Flask-PluginKit 是一个面向 Flask 应用的插件化扩展框架。它的核
 
 插件通过 ``tep`` 声明模板扩展点，应用在模板中调用：
 
-.. code-block:: jinja2
+.. code-block:: jinja
 
    {{ emit_tep("hello") }}
 
@@ -273,7 +273,7 @@ Flask-PluginKit 是一个面向 Flask 应用的插件化扩展框架。它的核
 
 插件静态文件通过 ``emit_assets()`` 生成资源 URL，最终由统一静态路由提供服务：
 
-.. code-block:: jinja2
+.. code-block:: jinja
 
    {{ emit_assets('demo', 'css/demo.css') }}
 

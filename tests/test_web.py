@@ -32,6 +32,7 @@ class FakeRedis(object):
 class OfficialPluginsTest(unittest.TestCase):
     def setUp(self):
         _web._official_plugins_cache.update(ts=0, data=None)
+        _web._installed_cache.update(ts=0, data={}, target_dir="")
         self.app = Flask("official-test")
         self.app.config.update(
             TESTING=True,
@@ -42,6 +43,17 @@ class OfficialPluginsTest(unittest.TestCase):
         PluginManager(self.app)
         self.app.register_blueprint(blueprint)
         self.client = self.app.test_client()
+        #: installed-state detection runs pip list; stub it so the tests are
+        #: deterministic and never spawn a real pip subprocess
+        patcher = mock.patch("flask_pluginkit._web.pip_list", return_value={})
+        self.mock_pip_list = patcher.start()
+        self.addCleanup(patcher.stop)
+        #: latest-release lookup hits the GitHub API; stub it as well
+        patcher = mock.patch(
+            "flask_pluginkit._web._get_latest_release_version", return_value=""
+        )
+        self.mock_latest_release = patcher.start()
+        self.addCleanup(patcher.stop)
 
     def _fake_hub_response(self):
         return BytesIO(
@@ -52,6 +64,7 @@ class OfficialPluginsTest(unittest.TestCase):
                         {
                             "name": "Demo Plugin",
                             "pypi": "flask-pluginkit-demo",
+                            "module": "flask_pluginkit_demo",
                             "github": "staugur/flask-pluginkit-demo",
                             "ctime": "2026-01-01",
                             "tag": "demo",
@@ -59,6 +72,7 @@ class OfficialPluginsTest(unittest.TestCase):
                         {
                             "name": "Not On PyPI",
                             "pypi": "",
+                            "module": "",
                             "github": "https://github.com/staugur/flask-pluginkit-not-on-pypi",
                             "ctime": "2026-02-01",
                             "tag": "",
@@ -76,6 +90,7 @@ class OfficialPluginsTest(unittest.TestCase):
             {
                 "name": "Demo Plugin",
                 "pypi": "flask-pluginkit-demo",
+                "module": "flask_pluginkit_demo",
                 "github": "staugur/flask-pluginkit-demo",
                 "ctime": "2026-01-01",
                 "tag": "demo",
@@ -133,6 +148,7 @@ class OfficialPluginsTest(unittest.TestCase):
         plugin = data["data"]["plugins"][0]
         self.assertEqual(plugin["name"], "Demo Plugin")
         self.assertEqual(plugin["pypi"], "flask-pluginkit-demo")
+        self.assertEqual(plugin["module"], "flask_pluginkit_demo")
         self.assertEqual(
             plugin["github"], "https://github.com/staugur/flask-pluginkit-demo"
         )
@@ -144,6 +160,10 @@ class OfficialPluginsTest(unittest.TestCase):
         self.assertEqual(plugin["home_page"], "https://example.com/demo")
         self.assertEqual(plugin["docs_url"], "https://example.com/docs")
         self.assertEqual(plugin["author"], "staugur")
+        self.assertEqual(plugin["latest_version"], "0.1.0")
+        self.assertFalse(plugin["installed"])
+        self.assertEqual(plugin["installed_version"], "")
+        self.assertFalse(plugin["upgrade_available"])
 
     def test_list_official_plugins_empty_pypi(self):
         """An empty pypi field means not published on PyPI, no request made."""
@@ -288,9 +308,9 @@ class OfficialPluginsTest(unittest.TestCase):
         self.assertEqual(data["data"]["plugins"][0]["pypi"], "flask-pluginkit-demo")
 
     def test_list_official_plugins_real_list_file(self):
-        """The real awesome/list.json (name + github only, no pypi/ctime/tag)
-        must be compatible: missing optional fields default to empty strings
-        and no PyPI request is made without a pypi field.
+        """The real awesome/list.json (name + module + github only, no
+        pypi/ctime/tag) must be compatible: missing optional fields default
+        to empty strings and no PyPI request is made without a pypi field.
         """
         list_file = os.path.join(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
@@ -328,6 +348,7 @@ class OfficialPluginsTest(unittest.TestCase):
         plugin = data["data"]["plugins"][0]
         self.assertEqual(plugin["name"], "flask-pluginkit-demo")
         self.assertEqual(plugin["pypi"], "")
+        self.assertEqual(plugin["module"], "flask_pluginkit_demo")
         self.assertEqual(
             plugin["github"], "https://github.com/saintic/flask-pluginkit-demo"
         )
@@ -372,6 +393,222 @@ class OfficialPluginsTest(unittest.TestCase):
         data = rv.get_json()
         self.assertEqual(data["code"], 71000)
         self.assertIn("unavailable", data["msg"])
+
+    def test_list_official_plugins_installed(self):
+        """A matching installed distribution marks the plugin as installed."""
+        hub = self._fake_hub_response()
+        pypi = self._fake_pypi_response()
+        self.mock_pip_list.return_value = {"flask-pluginkit-demo": "1.2.3"}
+        with mock.patch("flask_pluginkit._web.urllib2.urlopen") as m:
+            m.side_effect = [hub, pypi]
+            rv = self.client.post("/api?Action=listOfficialPlugins")
+        data = rv.get_json()
+        plugin = data["data"]["plugins"][0]
+        self.assertTrue(plugin["installed"])
+        self.assertEqual(plugin["installed_version"], "1.2.3")
+
+    def test_list_official_plugins_installed_by_module(self):
+        """Without a pypi package the importable module still matches."""
+        hub = BytesIO(
+            json.dumps(
+                {
+                    "success": True,
+                    "data": [
+                        {
+                            "name": "Module Only Plugin",
+                            "pypi": "",
+                            "module": "flask_pluginkit_demo",
+                            "github": "staugur/module-only",
+                        }
+                    ],
+                }
+            ).encode("utf-8")
+        )
+        self.mock_pip_list.return_value = {"flask-pluginkit-demo": "0.2.0"}
+        with mock.patch("flask_pluginkit._web.urllib2.urlopen") as m:
+            m.side_effect = [hub]
+            rv = self.client.post("/api?Action=listOfficialPlugins")
+        data = rv.get_json()
+        plugin = data["data"]["plugins"][0]
+        self.assertEqual(plugin["module"], "flask_pluginkit_demo")
+        self.assertTrue(plugin["installed"])
+        self.assertEqual(plugin["installed_version"], "0.2.0")
+
+    def test_list_official_plugins_upgrade_available_from_pypi(self):
+        """The PyPI version is the latest version, so an older installed
+        distribution is flagged as upgradable.
+        """
+        hub = self._fake_hub_response()
+        pypi = self._fake_pypi_response()
+        self.mock_pip_list.return_value = {"flask-pluginkit-demo": "0.0.9"}
+        with mock.patch("flask_pluginkit._web.urllib2.urlopen") as m:
+            m.side_effect = [hub, pypi]
+            rv = self.client.post("/api?Action=listOfficialPlugins")
+        data = rv.get_json()
+        plugin = data["data"]["plugins"][0]
+        self.assertEqual(plugin["latest_version"], "0.1.0")
+        self.assertTrue(plugin["installed"])
+        self.assertTrue(plugin["upgrade_available"])
+
+    def test_list_official_plugins_github_only_latest_release(self):
+        """A GitHub-only plugin reads its latest version from the GitHub
+        Releases API and is flagged as upgradable when it is newer.
+        """
+        hub = BytesIO(
+            json.dumps(
+                {
+                    "success": True,
+                    "data": [
+                        {
+                            "name": "Git Only Plugin",
+                            "pypi": "",
+                            "module": "git_only_plugin",
+                            "github": "staugur/git-only-plugin",
+                        }
+                    ],
+                }
+            ).encode("utf-8")
+        )
+        self.mock_latest_release.return_value = "1.2.0"
+        self.mock_pip_list.return_value = {"git-only-plugin": "1.0.0"}
+        with mock.patch("flask_pluginkit._web.urllib2.urlopen") as m:
+            m.side_effect = [hub]
+            rv = self.client.post("/api?Action=listOfficialPlugins")
+        data = rv.get_json()
+        plugin = data["data"]["plugins"][0]
+        self.assertEqual(plugin["latest_version"], "1.2.0")
+        self.assertEqual(plugin["version"], "")
+        self.assertTrue(plugin["installed"])
+        self.assertTrue(plugin["upgrade_available"])
+        self.mock_latest_release.assert_called_once_with("staugur/git-only-plugin")
+
+    def test_list_official_plugins_no_upgrade_when_up_to_date(self):
+        """No upgrade hint when the installed version is already the latest."""
+        hub = self._fake_hub_response()
+        pypi = self._fake_pypi_response()
+        self.mock_pip_list.return_value = {"flask-pluginkit-demo": "0.1.0"}
+        with mock.patch("flask_pluginkit._web.urllib2.urlopen") as m:
+            m.side_effect = [hub, pypi]
+            rv = self.client.post("/api?Action=listOfficialPlugins")
+        data = rv.get_json()
+        plugin = data["data"]["plugins"][0]
+        self.assertEqual(plugin["installed_version"], "0.1.0")
+        self.assertFalse(plugin["upgrade_available"])
+
+    def test_list_official_plugins_latest_release_lookup_cached(self):
+        """The latest-release lookup only happens when the plugin list is
+        (re)built; a cache hit never queries the GitHub API again.
+        """
+        hub = self._fake_hub_response()
+        pypi = self._fake_pypi_response()
+        with mock.patch("flask_pluginkit._web.urllib2.urlopen") as m:
+            m.side_effect = [hub, pypi]
+            rv = self.client.post("/api?Action=listOfficialPlugins")
+        data = rv.get_json()
+        #: only the GitHub-only plugin (2nd hub entry) queries the release API
+        self.assertEqual(self.mock_latest_release.call_count, 1)
+        rv = self.client.post("/api?Action=listOfficialPlugins")
+        data = rv.get_json()
+        self.assertTrue(data["data"]["cached"])
+        self.assertEqual(self.mock_latest_release.call_count, 1)
+
+    def test_list_official_plugins_installed_state_is_fresh(self):
+        """Installed state is never baked into the plugin-list cache.
+
+        After an install drops the installed-packages cache, the next
+        listing re-runs pip list and detects the package installed in the
+        meantime even though the plugin list itself is served from cache.
+        """
+        hub = self._fake_hub_response()
+        pypi = self._fake_pypi_response()
+        with mock.patch("flask_pluginkit._web.urllib2.urlopen") as m:
+            m.side_effect = [hub, pypi]
+            rv = self.client.post("/api?Action=listOfficialPlugins")
+        data = rv.get_json()
+        self.assertFalse(data["data"]["plugins"][0]["installed"])
+        self.assertEqual(self.mock_pip_list.call_count, 1)
+        #: an install invalidates the installed-packages cache
+        _web._invalidate_installed_cache()
+        self.mock_pip_list.return_value = {"flask-pluginkit-demo": "3.0.0"}
+        rv = self.client.post("/api?Action=listOfficialPlugins")
+        data = rv.get_json()
+        self.assertTrue(data["data"]["cached"])
+        plugin = data["data"]["plugins"][0]
+        self.assertTrue(plugin["installed"])
+        self.assertEqual(plugin["installed_version"], "3.0.0")
+        self.assertEqual(self.mock_pip_list.call_count, 2)
+
+    def test_installed_packages_map_cached_within_ttl(self):
+        """Within the TTL, pip list is not re-run for every request."""
+        hub = self._fake_hub_response()
+        pypi = self._fake_pypi_response()
+        with mock.patch("flask_pluginkit._web.urllib2.urlopen") as m:
+            m.side_effect = [hub, pypi]
+            rv = self.client.post("/api?Action=listOfficialPlugins")
+        self.assertEqual(rv.get_json()["code"], 0)
+        self.assertEqual(self.mock_pip_list.call_count, 1)
+        #: second request hits the in-memory cache, no pip subprocess
+        rv = self.client.post("/api?Action=listOfficialPlugins")
+        self.assertEqual(rv.get_json()["code"], 0)
+        self.assertEqual(self.mock_pip_list.call_count, 1)
+
+    def test_installed_packages_map_refreshes_after_ttl(self):
+        """After the TTL expires, pip list is re-run."""
+        hub = self._fake_hub_response()
+        pypi = self._fake_pypi_response()
+        with mock.patch("flask_pluginkit._web.urllib2.urlopen") as m:
+            m.side_effect = [hub, pypi]
+            self.client.post("/api?Action=listOfficialPlugins")
+        self.assertEqual(self.mock_pip_list.call_count, 1)
+        #: simulate the cache expiring
+        _web._installed_cache.update(ts=0, data={}, target_dir="")
+        self.client.post("/api?Action=listOfficialPlugins")
+        self.assertEqual(self.mock_pip_list.call_count, 2)
+
+    def test_installed_packages_map_keeps_last_map_on_pip_failure(self):
+        """A failing pip list keeps the last known map instead of aborting."""
+        hub = self._fake_hub_response()
+        pypi = self._fake_pypi_response()
+        with mock.patch("flask_pluginkit._web.urllib2.urlopen") as m:
+            m.side_effect = [hub, pypi]
+            rv = self.client.post("/api?Action=listOfficialPlugins")
+        self.assertEqual(rv.get_json()["code"], 0)
+        #: let the TTL expire, then let pip fail: the last known map is kept
+        _web._installed_cache.update(
+            ts=0,
+            data={"flask-pluginkit-demo": "3.0.0"},
+            target_dir="",
+        )
+        self.mock_pip_list.side_effect = Exception("pip down")
+        rv = self.client.post("/api?Action=listOfficialPlugins")
+        data = rv.get_json()
+        self.assertEqual(data["code"], 0)
+        plugin = data["data"]["plugins"][0]
+        self.assertTrue(plugin["installed"])
+        self.assertEqual(plugin["installed_version"], "3.0.0")
+
+    def test_install_package_invalidates_installed_cache(self):
+        """A successful pip install drops the installed-packages cache."""
+        with mock.patch(
+            "flask_pluginkit._web.thread.start_new_thread"
+        ) as start:
+            rv = self.client.post(
+                "/api?Action=installPackage",
+                data={"package_or_url": "flask-pluginkit-demo"},
+            )
+        self.assertEqual(rv.get_json()["code"], 0)
+        #: prime the cache, then let the background thread complete
+        _web._installed_cache.update(
+            ts=int(_web.time()), data={}, target_dir=""
+        )
+        install_fn, install_args = start.call_args[0]
+        with mock.patch("flask_pluginkit._web.PluginInstaller") as installer:
+            installer.return_value.addPlugin.return_value = {
+                "code": 0,
+                "msg": "ok",
+            }
+            install_fn(*install_args)
+        self.assertEqual(_web._installed_cache["ts"], 0)
 
     def test_list_official_plugins_cached(self):
         hub = self._fake_hub_response()
@@ -419,11 +656,45 @@ class OfficialPluginsTest(unittest.TestCase):
         self.assertTrue(data["data"]["cached"])
         self.assertEqual(m.call_count, 0)
 
+    def test_hub_requests_do_not_use_proxy(self):
+        """The official hub API request bypasses the configured proxy."""
+        self.app.config["PLUGINKIT_PROXY"] = "http://127.0.0.1:7890"
+        hub = self._fake_hub_response()
+        pypi = self._fake_pypi_response()
+        with mock.patch("flask_pluginkit._web.urllib2.urlopen") as m, mock.patch(
+            "flask_pluginkit._web.urllib2.build_opener"
+        ) as build:
+            m.side_effect = [hub, pypi]
+            rv = self.client.post("/api?Action=listOfficialPlugins")
+        self.assertEqual(rv.get_json()["code"], 0)
+        build.assert_not_called()
+
+    def test_hub_fallback_uses_proxy(self):
+        """When the hub API is down, the GitHub fallback uses the proxy."""
+        self.app.config["PLUGINKIT_PROXY"] = "http://127.0.0.1:7890"
+        fake_opener = mock.Mock()
+        fake_opener.open.side_effect = [
+            BytesIO(json.dumps({"success": True, "data": []}).encode("utf-8"))
+        ]
+        with mock.patch("flask_pluginkit._web.urllib2.urlopen") as m, mock.patch(
+            "flask_pluginkit._web.urllib2.build_opener", return_value=fake_opener
+        ) as build:
+            m.side_effect = [Exception("hub down")]
+            rv = self.client.post("/api?Action=listOfficialPlugins")
+        self.assertEqual(rv.get_json()["code"], 0)
+        build.assert_called_once()
+        proxy_handler = build.call_args[0][0]
+        self.assertEqual(
+            proxy_handler.proxies,
+            {"http": "http://127.0.0.1:7890", "https": "http://127.0.0.1:7890"},
+        )
+
 
 class GithubTopicPluginsTest(unittest.TestCase):
     def setUp(self):
         #: clear the module-level cache so every test really hits the API
         _web._github_topic_cache.update(ts=0, data=None)
+        _web._installed_cache.update(ts=0, data={}, target_dir="")
         self.app = Flask("web-test")
         self.app.config.update(
             TESTING=True,
@@ -434,6 +705,16 @@ class GithubTopicPluginsTest(unittest.TestCase):
         PluginManager(self.app)
         self.app.register_blueprint(blueprint)
         self.client = self.app.test_client()
+        #: stub pip list like in OfficialPluginsTest for deterministic tests
+        patcher = mock.patch("flask_pluginkit._web.pip_list", return_value={})
+        self.mock_pip_list = patcher.start()
+        self.addCleanup(patcher.stop)
+        #: latest-release lookup hits the GitHub API; stub it as well
+        patcher = mock.patch(
+            "flask_pluginkit._web._get_latest_release_version", return_value=""
+        )
+        self.mock_latest_release = patcher.start()
+        self.addCleanup(patcher.stop)
 
     def _fake_api_response(self):
         return json.dumps(
@@ -508,6 +789,26 @@ class GithubTopicPluginsTest(unittest.TestCase):
             ],
         }
 
+    def test_github_requests_use_proxy_when_configured(self):
+        """GitHub API requests route through the configured proxy."""
+        self.app.config["PLUGINKIT_PROXY"] = "http://127.0.0.1:7890"
+        fake_opener = mock.Mock()
+        fake_opener.open.side_effect = [BytesIO(self._fake_api_response())]
+        with mock.patch(
+            "flask_pluginkit._web.urllib2.build_opener", return_value=fake_opener
+        ) as build:
+            rv = self.client.post("/api?Action=listPlugins")
+        data = rv.get_json()
+        self.assertEqual(data["code"], 0)
+        self.assertEqual(data["data"]["total_count"], 2)
+        build.assert_called_once()
+        proxy_handler = build.call_args[0][0]
+        self.assertEqual(
+            proxy_handler.proxies,
+            {"http": "http://127.0.0.1:7890", "https": "http://127.0.0.1:7890"},
+        )
+        fake_opener.open.assert_called_once()
+
     def test_list_plugins(self):
         resp = BytesIO(self._fake_api_response())
         with mock.patch("flask_pluginkit._web.urllib2.urlopen", return_value=resp):
@@ -532,6 +833,55 @@ class GithubTopicPluginsTest(unittest.TestCase):
         self.assertEqual(
             data["data"]["plugins"][1]["full_name"], "staugur/flask_pluginkit_lib"
         )
+
+    def test_list_plugins_installed(self):
+        """Community plugins are matched against installed packages by name."""
+        resp = BytesIO(self._fake_api_response())
+        self.mock_pip_list.return_value = {"flask-pluginkit-demo": "0.5.0"}
+        with mock.patch("flask_pluginkit._web.urllib2.urlopen", return_value=resp):
+            rv = self.client.post("/api?Action=listPlugins")
+        data = rv.get_json()
+        plugins = {p["full_name"]: p for p in data["data"]["plugins"]}
+        self.assertTrue(plugins["staugur/flask-pluginkit-demo"]["installed"])
+        self.assertEqual(
+            plugins["staugur/flask-pluginkit-demo"]["installed_version"], "0.5.0"
+        )
+        self.assertFalse(plugins["staugur/flask_pluginkit_lib"]["installed"])
+        self.assertEqual(plugins["staugur/flask_pluginkit_lib"]["installed_version"], "")
+
+    def test_list_plugins_latest_release_and_upgrade(self):
+        """The GitHub latest release is exposed and, when newer than the
+        installed version, flags the plugin as upgradable.
+        """
+        resp = BytesIO(self._fake_api_response())
+        self.mock_latest_release.return_value = "1.0.0"
+        self.mock_pip_list.return_value = {"flask-pluginkit-demo": "0.5.0"}
+        with mock.patch("flask_pluginkit._web.urllib2.urlopen", return_value=resp):
+            rv = self.client.post("/api?Action=listPlugins")
+        data = rv.get_json()
+        plugins = {p["full_name"]: p for p in data["data"]["plugins"]}
+        demo = plugins["staugur/flask-pluginkit-demo"]
+        self.assertEqual(demo["latest_version"], "1.0.0")
+        self.assertTrue(demo["installed"])
+        self.assertTrue(demo["upgrade_available"])
+        lib = plugins["staugur/flask_pluginkit_lib"]
+        self.assertEqual(lib["latest_version"], "1.0.0")
+        self.assertFalse(lib["installed"])
+        self.assertFalse(lib["upgrade_available"])
+        self.assertEqual(self.mock_latest_release.call_count, 2)
+
+    def test_list_plugins_no_upgrade_when_up_to_date(self):
+        """No upgrade hint when the installed version is already the latest."""
+        resp = BytesIO(self._fake_api_response())
+        self.mock_latest_release.return_value = "0.5.0"
+        self.mock_pip_list.return_value = {"flask-pluginkit-demo": "0.5.0"}
+        with mock.patch("flask_pluginkit._web.urllib2.urlopen", return_value=resp):
+            rv = self.client.post("/api?Action=listPlugins")
+        data = rv.get_json()
+        plugins = {p["full_name"]: p for p in data["data"]["plugins"]}
+        demo = plugins["staugur/flask-pluginkit-demo"]
+        self.assertTrue(demo["installed"])
+        self.assertFalse(demo["upgrade_available"])
 
     def test_list_plugins_cached(self):
         resp = BytesIO(self._fake_api_response())

@@ -13,6 +13,7 @@ import _thread as thread
 import base64
 import json
 import os
+import re
 import signal
 from time import sleep, time
 from collections import OrderedDict, deque
@@ -30,10 +31,17 @@ from flask import (
     Response,
 )
 
-from .utils import allowed_uploaded_plugin_suffix, check_url
+try:
+    import semver
+
+    _parse_version = semver.Version.parse
+except ImportError:  # pragma: no cover
+    _parse_version = None
+
+from .utils import allowed_uploaded_plugin_suffix, check_url, pip_list
 from ._installer import PluginInstaller
 from ._compat import urllib2
-
+from .version import __version__
 
 #: Blueprint instance for managing plugins
 #:
@@ -84,10 +92,11 @@ _GITHUB_TOPIC_REDIS_G_ATTRS = ("redis", "redis_client")
 #: Official plugins hub API URL
 #:
 #: The web manager reads the official plugins list from this URL and
-#: enriches each plugin with metadata from the PyPI JSON API. It can be
-#: overridden by the ``PLUGINKIT_HUB_API`` config item. When this API is
-#: unreachable, the raw plugin list on the official repository is used as
-#: a fallback (see :data:`_HUB_FALLBACK_URL`).
+#: enriches each plugin with metadata from the PyPI JSON API. This is the
+#: official URL provided by the author and is fixed - it cannot be changed
+#: via configuration. When this API is unreachable, the raw plugin list on
+#: the official repository is used as a fallback (see
+#: :data:`_HUB_FALLBACK_URL`).
 #:
 #: .. versionadded:: 3.12.0
 _HUB_API_URL = "https://hub.saintic.com/openservice/flask-pluginkit"
@@ -116,6 +125,54 @@ _OFFICIAL_REDIS_TTL = 7 * 24 * 60 * 60
 
 #: Redis cache key
 _OFFICIAL_REDIS_KEY = "flask_pluginkit_official_plugins"
+
+#: Latest GitHub release cache, ``{full_name: {"ts": ..., "version": ...}}``
+#:
+#: The latest release of each plugin repository is read from the GitHub
+#: Releases API and cached in memory for 8 hours, so listing the plugins
+#: never hammers the API rate limit (60 requests/hour unauthenticated).
+#:
+#: .. versionadded:: 3.12.0
+_release_cache = {}
+
+#: In-memory cache TTL (seconds), 8 hours
+#:
+#: .. versionadded:: 3.12.0
+_RELEASE_CACHE_TTL = 8 * 60 * 60
+
+#: Installed-packages cache, refreshed every 5 minutes.
+#:
+#: Marking plugins as installed/upgradable runs ``pip list`` (a subprocess
+#: that takes a noticeable amount of time), so without a cache every listing
+#: request would pay that cost again even when the plugin list itself is
+#: served from cache. The map is kept for a few minutes and dropped whenever
+#: an install happens, so a freshly installed plugin shows up almost
+#: immediately instead of waiting for the TTL to expire.
+#:
+#: .. versionadded:: 3.12.0
+_installed_cache = {"ts": 0, "data": {}, "target_dir": ""}
+
+#: Installed-packages cache TTL (seconds), 5 minutes
+#:
+#: .. versionadded:: 3.12.0
+_INSTALLED_CACHE_TTL = 300
+
+#: User agent string for HTTP requests
+#:
+#: .. versionadded:: 3.12.0
+_USER_AGENT = f"Flask-PluginKit/{__version__}"
+
+
+def _invalidate_installed_cache():
+    """Drop the cached installed-packages map.
+
+    Called after any action that installs a plugin (install, upload,
+    download) so the next listing re-runs ``pip list`` and reflects the new
+    state immediately instead of waiting for the TTL to expire.
+
+    .. versionadded:: 3.12.0
+    """
+    _installed_cache.update(ts=0, data={}, target_dir="")
 
 
 def _get_redis_client():
@@ -147,7 +204,9 @@ def _redis_get(client, key=_GITHUB_TOPIC_REDIS_KEY):
         return None
 
 
-def _redis_set(client, result, key=_GITHUB_TOPIC_REDIS_KEY, ttl=_GITHUB_TOPIC_REDIS_TTL):
+def _redis_set(
+    client, result, key=_GITHUB_TOPIC_REDIS_KEY, ttl=_GITHUB_TOPIC_REDIS_TTL
+):
     """Write a cached plugins result to redis with a TTL.
 
     Redis is best-effort: failures are silently ignored.
@@ -159,6 +218,28 @@ def _redis_set(client, result, key=_GITHUB_TOPIC_REDIS_KEY, ttl=_GITHUB_TOPIC_RE
             client.set(key, json.dumps(result), ex=ttl)
     except Exception:
         pass
+
+
+def _github_urlopen(req, timeout=10, use_proxy=True):
+    """Open a GitHub API request, optionally through a proxy.
+
+    When the ``PLUGINKIT_PROXY`` config item is set (e.g.
+    ``http://127.0.0.1:7890``) the request is routed through that proxy,
+    which is handy in networks where the GitHub API is blocked or slow.
+    The official hub API and PyPI requests do not go through the proxy
+    (``use_proxy=False`` or simply not calling this helper).
+
+    .. versionadded:: 3.12.0
+    """
+    proxy = ""
+    if use_proxy:
+        proxy = _get_conf("PLUGINKIT_PROXY") or ""
+    if proxy:
+        opener = urllib2.build_opener(
+            urllib2.ProxyHandler({"http": proxy, "https": proxy})
+        )
+        return opener.open(req, timeout=timeout)
+    return urllib2.urlopen(req, timeout=timeout)
 
 
 def _list_github_topic_plugins():
@@ -177,14 +258,15 @@ def _list_github_topic_plugins():
     queried, both caches are refreshed.
 
     Configuration:
-        - ``PLUGINKIT_GITHUB_API``: GitHub API base URL, default
-          ``https://api.github.com``, can point to a proxy/mirror.
+        - ``PLUGINKIT_PROXY``: optional HTTP(S) proxy for GitHub API
+          requests (e.g. ``http://127.0.0.1:7890``), useful when the GitHub
+          API is blocked or slow in the deployment network. The GitHub API
+          base URL is fixed to the official ``https://api.github.com`` and
+          is not configurable.
 
     .. versionadded:: 3.12.0
     """
-    api = (
-        _get_conf("PLUGINKIT_GITHUB_API") or "https://api.github.com"
-    ).rstrip("/")
+    api = "https://api.github.com"
     now = int(time())
     data = _github_topic_cache.get("data")
     if data and now - _github_topic_cache["ts"] < _GITHUB_TOPIC_CACHE_TTL:
@@ -203,11 +285,11 @@ def _list_github_topic_plugins():
         url,
         headers={
             "Accept": "application/vnd.github+json",
-            "User-Agent": "flask-pluginkit-webmanager",
+            "User-Agent": _USER_AGENT,
         },
     )
     try:
-        with urllib2.urlopen(req, timeout=10) as f:
+        with _github_urlopen(req) as f:
             resp = json.loads(f.read().decode("utf-8"))
     except Exception as e:
         raise RuntimeError("Fetch GitHub topic plugins failed: %s" % e)
@@ -218,10 +300,11 @@ def _list_github_topic_plugins():
         if not any(lowered.startswith(p) for p in _GITHUB_TOPIC_NAME_PREFIXES):
             continue
         license_name = (item.get("license") or {}).get("spdx_id")
+        full_name = item.get("full_name") or ""
         plugins.append(
             {
                 "name": name,
-                "full_name": item.get("full_name"),
+                "full_name": full_name,
                 "description": item.get("description") or "",
                 "url": item.get("html_url"),
                 "homepage": item.get("homepage") or "",
@@ -232,6 +315,7 @@ def _list_github_topic_plugins():
                 "default_branch": item.get("default_branch") or "",
                 "updated_at": item.get("updated_at") or "",
                 "archived": item.get("archived") or False,
+                "latest_version": _get_latest_release_version(full_name),
             }
         )
     plugins.sort(key=lambda p: p["stars"], reverse=True)
@@ -287,6 +371,70 @@ def _github_full_name(url):
     return ""
 
 
+def _version_gt(newer, older):
+    """Return True when ``newer`` is a newer version than ``older``.
+
+    Uses ``semver`` (declared in ``setup.py``) when available and falls
+    back to comparing the numeric dot-segments of both versions, so tags
+    like ``v1.2.3`` and plain ``1.2.3`` can be compared.
+
+    .. versionadded:: 3.12.0
+    """
+    if not newer or not older:
+        return False
+    if _parse_version is not None:
+        try:
+            return _parse_version(newer) > _parse_version(older)
+        except Exception:
+            pass
+
+    def _num_key(version):
+        return [int(x) for x in re.findall(r"\d+", version)]
+
+    try:
+        return _num_key(newer) > _num_key(older)
+    except Exception:
+        return False
+
+
+def _get_latest_release_version(full_name):
+    """Return the latest release version of a GitHub repository, or ''.
+
+    Queries the GitHub Releases API (``/repos/<full_name>/releases/latest``)
+    and returns the release ``tag_name`` with a leading ``v`` stripped. The
+    result is cached in memory for 8 hours; any failure (no releases yet,
+    rate limit, network error) yields an empty string so the plugin listing
+    never fails because of it.
+
+    .. versionadded:: 3.12.0
+    """
+    full_name = (full_name or "").strip("/")
+    if not full_name:
+        return ""
+    now = int(time())
+    cached = _release_cache.get(full_name)
+    if cached and now - cached["ts"] < _RELEASE_CACHE_TTL:
+        return cached["version"]
+    version = ""
+    try:
+        req = urllib2.Request(
+            "https://api.github.com/repos/{0}/releases/latest".format(full_name),
+            headers={
+                "Accept": "application/vnd.github+json",
+                "User-Agent": _USER_AGENT,
+            },
+        )
+        with _github_urlopen(req) as f:
+            resp = json.loads(f.read().decode("utf-8"))
+        tag = (resp.get("tag_name") or "").strip()
+        if tag:
+            version = re.sub(r"^[vV]", "", tag).strip()
+    except Exception:
+        version = ""
+    _release_cache[full_name] = {"ts": now, "version": version}
+    return version
+
+
 def _get_pypi_package_info(package_name):
     """Query the PyPI JSON API for the latest version metadata.
 
@@ -301,7 +449,7 @@ def _get_pypi_package_info(package_name):
         url,
         headers={
             "Accept": "application/json",
-            "User-Agent": "flask-pluginkit-webmanager",
+            "User-Agent": _USER_AGENT,
         },
     )
     try:
@@ -316,13 +464,15 @@ def _get_pypi_package_info(package_name):
     return resp.get("info") or {}
 
 
-def _fetch_official_plugins(url):
+def _fetch_official_plugins(url, use_proxy=False):
     """Fetch the raw official plugins list from a hub URL.
 
     Returns a list of plugin dicts (each carrying ``name`` / ``github`` /
     ``ctime`` / ``tag``), or None when the URL is unreachable (HTTP 4xx /
-    5xx, timeout, network error) or returns an invalid payload. Accepted
-    payload shapes:
+    5xx, timeout, network error) or returns an invalid payload. When
+    ``use_proxy`` is True (the GitHub Contents fallback), the request is
+    routed through the optional ``PLUGINKIT_PROXY`` proxy. Accepted payload
+    shapes:
 
     - ``{"success": true, "data": [...]}`` (hub API),
     - ``{"data": [...]}``,
@@ -332,13 +482,17 @@ def _fetch_official_plugins(url):
 
     .. versionadded:: 3.12.0
     """
-    req = urllib2.Request(url, headers={"User-Agent": "flask-pluginkit-webmanager"})
+    req = urllib2.Request(url, headers={"User-Agent": _USER_AGENT})
     try:
-        with urllib2.urlopen(req, timeout=10) as f:
+        with _github_urlopen(req, use_proxy=use_proxy) as f:
             resp = json.loads(f.read().decode("utf-8"))
     except Exception:
         return None
-    if isinstance(resp, dict) and resp.get("encoding") == "base64" and resp.get("content"):
+    if (
+        isinstance(resp, dict)
+        and resp.get("encoding") == "base64"
+        and resp.get("content")
+    ):
         #: GitHub Contents API: decode the base64 file content first
         try:
             decoded = base64.b64decode(resp["content"]).decode("utf-8")
@@ -362,8 +516,9 @@ def _list_official_plugins():
     total count and a list of plugins fetched from the hub API
     (``https://hub.saintic.com/openservice/flask-pluginkit``). The hub API
     responds with ``{"success": true, "data": [...]}`` and each item carries
-    the plugin name plus an optional PyPI package name (``pypi``) and
-    github URL / ctime / tag.
+    the plugin name plus an optional PyPI package name (``pypi``), the python
+    module that can be imported directly (``module``) and a github URL /
+    ctime / tag.
 
     Only plugins with a non-empty ``pypi`` field are queried against the
     PyPI JSON API (``https://pypi.org/pypi/<pypi>/json``) to enrich the
@@ -391,13 +546,14 @@ def _list_official_plugins():
     falls back to the hub API on a full cache miss. When the API is queried,
     both caches are refreshed.
 
-    Configuration:
-        - ``PLUGINKIT_HUB_API``: official plugins hub API URL, default
-          ``https://hub.saintic.com/openservice/flask-pluginkit``.
+    The official plugins list is read from the fixed hub URL (see
+    :data:`_HUB_API_URL`), which is provided by the author and cannot be
+    configured; the fallback request to the GitHub Contents API goes
+    through the optional ``PLUGINKIT_PROXY`` proxy.
 
     .. versionadded:: 3.12.0
     """
-    api = _get_conf("PLUGINKIT_HUB_API") or _HUB_API_URL
+    api = _HUB_API_URL
     now = int(time())
     data = _official_plugins_cache.get("data")
     if data and now - _official_plugins_cache["ts"] < _OFFICIAL_CACHE_TTL:
@@ -411,7 +567,8 @@ def _list_official_plugins():
     plugins_data = _fetch_official_plugins(api)
     if plugins_data is None:
         #: hub API unreachable, fall back to the raw list on the repository
-        plugins_data = _fetch_official_plugins(_HUB_FALLBACK_URL)
+        #: (a GitHub API request, routed through the optional proxy)
+        plugins_data = _fetch_official_plugins(_HUB_FALLBACK_URL, use_proxy=True)
     if plugins_data is None:
         raise RuntimeError("Official plugins service is unavailable")
     plugins = []
@@ -422,6 +579,7 @@ def _list_official_plugins():
         if not name:
             continue
         pypi = (item.get("pypi") or "").strip()
+        module = (item.get("module") or "").strip()
         github = _normalize_github_url(item.get("github"))
         if not pypi and not github:
             #: no installable source (PyPI package or GitHub repo), skip
@@ -429,11 +587,13 @@ def _list_official_plugins():
         plugin = {
             "name": name,
             "pypi": pypi,
+            "module": module,
             "github": github,
             "full_name": _github_full_name(github),
             "ctime": item.get("ctime") or "",
             "tag": item.get("tag") or "",
             "version": "",
+            "latest_version": "",
             "summary": "",
             "home_page": "",
             "author": "",
@@ -460,12 +620,114 @@ def _list_official_plugins():
                 ):
                     plugin[field] = info.get(field) or ""
                 plugin["project_urls"] = info.get("project_urls") or {}
+            #: the PyPI version is the latest published version
+            plugin["latest_version"] = plugin["version"]
+        elif plugin["full_name"]:
+            #: no PyPI release, read the latest tag from the GitHub API
+            plugin["latest_version"] = _get_latest_release_version(plugin["full_name"])
         plugins.append(plugin)
     result = {"total_count": len(plugins), "plugins": plugins}
     _official_plugins_cache.update(ts=now, data=result)
     if redis_client is not None:
         _redis_set(redis_client, result, _OFFICIAL_REDIS_KEY, _OFFICIAL_REDIS_TTL)
     return result, False
+
+
+def _pip_name_key(name):
+    """Normalize a package name the way pip does (PEP 503).
+
+    Pip normalizes names by lowercasing and collapsing runs of ``-``,
+    ``_`` and ``.`` into a single hyphen, so ``Flask_PluginKit.demo`` and
+    ``flask-pluginkit-demo`` refer to the same distribution.
+
+    .. versionadded:: 3.12.0
+    """
+    return re.sub(r"[-_.]+", "-", (name or "").lower()).strip("-")
+
+
+def _installed_packages_map():
+    """Return a ``{normalized_name: version}`` map of installed packages.
+
+    The map is built from ``pip list`` (``utils.pip_list``) honoring the
+    ``PLUGINKIT_PIP_TARGET_DIR`` configuration so plugins installed into a
+    custom target directory are detected as well. Any failure while running
+    pip yields the last known map (or an empty map on the first call)
+    instead of aborting the listing.
+
+    The result is cached in memory for ``_INSTALLED_CACHE_TTL`` seconds;
+    ``pip list`` spawns a subprocess and is expensive, so the cache keeps
+    every listing request fast. Install actions call
+    :func:`_invalidate_installed_cache` so a freshly installed plugin is
+    detected on the next request rather than after the TTL expires.
+
+    .. versionadded:: 3.12.0
+    """
+    pip_target_dir = _get_conf("PLUGINKIT_PIP_TARGET_DIR") or ""
+    now = int(time())
+    if (
+        _installed_cache.get("target_dir") == pip_target_dir
+        and now - _installed_cache["ts"] < _INSTALLED_CACHE_TTL
+    ):
+        return _installed_cache["data"]
+    try:
+        installed = pip_list(target_dir=pip_target_dir)
+    except Exception:
+        #: keep the last known map on failure instead of aborting the listing
+        return _installed_cache.get("data") or {}
+    if not isinstance(installed, dict):
+        return _installed_cache.get("data") or {}
+    result = {_pip_name_key(name): version for name, version in installed.items()}
+    _installed_cache.update(ts=now, data=result, target_dir=pip_target_dir)
+    return result
+
+
+def _attach_installed_state(plugins):
+    """Attach the installed status to a copy of each plugin dict.
+
+    Each plugin in ``plugins`` is shallow-copied and extended with
+    ``installed`` (bool) and ``installed_version`` (str, empty when not
+    installed). Matching is done against the PyPI package name (``pypi``),
+    the importable python module (``module``) and finally the plugin name
+    (``name``), which lets community plugins discovered from the GitHub
+    topic be matched by their repository name as well.
+
+    ``upgrade_available`` (bool) is True only when the plugin is installed
+    and a newer version exists: for PyPI plugins that is the version fetched
+    from the PyPI JSON API, for GitHub-only plugins the latest release tag
+    (``latest_version``), compared with ``semver`` semantics.
+
+    The remote plugin list is cached, but the installed status must always
+    be fresh, so the cached dicts are never mutated in place.
+
+    .. versionadded:: 3.12.0
+    """
+    installed = _installed_packages_map()
+    enriched = []
+    for plugin in plugins:
+        item = dict(plugin)
+        item["installed"] = False
+        item["installed_version"] = ""
+        item["upgrade_available"] = False
+        if installed:
+            for candidate in (
+                plugin.get("pypi") or "",
+                plugin.get("module") or "",
+                plugin.get("name") or "",
+            ):
+                version = installed.get(_pip_name_key(candidate))
+                if version:
+                    item["installed"] = True
+                    item["installed_version"] = version
+                    break
+        latest = (item.get("latest_version") or "").strip()
+        if (
+            item["installed"]
+            and latest
+            and _version_gt(latest, item["installed_version"])
+        ):
+            item["upgrade_available"] = True
+        enriched.append(item)
+    return enriched
 
 
 def _get_conf(config_name):
@@ -485,9 +747,7 @@ def _read_proc_info(pid):
     cmdline = comm = ""
     try:
         with open("/proc/{0}/cmdline".format(pid), "rb") as f:
-            cmdline = (
-                f.read().replace(b"\x00", b" ").decode("utf-8", "ignore").strip()
-            )
+            cmdline = f.read().replace(b"\x00", b" ").decode("utf-8", "ignore").strip()
     except (IOError, OSError):
         pass
     try:
@@ -715,6 +975,8 @@ def api():
                     filename = fp.name
                 pi = PluginInstaller(pm.plugins_abspath)
                 res = pi.addPlugin(method="local", filepath=filename, remove=True)
+                if res["code"] == 0:
+                    _invalidate_installed_cache()
             else:
                 msg = "Unsuccessfully obtained file or format is not allowed"
                 res.update(code=50000, msg=msg)
@@ -723,6 +985,8 @@ def api():
             if check_url(url):
                 pi = PluginInstaller(pm.plugins_abspath)
                 res = pi.addPlugin(method="remote", url=url)
+                if res["code"] == 0:
+                    _invalidate_installed_cache()
             else:
                 res.update(code=60000, msg="Please fill in the correct URL")
         elif Action == "listPlugins":
@@ -732,7 +996,9 @@ def api():
             except Exception as e:
                 res.update(code=70000, msg=str(e))
             else:
+                data = dict(data)
                 data["cached"] = cached
+                data["plugins"] = _attach_installed_state(data["plugins"])
                 res.update(code=0, data=data)
         elif Action == "listOfficialPlugins":
             #: List plugins collected on the official hub API
@@ -741,7 +1007,9 @@ def api():
             except Exception as e:
                 res.update(code=71000, msg=str(e))
             else:
+                data = dict(data)
                 data["cached"] = cached
+                data["plugins"] = _attach_installed_state(data["plugins"])
                 res.update(code=0, data=data)
         elif Action == "installPlugin":
             #: Install a plugin discovered from the GitHub topic by
@@ -760,21 +1028,27 @@ def api():
                     pi = PluginInstaller(pm.plugins_abspath)
                     res = pi.addPlugin(method="remote", url=url)
                     if res["code"] == 0:
-                        _queue.append(
-                            "Install {} is successful".format(repo_name)
-                        )
+                        _queue.append("Install {} is successful".format(repo_name))
+                        _invalidate_installed_cache()
                 else:
                     res.update(code=60000, msg="Invalid repository URL")
             else:
                 res.update(code=61000, msg="Invalid repository parameter")
         elif Action == "installPackage":
             package_or_url = request.form.get("package_or_url")
+            #: pip target directory for persistent third-party plugin installs
+            pip_target_dir = _get_conf("PLUGINKIT_PIP_TARGET_DIR") or ""
 
             def _install(package_or_url):
                 pi = PluginInstaller(pm.plugins_abspath)
-                resp = pi.addPlugin(method="pip", package_or_url=package_or_url)
+                resp = pi.addPlugin(
+                    method="pip",
+                    package_or_url=package_or_url,
+                    target_dir=pip_target_dir,
+                )
                 if resp["code"] == 0:
                     _queue.append("Install is successful")
+                    _invalidate_installed_cache()
                 else:
                     _queue.append(resp["msg"])
 

@@ -4,429 +4,509 @@
 # package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Flask-PluginKit 3.0.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-24 22:55+0800\n"
+"POT-Creation-Date: 2026-08-22 15:13+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.18.0\n"
 
 #: ../../changelog.rst:2
 msgid "Changelog"
-msgstr "更新日志"
+msgstr ""
 
 #: ../../../CHANGELOG.rst:4
-msgid "v3.10.0"
+msgid "v3.12.0"
 msgstr ""
 
 #: ../../../CHANGELOG.rst:6
-msgid "Released in 2025-06-22"
+msgid "Released in 2026-08-21"
 msgstr ""
 
 #: ../../../CHANGELOG.rst:8
-msgid "feat: add pip command(install/list/show)"
+msgid ""
+"feat: web manager adds \"Discover Plugins\", listing community (GitHub "
+"topic ``flask-pluginkit`` repositories) and official (hub API) plugins "
+"with installed-version/latest-release detection, upgrade hints and "
+"install/upgrade confirmation dialogs; results are cached in memory (8h) "
+"and redis (7d)."
 msgstr ""
 
 #: ../../../CHANGELOG.rst:9
+msgid ""
+"change: the official hub API and the GitHub API base URLs are now fixed "
+"(``PLUGINKIT_GITHUB_API`` is removed so a compromised mirror cannot serve"
+" a malicious plugin list); a new ``PLUGINKIT_PROXY`` config item routes "
+"GitHub API requests through an HTTP(S) proxy; pip installs uniformly use "
+"``flask_pluginkit.utils.pip_install`` with the "
+"``PLUGINKIT_PIP_TARGET_DIR`` target directory."
+msgstr ""
+
+#: ../../../CHANGELOG.rst:10
+msgid ""
+"fix: \"Reload Application\" no longer requires ``psutil``; the TEP engine"
+" recognizes ``.j2``/``.jinja``/``.jinja2`` templates."
+msgstr ""
+
+#: ../../../CHANGELOG.rst:11
+msgid ""
+"refactor: the web manager compares versions with ``semver`` and uses a "
+"unified user-agent for all outbound requests; docs updated."
+msgstr ""
+
+#: ../../../CHANGELOG.rst:14
+msgid "v3.11.0"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:16
+msgid "Released in 2026-08-09"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:18
+msgid ""
+"feat: add application-level lifecycle hook ``on_app_ready(app)`` for "
+"plugins that participate in the normal ``register()``-based extension "
+"flow."
+msgstr ""
+
+#: ../../../CHANGELOG.rst:19
+msgid ""
+"fix: make the plugin installer compatible with Python 3.13/3.14 by "
+"handling ``Content-Disposition`` parsing without ``cgi.parse_header`` and"
+" by using safe tar extraction filters."
+msgstr ""
+
+#: ../../../CHANGELOG.rst:20
+msgid "docs: update lifecycle examples and quickstart documentation."
+msgstr ""
+
+#: ../../../CHANGELOG.rst:23
+msgid "v3.10.2"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:25
+msgid "Released in 2026-04-14"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:27
+msgid "Use importlib to import dynamically."
+msgstr ""
+
+#: ../../../CHANGELOG.rst:28
+msgid "Optimize obtaining module path"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:31
+msgid "v3.10.1"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:33
+msgid "Released in 2025-06-25"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:35
+msgid "feat: add pip command(install/list/show)"
+msgstr ""
+
+#: ../../../CHANGELOG.rst:36
 msgid ""
 "feat: :class:`~flask_pluginkit.PluginManager` add `install_package` "
 "param, automatically install the plugin package from PyPi or VCS."
 msgstr ""
 
-#: ../../../CHANGELOG.rst:10
+#: ../../../CHANGELOG.rst:37
 msgid ""
 "feat: plugin meta support ``__appversion__``, support plugin settings for"
 " compatible Flask-PluginKit versions."
 msgstr ""
 
-#: ../../../CHANGELOG.rst:13
+#: ../../../CHANGELOG.rst:40
 msgid "v3.9.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:15
+#: ../../../CHANGELOG.rst:42
 msgid "Released in 2025-05-21"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:17
+#: ../../../CHANGELOG.rst:44
 msgid "feat: add :class:`~flask_pluginkit.ExpiredLocalStorage`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:18
+#: ../../../CHANGELOG.rst:45
 msgid "feat: plugin_info return `__proxy__` of plugin object"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:21
+#: ../../../CHANGELOG.rst:48
 msgid "v3.8.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:23
+#: ../../../CHANGELOG.rst:50
 msgid "Released in 2024-05-23"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:25
+#: ../../../CHANGELOG.rst:52
 msgid "Only support python 3.8+ and flask 3.0+"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:29
+#: ../../../CHANGELOG.rst:56
 msgid "v3.7.2"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:31
+#: ../../../CHANGELOG.rst:58
 msgid "Released in 2023-05-17"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:33
+#: ../../../CHANGELOG.rst:60
 msgid "Fixed semver version"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:34
+#: ../../../CHANGELOG.rst:61
 msgid "Drop hep `before_first_request`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:37
+#: ../../../CHANGELOG.rst:64
 msgid "v3.7.1"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:39
+#: ../../../CHANGELOG.rst:66
 msgid "Released in 2021-09-07"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:41
+#: ../../../CHANGELOG.rst:68
 msgid "Restore translations.ini"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:44
+#: ../../../CHANGELOG.rst:71
 msgid "v3.7.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:46
+#: ../../../CHANGELOG.rst:73
 msgid "Released in 2021-09-02"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:48
+#: ../../../CHANGELOG.rst:75
 msgid "feat: add :ref:`p3`, is beta"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:49
+#: ../../../CHANGELOG.rst:76
 msgid "chore: the stpl_reverse falls into stpl"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:50
+#: ../../../CHANGELOG.rst:77
 msgid ""
 "deprecated: will remove the try_compatible and stpl_reverse in "
 ":class:`~flask_pluginkit.PluginManager`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:51
+#: ../../../CHANGELOG.rst:78
 msgid "misc: remove web static files(change to CDN)"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:54
+#: ../../../CHANGELOG.rst:81
 msgid "v3.6.2"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:56 ../../../CHANGELOG.rst:64
+#: ../../../CHANGELOG.rst:83 ../../../CHANGELOG.rst:91
 msgid "Released in 2021-06-22"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:58
+#: ../../../CHANGELOG.rst:85
 msgid ""
 "chore: compatible with flask 2.0 nested blueprints, but only supports "
 "blueprints of nested plugins"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:59
+#: ../../../CHANGELOG.rst:86
 msgid "fix ci(deploy pypi) & update docs"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:62
+#: ../../../CHANGELOG.rst:89
 msgid "v3.6.1"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:66
+#: ../../../CHANGELOG.rst:93
 msgid "ci tests from travis to github action"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:67
+#: ../../../CHANGELOG.rst:94
 msgid "chore: web message api with SSE, page with CDN"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:70
+#: ../../../CHANGELOG.rst:97
 msgid "v3.6.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:72
+#: ../../../CHANGELOG.rst:99
 msgid "Released in 2020-12-31"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:74
+#: ../../../CHANGELOG.rst:101
 msgid "feat: add :ref:`vep-on-blueprint`, is beta"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:75
+#: ../../../CHANGELOG.rst:102
 msgid "feat: the :meth:`~flask_pluginkit.PluginManager.emit_assets` add _external"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:76
+#: ../../../CHANGELOG.rst:103
 msgid "fix: semver.compare and semver.parse"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:77 ../../../CHANGELOG.rst:87
+#: ../../../CHANGELOG.rst:104 ../../../CHANGELOG.rst:114
 msgid "update docs & test case, example"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:78
+#: ../../../CHANGELOG.rst:105
 msgid "deprecated: MongoStorage"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:81
+#: ../../../CHANGELOG.rst:108
 msgid "v3.5.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:83
+#: ../../../CHANGELOG.rst:110
 msgid "Released in 2020-04-08"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:85
+#: ../../../CHANGELOG.rst:112
 msgid "feat: add class-based view extension point (beta, use Flask-Classful)"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:86
+#: ../../../CHANGELOG.rst:113
 msgid "chore: web plugin manager page setInterval (called as needed)"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:90
+#: ../../../CHANGELOG.rst:117
 msgid "v3.4.1"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:92
+#: ../../../CHANGELOG.rst:119
 msgid "Released in 2020-03-25"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:94
+#: ../../../CHANGELOG.rst:121
 msgid "feat: add :meth:`~flask_pluginkit.LocalStorage.setmany`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:95
+#: ../../../CHANGELOG.rst:122
 msgid "feat: add :meth:`~flask_pluginkit.RedisStorage.setmany`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:96
+#: ../../../CHANGELOG.rst:123
 msgid "fix: update result(original) :meth:`~flask_pluginkit.RedisStorage.get`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:99
+#: ../../../CHANGELOG.rst:126
 msgid "v3.4.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:101
+#: ../../../CHANGELOG.rst:128
 msgid "Released in 2019-09-27"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:103
+#: ../../../CHANGELOG.rst:130
 msgid "feat: add before_first_request hook to hep"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:104
+#: ../../../CHANGELOG.rst:131
 msgid "feat: errhandler allow exception"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:105
+#: ../../../CHANGELOG.rst:132
 msgid "feat: emit_assets add _raw param"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:106
+#: ../../../CHANGELOG.rst:133
 msgid "feat: filter allow [f1, f2, (name, f3)]"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:107
+#: ../../../CHANGELOG.rst:134
 msgid "feat: web manager add a button, select language"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:108
+#: ../../../CHANGELOG.rst:135
 msgid "feat: stpl alow asc or desc, open the template sorting"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:109
+#: ../../../CHANGELOG.rst:136
 msgid "fix: check getPluginClass"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:110
+#: ../../../CHANGELOG.rst:137
 msgid "fix: check url prefix"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:111
+#: ../../../CHANGELOG.rst:138
 msgid "chore: update docs, example and test case"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:114
+#: ../../../CHANGELOG.rst:141
 msgid "v3.3.1"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:116
+#: ../../../CHANGELOG.rst:143
 msgid "Released in 2019-09-17"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:118
+#: ../../../CHANGELOG.rst:145
 msgid "feat: automatically compatible 2.x partial registration method"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:119
+#: ../../../CHANGELOG.rst:146
 msgid "fix: update shelve set key type"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:120
+#: ../../../CHANGELOG.rst:147
 msgid "fix: remove the number of tests `/`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:121
+#: ../../../CHANGELOG.rst:148
 msgid "test: add docs"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:122
+#: ../../../CHANGELOG.rst:149
 msgid "chore: update travis.yml"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:123
+#: ../../../CHANGELOG.rst:150
 msgid "chore: formatting code and optimizing import"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:126
+#: ../../../CHANGELOG.rst:153
 msgid "v3.3.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:128
+#: ../../../CHANGELOG.rst:155
 msgid "Released in 2019-07-31"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:130
+#: ../../../CHANGELOG.rst:157
 msgid "feat: update :class:`~flask_pluginkit.PluginInstaller`."
 msgstr ""
 
-#: ../../../CHANGELOG.rst:131
+#: ../../../CHANGELOG.rst:158
 msgid "feat: add a blueprint to manage plugins"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:132
+#: ../../../CHANGELOG.rst:159
 msgid "fix: close shelve connection"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:133 ../../../CHANGELOG.rst:149
-#: ../../../CHANGELOG.rst:161
+#: ../../../CHANGELOG.rst:160 ../../../CHANGELOG.rst:176
+#: ../../../CHANGELOG.rst:188
 msgid "test: add test case"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:134 ../../../CHANGELOG.rst:150
+#: ../../../CHANGELOG.rst:161 ../../../CHANGELOG.rst:177
 msgid "docs: update docs and translation"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:135 ../../../CHANGELOG.rst:151
-#: ../../../CHANGELOG.rst:163
+#: ../../../CHANGELOG.rst:162 ../../../CHANGELOG.rst:178
+#: ../../../CHANGELOG.rst:190
 msgid "chore: update example"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:136
+#: ../../../CHANGELOG.rst:163
 msgid "chore: update travis.yml, add deploy"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:139
+#: ../../../CHANGELOG.rst:166
 msgid "v3.2.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:141
+#: ../../../CHANGELOG.rst:168
 msgid "Released in 2019-07-25"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:143
+#: ../../../CHANGELOG.rst:170
 msgid "feat: dcp, be similar to flask-plugins event system,"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:144
+#: ../../../CHANGELOG.rst:171
 msgid ""
 "add :class:`~flask_pluginkit.utils.DcpManager` and "
 ":func:`~flask_pluginkit.push_dcp`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:146
+#: ../../../CHANGELOG.rst:173
 msgid "feat: add error handler"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:147
+#: ../../../CHANGELOG.rst:174
 msgid "feat: add template filter"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:148
+#: ../../../CHANGELOG.rst:175
 msgid "feat: add template context processor"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:152
+#: ../../../CHANGELOG.rst:179
 msgid "chore: make some of the code more elegant"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:155
+#: ../../../CHANGELOG.rst:182
 msgid "v3.1.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:157
+#: ../../../CHANGELOG.rst:184
 msgid "Released in 2019-07-22"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:159
+#: ../../../CHANGELOG.rst:186
 msgid "feat: add :class:`~flask_pluginkit.PluginInstaller`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:160
+#: ../../../CHANGELOG.rst:187
 msgid "feat: add vep :ref:`vep`"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:162
+#: ../../../CHANGELOG.rst:189
 msgid "docs: update docs"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:166
+#: ../../../CHANGELOG.rst:193
 msgid "v3.0.1"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:168
+#: ../../../CHANGELOG.rst:195
 msgid "Released in 2019-07-21"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:170
+#: ../../../CHANGELOG.rst:197
 msgid "The register functin can return empty dict, not necessarily meaningless."
 msgstr ""
 
-#: ../../../CHANGELOG.rst:171
+#: ../../../CHANGELOG.rst:198
 msgid "Update docs, translation and add test."
 msgstr ""
 
-#: ../../../CHANGELOG.rst:174
+#: ../../../CHANGELOG.rst:201
 msgid "v3.0.0"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:176
+#: ../../../CHANGELOG.rst:203
 msgid "Released in 2019-07-20"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:178
+#: ../../../CHANGELOG.rst:205
 msgid "Refactoring everyting"
 msgstr ""
 
-#: ../../../CHANGELOG.rst:181
+#: ../../../CHANGELOG.rst:208
 msgid "Previous Versions"
-msgstr "旧版本"
+msgstr ""
 
-#: ../../../CHANGELOG.rst:183
+#: ../../../CHANGELOG.rst:210
 msgid ""
 "Prior to 3.3.1, the new version of the refactoring was not compatible "
 "with the old version, and the update history is no longer recorded here."
-msgstr "3.3.1之前，由于新版本重构，完全与旧版本不兼容，此处不再记录更新历史记录。"
+msgstr ""
 
 #~ msgid "register可以返回空dict，并不一定没有意义发布修复版本"
 #~ msgstr ""
@@ -442,4 +522,222 @@ msgstr "3.3.1之前，由于新版本重构，完全与旧版本不兼容，此�
 
 #~ msgid "Released in 2024-05-22"
 #~ msgstr ""
+
+#~ msgid "v3.10.0"
+#~ msgstr ""
+
+#~ msgid "Released in 2025-06-22"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "feat: web manager adds \"Discover "
+#~ "Plugins\", listing GitHub topic ``flask-"
+#~ "pluginkit`` repositories (name prefix "
+#~ "``flask-pluginkit-``/``flask_pluginkit_``, sorted by"
+#~ " stars, archived marker, one-click "
+#~ "install), cached in memory (8h) and "
+#~ "redis (7d, when available); \"Discover "
+#~ "Plugins\" is renamed to \"Discover "
+#~ "Community Plugins\"."
+#~ msgstr ""
+#~ "功能：Web 管理界面新增\"发现插件\"，列出 GitHub topic "
+#~ "``flask-pluginkit`` 的仓库（名称前缀 ``flask-"
+#~ "pluginkit-``/``flask_pluginkit_``，按 star "
+#~ "排序，标记归档状态，支持一键安装），结果缓存在内存（8 小时）和 redis（7 "
+#~ "天，若可用）；\"发现插件\"更名为\"发现社区插件\"。"
+
+#~ msgid ""
+#~ "feat: web manager adds \"Discover "
+#~ "Official Plugins\", reading the official "
+#~ "hub API (fixed URL "
+#~ "``https://hub.saintic.com/openservice/flask-pluginkit`` "
+#~ "provided by the author, not "
+#~ "configurable; fallback to the repository's "
+#~ "``awesome/list.json`` via the GitHub Contents"
+#~ " API when unreachable) and enriching "
+#~ "each plugin (name, optional ``pypi`` "
+#~ "package name, github/ctime/tag) with metadata"
+#~ " from the PyPI JSON API (version, "
+#~ "license, author, home_page, docs_url, summary,"
+#~ " requires_python); only plugins with a "
+#~ "non-empty ``pypi`` field are queried "
+#~ "against PyPI, others are marked as "
+#~ "not published on PyPI; a non-empty"
+#~ " ``github`` field allows installing from"
+#~ " the GitHub URL via pip VCS "
+#~ "install (``git+https://github.com/<full_name>``); entries"
+#~ " with neither are skipped; results "
+#~ "are cached in memory (8h) and "
+#~ "redis (7d, when available)."
+#~ msgstr ""
+#~ "功能：Web 管理界面新增\"发现官方插件\"，读取官方 hub API（作者提供的固定地址 "
+#~ "``https://hub.saintic.com/openservice/flask-"
+#~ "pluginkit``，不可配置；当不可达时通过 GitHub Contents API "
+#~ "回退到仓库的 ``awesome/list.json``），并通过 PyPI JSON "
+#~ "API 丰富每个插件的信息（名称、可选的 ``pypi`` "
+#~ "包名、github/ctime/tag）与元数据（版本、许可证、作者、home_page、docs_url、简介、requires_python）；只有"
+#~ " ``pypi`` 字段非空的插件才会查询 PyPI，其余标记为未发布到 PyPI；非空的 "
+#~ "``github`` 字段允许通过 pip VCS 安装 "
+#~ "（``git+https://github.com/<full_name>``）从 GitHub "
+#~ "安装；两者都为空则跳过；结果缓存在内存（8 小时）和 redis（7 天，若可用）。"
+
+#~ msgid ""
+#~ "change: \"Reload Application\" no longer "
+#~ "requires ``psutil``; the Gunicorn/uWSGI master"
+#~ " is detected via ``/proc`` on Linux."
+#~ msgstr "变更：\"重载应用\"不再依赖 ``psutil``；在 Linux 上通过 ``/proc`` 检测 Gunicorn/uWSGI 主进程。"
+
+#~ msgid ""
+#~ "fix: uWSGI master detection now uses "
+#~ "token-exact command-line matching to "
+#~ "avoid false positives."
+#~ msgstr "修复：uWSGI 主进程检测现在使用 token 精确匹配命令行，以避免误判。"
+
+#~ msgid ""
+#~ "tests: add ``tests/test_web.py`` covering the"
+#~ " ``listPlugins``/``installPlugin``/``listOfficialPlugins`` "
+#~ "actions and redis caching."
+#~ msgstr ""
+#~ "测试：新增 ``tests/test_web.py``，覆盖 "
+#~ "``listPlugins``/``installPlugin``/``listOfficialPlugins`` 动作与"
+#~ " redis 缓存。"
+
+#~ msgid ""
+#~ "UI: \"Discover Plugins\" button gets a"
+#~ " loading state/hint; \"Reload Application\" "
+#~ "tooltip and docs note no extra "
+#~ "dependency needed."
+#~ msgstr "界面：\"发现插件\"按钮增加加载状态/提示；\"重载应用\"的提示与文档注明无需额外依赖。"
+
+#~ msgid ""
+#~ "feat: TEP now also recognizes ``.j2``,"
+#~ " ``.jinja`` and ``.jinja2`` template files"
+#~ " in addition to ``.html``/``.htm``/``.xhtml``."
+#~ msgstr ""
+#~ "功能：TEP 现在除 ``.html``/``.htm``/``.xhtml`` 外，还识别 "
+#~ "``.j2``、``.jinja`` 和 ``.jinja2`` 模板文件。"
+
+#~ msgid ""
+#~ "change: the pip install path in "
+#~ "``PluginInstaller`` now uniformly uses "
+#~ "``flask_pluginkit.utils.pip_install`` (supporting "
+#~ "``target_dir``/``index``/``upgrade``/``quiet``); "
+#~ "``PluginManager`` auto-install and the "
+#~ "web manager's ``installPackage`` pass the "
+#~ "``PLUGINKIT_PIP_TARGET_DIR`` config value as "
+#~ "the pip target directory for persistent"
+#~ " third-party plugin installs, and the"
+#~ " installed-package detection uses the "
+#~ "same target."
+#~ msgstr ""
+#~ "变更：``PluginInstaller`` 中的 pip 安装路径现在统一使用 "
+#~ "``flask_pluginkit.utils.pip_install``（支持 "
+#~ "``target_dir``/``index``/``upgrade``/``quiet``）；``PluginManager`` "
+#~ "自动安装与 Web 管理界面的 ``installPackage`` 都会把 "
+#~ "``PLUGINKIT_PIP_TARGET_DIR`` 配置值作为持久化第三方插件安装的 pip "
+#~ "目标目录，已安装包检测也使用同一目录。"
+
+#~ msgid ""
+#~ "feat: the hub API entries now "
+#~ "carry an optional ``module`` field (the"
+#~ " python module that can be imported"
+#~ " directly, e.g. ``flask_pluginkit_demo``), added"
+#~ " to ``awesome/list.json`` as well."
+#~ msgstr ""
+#~ "功能：hub API 条目现在携带可选的 ``module`` 字段（可直接导入的 "
+#~ "python 模块，例如 ``flask_pluginkit_demo``），也已添加到 "
+#~ "``awesome/list.json``。"
+
+#~ msgid ""
+#~ "feat: \"Discover Community Plugins\" and "
+#~ "\"Discover Official Plugins\" now show "
+#~ "whether a plugin is already installed"
+#~ " and its installed version (detected "
+#~ "via ``flask_pluginkit.utils.pip_list`` against "
+#~ "``PLUGINKIT_PIP_TARGET_DIR``, matched by PyPI "
+#~ "package name, importable module or "
+#~ "plugin name); the installed state is "
+#~ "resolved per request and never baked "
+#~ "into the cache."
+#~ msgstr ""
+#~ "功能：\"发现社区插件\"和\"发现官方插件\"现在会显示插件是否已安装及其已安装版本（通过 "
+#~ "``flask_pluginkit.utils.pip_list`` 针对 "
+#~ "``PLUGINKIT_PIP_TARGET_DIR`` 检测，按 PyPI "
+#~ "包名、可导入模块或插件名匹配）；已安装状态按请求解析，绝不写入缓存。"
+
+#~ msgid ""
+#~ "UI: installing a community or official"
+#~ " plugin no longer starts immediately "
+#~ "- a confirmation dialog shows the "
+#~ "plugin name, version and installation "
+#~ "source (PyPI package name / "
+#~ "``git+https`` URL) before the task is"
+#~ " submitted."
+#~ msgstr ""
+#~ "界面：安装社区或官方插件不再立即开始——提交任务前会先弹出确认对话框，显示插件名称、版本与安装来源（PyPI 包名 "
+#~ "/ ``git+https`` URL）。"
+
+#~ msgid ""
+#~ "feat: the plugin cards also show "
+#~ "the latest available version - for "
+#~ "PyPI plugins the version from the "
+#~ "PyPI JSON API, for GitHub-only "
+#~ "plugins the latest release tag read "
+#~ "from the GitHub Releases API "
+#~ "(``/repos/{full_name}/releases/latest``, cached in "
+#~ "memory for 8 hours and queried "
+#~ "only when the plugin list is "
+#~ "rebuilt). When a newer version than "
+#~ "the installed one exists, an upgrade "
+#~ "hint is shown and the footer "
+#~ "offers an \"Upgrade\" action."
+#~ msgstr ""
+#~ "功能：插件卡片还会显示最新可用版本——PyPI 插件显示来自 PyPI JSON API"
+#~ " 的版本，仅 GitHub 插件显示从 GitHub Releases "
+#~ "API（``/repos/{full_name}/releases/latest``，内存缓存 8 "
+#~ "小时，仅在重建插件列表时查询）读取的最新 release "
+#~ "标签。当存在比已安装版本更新的版本时，会显示升级提示，页脚提供\"升级\"操作。"
+
+#~ msgid ""
+#~ "perf: the installed-package detection "
+#~ "(``pip list``) is now cached in "
+#~ "memory for 5 minutes and invalidated "
+#~ "after any install/upload/download action, so"
+#~ " repeat listing requests no longer "
+#~ "pay the pip subprocess cost even "
+#~ "when the plugin list itself is "
+#~ "served from cache; ``utils.pip_list`` no "
+#~ "longer runs the same ``pip list`` "
+#~ "command twice when no target directory"
+#~ " is configured."
+#~ msgstr ""
+#~ "性能：已安装包检测（``pip list``）现在在内存中缓存 5 "
+#~ "分钟，并在任何安装/上传/下载操作后失效，因此重复的列表请求不再承担 pip "
+#~ "子进程开销，即使插件列表本身来自缓存；``utils.pip_list`` 在未配置目标目录时不再重复执行同一条 "
+#~ "``pip list`` 命令。"
+
+#~ msgid ""
+#~ "refactor: version comparison in the web"
+#~ " manager uses ``semver`` (declared in "
+#~ "``setup.py``) instead of ``packaging`` (an "
+#~ "undeclared indirect dependency); all outbound"
+#~ " HTTP requests (GitHub Search / "
+#~ "Releases / PyPI / hub) now share"
+#~ " the ``_USER_AGENT`` header instead of "
+#~ "three hard-coded variants."
+#~ msgstr ""
+#~ "重构：Web 管理界面中的版本比较改用 ``semver``（``setup.py`` 中已声明）替代"
+#~ " ``packaging``（未声明的间接依赖）；所有出站 HTTP 请求（GitHub "
+#~ "Search / Releases / PyPI / "
+#~ "hub）现在共用 ``_USER_AGENT`` 请求头，取代三处硬编码的变体。"
+
+#~ msgid ""
+#~ "docs: the Discover Plugins section of"
+#~ " ``docs/webmanager.rst`` documents the "
+#~ "``PLUGINKIT_PIP_TARGET_DIR`` and ``PLUGINKIT_PROXY`` "
+#~ "configurations used by the web manager."
+#~ msgstr ""
+#~ "文档：``docs/webmanager.rst`` 的\"发现插件\"一节记录了 Web "
+#~ "管理界面使用的 ``PLUGINKIT_PIP_TARGET_DIR`` 和 "
+#~ "``PLUGINKIT_PROXY`` 配置。"
 

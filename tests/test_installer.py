@@ -2,6 +2,7 @@
 
 import os
 import unittest
+from unittest import mock
 from flask_pluginkit import PluginInstaller
 from flask_pluginkit._installer import parse_header
 from flask_pluginkit.utils import check_url
@@ -64,6 +65,36 @@ class PITest(unittest.TestCase):
         res = self.pi.removePlugin(pkg)
         self.assertEqual(res["code"], 0)
         self.assertFalse(os.path.isdir(pkg))
+
+    def test_pip_install_uses_utils_pip_install(self):
+        """_pip_install delegates to utils.pip_install and passes options.
+
+        target_dir/index/upgrade/quiet are forwarded as-is, and the result
+        code reflects the pip exit status.
+        """
+        with mock.patch("flask_pluginkit._installer.pip_install") as m:
+            m.return_value = True
+            res = self.pi._pip_install(
+                "flask-pluginkit-demo",
+                target_dir="/tmp/plugin-target",
+                index="https://pypi.org/simple",
+            )
+            self.assertEqual(res["code"], 0)
+            m.assert_called_once_with(
+                "flask-pluginkit-demo",
+                target_dir="/tmp/plugin-target",
+                index="https://pypi.org/simple",
+            )
+
+        with mock.patch("flask_pluginkit._installer.pip_install") as m:
+            m.return_value = False
+            res = self.pi._pip_install("flask-pluginkit-demo", target_dir="")
+            self.assertEqual(res["code"], 1)
+            self.assertEqual(res["msg"], "Installation failed with pip command")
+
+        res = self.pi._pip_install("")
+        self.assertEqual(res["code"], 1)
+        self.assertEqual(res["msg"], "Invalid parameter package_or_url")
 
 
 if __name__ == "__main__" and not os.getenv("TRAVIS"):

@@ -171,6 +171,44 @@ This blueprint has only one page. This page contains three main features:
             over to a message queue. The page will query the message every
             5 seconds and display it.
 
+    .. _webmanager-discover-plugins:
+
+- Discover Plugins
+
+    The Discover page lists official and community plugins and marks which
+    ones are installed, along with the installed and latest available
+    versions (a newer latest version shows an upgrade hint). The official
+    plugins list is read from the fixed hub URL
+    (``https://hub.saintic.com/openservice/flask-pluginkit``) provided by
+    the author; when this API is unreachable, the raw plugin list on the
+    official repository is used as a fallback. The following configurations
+    are used:
+
+    - **PLUGINKIT_PIP_TARGET_DIR**
+
+        When plugins are installed into a custom pip target directory (see
+        :attr:`~flask_pluginkit.PluginManager.plugin_packages`), set this to
+        that directory so the installed state and version are detected
+        correctly.
+
+    - **PLUGINKIT_PROXY**
+
+        Optional HTTP(S) proxy used for GitHub API requests (community
+        plugin search, latest release lookup and the fallback official
+        list), e.g. ``http://127.0.0.1:7890``. Useful in networks where the
+        GitHub API is blocked or slow. The GitHub API base URL is fixed to
+        the official ``https://api.github.com`` and is not configurable, so
+        a compromised mirror cannot serve a malicious plugin list. The
+        official hub API and PyPI requests are not routed through this
+        proxy.
+
+    .. versionchanged:: 3.12.0
+        The plugin list exposes the importable ``module`` name, whether each
+        plugin is installed and its installed version, the latest version
+        from PyPI / the GitHub Releases API, and an upgrade hint when a
+        newer version exists. Installing now goes through a confirmation
+        dialog showing the version and source first.
+
 Authentication
 --------------
 

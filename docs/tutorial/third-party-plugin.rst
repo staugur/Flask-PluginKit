@@ -39,6 +39,37 @@ subsequent third-party plugin upgrades.
         If you want to install from a specific index, you can specify the
         ``index`` field, which defaults to empty.
 
+        To persist third-party plugins in a dedicated directory, set the
+        application configuration item ``PLUGINKIT_PIP_TARGET_DIR``; it is
+        used as the pip ``target_dir`` both when auto-installing here and
+        when installing from the web manager, so plugins survive
+        virtualenv re-creation.
+
+        .. versionchanged:: 3.12.0
+            When publishing a plugin to the official hub
+            (``https://hub.saintic.com``), you may add an optional ``module``
+            field next to ``name``/``pypi``/``github``, holding the python
+            module that can be imported directly (e.g. ``flask_pluginkit_demo``).
+
+        .. versionchanged:: 3.12.0
+            In the web manager, plugin cards show whether the plugin is
+            already installed and its installed version (resolved via
+            ``flask_pluginkit.utils.pip_list``, matching the PyPI package
+            name, the importable module or the plugin name). Clicking
+            ``Install`` on a community or official plugin opens a
+            confirmation dialog showing the plugin name, version and the
+            installation source (PyPI package name or ``git+https`` URL)
+            before the task is actually submitted.
+
+        .. versionchanged:: 3.12.0
+            Plugin cards additionally show the latest available version: the
+            PyPI version for packages published on PyPI, otherwise the latest
+            release tag fetched from the GitHub Releases API
+            (``/repos/{full_name}/releases/latest``). When a newer version
+            than the installed one exists, the card shows an upgrade hint and
+            the footer offers an ``Upgrade`` action that reuses the same
+            confirmation dialog.
+
 Local Plugin
 ------------
 

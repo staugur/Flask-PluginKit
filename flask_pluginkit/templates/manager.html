@@ -22,6 +22,9 @@
         .set-top {
             padding-top: 12px;
         }
+        #install-package-url {
+            min-width: 250px
+        }
     </style>
 </head>
 
@@ -89,7 +92,7 @@
                                 Download Remote Plugin
                             </a>
                         </div>
-                        <div class="control has-icons-left is-expanded">
+                        <div class="control has-icons-left">
                             <input class="input is-small" type="text" placeholder="The plugin download url"
                                 id="download-plugin-url">
                             <span class="icon is-small is-left">
@@ -105,8 +108,8 @@
                                 Install Package
                             </a>
                         </div>
-                        <div class="control has-icons-left is-expanded">
-                            <input class="input is-small" type="text" placeholder="The pypi package name or VCS url"
+                        <div class="control has-icons-left">
+                            <input class="input is-small" type="text" placeholder="Pypi package name or VCS url"
                                 id="install-package-url">
                             <span class="icon is-small is-left">
                                 <i class="saintic-icon saintic-icon-module"></i>
@@ -163,6 +166,28 @@
             <div class="notification" id="notification" style="display: none;">
                 <button class="delete"></button>
                 <div id="message"></div>
+            </div>
+        </div>
+        <div class="modal" id="install-modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Confirm Installation</p>
+                    <button class="delete" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="content is-small">
+                        <p><strong>Plugin:</strong> <span id="install-modal-name"></span></p>
+                        <p><strong>Kind:</strong> <span id="install-modal-kind"></span></p>
+                        <p><strong>Version:</strong> <span id="install-modal-version"></span></p>
+                        <p><strong>Source:</strong> <span id="install-modal-source"></span></p>
+                        <p><strong>Module:</strong> <span id="install-modal-module"></span></p>
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button is-success" id="install-modal-confirm">Install</button>
+                    <button class="button" id="install-modal-cancel">Cancel</button>
+                </footer>
             </div>
         </div>
     </section>
@@ -320,22 +345,29 @@
             }
         });
 
+        function installPackage(package_or_url) {
+            if (!package_or_url) {
+                return false;
+            }
+            ajax("{{ url_for('.api', Action='installPackage') }}", function (res) {
+                setMessage(
+                    "<scan class='has-text-primary'>Already submitted installation task.</scan>"
+                );
+                getLoopMsg();
+            }, {
+                data: {
+                    package_or_url: package_or_url
+                },
+                fail: function (res) {
+                    setMessage("<scan class='has-text-warning'>" + res.msg + "</scan>");
+                }
+            });
+        }
+
         $('#install-package-submit').click(function () {
             let package_or_url = $('#install-package-url').val();
             if (package_or_url && package_or_url != "" && package_or_url != '.') {
-                ajax("{{ url_for('.api', Action='installPackage') }}", function (res) {
-                    setMessage(
-                        "<scan class='has-text-primary'>Already submitted installation task.</scan>"
-                    );
-                    getLoopMsg();
-                }, {
-                    data: {
-                        package_or_url: package_or_url
-                    },
-                    fail: function (res) {
-                        setMessage("<scan class='has-text-warning'>" + res.msg + "</scan>");
-                    }
-                });
+                installPackage(package_or_url);
             }
         });
 
@@ -360,6 +392,18 @@
                 }
                 let content = $("<div class='card-content'></div>");
                 let title = $("<p class='title is-6'></p>").text(p.name);
+                if (p.installed) {
+                    title.append(" ");
+                    $("<span class='tag is-success is-small'></span>")
+                        .text('Installed v' + p.installed_version)
+                        .appendTo(title);
+                }
+                if (p.upgrade_available) {
+                    title.append(" ");
+                    $("<span class='tag is-warning is-small'></span>")
+                        .text('Update to v' + p.latest_version)
+                        .appendTo(title);
+                }
                 if (p.archived) {
                     title.append(" ");
                     $("<span class='tag is-danger is-small' title='Archived repository'></span>")
@@ -371,6 +415,7 @@
                 $("<div class='content is-small'></div>").text(p.description || '').appendTo(content);
                 let tags = $("<div class='tags'></div>");
                 $.each(["★ " + p.stars, "⑂ " + p.forks, p.language, p.license,
+                    p.latest_version ? 'Latest: v' + p.latest_version : '',
                     p.updated_at ? p.updated_at.split('T')[0] : ''
                 ], function (j, t) {
                     if (t && t !== '') {
@@ -384,7 +429,20 @@
                     .attr('href', p.url)
                     .text('View')
                     .appendTo(footer);
-                if (p.archived) {
+                if (p.installed && p.upgrade_available) {
+                    $("<a class='card-footer-item github-plugin-install has-text-warning'></a>")
+                        .attr('data-full-name', p.full_name)
+                        .attr('data-default-branch', p.default_branch)
+                        .attr('data-name', p.name)
+                        .attr('data-source', 'https://github.com/' + p.full_name)
+                        .attr('data-version', p.latest_version)
+                        .text('Upgrade to v' + p.latest_version)
+                        .appendTo(footer);
+                } else if (p.installed) {
+                    $("<span class='card-footer-item has-text-success is-size-7'></span>")
+                        .text('Installed v' + p.installed_version)
+                        .appendTo(footer);
+                } else if (p.archived) {
                     $("<span class='card-footer-item has-text-grey is-size-7'></span>")
                         .text('No longer maintained')
                         .appendTo(footer);
@@ -392,6 +450,8 @@
                     $("<a class='card-footer-item github-plugin-install'></a>")
                         .attr('data-full-name', p.full_name)
                         .attr('data-default-branch', p.default_branch)
+                        .attr('data-name', p.name)
+                        .attr('data-source', 'https://github.com/' + p.full_name)
                         .text('Install')
                         .appendTo(footer);
                 }
@@ -440,8 +500,51 @@
             });
         });
 
+        let pendingInstall = null;
+
+        function showInstallModal(info) {
+            pendingInstall = info;
+            $('#install-modal-name').text(info.name || '-');
+            $('#install-modal-kind').text(info.kind || '-');
+            $('#install-modal-version').text(info.version || 'latest');
+            $('#install-modal-source').text(info.source || '-');
+            $('#install-modal-module').text(info.module || '-');
+            $('#install-modal').addClass('is-active');
+        }
+
+        function closeInstallModal() {
+            $('#install-modal').removeClass('is-active');
+            pendingInstall = null;
+        }
+
+        $('#install-modal-confirm').click(function () {
+            let info = pendingInstall;
+            closeInstallModal();
+            if (!info) {
+                return false;
+            }
+            if (info.action === 'installPlugin') {
+                installPluginFromGithub(info.full_name, info.default_branch);
+            } else if (info.action === 'installPackage') {
+                installPackage(info.package);
+            }
+        });
+
+        $('#install-modal-cancel, #install-modal .modal-background, #install-modal .delete').click(function () {
+            closeInstallModal();
+        });
+
         $(document).on('click', '.github-plugin-install', function () {
-            installPluginFromGithub($(this).data('full-name'), $(this).data('default-branch'));
+            let $el = $(this);
+            showInstallModal({
+                action: 'installPlugin',
+                kind: 'Community Plugin',
+                name: $el.data('name'),
+                version: 'latest',
+                source: $el.data('source'),
+                full_name: $el.data('full-name'),
+                default_branch: $el.data('default-branch')
+            });
         });
 
         function renderOfficialPlugins(data) {
@@ -462,6 +565,18 @@
                 let card = $("<div class='card'></div>");
                 let content = $("<div class='card-content'></div>");
                 let title = $("<p class='title is-6'></p>").text(p.name);
+                if (p.installed) {
+                    title.append(" ");
+                    $("<span class='tag is-success is-small'></span>")
+                        .text('Installed v' + p.installed_version)
+                        .appendTo(title);
+                }
+                if (p.upgrade_available) {
+                    title.append(" ");
+                    $("<span class='tag is-warning is-small'></span>")
+                        .text('Update to v' + p.latest_version)
+                        .appendTo(title);
+                }
                 if (p.tag) {
                     title.append(" ");
                     $("<span class='tag is-info is-small'></span>").text(p.tag).appendTo(title);
@@ -472,7 +587,9 @@
                     $("<div class='content is-small'></div>").text(p.summary).appendTo(content);
                 }
                 let tags = $("<div class='tags'></div>");
-                $.each(["v" + p.version, p.license, p.requires_python,
+                $.each(["v" + p.version, p.module,
+                    p.latest_version && p.latest_version !== p.version ? 'Latest: v' + p.latest_version : '',
+                    p.license, p.requires_python,
                     p.ctime ? 'Collected: ' + p.ctime : ''
                 ], function (j, t) {
                     if (t && t !== '' && t !== 'v') {
@@ -503,15 +620,42 @@
                         .text('Source')
                         .appendTo(footer);
                 }
-                if (p.pypi) {
+                if (p.installed && p.upgrade_available) {
+                    let $up = $("<a class='card-footer-item official-plugin-install has-text-warning'></a>")
+                        .attr('data-name', p.name)
+                        .attr('data-version', p.latest_version)
+                        .attr('data-module', p.module)
+                        .text('Upgrade to v' + p.latest_version)
+                        .appendTo(footer);
+                    if (p.pypi) {
+                        $up.attr('data-package', p.pypi)
+                            .attr('data-source', 'PyPI: ' + p.pypi);
+                    } else if (p.full_name) {
+                        //: upgrade from the GitHub URL via pip VCS support
+                        $up.attr('data-package', 'git+https://github.com/' + p.full_name)
+                            .attr('data-source', 'GitHub: ' + p.full_name);
+                    }
+                } else if (p.installed) {
+                    $("<span class='card-footer-item has-text-success is-size-7'></span>")
+                        .text('Installed v' + p.installed_version)
+                        .appendTo(footer);
+                } else if (p.pypi) {
                     $("<a class='card-footer-item official-plugin-install'></a>")
                         .attr('data-package', p.pypi)
+                        .attr('data-name', p.name)
+                        .attr('data-version', p.version)
+                        .attr('data-source', 'PyPI: ' + p.pypi)
+                        .attr('data-module', p.module)
                         .text('Install')
                         .appendTo(footer);
                 } else if (p.full_name) {
                     //: install from the GitHub URL via pip VCS support
                     $("<a class='card-footer-item official-plugin-install'></a>")
                         .attr('data-package', 'git+https://github.com/' + p.full_name)
+                        .attr('data-name', p.name)
+                        .attr('data-version', '')
+                        .attr('data-source', 'GitHub: ' + p.full_name)
+                        .attr('data-module', p.module)
                         .text('Install')
                         .appendTo(footer);
                 } else {
@@ -546,20 +690,18 @@
         });
 
         $(document).on('click', '.official-plugin-install', function () {
-            let pkg = $(this).data('package');
-            if (!pkg) {
+            let $el = $(this);
+            if (!$el.data('package')) {
                 return false;
             }
-            ajax("{{ url_for('.api', Action='installPackage') }}", function (res) {
-                setMessage("<scan class='has-text-primary'>Already submitted installation task.</scan>");
-                getLoopMsg();
-            }, {
-                data: {
-                    package_or_url: pkg
-                },
-                fail: function (res) {
-                    setMessage("<scan class='has-text-warning'>" + res.msg + "</scan>");
-                }
+            showInstallModal({
+                action: 'installPackage',
+                kind: 'Official Plugin',
+                name: $el.data('name'),
+                version: $el.data('version') || 'latest',
+                source: $el.data('source'),
+                module: $el.data('module'),
+                package: $el.data('package')
             });
         });
 
