@@ -32,6 +32,12 @@
     <section>
         <div class="container">
             <div class="field is-grouped is-grouped-multiline set-top">
+                <div class="control">
+                    <a class="tags has-addons" href="https://github.com/staugur/Flask-PluginKit" target="_blank" rel="noopener noreferrer" title="Flask-PluginKit GitHub repository">
+                        <span class="tag is-black">GitHub</span>
+                        <span class="tag">staugur/Flask-PluginKit</span>
+                    </a>
+                </div>
                 {% for k,v in g.pluginkit_metadata.items() %}
                 <div class="control">
                     <div class="tags has-addons">
@@ -42,7 +48,7 @@
                 {% endfor %}
                 <div class="control">
                     <div class="select is-success is-small">
-                        <select
+                        <select id="web-l10n-lang"
                             onchange="document.webL10n.setLanguage(this.value || this.options[this.selectedIndex].text);">
                             <option disabled selected>Language</option>
                             <option>en</option>
@@ -283,6 +289,17 @@
         window.addEventListener('localized', function () {
             document.documentElement.lang = document.webL10n.getLanguage();
             document.documentElement.dir = document.webL10n.getDirection();
+            let lang = document.webL10n.getLanguage().toLowerCase();
+            let $sel = document.getElementById('web-l10n-lang');
+            if ($sel) {
+                for (let i = 0; i < $sel.options.length; i++) {
+                    let v = ($sel.options[i].value || $sel.options[i].text).toLowerCase();
+                    if (v === lang || v === lang.split('-')[0]) {
+                        $sel.value = $sel.options[i].value;
+                        break;
+                    }
+                }
+            }
         }, false);
 
         let isLoop = 0;
@@ -584,18 +601,24 @@
                 title.appendTo(content);
                 $("<p class='subtitle is-7 has-text-grey'></p>").text(p.github || p.name).appendTo(content);
                 if (p.summary) {
-                    $("<div class='content is-small'></div>").text(p.summary).appendTo(content);
+                    $("<div class='content is-small has-text-grey-dark is-size-7'></div>").text(p.summary).appendTo(content);
                 }
-                let tags = $("<div class='tags'></div>");
-                $.each(["v" + p.version, p.module,
-                    p.latest_version && p.latest_version !== p.version ? 'Latest: v' + p.latest_version : '',
-                    p.license, p.requires_python,
-                    p.ctime ? 'Collected: ' + p.ctime : ''
-                ], function (j, t) {
-                    if (t && t !== '' && t !== 'v') {
-                        $("<span class='tag is-light is-small'></span>").text(t).appendTo(tags);
-                    }
-                });
+                let tags = $("<div class='tags has-addons'></div>");
+                if (p.version) {
+                    $("<span class='tag is-light is-small'></span>").text('Version: v' + p.version).appendTo(tags);
+                }
+                if (p.latest_version && p.latest_version !== p.version) {
+                    $("<span class='tag is-light is-small'></span>").text('Latest: v' + p.latest_version).appendTo(tags);
+                }
+                if (p.module) {
+                    $("<span class='tag is-light is-small'></span>").text('Module: ' + p.module).appendTo(tags);
+                }
+                if (p.license) {
+                    $("<span class='tag is-light is-small'></span>").text('License: ' + p.license).appendTo(tags);
+                }
+                if (p.requires_python) {
+                    $("<span class='tag is-light is-small'></span>").text('Python: ' + p.requires_python).appendTo(tags);
+                }
                 content.append(tags);
                 if (p.author) {
                     $("<p class='is-size-7 has-text-grey'></p>").text("Author: " + p.author).appendTo(content);

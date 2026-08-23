@@ -6,9 +6,10 @@ v3.12.0
 Released in 2026-08-21
 
 - feat: web manager adds "Discover Plugins", listing community (GitHub topic ``flask-pluginkit`` repositories) and official (hub API) plugins with installed-version/latest-release detection, upgrade hints and install/upgrade confirmation dialogs; results are cached in memory (8h) and redis (7d).
-- change: the official hub API and the GitHub API base URLs are now fixed (``PLUGINKIT_GITHUB_API`` is removed so a compromised mirror cannot serve a malicious plugin list); a new ``PLUGINKIT_PROXY`` config item routes GitHub API requests through an HTTP(S) proxy; pip installs uniformly use ``flask_pluginkit.utils.pip_install`` with the ``PLUGINKIT_PIP_TARGET_DIR`` target directory.
+- change: pip installs uniformly use ``flask_pluginkit.utils.pip_install`` with the ``PLUGINKIT_PIP_TARGET_DIR`` target directory.
 - fix: "Reload Application" no longer requires ``psutil``; the TEP engine recognizes ``.j2``/``.jinja``/``.jinja2`` templates.
 - refactor: the web manager compares versions with ``semver`` and uses a unified user-agent for all outbound requests; docs updated.
+- fix: webi10n language
 
 v3.11.0
 -------
