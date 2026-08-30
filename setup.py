@@ -41,7 +41,7 @@ setup(
     project_urls={
         "Code": gh,
         "Issue tracker": "{gh}/issues".format(gh=gh),
-        "Documentation": "https://flask-pluginkit.rtfd.vip",
+        "Documentation": "https://flask-pluginkit.readthedocs.io",
     },
     license="BSD 3-Clause",
     author=author,
@@ -56,11 +56,11 @@ setup(
     install_requires=["Flask>=3.0.0", "semver>=3.0.0"],
     extras_require={"redis": ["redis>=5.0.0"]},
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "Framework :: Flask",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: BSD License",
+        "License :: OSI Approved :: BSD 3-Clause License",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.9",

@@ -6,7 +6,7 @@ Installation
 Python Version
 --------------
 
-Flask-PluginKit only supports Python 3.8+.
+Flask-PluginKit only supports Python 3.9+.
 
 Dependencies
 ------------
